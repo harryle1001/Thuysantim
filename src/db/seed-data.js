@@ -491,6 +491,7 @@ const settings = {
     hotline: '1900 6868',
     phone: '0909 123 456',
     zalo: '0909123456',
+    messenger: 'thuysantim',
     email: 'info@thuysantim.vn',
     hours: L('Thứ 2 – Thứ 7: 7:30 – 17:30', 'Mon – Sat: 7:30 – 17:30', '周一至周六：7:30 – 17:30'),
     facebook: 'https://facebook.com/',

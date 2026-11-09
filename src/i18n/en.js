@@ -136,5 +136,5 @@ module.exports = {
     about: 'Thủy Sản Tím provides premium biological solutions for sustainable aquaculture in Vietnam and the region.',
     links: 'Links', support: 'Support', newsletter: 'Technical newsletter', newsletterLead: 'Monthly farming tips and disease alerts.', subscribe: 'Subscribe', rights: 'All rights reserved.', policy: 'Privacy policy', terms: 'Terms', sample: 'This website currently uses sample data.',
   },
-  common: { home: 'Home', back: 'Back', notFound: 'Page not found', notFoundLead: 'The page you are looking for may have moved or no longer exists.', error: 'Something went wrong', errorLead: 'Please try again in a few minutes.', callNow: 'Call now', backToTop: 'Back to top', loading: 'Processing…' },
+  common: { chatZalo: 'Chat on Zalo', chatMessenger: 'Message on Messenger', themeDark: 'Switch to dark mode', themeLight: 'Switch to light mode', home: 'Home', back: 'Back', notFound: 'Page not found', notFoundLead: 'The page you are looking for may have moved or no longer exists.', error: 'Something went wrong', errorLead: 'Please try again in a few minutes.', callNow: 'Call now', backToTop: 'Back to top', loading: 'Processing…' },
 };

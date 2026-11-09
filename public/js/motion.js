@@ -319,6 +319,31 @@
   }
 
   /* ------------------------------------------------------------------ */
+  /* Floating contact buttons glide after the scroll, then settle        */
+  /* ------------------------------------------------------------------ */
+  var fab = document.querySelector('[data-fab]');
+  if (fab && !reduce) {
+    var lastY = window.scrollY, offset = 0, vel = 0, raf = 0;
+    var step = function () {
+      // spring back to rest
+      vel += -offset * 0.12;
+      vel *= 0.78;
+      offset += vel;
+      fab.style.transform = 'translate3d(0,' + offset.toFixed(2) + 'px,0)';
+      if (Math.abs(offset) > 0.1 || Math.abs(vel) > 0.1) { raf = requestAnimationFrame(step); return; }
+      offset = 0; vel = 0; raf = 0;
+      fab.style.transform = '';
+    };
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY, dy = y - lastY;
+      lastY = y;
+      // lag behind the page a little, like something floating on water
+      offset = Math.max(-26, Math.min(26, offset - dy * 0.35));
+      if (!raf) raf = requestAnimationFrame(step);
+    }, { passive: true });
+  }
+
+  /* ------------------------------------------------------------------ */
   /* Scroll progress hairline                                            */
   /* ------------------------------------------------------------------ */
   var bar = document.createElement('div');

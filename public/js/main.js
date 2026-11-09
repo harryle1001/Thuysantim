@@ -22,6 +22,56 @@
   var flashToast = $('[data-toast]');
   if (flashToast) setTimeout(function () { flashToast.classList.remove('is-visible'); }, 4500);
 
+  /* ---------- Light / dark theme ---------- */
+  var themeMeta = $('[data-theme-color]');
+  var themeBtns = $$('[data-theme-toggle]');
+  function applyTheme(t, animate) {
+    if (animate) {
+      root.classList.add('theme-anim');
+      setTimeout(function () { root.classList.remove('theme-anim'); }, 450);
+    }
+    root.setAttribute('data-theme', t);
+    if (themeMeta) themeMeta.content = t === 'dark' ? '#0d0719' : '#fdfcfa';
+    swapPacks(t === 'dark');
+    themeBtns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(t === 'dark'));
+      b.setAttribute('aria-label', b.getAttribute(t === 'dark' ? 'data-label-light' : 'data-label-dark'));
+      b.title = b.getAttribute('aria-label');
+    });
+  }
+  // Generated packshots have a pale studio backdrop; in dark mode use the cut-out version.
+  // Live site: /pack/x.svg <-> /pack/x.svg?bg=0 · static preview: img/pack/x.svg <-> img/pack/x-t.svg
+  function packSrc(src, dark) {
+    if (!src) return src;
+    var m = src.match(/^(.*img\/pack\/[a-z0-9-]+?)(-t)?\.svg$/);
+    if (m) return m[1] + (dark ? '-t' : '') + '.svg';
+    m = src.match(/^(.*\/pack\/[a-z0-9-]+\.svg)(\?bg=0)?$/);
+    if (m) return m[1] + (dark ? '?bg=0' : '');
+    return src;
+  }
+  function swapPacks(dark) {
+    $$('img:not(.hero__pack)').forEach(function (img) {
+      var src = img.getAttribute('src'), next = packSrc(src, dark);
+      if (next !== src) img.setAttribute('src', next);
+    });
+    $$('[data-thumb]').forEach(function (b) { b.setAttribute('data-thumb', packSrc(b.getAttribute('data-thumb'), dark)); });
+  }
+  function storedTheme() { try { return localStorage.getItem('tst-theme'); } catch (e) { return null; } }
+  applyTheme(root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
+  themeBtns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      try { localStorage.setItem('tst-theme', next); } catch (e) { /* private mode */ }
+      applyTheme(next, true);
+    });
+  });
+  // Follow the operating system until the visitor picks a theme themselves
+  if (window.matchMedia) {
+    var mq = window.matchMedia('(prefers-color-scheme: dark)');
+    var onMq = function (e) { if (!storedTheme()) applyTheme(e.matches ? 'dark' : 'light', true); };
+    if (mq.addEventListener) mq.addEventListener('change', onMq); else if (mq.addListener) mq.addListener(onMq);
+  }
+
   /* ---------- Header shadow & back-to-top ---------- */
   var header = $('[data-header]');
   var toTop = $('[data-to-top]');

@@ -136,5 +136,5 @@ module.exports = {
     about: 'Thủy Sản Tím 为越南及区域的可持续水产养殖提供高端生物解决方案。',
     links: '链接', support: '支持', newsletter: '技术简报', newsletterLead: '每月养殖技巧与疫病预警。', subscribe: '订阅', rights: '版权所有。', policy: '隐私政策', terms: '条款', sample: '本网站目前使用示例数据。',
   },
-  common: { home: '首页', back: '返回', notFound: '页面未找到', notFoundLead: '您访问的页面可能已移动或不存在。', error: '出现错误', errorLead: '请稍后再试。', callNow: '立即致电', backToTop: '返回顶部', loading: '处理中…' },
+  common: { chatZalo: 'Zalo咨询', chatMessenger: 'Messenger咨询', themeDark: '切换到深色模式', themeLight: '切换到浅色模式', home: '首页', back: '返回', notFound: '页面未找到', notFoundLead: '您访问的页面可能已移动或不存在。', error: '出现错误', errorLead: '请稍后再试。', callNow: '立即致电', backToTop: '返回顶部', loading: '处理中…' },
 };

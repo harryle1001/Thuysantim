@@ -390,6 +390,8 @@ router.post('/settings', csrfProtect, async (req, res) => {
     hotline: str(c.hotline, 40),
     phone: str(c.phone, 40),
     zalo: str(c.zalo, 40).replace(/\D/g, ''),
+    // Facebook page username; accepts a bare name or an m.me / facebook.com link
+    messenger: str(c.messenger, 120).replace(/^https?:\/\/(www\.)?(m\.me|facebook\.com|fb\.com)\//i, '').replace(/[^A-Za-z0-9.\-]/g, ''),
     email: str(c.email, 190),
     facebook: str(c.facebook, 255),
     youtube: str(c.youtube, 255),

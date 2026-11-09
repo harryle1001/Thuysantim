@@ -136,5 +136,5 @@ module.exports = {
     about: 'Thủy Sản Tím cung cấp giải pháp sinh học cao cấp cho nuôi trồng thủy sản bền vững tại Việt Nam và khu vực.',
     links: 'Liên kết', support: 'Hỗ trợ', newsletter: 'Nhận bản tin kỹ thuật', newsletterLead: 'Mẹo nuôi, cảnh báo dịch bệnh mỗi tháng.', subscribe: 'Đăng ký', rights: 'Bảo lưu mọi quyền.', policy: 'Chính sách bảo mật', terms: 'Điều khoản', sample: 'Website đang dùng dữ liệu mẫu.',
   },
-  common: { home: 'Trang chủ', back: 'Quay lại', notFound: 'Không tìm thấy trang', notFoundLead: 'Trang bạn tìm có thể đã được di chuyển hoặc không tồn tại.', error: 'Đã có lỗi xảy ra', errorLead: 'Vui lòng thử lại sau ít phút.', callNow: 'Gọi ngay', backToTop: 'Lên đầu trang', loading: 'Đang xử lý…' },
+  common: { chatZalo: 'Chat Zalo', chatMessenger: 'Nhắn Messenger', themeDark: 'Bật giao diện tối', themeLight: 'Bật giao diện sáng', home: 'Trang chủ', back: 'Quay lại', notFound: 'Không tìm thấy trang', notFoundLead: 'Trang bạn tìm có thể đã được di chuyển hoặc không tồn tại.', error: 'Đã có lỗi xảy ra', errorLead: 'Vui lòng thử lại sau ít phút.', callNow: 'Gọi ngay', backToTop: 'Lên đầu trang', loading: 'Đang xử lý…' },
 };

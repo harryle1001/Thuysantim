@@ -31,14 +31,16 @@
   <meta property="og:image" content="<%= ogImage %>">
   <meta property="og:locale" content="<%= { vi: 'vi_VN', en: 'en_US', zh: 'zh_CN' }[locale] %>">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#2e1065">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#fdfcfa" data-theme-color>
+  <script nonce="<%= nonce %>">(function(){var d=document.documentElement,t;try{t=localStorage.getItem('tst-theme')}catch(e){}if(t!=='light'&&t!=='dark')t=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';d.setAttribute('data-theme',t);var m=document.querySelector('[data-theme-color]');if(m)m.content=t==='dark'?'#0d0719':'#fdfcfa'})();</script>
   <meta name="csrf-token" content="<%= csrfToken %>">
   <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap<% if (locale === 'zh') { %>&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@500;600;700<% } %>">
-  <link rel="stylesheet" href="/css/main.css?v=2.0.0">
+  <link rel="stylesheet" href="/css/main.css?v=2.1.0">
   <script type="application/ld+json" nonce="<%= nonce %>"><%- JSON.stringify({
     '@context': 'https://schema.org', '@type': 'Organization', name: 'Thủy Sản Tím', legalName: tr(company.legal), url: config.baseUrl,
     logo: config.baseUrl + '/img/favicon.svg', email: company.email, telephone: company.hotline,
@@ -95,6 +97,7 @@
     </nav>
 
     <div class="header__actions">
+      <button class="icon-btn theme-btn" type="button" data-theme-toggle aria-label="<%= t('common.themeDark') %>" data-label-dark="<%= t('common.themeDark') %>" data-label-light="<%= t('common.themeLight') %>"><span class="theme-btn__moon"><%- icon('moon') %></span><span class="theme-btn__sun"><%- icon('sun') %></span></button>
       <button class="icon-btn" type="button" data-search-open aria-label="<%= t('nav.search') %>"><%- icon('search') %></button>
       <a class="icon-btn cart-btn" href="<%= url('/cart') %>" aria-label="<%= t('nav.cart') %>">
         <%- icon('cart') %><span class="cart-btn__count" data-cart-count <%= cartCount ? '' : 'hidden' %>><%= cartCount %></span>
@@ -118,7 +121,10 @@
   <aside class="drawer__panel" aria-label="<%= t('nav.menu') %>">
     <div class="drawer__head">
       <a class="brand" href="<%= url('') %>"><%- include('logo', { uid: 'd' }) %><span class="brand__name">THỦY SẢN <b>TÍM</b></span></a>
-      <button class="icon-btn" type="button" data-nav-close aria-label="Close"><%- icon('close') %></button>
+      <span class="drawer__tools">
+        <button class="icon-btn theme-btn" type="button" data-theme-toggle aria-label="<%= t('common.themeDark') %>" data-label-dark="<%= t('common.themeDark') %>" data-label-light="<%= t('common.themeLight') %>"><span class="theme-btn__moon"><%- icon('moon') %></span><span class="theme-btn__sun"><%- icon('sun') %></span></button>
+        <button class="icon-btn" type="button" data-nav-close aria-label="Close"><%- icon('close') %></button>
+      </span>
     </div>
     <nav class="drawer__nav">
       <a href="<%= url('') %>" class="<%= page === 'home' ? 'is-active' : '' %>"><%= t('nav.home') %></a>
