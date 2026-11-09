@@ -8,7 +8,7 @@
   const zaloHref = company.zalo ? 'https://zalo.me/' + company.zalo : url('/contact');
 %>
 
-<!-- ============ STORE HERO: categories · slider · side banners ============ -->
+<!-- ============ STORE HERO: category list (joined to the menu bar) · slider ============ -->
 <section class="shop-hero">
   <div class="container shop-hero__grid">
     <nav class="shop-cats" aria-label="<%= t('store.allCats') %>">
@@ -40,17 +40,6 @@
         <% S.slides.forEach(function (s, i) { %><button type="button" data-slide-to="<%= i %>" class="<%= i === 0 ? 'is-active' : '' %>" aria-label="<%= i + 1 %>"></button><% }) %>
       </div>
     </div>
-
-    <div class="shop-side">
-      <% S.side.forEach(function (b, i) { %>
-        <a class="shop-side__card shop-side__card--<%= i + 1 %>" href="<%= b.href.charAt(0) === '#' ? b.href : url(b.href) %>">
-          <span class="shop-side__icon"><%- icon(b.i, '', 26) %></span>
-          <b><%= b.t %></b>
-          <small><%= b.d %></small>
-          <span class="link-arrow"><%- icon('arrow', '', 16) %></span>
-        </a>
-      <% }) %>
-    </div>
   </div>
 </section>
 
@@ -66,28 +55,84 @@
   </div></div>
 </section>
 
-<!-- ============ BEST SELLERS ============ -->
-<section class="section shop-block">
+<!-- ============ BEST SELLERS (row carousel) ============ -->
+<section class="shop-block">
   <div class="container">
     <div class="shead">
       <h2 class="shead__title"><%- icon('sparkle', '', 20) %> <%= t('store.bestTitle') %></h2>
       <a class="shead__more" href="<%= url('/products') %>"><%= t('home.viewAll') %> <%- icon('chevron', '', 16) %></a>
     </div>
-    <div class="pgrid pgrid--5">
-      <% featured.slice(0, featured.length >= 10 ? 10 : 5).forEach(function (p) { %><%- include('../partials/product-card', { p }) %><% }) %>
+    <div class="prow" data-prow>
+      <button class="prow__nav prow__nav--prev" type="button" data-prow-prev aria-label="<%= t('store.prev') %>"><%- icon('chevronLeft', '', 22) %></button>
+      <div class="prow__track">
+        <% featured.forEach(function (p) { %><%- include('../partials/product-card', { p }) %><% }) %>
+      </div>
+      <button class="prow__nav prow__nav--next" type="button" data-prow-next aria-label="<%= t('store.next') %>"><%- icon('chevron', '', 22) %></button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TWO BANNERS: services · handbook ============ -->
+<section class="duo">
+  <div class="container duo__grid">
+    <div class="duo__card duo__card--svc">
+      <div class="duo__menu">
+        <b class="duo__title"><%- icon('headset', '', 22) %> <%= t('store.svcTitle') %></b>
+        <ul>
+          <li><a href="#consult"><%= S.side[0].t %></a></li>
+          <li><a href="<%= url('/diseases') %>"><%= t('nav.diseases') %></a></li>
+          <li><a href="<%= url('/quote') %>"><%= t('nav.quote') %></a></li>
+          <li><a href="<%= url('/contact?kind=dealer') %>"><%= t('nav.dealer') %></a></li>
+        </ul>
+      </div>
+      <a class="duo__media" href="#consult" tabindex="-1" aria-hidden="true">
+        <% if (featured[0]) { %><img data-pack-fixed src="<%= featured[0].image ? featured[0].imageSrc : featured[0].imageSrc + '?bg=0' %>" alt="" loading="lazy" width="600" height="600"><% } %>
+        <span class="duo__cap"><b><%= S.side[0].t %></b><small><%= S.side[0].d %></small></span>
+      </a>
+    </div>
+    <% if (guideMain) { const links = (guideChips.length ? guideChips : guideList).slice(0, 4); %>
+    <div class="duo__card duo__card--news">
+      <div class="duo__menu">
+        <b class="duo__title"><%- icon('book', '', 22) %> <%= t('nav.blog') %></b>
+        <ul>
+          <% links.forEach(function (p) { %><li><a href="<%= url('/blog/' + p.slug) %>"><%= p.titleText.split(/[:—(]/)[0].trim() %></a></li><% }) %>
+        </ul>
+      </div>
+      <a class="duo__media" href="<%= url('/blog/' + guideMain.slug) %>" tabindex="-1" aria-hidden="true">
+        <img src="<%= guideMain.coverSrc %>" alt="" loading="lazy" width="1200" height="675">
+      </a>
+    </div>
+    <% } %>
+  </div>
+</section>
+
+<!-- ============ NEW ARRIVALS (row carousel) ============ -->
+<section class="shop-block">
+  <div class="container">
+    <div class="shead">
+      <h2 class="shead__title"><%- icon('badge', '', 20) %> <%= t('store.newTitle') %></h2>
+      <a class="shead__more" href="<%= url('/products') %>"><%= t('home.viewAll') %> <%- icon('chevron', '', 16) %></a>
+    </div>
+    <div class="prow" data-prow>
+      <button class="prow__nav prow__nav--prev" type="button" data-prow-prev aria-label="<%= t('store.prev') %>"><%- icon('chevronLeft', '', 22) %></button>
+      <div class="prow__track">
+        <% newest.forEach(function (p) { %><%- include('../partials/product-card', { p }) %><% }) %>
+      </div>
+      <button class="prow__nav prow__nav--next" type="button" data-prow-next aria-label="<%= t('store.next') %>"><%- icon('chevron', '', 22) %></button>
     </div>
   </div>
 </section>
 
 <!-- ============ BY CATEGORY (tabs) ============ -->
-<section class="section shop-block shop-block--tint" data-cat-tabs>
+<section class="shop-block" data-cat-tabs>
   <div class="container">
-    <div class="shead shead--tabs">
+    <div class="shead">
       <h2 class="shead__title"><%- icon('grid', '', 20) %> <%= t('store.byCat') %></h2>
-      <div class="shead__tabs" role="tablist" aria-label="<%= t('store.byCat') %>">
-        <button type="button" role="tab" aria-selected="true" data-cat-tab=""><%= t('store.all') %></button>
-        <% tabCats.forEach(function (c) { %><button type="button" role="tab" aria-selected="false" data-cat-tab="<%= c.slug %>"><%= c.title %></button><% }) %>
-      </div>
+      <a class="shead__more" href="<%= url('/products') %>"><%= t('home.viewAll') %> <%- icon('chevron', '', 16) %></a>
+    </div>
+    <div class="shead__tabs" role="tablist" aria-label="<%= t('store.byCat') %>">
+      <button type="button" role="tab" aria-selected="true" data-cat-tab=""><%= t('store.all') %></button>
+      <% tabCats.forEach(function (c) { %><button type="button" role="tab" aria-selected="false" data-cat-tab="<%= c.slug %>"><%= c.title %></button><% }) %>
     </div>
     <div class="pgrid pgrid--5" data-cat-grid>
       <% products.forEach(function (p) { %><div class="pgrid__cell" data-cat="<%= p.category_slug %>"><%- include('../partials/product-card', { p }) %></div><% }) %>
@@ -117,44 +162,24 @@
   </div>
 </section>
 
-<!-- ============ HANDBOOK ============ -->
+<!-- ============ NEWS (3 columns) ============ -->
 <% if (guideMain) { %>
-<section class="section shop-block guide">
+<section class="shop-block news">
   <div class="container">
     <div class="shead">
       <h2 class="shead__title"><%- icon('book', '', 20) %> <%= t('store.newsTitle') %></h2>
       <a class="shead__more" href="<%= url('/blog') %>"><%= t('blog.backToBlog') %> <%- icon('chevron', '', 16) %></a>
     </div>
-    <div class="guide__grid">
-      <a class="guide__main reveal" href="<%= url('/blog/' + guideMain.slug) %>">
-        <span class="guide__cover"><img src="<%= guideMain.coverSrc %>" alt="<%= guideMain.titleText %>" loading="lazy" width="1200" height="675"></span>
-        <span class="guide__body">
-          <span class="pill pill--new"><%= t('blog.featured') %></span>
-          <h3 class="guide__title"><%= guideMain.titleText %></h3>
-          <p class="guide__excerpt"><%= guideMain.excerptText %></p>
-          <span class="guide__meta"><%- icon('clock', '', 15) %> <%= guideMain.read_minutes %> <%= t('blog.minutes') %> <span class="link-arrow"><%= t('blog.readMore') %> <%- icon('arrow', '', 16) %></span></span>
-        </span>
-      </a>
-      <ol class="guide__list">
-        <% guideList.forEach(function (p, i) { %>
-          <li class="reveal" style="--d: <%= i * 70 %>ms">
-            <a href="<%= url('/blog/' + p.slug) %>">
-              <span class="guide__num"><%= String(i + 2).padStart(2, '0') %></span>
-              <span>
-                <small><%= t('blog.topics.' + p.topic) %> · <%= p.read_minutes %> <%= t('blog.minutes') %></small>
-                <b><%= p.titleText %></b>
-              </span>
-            </a>
-          </li>
-        <% }) %>
-      </ol>
+    <div class="news__grid">
+      <% [guideMain].concat(guideList).slice(0, 3).forEach(function (p) { %>
+        <article class="ncard">
+          <a class="ncard__cover" href="<%= url('/blog/' + p.slug) %>" tabindex="-1" aria-hidden="true"><img src="<%= p.coverSrc %>" alt="" loading="lazy" width="1200" height="675"></a>
+          <h3 class="ncard__title"><a href="<%= url('/blog/' + p.slug) %>"><%= p.titleText %></a></h3>
+          <p class="ncard__excerpt"><%= p.excerptText %></p>
+          <span class="ncard__meta"><%- icon('clock', '', 14) %> <%= p.read_minutes %> <%= t('blog.minutes') %></span>
+        </article>
+      <% }) %>
     </div>
-    <% if (guideChips.length) { %>
-    <div class="guide__chips reveal">
-      <span><%- icon('search', '', 16) %> <%= t('home.guideTopics') %>:</span>
-      <% guideChips.forEach(function (p) { %><a href="<%= url('/blog/' + p.slug) %>"><%= p.titleText.split(/[:,—(]/)[0].trim() %></a><% }) %>
-    </div>
-    <% } %>
   </div>
 </section>
 <% } %>

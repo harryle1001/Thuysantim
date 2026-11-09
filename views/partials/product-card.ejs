@@ -1,22 +1,19 @@
-<article class="pcard reveal" style="--c: <%= p.color %>">
+<article class="pcard" style="--c: <%= p.color %>">
   <a class="pcard__media" href="<%= url('/products/' + p.slug) %>" tabindex="-1" aria-hidden="true">
     <img src="<%= p.imageSrc %>" alt="<%= p.title %>" loading="lazy" decoding="async" width="600" height="600">
     <% if (p.badge) { %><span class="pill pill--<%= p.badge %>"><%= t('product.badges.' + p.badge) %></span><% } %>
   </a>
   <div class="pcard__body">
-    <div class="pcard__meta">
-      <span><%= p.categoryTitle %></span>
-      <span class="pcard__species"><%- icon(p.species === 'fish' ? 'fish' : 'shrimp', '', 14) %> <%= t('disease.species.' + p.species) %></span>
-    </div>
     <h3 class="pcard__title"><a href="<%= url('/products/' + p.slug) %>"><%= p.title %></a></h3>
-    <div class="pcard__rating" aria-label="<%= p.rating %>/5"><span class="stars"><%- icon('star', '', 13) %><%- icon('star', '', 13) %><%- icon('star', '', 13) %><%- icon('star', '', 13) %><%- icon('star', '', 13) %></span> <small><%= p.rating %></small></div>
-    <div class="pcard__price">
-      <% if (p.minPrice) { %><small><%= t('product.from') %></small> <strong><%= money(p.minPrice) %></strong><% } else { %><strong><%= t('product.requestQuote') %></strong><% } %>
+    <div class="pcard__row">
+      <div class="pcard__price">
+        <% if (p.minPrice) { %><small><%= t('product.from') %></small> <strong><%= money(p.minPrice) %></strong><% } else { %><strong><%= t('store.contact') %></strong><% } %>
+      </div>
+      <% if (p.minPrice) { %>
+        <button class="pcard__buy" type="button" data-add-to-cart data-pid="<%= p.id %>" data-vi="0" aria-label="<%= t('store.add') %>: <%= p.title %>" title="<%= t('store.add') %>"><%- icon('cart', '', 18) %></button>
+      <% } else { %>
+        <a class="pcard__buy" href="<%= url('/quote?product=' + encodeURIComponent(p.title.split('—')[0].trim())) %>" aria-label="<%= t('store.contact') %>: <%= p.title %>" title="<%= t('store.contact') %>"><%- icon('tag', '', 18) %></a>
+      <% } %>
     </div>
-    <% if (p.minPrice) { %>
-      <button class="pcard__buy" type="button" data-add-to-cart data-pid="<%= p.id %>" data-vi="0" aria-label="<%= t('store.add') %>: <%= p.title %>"><%- icon('cart', '', 17) %> <span><%= t('store.add') %></span></button>
-    <% } else { %>
-      <a class="pcard__buy pcard__buy--quote" href="<%= url('/quote?product=' + encodeURIComponent(p.title.split('—')[0].trim())) %>"><%- icon('tag', '', 17) %> <span><%= t('store.contact') %></span></a>
-    <% } %>
   </div>
 </article>

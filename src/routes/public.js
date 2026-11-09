@@ -32,7 +32,8 @@ router.get('/', async (req, res) => {
     ...(() => {
       const items = all.map((p) => M.localizeProduct(p, L));
       const featured = items.filter((p) => p.is_featured);
-      return { featured: featured.length ? featured : items, products: items };
+      const newest = items.slice().sort((a, b) => b.id - a.id).slice(0, 10);
+      return { featured: featured.length ? featured : items, newest, products: items };
     })(),
     // Handbook: the pillar guide leads, the next newest follow, and the rest become keyword chips.
     ...(() => {

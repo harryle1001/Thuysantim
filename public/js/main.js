@@ -460,4 +460,27 @@
       });
     });
   }
+
+  /* ---------- Product row carousels (home) ---------- */
+  $$('[data-prow]').forEach(function (row) {
+    var track = $('.prow__track', row), prev = $('[data-prow-prev]', row), next = $('[data-prow-next]', row);
+    if (!track) return;
+    var sync = function () {
+      var max = track.scrollWidth - track.clientWidth - 2;
+      row.classList.toggle('is-static', max <= 0);
+      if (prev) prev.disabled = track.scrollLeft <= 2;
+      if (next) next.disabled = track.scrollLeft >= max;
+    };
+    var step = function (dir) {
+      var card = track.firstElementChild;
+      var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      var w = card ? card.getBoundingClientRect().width + gap : track.clientWidth;
+      track.scrollBy({ left: dir * Math.max(w, Math.floor((track.clientWidth + gap) / w) * w), behavior: 'smooth' });
+    };
+    if (prev) prev.addEventListener('click', function () { step(-1); });
+    if (next) next.addEventListener('click', function () { step(1); });
+    track.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('resize', sync);
+    sync();
+  });
 })();
