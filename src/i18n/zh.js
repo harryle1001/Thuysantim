@@ -1,14 +1,14 @@
 module.exports = {
   lang: { name: '中文', short: '中', html: 'zh-CN' },
   meta: {
-    title: 'Thủy Sản Tím（紫色水产）— 高端水产动保解决方案',
+    title: 'Thủy Sản Tím（紫色水产）— 生物科技精粹，守护每一口池塘',
     description: 'THỦY SẢN TÍM：为虾鱼提供高端益生菌、矿物质、维生素、草本提取及水质改良产品。免费技术支持，越南全国配送。',
   },
   nav: { home: '首页', products: '产品', diseases: '病害查询', blog: '养殖知识', about: '关于我们', contact: '联系我们', quote: '获取报价', cart: '购物车', search: '搜索产品…', menu: '菜单', lookup: '订单查询', dealer: '成为经销商' },
   hero: {
-    eyebrow: '水产生物科技',
-    title: '从<em>根本</em>养好池塘，<br/>用<em>科学</em>赢得丰收。',
-    lead: '专为越南池塘条件研发的益生菌、矿物质与草本方案——助力虾鱼快速生长、健康养殖、安全出口。',
+    eyebrow: 'Aqua Bioscience · Since 2011',
+    title: '<em>生物科技</em>精粹，<br/>稳赢<em>每一季</em>。',
+    lead: '从实验室到每一口池塘：精选益生菌、矿物质与草本配方，让虾鱼从根本健康、生长均匀、无抗生素残留，达到出口标准。',
     cta1: '浏览产品',
     cta2: '免费咨询',
     trust: '超过12,000口池塘的信赖之选',
@@ -18,6 +18,7 @@ module.exports = {
   },
   stats: { years: '年行业经验', dealers: '全国经销商', provinces: '覆盖省市', ponds: '服务池塘' },
   home: {
+    marquee: ['生物科技精粹', '稳赢每一季', 'GMP认证', '无抗生素残留', '微生物与PCR实验室', '服务12,000口池塘'],
     catTitle: '覆盖各养殖阶段的综合方案',
     catLead: '六大专业产品线，可灵活组合为成熟方案。',
     featTitle: '明星产品',

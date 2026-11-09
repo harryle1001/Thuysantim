@@ -1,14 +1,14 @@
 module.exports = {
   lang: { name: 'Tiếng Việt', short: 'VI', html: 'vi' },
   meta: {
-    title: 'Thủy Sản Tím — Thuốc & chế phẩm thủy sản cao cấp',
+    title: 'Thủy Sản Tím — Tinh hoa sinh học cho ao nuôi',
     description: 'THỦY SẢN TÍM: men vi sinh, khoáng, vitamin, thảo dược và giải pháp xử lý nước cao cấp cho tôm, cá. Tư vấn kỹ thuật miễn phí, giao hàng toàn quốc.',
   },
   nav: { home: 'Trang chủ', products: 'Sản phẩm', diseases: 'Tra cứu bệnh', blog: 'Kiến thức', about: 'Về chúng tôi', contact: 'Liên hệ', quote: 'Nhận báo giá', cart: 'Giỏ hàng', search: 'Tìm sản phẩm…', menu: 'Menu', lookup: 'Tra cứu đơn hàng', dealer: 'Trở thành đại lý' },
   hero: {
-    eyebrow: 'Công nghệ sinh học thủy sản',
-    title: 'Ao nuôi khỏe từ <em>gốc</em>,<br/>mùa vụ thắng từ <em>khoa học</em>.',
-    lead: 'Men vi sinh, khoáng chất và thảo dược được nghiên cứu cho điều kiện ao nuôi Việt Nam — giúp tôm cá lớn nhanh, khỏe mạnh và an toàn xuất khẩu.',
+    eyebrow: 'Aqua Bioscience · Since 2011',
+    title: 'Tinh hoa <em>sinh&nbsp;học</em>,<br/>vững vàng <em>mùa&nbsp;vụ</em>.',
+    lead: 'Từ phòng Lab đến từng ao nuôi: men vi sinh, khoáng chất và thảo dược tuyển chọn giúp tôm cá khỏe từ gốc, lớn đều, sạch kháng sinh và đạt chuẩn xuất khẩu.',
     cta1: 'Khám phá sản phẩm',
     cta2: 'Tư vấn miễn phí',
     trust: 'Được tin dùng bởi hơn 12.000 ao nuôi',
@@ -18,6 +18,7 @@ module.exports = {
   },
   stats: { years: 'Năm kinh nghiệm', dealers: 'Đại lý toàn quốc', provinces: 'Tỉnh thành phủ sóng', ponds: 'Ao nuôi tin dùng' },
   home: {
+    marquee: ['Tinh hoa sinh học', 'Vững vàng mùa vụ', 'Chuẩn GMP', 'Không tồn dư kháng sinh', 'Lab vi sinh & PCR', 'Đồng hành cùng 12.000 ao nuôi'],
     catTitle: 'Giải pháp toàn diện cho mọi giai đoạn',
     catLead: 'Sáu dòng sản phẩm chuyên biệt, kết hợp linh hoạt theo từng phác đồ.',
     featTitle: 'Sản phẩm nổi bật',

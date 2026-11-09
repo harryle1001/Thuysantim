@@ -1,14 +1,14 @@
 module.exports = {
   lang: { name: 'English', short: 'EN', html: 'en' },
   meta: {
-    title: 'Thủy Sản Tím — Premium Aquaculture Health Solutions',
+    title: 'Thủy Sản Tím — Refined Bioscience for Aquaculture',
     description: 'THỦY SẢN TÍM: premium probiotics, minerals, vitamins, herbal extracts and water treatment for shrimp and fish. Free technical support and nationwide delivery in Vietnam.',
   },
   nav: { home: 'Home', products: 'Products', diseases: 'Disease Guide', blog: 'Insights', about: 'About', contact: 'Contact', quote: 'Get a Quote', cart: 'Cart', search: 'Search products…', menu: 'Menu', lookup: 'Track order', dealer: 'Become a dealer' },
   hero: {
-    eyebrow: 'Aquaculture biotechnology',
-    title: 'Healthy ponds from the <em>root</em>,<br/>winning harvests through <em>science</em>.',
-    lead: 'Probiotics, minerals and herbal solutions researched for Vietnamese pond conditions — for faster growth, healthier stock and export-safe harvests.',
+    eyebrow: 'Aqua Bioscience · Since 2011',
+    title: 'Refined <em>bioscience</em>,<br/>assured <em>harvests</em>.',
+    lead: 'From our lab to every pond: selected probiotics, minerals and botanicals that keep shrimp and fish healthy at the root, growing evenly, antibiotic-free and export-ready.',
     cta1: 'Explore products',
     cta2: 'Free consultation',
     trust: 'Trusted by 12,000+ ponds',
@@ -18,6 +18,7 @@ module.exports = {
   },
   stats: { years: 'Years of expertise', dealers: 'Dealers nationwide', provinces: 'Provinces covered', ponds: 'Ponds served' },
   home: {
+    marquee: ['Refined bioscience', 'Assured harvests', 'GMP certified', 'Antibiotic residue-free', 'Microbiology & PCR lab', 'Trusted by 12,000 ponds'],
     catTitle: 'Complete solutions for every stage',
     catLead: 'Six specialised product lines, combined flexibly into proven protocols.',
     featTitle: 'Featured products',

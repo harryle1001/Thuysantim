@@ -7,6 +7,7 @@
     <div class="hero__orb hero__orb--1"></div>
     <div class="hero__orb hero__orb--2"></div>
     <div class="hero__grid"></div>
+    <canvas class="aquarium" data-aquarium></canvas>
     <svg class="hero__molecules" viewBox="0 0 600 600">
       <g stroke="rgba(196,181,253,.35)" stroke-width="1.2" fill="none">
         <path d="M80 140 L160 100 L240 150 L230 240 L150 270 L90 220 Z"/>
@@ -66,6 +67,20 @@
         <div class="stat__label"><%= t('stats.' + s[0]) %></div>
       </div>
     <% }) %>
+  </div>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<section class="marquee" aria-label="<%= t('footer.about') %>">
+  <div class="marquee__track">
+    <% for (let g = 0; g < 2; g++) { %>
+      <div class="marquee__group" <%= g ? 'aria-hidden="true"' : '' %>>
+        <% L.home.marquee.forEach(function (m) { %>
+          <span class="marquee__item"><%= m %></span>
+          <img class="marquee__sep" src="/img/emblem-mark.svg" alt="" width="30" height="30">
+        <% }) %>
+      </div>
+    <% } %>
   </div>
 </section>
 
@@ -242,6 +257,7 @@
 <section class="cta" id="consult">
   <div class="container">
     <div class="cta__box reveal">
+      <canvas class="aquarium" data-aquarium="light" aria-hidden="true"></canvas>
       <div class="cta__copy">
         <h2><%= t('home.ctaTitle') %></h2>
         <p><%= t('home.ctaLead') %></p>
