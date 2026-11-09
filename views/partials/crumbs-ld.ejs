@@ -1,0 +1,11 @@
+<%
+  // BreadcrumbList structured data. items: [{ label, href? }] after "Home"; the last item is the current page.
+  const ldItems = [{ label: t('common.home'), href: url('') }].concat(items || []);
+  const ld = {
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: ldItems.map(function (c, i) {
+      const href = c.href || (pathRest ? url(pathRest) : url(''));
+      return { '@type': 'ListItem', position: i + 1, name: c.label, item: config.baseUrl + href };
+    })
+  };
+%><script type="application/ld+json" nonce="<%= nonce %>"><%- JSON.stringify(ld).replace(/</g, '\\u003c') %></script>

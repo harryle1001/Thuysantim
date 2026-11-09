@@ -1,22 +1,49 @@
 <%- include('../partials/head') %>
-<%- include('../partials/page-hero', { title: t('blog.title'), lead: t('blog.lead'), eyebrow: t('nav.blog'), crumbs: [{ label: t('nav.blog') }] }) %>
+<%
+  const heroTitle = topic ? t('seo.topicTitles.' + topic) : t('blog.title');
+  const crumbs = topic ? [{ label: t('nav.blog'), href: url('/blog') }, { label: t('blog.topics.' + topic) }] : [{ label: t('nav.blog') }];
+  const lead = pageNo === 1 && !topic && items.length ? items[0] : null;
+  const rest = lead ? items.slice(1) : items;
+%>
+<%- include('../partials/page-hero', { title: heroTitle, lead: t('blog.lead'), eyebrow: t('blog.hubTitle'), crumbs }) %>
 
 <section class="section section--tight">
   <div class="container">
-    <nav class="topics" aria-label="Topics">
-      <% ['', 'technique', 'disease', 'news'].forEach(function (k) { %>
-        <a href="<%= url('/blog' + (k ? '?topic=' + k : '')) %>" class="<%= topic === k ? 'is-active' : '' %>"><%= t('blog.topics.' + (k || 'all')) %></a>
-      <% }) %>
-    </nav>
-    <% if (items.length) { %>
-      <div class="bgrid"><% items.forEach(function (p) { %><%- include('../partials/post-card', { p }) %><% }) %></div>
-    <% } else { %>
-      <div class="empty"><%- icon('book', '', 40) %><p><%= t('product.empty') %></p></div>
+    <div class="blog-tools">
+      <nav class="topics" aria-label="Topics">
+        <% ['', 'technique', 'disease', 'news'].forEach(function (k) { %>
+          <a href="<%= url('/blog' + (k ? '?topic=' + k : '')) %>" class="<%= topic === k ? 'is-active' : '' %>"><%= t('blog.topics.' + (k || 'all')) %></a>
+        <% }) %>
+      </nav>
+      <label class="blog-search">
+        <%- icon('search', '', 18) %>
+        <input type="search" placeholder="<%= t('blog.searchPlaceholder') %>" aria-label="<%= t('blog.searchPlaceholder') %>" data-post-filter>
+      </label>
+    </div>
+
+    <% if (lead) { %>
+      <a class="guide__main bfeature reveal" href="<%= url('/blog/' + lead.slug) %>" data-post-item>
+        <span class="guide__cover"><img src="<%= lead.coverSrc %>" alt="<%= lead.titleText %>" width="1200" height="675" fetchpriority="high"></span>
+        <span class="guide__body">
+          <span class="pill pill--new"><%= t('blog.featured') %></span>
+          <h2 class="guide__title"><%= lead.titleText %></h2>
+          <p class="guide__excerpt"><%= lead.excerptText %></p>
+          <span class="guide__meta"><%- icon('calendar', '', 15) %> <%= date(lead.published_at) %> · <%= lead.read_minutes %> <%= t('blog.minutes') %> <span class="link-arrow"><%= t('blog.readMore') %> <%- icon('arrow', '', 16) %></span></span>
+        </span>
+      </a>
     <% } %>
+
+    <% if (rest.length) { %>
+      <div class="bgrid" data-post-list><% rest.forEach(function (p) { %><%- include('../partials/post-card', { p }) %><% }) %></div>
+    <% } else if (!lead) { %>
+      <div class="empty"><%- icon('book', '', 40) %><p><%= t('blog.noResults') %></p></div>
+    <% } %>
+    <div class="empty" data-post-empty hidden><%- icon('search', '', 40) %><p><%= t('blog.noResults') %></p></div>
+
     <% if (pages > 1) { %>
       <nav class="pager" aria-label="Pagination">
         <% for (let i = 1; i <= pages; i++) { %>
-          <% if (i === pageNo) { %><span class="is-active" aria-current="page"><%= i %></span><% } else { %><a href="<%= url('/blog?page=' + i + (topic ? '&topic=' + topic : '')) %>"><%= i %></a><% } %>
+          <% if (i === pageNo) { %><span class="is-active" aria-current="page"><%= i %></span><% } else { %><a href="<%= url('/blog' + (i > 1 ? '?page=' + i : '') + (topic ? (i > 1 ? '&' : '?') + 'topic=' + topic : '')) %>"><%= i %></a><% } %>
         <% } %>
       </nav>
     <% } %>

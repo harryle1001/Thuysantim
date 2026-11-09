@@ -1,8 +1,18 @@
 module.exports = {
   lang: { name: 'Tiếng Việt', short: 'VI', html: 'vi' },
   meta: {
-    title: 'Thủy Sản Tím — Tinh hoa sinh học cho ao nuôi',
-    description: 'THỦY SẢN TÍM: men vi sinh, khoáng, vitamin, thảo dược và giải pháp xử lý nước cao cấp cho tôm, cá. Tư vấn kỹ thuật miễn phí, giao hàng toàn quốc.',
+    title: 'Thuốc thủy sản cao cấp, men vi sinh nuôi tôm | Thủy Sản Tím',
+    description: 'Thuốc thủy sản, men vi sinh, khoáng và thảo dược cho tôm thẻ, tôm sú, cá tra. Kỹ thuật nuôi tôm, tra cứu bệnh, tư vấn miễn phí, giao toàn quốc.',
+  },
+  seo: {
+    productsTitle: 'Thuốc thủy sản, men vi sinh, khoáng cho tôm cá | Thủy Sản Tím',
+    productsDesc: 'Danh mục thuốc thủy sản cao cấp: men vi sinh xử lý nước, khoáng tạt, bổ gan, thảo dược, sát trùng cho tôm thẻ, tôm sú, cá. Giá đại lý, giao hàng toàn quốc.',
+    diseasesTitle: 'Tra cứu bệnh tôm, cá: triệu chứng và cách phòng trị | Thủy Sản Tím',
+    diseasesDesc: 'Cẩm nang bệnh thường gặp trên tôm thẻ chân trắng, tôm sú, cá tra: hoại tử gan tụy, đốm trắng, phân trắng, EHP, mềm vỏ, gan thận mủ… kèm phác đồ phòng trị.',
+    blogTitle: 'Kỹ thuật nuôi tôm thẻ, tôm sú: cẩm nang từ chuyên gia | Thủy Sản Tím',
+    blogDesc: 'Kiến thức nuôi tôm từ A đến Z: chuẩn bị ao, gây màu nước, quản lý pH, kiềm, khí độc, cho ăn, phòng bệnh. Bài viết thực chiến từ kỹ sư Thủy Sản Tím.',
+    topicTitles: { technique: 'Kỹ thuật nuôi tôm, cá', disease: 'Phòng và trị bệnh tôm, cá', news: 'Tin tức Thủy Sản Tím' },
+    page: 'Trang',
   },
   nav: { home: 'Trang chủ', products: 'Sản phẩm', diseases: 'Tra cứu bệnh', blog: 'Kiến thức', about: 'Về chúng tôi', contact: 'Liên hệ', quote: 'Nhận báo giá', cart: 'Giỏ hàng', search: 'Tìm sản phẩm…', menu: 'Menu', lookup: 'Tra cứu đơn hàng', dealer: 'Trở thành đại lý' },
   hero: {
@@ -49,6 +59,25 @@ module.exports = {
       { q: 'Kỹ thuật viên xuống tận ao, đo nước, lên phác đồ cụ thể. Sản phẩm tốt mà dịch vụ còn tốt hơn.', n: 'Chị Trần Thị Mai', r: 'Đại lý thuốc thủy sản — Bạc Liêu' },
       { q: 'FISH-IMMUNE giúp đàn cá tra vượt mùa lũ với tỉ lệ hao hụt giảm gần một nửa so với năm trước.', n: 'Anh Lê Minh Tâm', r: 'Hợp tác xã cá tra — Đồng Tháp' },
     ],
+    promise: [
+      { i: 'shield', t: '100% sinh học', d: 'Không kháng sinh, không chất cấm — an toàn cho tôm xuất khẩu.' },
+      { i: 'headset', t: 'Kỹ sư tư vấn 1:1', d: 'Phác đồ riêng cho từng ao, miễn phí, phản hồi trong 15 phút.' },
+      { i: 'truck', t: 'Giao nhanh toàn quốc', d: 'Giao 24–72 giờ, miễn phí vận chuyển cho đơn từ 2 triệu.' },
+      { i: 'badge', t: 'Chính hãng, có kiểm nghiệm', d: 'Mỗi lô hàng đều có phiếu kiểm nghiệm chất lượng (COA).' },
+    ],
+    guideEyebrow: 'Cẩm nang nuôi tôm',
+    guideTitle: 'Kiến thức thực chiến cho mùa vụ thắng lợi',
+    guideLead: 'Quy trình, bảng thông số và kinh nghiệm xử lý từ kỹ sư Thủy Sản Tím — miễn phí cho bà con.',
+    guideTopics: 'Bà con hay tìm',
+    faqEyebrow: 'Hỏi đáp',
+    faqTitle: 'Câu hỏi bà con thường gặp',
+    faq: [
+      { q: 'Sản phẩm Thủy Sản Tím có chứa kháng sinh không?', a: 'Không. Toàn bộ sản phẩm là chế phẩm sinh học, khoáng, vitamin và thảo dược, không chứa kháng sinh hay chất cấm, giúp tôm cá đạt chuẩn dư lượng khi xuất khẩu.' },
+      { q: 'Tôi chưa biết dùng sản phẩm nào cho ao của mình?', a: 'Gọi hotline hoặc nhắn Zalo, gửi ảnh tôm và chỉ số nước (pH, kiềm, độ mặn). Kỹ sư sẽ tư vấn phác đồ phù hợp miễn phí trong khoảng 15 phút.' },
+      { q: 'Giao hàng mất bao lâu và phí vận chuyển thế nào?', a: 'Đơn hàng được giao trong 24–72 giờ tùy khu vực. Miễn phí vận chuyển cho đơn từ 2.000.000 đ; đơn nhỏ hơn phí 35.000 đ.' },
+      { q: 'Có những hình thức thanh toán nào?', a: 'Bạn có thể thanh toán khi nhận hàng (COD), chuyển khoản qua mã VietQR, ví MoMo, thẻ ATM/VNPay hoặc để lại số điện thoại để nhân viên gọi xác nhận.' },
+      { q: 'Làm sao để trở thành đại lý của Thủy Sản Tím?', a: 'Gửi thông tin tại trang Liên hệ, mục Đăng ký làm đại lý. Đại lý được hưởng chiết khấu theo sản lượng, hỗ trợ kỹ thuật tại vùng và tài liệu bán hàng.' },
+    ],
     blogTitle: 'Kiến thức nuôi trồng',
     blogLead: 'Cập nhật kỹ thuật, phòng bệnh và tin tức từ đội ngũ chuyên gia.',
     ctaTitle: 'Cần phác đồ cho ao của bạn?',
@@ -56,6 +85,7 @@ module.exports = {
     ctaBtn: 'Gửi yêu cầu tư vấn',
   },
   product: {
+    guidesTitle: 'Hướng dẫn sử dụng trong thực tế',
     all: 'Tất cả', species: 'Đối tượng', shrimp: 'Tôm', fish: 'Cá', allSpecies: 'Tôm & Cá', sort: 'Sắp xếp', sortFeatured: 'Nổi bật', sortPriceAsc: 'Giá tăng dần', sortPriceDesc: 'Giá giảm dần', sortName: 'Tên A–Z',
     from: 'Từ', addToCart: 'Thêm vào giỏ', buyNow: 'Mua ngay', requestQuote: 'Yêu cầu báo giá', packing: 'Quy cách', qty: 'Số lượng',
     tabs: { description: 'Mô tả', composition: 'Thành phần', usage: 'Công dụng', dosage: 'Liều dùng' },
@@ -73,7 +103,7 @@ module.exports = {
     note: 'Thông tin mang tính tham khảo. Với bệnh do vi khuẩn cần dùng thuốc điều trị, vui lòng tham khảo bác sĩ thú y thủy sản và tuân thủ quy định về thuốc thú y.',
     search: 'Nhập triệu chứng, ví dụ: phân trắng, nổi đầu…', readMore: 'Xem chi tiết', askExpert: 'Hỏi chuyên gia',
   },
-  blog: { title: 'Kiến thức & Tin tức', lead: 'Kỹ thuật nuôi, phòng bệnh và tin tức ngành từ đội ngũ chuyên gia Thủy Sản Tím.', readMore: 'Đọc tiếp', minutes: 'phút đọc', topics: { all: 'Tất cả', technique: 'Kỹ thuật', disease: 'Phòng bệnh', news: 'Tin tức' }, related: 'Bài viết khác', share: 'Chia sẻ' },
+  blog: { title: 'Kiến thức & Tin tức', lead: 'Kỹ thuật nuôi, phòng bệnh và tin tức ngành từ đội ngũ chuyên gia Thủy Sản Tím.', readMore: 'Đọc tiếp', minutes: 'phút đọc', topics: { all: 'Tất cả', technique: 'Kỹ thuật', disease: 'Phòng bệnh', news: 'Tin tức' }, related: 'Bài viết khác', share: 'Chia sẻ', toc: 'Mục lục', faq: 'Câu hỏi thường gặp', updated: 'Cập nhật', by: 'Biên soạn bởi', authorBio: 'Đội ngũ kỹ sư nuôi trồng thủy sản của Thủy Sản Tím, trực tiếp theo dõi hơn 2.000 ao nuôi tại 28 tỉnh thành. Nội dung được kiểm chứng tại phòng Lab vi sinh và ngoài thực địa.', reviewed: 'Đã kiểm duyệt kỹ thuật', expertTitle: 'Ao của bạn đang gặp vấn đề?', expertText: 'Gửi ảnh tôm, chỉ số nước cho kỹ sư Thủy Sản Tím. Tư vấn phác đồ miễn phí trong 15 phút.', expertZalo: 'Hỏi kỹ sư qua Zalo', picksTitle: 'Giải pháp được nhắc đến trong bài', picksLead: 'Sản phẩm sinh học Thủy Sản Tím giúp áp dụng quy trình trong bài hiệu quả hơn.', copyLink: 'Sao chép liên kết', copied: 'Đã sao chép liên kết', featured: 'Bài nổi bật', hubTitle: 'Cẩm nang nuôi tôm', hubLead: 'Bắt đầu từ những bài nền tảng nhất', backToBlog: 'Tất cả bài viết', keyTakeaways: 'Ý chính', searchPlaceholder: 'Tìm bài viết: gây màu nước, kiềm, khí độc…', noResults: 'Chưa có bài viết phù hợp. Hãy thử từ khóa khác.' },
   about: {
     title: 'Về Thủy Sản Tím', lead: 'Hơn 15 năm đồng hành cùng người nuôi trồng thủy sản Việt Nam bằng khoa học và sự tận tâm.',
     storyTitle: 'Câu chuyện của chúng tôi',

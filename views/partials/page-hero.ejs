@@ -9,6 +9,7 @@
         <span aria-hidden="true">/</span><% if (c.href) { %><a href="<%= c.href %>"><%= c.label %></a><% } else { %><span aria-current="page"><%= c.label %></span><% } %>
       <% }) %>
     </nav>
+    <%- include('crumbs-ld', { items: typeof crumbs !== 'undefined' ? crumbs : [] }) %>
     <% if (typeof eyebrow !== 'undefined' && eyebrow) { %><span class="eyebrow eyebrow--light"><%= eyebrow %></span><% } %>
     <h1 class="phero__title"><%= title %></h1>
     <% if (typeof lead !== 'undefined' && lead) { %><p class="phero__lead"><%= lead %></p><% } %>

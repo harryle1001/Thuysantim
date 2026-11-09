@@ -46,6 +46,12 @@ function localeMiddleware(req, res, next) {
   res.locals.url = (p = '') => `/${lang}${p}`;
   // path without lang prefix — used by the language switcher & hreflang
   res.locals.pathRest = req.originalUrl.replace(new RegExp(`^/${lang}`), '').split('?')[0] || '';
+  // Parameters that produce a genuinely different page keep their own canonical URL.
+  const keep = ['category', 'species', 'topic', 'kind', 'page'].filter((k) => {
+    const v = req.query[k];
+    return typeof v === 'string' && /^[a-z0-9-]{1,60}$/i.test(v) && !(k === 'page' && v === '1');
+  });
+  res.locals.canonicalQuery = keep.length ? `?${keep.map((k) => `${k}=${req.query[k]}`).join('&')}` : '';
   req.session.locale = lang;
   next();
 }

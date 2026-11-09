@@ -21,6 +21,7 @@
       <% if (product.category_slug) { %><a href="<%= url('/products?category=' + product.category_slug) %>"><%= product.categoryTitle %></a><span>/</span><% } %>
       <span aria-current="page" style="color:var(--ink)"><%= product.title.split('—')[0].trim() %></span>
     </nav>
+    <%- include('../partials/crumbs-ld', { items: [{ label: t('nav.products'), href: url('/products') }].concat(product.category_slug ? [{ label: product.categoryTitle, href: url('/products?category=' + product.category_slug) }] : []).concat([{ label: product.title.split('—')[0].trim() }]) }) %>
 
     <div class="pd" data-product>
       <div class="pd__gallery">
@@ -108,6 +109,18 @@
     <% } %>
   </div>
 </section>
+
+<% if (guides.length) { %>
+<section class="section">
+  <div class="container">
+    <div class="section__head section__head--split">
+      <div><span class="eyebrow"><%= t('blog.hubTitle') %></span><h2 class="section__title" style="margin:0"><%= t('product.guidesTitle') %></h2></div>
+      <a class="btn btn--outline" href="<%= url('/blog') %>"><%= t('blog.backToBlog') %> <%- icon('arrow', '', 18) %></a>
+    </div>
+    <div class="bgrid"><% guides.forEach(function (p) { %><%- include('../partials/post-card', { p }) %><% }) %></div>
+  </div>
+</section>
+<% } %>
 
 <% if (related.length) { %>
 <section class="section section--tint">

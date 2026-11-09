@@ -55,7 +55,7 @@ function localizeProduct(row, locale) {
 
 function localizePost(row, locale) {
   if (!row) return null;
-  return { ...row, titleText: tr(row.title, locale), excerptText: tr(row.excerpt, locale), bodyText: tr(row.body, locale), coverSrc: imageUrl(row.cover, null) };
+  return { ...row, titleText: tr(row.title, locale), excerptText: tr(row.excerpt, locale), bodyText: tr(row.body, locale), coverSrc: imageUrl(row.cover, `/cover/${row.slug}.svg`) };
 }
 
 function localizeDisease(row, locale) {

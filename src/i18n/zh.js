@@ -1,8 +1,18 @@
 module.exports = {
   lang: { name: '中文', short: '中', html: 'zh-CN' },
   meta: {
-    title: 'Thủy Sản Tím（紫色水产）— 生物科技精粹，守护每一口池塘',
-    description: 'THỦY SẢN TÍM：为虾鱼提供高端益生菌、矿物质、维生素、草本提取及水质改良产品。免费技术支持，越南全国配送。',
+    title: '高端水产动保产品与对虾益生菌 | Thủy Sản Tím',
+    description: '面向南美白对虾、斑节对虾和巴沙鱼的益生菌、矿物质、草本提取物与水质改良产品。养殖技术、病害图鉴与免费专家支持。',
+  },
+  seo: {
+    productsTitle: '对虾与鱼类益生菌、矿物质和水质改良产品 | Thủy Sản Tím',
+    productsDesc: '高端水产动保产品：水质益生菌、矿物质、护肝、草本提取物与消毒剂，适用于虾和鱼。经销价格，越南全国配送。',
+    diseasesTitle: '对虾与鱼类病害图鉴：症状与防治 | Thủy Sản Tím',
+    diseasesDesc: '南美白对虾、斑节对虾和巴沙鱼常见病害——急性肝胰腺坏死、白斑、白便、EHP、软壳、白点病——附防治方案。',
+    blogTitle: '对虾养殖技术：来自专家的实战指南 | Thủy Sản Tím',
+    blogDesc: '对虾养殖全流程知识：清塘、肥水、pH与碱度、有毒气体、投喂与病害预防，来自Thủy Sản Tím工程师的实战文章。',
+    topicTitles: { technique: '虾鱼养殖技术', disease: '虾鱼病害防治', news: 'Thủy Sản Tím 新闻' },
+    page: '第',
   },
   nav: { home: '首页', products: '产品', diseases: '病害查询', blog: '养殖知识', about: '关于我们', contact: '联系我们', quote: '获取报价', cart: '购物车', search: '搜索产品…', menu: '菜单', lookup: '订单查询', dealer: '成为经销商' },
   hero: {
@@ -49,6 +59,25 @@ module.exports = {
       { q: '技术员亲自到塘口检测水质，制定清晰方案。产品好，服务更好。', n: '陈氏梅女士', r: '水产动保经销商 — 薄寮' },
       { q: 'FISH-IMMUNE帮助我们的巴沙鱼安全度过洪水季，损耗比去年减少近一半。', n: '黎明心先生', r: '巴沙鱼合作社 — 同塔' },
     ],
+    promise: [
+      { i: 'shield', t: '100%生物制剂', d: '不含抗生素和违禁物质，出口虾安全无忧。' },
+      { i: 'headset', t: '工程师一对一', d: '为您的池塘定制方案，免费，15分钟内回复。' },
+      { i: 'truck', t: '全国快速配送', d: '24–72小时送达，满200万越南盾免运费。' },
+      { i: 'badge', t: '正品，批批检测', d: '每批产品均附质量检测报告（COA）。' },
+    ],
+    guideEyebrow: '对虾养殖手册',
+    guideTitle: '助您丰收的实战知识',
+    guideLead: '来自Thủy Sản Tím工程师的流程、参数表与问题处理经验，免费分享给每位养殖户。',
+    guideTopics: '热门搜索',
+    faqEyebrow: '问答',
+    faqTitle: '养殖户常见问题',
+    faq: [
+      { q: 'Thủy Sản Tím的产品含抗生素吗？', a: '不含。所有产品均为益生菌、矿物质、维生素和草本制剂，不含抗生素或违禁物质，确保虾鱼符合出口残留标准。' },
+      { q: '不知道我的池塘该用哪款产品？', a: '拨打热线或通过Zalo发送虾的照片和水质数据（pH、碱度、盐度），工程师约15分钟内免费为您推荐方案。' },
+      { q: '配送需要多久？', a: '视地区24–72小时送达。订单满2,000,000越南盾免运费，以下收取35,000越南盾。' },
+      { q: '有哪些付款方式？', a: '货到付款、VietQR转账、MoMo、VNPay银行卡，或留下电话由我们致电确认。' },
+      { q: '如何成为经销商？', a: '在联系页面提交经销商申请。经销商可享受销量折扣、本地技术支持和销售资料。' },
+    ],
     blogTitle: '养殖知识',
     blogLead: '来自专家团队的技术、病害防控与行业资讯。',
     ctaTitle: '需要为您的池塘定制方案？',
@@ -56,6 +85,7 @@ module.exports = {
     ctaBtn: '提交咨询',
   },
   product: {
+    guidesTitle: '实际应用指南',
     all: '全部', species: '适用对象', shrimp: '虾', fish: '鱼', allSpecies: '虾与鱼', sort: '排序', sortFeatured: '推荐', sortPriceAsc: '价格从低到高', sortPriceDesc: '价格从高到低', sortName: '名称 A–Z',
     from: '起', addToCart: '加入购物车', buyNow: '立即购买', requestQuote: '询价', packing: '规格', qty: '数量',
     tabs: { description: '产品介绍', composition: '成分', usage: '功能', dosage: '用法用量' },
@@ -73,7 +103,7 @@ module.exports = {
     note: '仅供参考。需用药治疗的细菌性疾病，请咨询水产兽医并遵守当地兽药法规。',
     search: '输入症状，例如：白便、浮头…', readMore: '查看详情', askExpert: '咨询专家',
   },
-  blog: { title: '知识与资讯', lead: '来自Thủy Sản Tím专家的养殖技术、病害防控与行业资讯。', readMore: '阅读更多', minutes: '分钟阅读', topics: { all: '全部', technique: '养殖技术', disease: '病害防控', news: '新闻' }, related: '更多文章', share: '分享' },
+  blog: { title: '知识与资讯', lead: '来自Thủy Sản Tím专家的养殖技术、病害防控与行业资讯。', readMore: '阅读更多', minutes: '分钟阅读', topics: { all: '全部', technique: '养殖技术', disease: '病害防控', news: '新闻' }, related: '更多文章', share: '分享', toc: '目录', faq: '常见问题', updated: '更新于', by: '撰稿', authorBio: 'Thủy Sản Tím水产养殖工程师团队，长期跟踪28个省份的2,000多口池塘。所有建议均经过微生物实验室与现场验证。', reviewed: '技术审核', expertTitle: '池塘出现问题？', expertText: '将虾的照片和水质数据发给Thủy Sản Tím工程师，15分钟内免费获得方案建议。', expertZalo: '通过Zalo咨询工程师', picksTitle: '文中提到的解决方案', picksLead: '借助Thủy Sản Tím生物制剂，更轻松地执行本文流程。', copyLink: '复制链接', copied: '链接已复制', featured: '精选文章', hubTitle: '对虾养殖手册', hubLead: '从最基础的文章开始', backToBlog: '全部文章', keyTakeaways: '要点', searchPlaceholder: '搜索文章：肥水、碱度、有毒气体…', noResults: '暂无匹配文章，请尝试其他关键词。' },
   about: {
     title: '关于 Thủy Sản Tím', lead: '15年来以科学与用心服务越南水产养殖业。',
     storyTitle: '我们的故事',

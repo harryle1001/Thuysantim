@@ -1,6 +1,6 @@
 <article class="pcard reveal" style="--c: <%= p.color %>">
   <a class="pcard__media" href="<%= url('/products/' + p.slug) %>" tabindex="-1" aria-hidden="true">
-    <img src="<%= p.imageSrc %>" alt="" loading="lazy" width="600" height="600">
+    <img src="<%= p.imageSrc %>" alt="<%= p.title %>" loading="lazy" decoding="async" width="600" height="600">
     <% if (p.badge) { %><span class="pill pill--<%= p.badge %>"><%= t('product.badges.' + p.badge) %></span><% } %>
   </a>
   <div class="pcard__body">

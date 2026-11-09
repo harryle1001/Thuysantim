@@ -5,6 +5,7 @@ const M = require('../models');
 const H = require('../utils/helpers');
 const { query } = require('../config/db');
 const { notifyInquiry } = require('../services/mailer');
+const { analyzeArticle } = require('../services/article');
 
 const router = express.Router({ mergeParams: true });
 
@@ -20,7 +21,7 @@ router.get('/', async (req, res) => {
   const [cats, featured, posts, diseases] = await Promise.all([
     M.categories.all(),
     M.products.list({ featured: true, limit: 8 }),
-    M.posts.list({ limit: 3 }),
+    M.posts.list({ limit: 14 }),
     M.diseases.all(),
   ]);
   seo(res, res.locals.t('meta.title'), res.locals.t('meta.description'));
@@ -28,7 +29,13 @@ router.get('/', async (req, res) => {
     page: 'home',
     categories: cats.map((c) => M.localizeCategory(c, L)),
     featured: featured.map((p) => M.localizeProduct(p, L)),
-    posts: posts.map((p) => M.localizePost(p, L)),
+    // Handbook: the pillar guide leads, the next newest follow, and the rest become keyword chips.
+    ...(() => {
+      const all = posts.map((p) => M.localizePost(p, L));
+      const lead = all.find((p) => p.slug === 'quy-trinh-nuoi-tom-the-chan-trang-tu-a-den-z') || all[0];
+      const rest = all.filter((p) => p !== lead);
+      return { guideMain: lead, guideList: rest.slice(0, 4), guideChips: rest.slice(4, 12) };
+    })(),
     diseases: diseases.slice(0, 6).map((d) => M.localizeDisease(d, L)),
   });
 });
@@ -47,7 +54,10 @@ router.get('/products', async (req, res) => {
   if (sort === 'name') items.sort((a, b) => a.title.localeCompare(b.title, L));
   const cat = cats.find((c) => c.slug === category);
   const catLoc = cat ? M.localizeCategory(cat, L) : null;
-  seo(res, `${catLoc ? catLoc.title : res.locals.t('product.title')} — Thủy Sản Tím`, catLoc ? catLoc.desc : res.locals.t('product.lead'));
+  const t = res.locals.t;
+  const catTitle = catLoc && (L === 'vi' ? `${catLoc.title} cho tôm, cá | Thủy Sản Tím` : `${catLoc.title} | Thủy Sản Tím`);
+  seo(res, catTitle || t('seo.productsTitle'),
+    catLoc ? catLoc.desc : t('seo.productsDesc'), { noindex: Boolean(q || sort) });
   res.render('pages/products', { page: 'products', categories: cats.map((c) => M.localizeCategory(c, L)), items, filters: { category, species, q, sort }, currentCategory: catLoc });
 });
 
@@ -56,17 +66,23 @@ router.get('/products/:slug', async (req, res, next) => {
   const row = await M.products.bySlug(req.params.slug);
   if (!row) return next();
   const product = M.localizeProduct(row, L);
-  const [related, allDiseases] = await Promise.all([M.products.related(row, 4), M.diseases.all()]);
+  const shortName = product.title.split('—')[0].trim();
+  const [related, allDiseases, guides] = await Promise.all([
+    M.products.related(row, 4),
+    M.diseases.all(),
+    // Articles that mention this product (internal links both ways)
+    query("SELECT * FROM posts WHERE is_published = 1 AND published_at <= NOW() AND body LIKE ? ORDER BY published_at DESC LIMIT 3", [`%${shortName}%`]),
+  ]);
   const diseases = allDiseases.map((d) => M.localizeDisease(d, L)).filter((d) => d.productIdList.includes(row.id));
-  seo(res, `${product.title} — Thủy Sản Tím`, product.summaryText, { image: `${res.locals.config.baseUrl}${product.imageSrc}`, type: 'product' });
-  res.render('pages/product', { page: 'products', product, related: related.map((p) => M.localizeProduct(p, L)), diseases });
+  seo(res, `${product.title} | Thủy Sản Tím`, product.summaryText.slice(0, 170), { image: `${res.locals.config.baseUrl}${product.imageSrc}`, type: 'product' });
+  res.render('pages/product', { page: 'products', product, related: related.map((p) => M.localizeProduct(p, L)), diseases, guides: guides.map((p) => M.localizePost(p, L)) });
 });
 
 /* ---------------- Diseases ---------------- */
 router.get('/diseases', async (req, res) => {
   const L = req.locale;
   const rows = await M.diseases.all();
-  seo(res, `${res.locals.t('disease.title')} — Thủy Sản Tím`, res.locals.t('disease.lead'));
+  seo(res, res.locals.t('seo.diseasesTitle'), res.locals.t('seo.diseasesDesc'));
   res.render('pages/diseases', { page: 'diseases', items: rows.map((d) => M.localizeDisease(d, L)) });
 });
 
@@ -76,7 +92,8 @@ router.get('/diseases/:slug', async (req, res, next) => {
   if (!row) return next();
   const disease = M.localizeDisease(row, L);
   const [prods, all] = await Promise.all([M.products.byIds(disease.productIdList), M.diseases.all()]);
-  seo(res, `${disease.title} — Thủy Sản Tím`, disease.symptomsText.slice(0, 160));
+  const dTitle = { vi: `${disease.title}: dấu hiệu, nguyên nhân và cách phòng trị`, en: `${disease.title}: signs, causes and prevention`, zh: `${disease.title}：症状、病因与防治` }[L];
+  seo(res, `${dTitle} | Thủy Sản Tím`, `${disease.pathogenText}. ${disease.symptomsText}`.replace(/\s+/g, ' ').slice(0, 165));
   res.render('pages/disease', {
     page: 'diseases',
     disease,
@@ -92,7 +109,9 @@ router.get('/blog', async (req, res) => {
   const pageNo = H.clampInt(req.query.page, 1, 999, 1);
   const per = 9;
   const [rows, total] = await Promise.all([M.posts.list({ topic, limit: per, offset: (pageNo - 1) * per }), M.posts.count({ topic })]);
-  seo(res, `${res.locals.t('blog.title')} — Thủy Sản Tím`, res.locals.t('blog.lead'));
+  const t = res.locals.t;
+  const base = topic ? `${t('seo.topicTitles.' + topic)} | Thủy Sản Tím` : t('seo.blogTitle');
+  seo(res, pageNo > 1 ? base.replace(' | ', ` – ${t('seo.page')} ${pageNo} | `) : base, t('seo.blogDesc'));
   res.render('pages/blog', { page: 'blog', items: rows.map((p) => M.localizePost(p, L)), topic, pageNo, pages: Math.max(1, Math.ceil(total / per)) });
 });
 
@@ -101,9 +120,30 @@ router.get('/blog/:slug', async (req, res, next) => {
   const row = await M.posts.bySlug(req.params.slug);
   if (!row) return next();
   const post = M.localizePost(row, L);
-  const others = (await M.posts.list({ limit: 4 })).filter((p) => p.id !== row.id).slice(0, 3);
-  seo(res, `${post.titleText} — Thủy Sản Tím`, post.excerptText, { type: 'article' });
-  res.render('pages/post', { page: 'blog', post, others: others.map((p) => M.localizePost(p, L)) });
+  const [sameTopic, latest, allProducts] = await Promise.all([
+    M.posts.list({ topic: row.topic, limit: 5 }),
+    M.posts.list({ limit: 6 }),
+    M.products.list({ limit: 100 }),
+  ]);
+  const products = allProducts.map((p) => M.localizeProduct(p, L));
+  const article = analyzeArticle(post.bodyText, {
+    render: res.locals.md,
+    products: products.map((p) => ({ slug: p.slug, shortName: p.title.split('—')[0].trim() })),
+    productUrl: (slug) => res.locals.url(`/products/${slug}`),
+  });
+  // Related reading: same topic first, then the newest, never the article itself.
+  const seen = new Set([row.id]);
+  const others = [...sameTopic, ...latest].filter((p) => !seen.has(p.id) && seen.add(p.id)).slice(0, 3);
+  // Products the article talks about, or best-sellers as a fallback.
+  let picks = article.mentioned.map((s) => products.find((p) => p.slug === s)).filter(Boolean);
+  if (!picks.length) picks = products.filter((p) => p.is_featured);
+  seo(res, `${post.titleText} | Thủy Sản Tím`, post.excerptText, {
+    type: 'article',
+    image: `${res.locals.config.baseUrl}/img/og-cover.png`,
+    published: row.published_at,
+    modified: row.updated_at,
+  });
+  res.render('pages/post', { page: 'blog', post, article, picks: picks.slice(0, 3), others: others.map((p) => M.localizePost(p, L)) });
 });
 
 /* ---------------- Static pages ---------------- */

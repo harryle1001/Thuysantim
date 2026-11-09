@@ -3,7 +3,9 @@
   const seoData = (typeof seo !== 'undefined' && seo) || {};
   const pageTitle = seoData.title || t('meta.title');
   const pageDesc = seoData.description || t('meta.description');
-  const canonical = config.baseUrl + '/' + locale + pathRest;
+  // Self-referencing canonical that keeps the parameters that really change the page
+  const canonQs = (typeof canonicalQuery !== 'undefined' && canonicalQuery) || '';
+  const canonical = config.baseUrl + '/' + locale + pathRest + canonQs;
   const ogImage = seoData.image || (config.baseUrl + '/img/og-cover.png');
   const navItems = [
     { k: 'products', href: url('/products') },
@@ -19,10 +21,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title><%= pageTitle %></title>
   <meta name="description" content="<%= pageDesc %>">
-  <% if (seoData.noindex) { %><meta name="robots" content="noindex, follow"><% } %>
+  <meta name="robots" content="<%= seoData.noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' %>">
   <link rel="canonical" href="<%= canonical %>">
-  <% LOCALES.forEach(function (l) { %><link rel="alternate" hreflang="<%= dicts[l].lang.html %>" href="<%= config.baseUrl %>/<%= l %><%= pathRest %>">
-  <% }) %><link rel="alternate" hreflang="x-default" href="<%= config.baseUrl %>/vi<%= pathRest %>">
+  <% LOCALES.forEach(function (l) { %><link rel="alternate" hreflang="<%= dicts[l].lang.html %>" href="<%= config.baseUrl %>/<%= l %><%= pathRest %><%= canonQs %>">
+  <% }) %><link rel="alternate" hreflang="x-default" href="<%= config.baseUrl %>/vi<%= pathRest %><%= canonQs %>">
   <meta property="og:type" content="<%= seoData.type || 'website' %>">
   <meta property="og:site_name" content="Thủy Sản Tím">
   <meta property="og:title" content="<%= pageTitle %>">
@@ -30,7 +32,17 @@
   <meta property="og:url" content="<%= canonical %>">
   <meta property="og:image" content="<%= ogImage %>">
   <meta property="og:locale" content="<%= { vi: 'vi_VN', en: 'en_US', zh: 'zh_CN' }[locale] %>">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="<%= pageTitle %>">
+  <% if (seoData.published) { %><meta property="article:published_time" content="<%= new Date(seoData.published).toISOString() %>">
+  <meta property="article:modified_time" content="<%= new Date(seoData.modified || seoData.published).toISOString() %>"><% } %>
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%= pageTitle %>">
+  <meta name="twitter:description" content="<%= pageDesc %>">
+  <meta name="twitter:image" content="<%= ogImage %>">
+  <meta name="geo.region" content="VN-CT">
+  <meta name="geo.placename" content="Cần Thơ">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#fdfcfa" data-theme-color>
   <script nonce="<%= nonce %>">(function(){var d=document.documentElement,t;try{t=localStorage.getItem('tst-theme')}catch(e){}if(t!=='light'&&t!=='dark')t=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';d.setAttribute('data-theme',t);var m=document.querySelector('[data-theme-color]');if(m)m.content=t==='dark'?'#0d0719':'#fdfcfa'})();</script>
@@ -42,10 +54,25 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap<% if (locale === 'zh') { %>&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@500;600;700<% } %>">
   <link rel="stylesheet" href="/css/main.css?v=2.1.0">
   <script type="application/ld+json" nonce="<%= nonce %>"><%- JSON.stringify({
-    '@context': 'https://schema.org', '@type': 'Organization', name: 'Thủy Sản Tím', legalName: tr(company.legal), url: config.baseUrl,
-    logo: config.baseUrl + '/img/favicon.svg', email: company.email, telephone: company.hotline,
-    address: { '@type': 'PostalAddress', streetAddress: tr(company.address), addressCountry: 'VN' },
-    sameAs: [company.facebook, company.youtube, company.tiktok].filter(Boolean)
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': ['Organization', 'Store'], '@id': config.baseUrl + '/#org', name: 'Thủy Sản Tím', alternateName: 'THUY SAN TIM',
+        legalName: tr(company.legal), url: config.baseUrl, logo: config.baseUrl + '/img/apple-touch-icon.png', image: config.baseUrl + '/img/og-cover.png',
+        description: t('meta.description'), slogan: tr(company.tagline), email: company.email, telephone: company.hotline, priceRange: '₫₫',
+        address: { '@type': 'PostalAddress', streetAddress: tr(company.address), addressLocality: 'Cần Thơ', addressRegion: 'Cần Thơ', addressCountry: 'VN' },
+        geo: { '@type': 'GeoCoordinates', latitude: 10.0299, longitude: 105.7681 },
+        areaServed: { '@type': 'Country', name: 'Vietnam' },
+        openingHoursSpecification: [{ '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], opens: '07:30', closes: '17:30' }],
+        contactPoint: [{ '@type': 'ContactPoint', telephone: company.hotline, contactType: 'customer service', areaServed: 'VN', availableLanguage: ['Vietnamese', 'English', 'Chinese'] }],
+        sameAs: [company.facebook, company.youtube, company.tiktok].filter(function (u) { return u && !/^https?:\/\/[^/]+\/?$/.test(u); })
+      },
+      {
+        '@type': 'WebSite', '@id': config.baseUrl + '/#website', url: config.baseUrl + '/' + locale, name: 'Thủy Sản Tím', inLanguage: L.lang.html,
+        publisher: { '@id': config.baseUrl + '/#org' },
+        potentialAction: { '@type': 'SearchAction', target: { '@type': 'EntryPoint', urlTemplate: config.baseUrl + '/' + locale + '/products?q={search_term_string}' }, 'query-input': 'required name=search_term_string' }
+      }
+    ]
   }).replace(/</g, '\\u003c') %></script>
   <% if (typeof jsonld !== 'undefined' && jsonld) { %><script type="application/ld+json" nonce="<%= nonce %>"><%- JSON.stringify(jsonld).replace(/</g, '\\u003c') %></script><% } %>
 </head>

@@ -122,6 +122,18 @@
   </div>
 </section>
 
+<!-- ============ PROMISE ============ -->
+<section class="promise" aria-label="<%= t('home.featTitle') %>">
+  <div class="container promise__grid">
+    <% L.home.promise.forEach(function (it, i) { %>
+      <div class="promise__item reveal" style="--d: <%= i * 70 %>ms">
+        <span class="promise__icon"><%- icon(it.i, '', 24) %></span>
+        <span><b><%= it.t %></b><small><%= it.d %></small></span>
+      </div>
+    <% }) %>
+  </div>
+</section>
+
 <!-- ============ STAGES ============ -->
 <section class="section">
   <div class="container">
@@ -236,21 +248,74 @@
   </div>
 </section>
 
-<!-- ============ BLOG ============ -->
-<section class="section">
+<!-- ============ HANDBOOK ============ -->
+<% if (guideMain) { %>
+<section class="section guide">
   <div class="container">
     <div class="section__head section__head--split reveal">
       <div>
-        <span class="eyebrow"><%- icon('book', '', 14) %> <%= t('nav.blog') %></span>
-        <h2 class="section__title"><%= t('home.blogTitle') %></h2>
-        <p class="section__lead"><%= t('home.blogLead') %></p>
+        <span class="eyebrow"><%= t('home.guideEyebrow') %></span>
+        <h2 class="section__title"><%= t('home.guideTitle') %></h2>
+        <p class="section__lead"><%= t('home.guideLead') %></p>
       </div>
-      <a class="btn btn--outline" href="<%= url('/blog') %>"><%= t('nav.blog') %> <%- icon('arrow', '', 18) %></a>
+      <a class="btn btn--outline" href="<%= url('/blog') %>"><%= t('blog.backToBlog') %> <%- icon('arrow', '', 18) %></a>
     </div>
-    <div class="bgrid">
-      <% posts.forEach(function (p) { %><%- include('../partials/post-card', { p }) %><% }) %>
+    <div class="guide__grid">
+      <a class="guide__main reveal" href="<%= url('/blog/' + guideMain.slug) %>">
+        <span class="guide__cover"><img src="<%= guideMain.coverSrc %>" alt="<%= guideMain.titleText %>" loading="lazy" width="1200" height="675"></span>
+        <span class="guide__body">
+          <span class="pill pill--new"><%= t('blog.featured') %></span>
+          <h3 class="guide__title"><%= guideMain.titleText %></h3>
+          <p class="guide__excerpt"><%= guideMain.excerptText %></p>
+          <span class="guide__meta"><%- icon('clock', '', 15) %> <%= guideMain.read_minutes %> <%= t('blog.minutes') %> <span class="link-arrow"><%= t('blog.readMore') %> <%- icon('arrow', '', 16) %></span></span>
+        </span>
+      </a>
+      <ol class="guide__list">
+        <% guideList.forEach(function (p, i) { %>
+          <li class="reveal" style="--d: <%= i * 70 %>ms">
+            <a href="<%= url('/blog/' + p.slug) %>">
+              <span class="guide__num"><%= String(i + 2).padStart(2, '0') %></span>
+              <span>
+                <small><%= t('blog.topics.' + p.topic) %> · <%= p.read_minutes %> <%= t('blog.minutes') %></small>
+                <b><%= p.titleText %></b>
+              </span>
+            </a>
+          </li>
+        <% }) %>
+      </ol>
+    </div>
+    <% if (guideChips.length) { %>
+    <div class="guide__chips reveal">
+      <span><%- icon('search', '', 16) %> <%= t('home.guideTopics') %>:</span>
+      <% guideChips.forEach(function (p) { %><a href="<%= url('/blog/' + p.slug) %>"><%= p.titleText.split(/[:,—(]/)[0].trim() %></a><% }) %>
+    </div>
+    <% } %>
+  </div>
+</section>
+<% } %>
+
+<!-- ============ FAQ ============ -->
+<section class="section section--tint home-faq">
+  <div class="container home-faq__grid">
+    <div class="reveal">
+      <span class="eyebrow"><%= t('home.faqEyebrow') %></span>
+      <h2 class="section__title"><%= t('home.faqTitle') %></h2>
+      <p class="section__lead"><%= t('blog.expertText') %></p>
+      <a class="btn btn--primary" href="<%= url('/contact') %>" style="margin-top:24px"><%= t('hero.cta2') %> <%- icon('arrow', '', 18) %></a>
+    </div>
+    <div class="faq faq--home">
+      <% L.home.faq.forEach(function (f, i) { %>
+        <details class="faq__item reveal" <%= i === 0 ? 'open' : '' %>>
+          <summary><span><%= f.q %></span><i aria-hidden="true"></i></summary>
+          <div class="faq__a"><p><%= f.a %></p></div>
+        </details>
+      <% }) %>
     </div>
   </div>
+  <script type="application/ld+json" nonce="<%= nonce %>"><%- JSON.stringify({
+    '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: L.home.faq.map(function (f) { return { '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } }; })
+  }).replace(/</g, '\\u003c') %></script>
 </section>
 
 <!-- ============ CTA ============ -->

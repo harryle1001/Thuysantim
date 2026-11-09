@@ -13,6 +13,7 @@ const M = require('./models');
 const H = require('./utils/helpers');
 const { localeMiddleware, commonLocals, csrfProtect, detectLocale, makeT, dict } = require('./middleware');
 const { packshotSvg } = require('./services/packshot');
+const { coverSvg } = require('./services/cover');
 
 function createApp() {
   const app = express();
@@ -67,6 +68,14 @@ function createApp() {
     res.type('image/svg+xml').send(packshotSvg(row, { transparent: req.query.bg === '0' }));
   });
 
+  app.get('/cover/:file', async (req, res, next) => {
+    const slug = String(req.params.file).replace(/\.svg$/, '');
+    const row = await one('SELECT slug, topic FROM posts WHERE slug = ?', [slug]);
+    if (!row) return next();
+    res.set('Cache-Control', 'public, max-age=604800');
+    res.type('image/svg+xml').send(coverSvg(row.slug, row.topic));
+  });
+
   app.get('/health', async (req, res) => {
     try {
       await one('SELECT 1 AS ok');
@@ -81,24 +90,39 @@ function createApp() {
   });
 
   app.get('/sitemap.xml', async (req, res) => {
-    const [products, posts, diseases] = await Promise.all([
-      query('SELECT slug, updated_at FROM products WHERE is_active = 1'),
-      query('SELECT slug, updated_at FROM posts WHERE is_published = 1 AND published_at <= NOW()'),
+    const [products, posts, diseases, cats] = await Promise.all([
+      query('SELECT slug, image, updated_at FROM products WHERE is_active = 1'),
+      query('SELECT slug, cover, topic, updated_at FROM posts WHERE is_published = 1 AND published_at <= NOW()'),
       query('SELECT slug FROM diseases'),
+      query('SELECT slug FROM categories'),
     ]);
-    const paths = ['', '/products', '/diseases', '/blog', '/about', '/contact', '/quote']
-      .map((p) => ({ p }))
-      .concat(products.map((r) => ({ p: `/products/${r.slug}`, m: r.updated_at })))
-      .concat(posts.map((r) => ({ p: `/blog/${r.slug}`, m: r.updated_at })))
-      .concat(diseases.map((r) => ({ p: `/diseases/${r.slug}` })));
-    const urls = paths
-      .map(({ p, m }) =>
+    const newest = (rows) => rows.reduce((m, r) => (r.updated_at && new Date(r.updated_at) > m ? new Date(r.updated_at) : m), new Date(0));
+    const abs = (src) => (/^https?:/.test(src) ? src : config.baseUrl + src);
+    const img = (src) => (src ? `<image:image><image:loc>${H.escapeHtml(abs(src))}</image:loc></image:image>` : '');
+    const entries = [
+      { p: '', m: newest([...products, ...posts]), pr: '1.0', f: 'daily' },
+      { p: '/products', m: newest(products), pr: '0.9', f: 'weekly' },
+      { p: '/blog', m: newest(posts), pr: '0.9', f: 'daily' },
+      { p: '/diseases', m: newest(diseases), pr: '0.8', f: 'weekly' },
+      { p: '/about', pr: '0.5', f: 'monthly' },
+      { p: '/contact', pr: '0.5', f: 'monthly' },
+      { p: '/quote', pr: '0.6', f: 'monthly' },
+    ]
+      .concat(cats.map((c) => ({ p: `/products?category=${c.slug}`, pr: '0.7', f: 'weekly' })))
+      .concat(['technique', 'disease', 'news'].map((t) => ({ p: `/blog?topic=${t}`, pr: '0.7', f: 'weekly' })))
+      .concat(products.map((r) => ({ p: `/products/${r.slug}`, m: r.updated_at, pr: '0.8', f: 'weekly', i: r.image ? (r.image.startsWith('/') || /^https?:/.test(r.image) ? r.image : `/media/${r.image}`) : `/pack/${r.slug}.svg` })))
+      .concat(posts.map((r) => ({ p: `/blog/${r.slug}`, m: r.updated_at, pr: '0.8', f: 'monthly', i: r.cover ? (r.cover.startsWith('/') || /^https?:/.test(r.cover) ? r.cover : `/media/${r.cover}`) : `/cover/${r.slug}.svg` })))
+      .concat(diseases.map((r) => ({ p: `/diseases/${r.slug}`, m: r.updated_at, pr: '0.7', f: 'monthly' })));
+    const loc = (l, p) => H.escapeHtml(`${config.baseUrl}/${l}${p}`);
+    const urls = entries
+      .map(({ p, m, pr, f, i }) =>
         H.LOCALES.map(
-          (l) => `<url><loc>${config.baseUrl}/${l}${p}</loc>${m ? `<lastmod>${new Date(m).toISOString().slice(0, 10)}</lastmod>` : ''}${H.LOCALES.map((a) => `<xhtml:link rel="alternate" hreflang="${dict[a].lang.html}" href="${config.baseUrl}/${a}${p}"/>`).join('')}</url>`
+          (l) => `<url><loc>${loc(l, p)}</loc>${m && +new Date(m) > 0 ? `<lastmod>${new Date(m).toISOString().slice(0, 10)}</lastmod>` : ''}<changefreq>${f}</changefreq><priority>${pr}</priority>${H.LOCALES.map((a) => `<xhtml:link rel="alternate" hreflang="${dict[a].lang.html}" href="${loc(a, p)}"/>`).join('')}<xhtml:link rel="alternate" hreflang="x-default" href="${loc('vi', p)}"/>${img(i)}</url>`
         ).join('')
       )
       .join('');
-    res.type('application/xml').send(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">${urls}</urlset>`);
+    res.set('Cache-Control', 'public, max-age=3600');
+    res.type('application/xml').send(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">${urls}</urlset>`);
   });
 
   /* ---------- Sessions & body ---------- */

@@ -1,45 +1,121 @@
 <%
-  const jsonld = {
-    '@context': 'https://schema.org', '@type': 'Article', headline: post.titleText, description: post.excerptText,
+  const company = (settings && settings.company) || {};
+  const postUrl = config.baseUrl + url('/blog/' + post.slug);
+  const coverAbs = /^https?:/.test(post.coverSrc) ? post.coverSrc : config.baseUrl + post.coverSrc;
+  const graph = [{
+    '@type': 'BlogPosting', '@id': postUrl + '#article', headline: post.titleText, description: post.excerptText,
+    image: [coverAbs, config.baseUrl + '/img/og-cover.png'], inLanguage: L.lang.html, articleSection: t('blog.topics.' + post.topic),
+    wordCount: article.words, timeRequired: 'PT' + article.readMinutes + 'M',
     datePublished: new Date(post.published_at).toISOString(), dateModified: new Date(post.updated_at).toISOString(),
-    author: { '@type': 'Organization', name: post.author }, publisher: { '@type': 'Organization', name: 'Thủy Sản Tím', logo: { '@type': 'ImageObject', url: config.baseUrl + '/img/favicon.svg' } },
-    mainEntityOfPage: config.baseUrl + url('/blog/' + post.slug)
-  };
+    author: { '@type': 'Organization', name: post.author, url: config.baseUrl + url('/about') },
+    publisher: { '@id': config.baseUrl + '/#org' },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': postUrl },
+    about: picks.map(function (p) { return { '@type': 'Product', name: p.title.split('—')[0].trim(), url: config.baseUrl + url('/products/' + p.slug) }; })
+  }];
+  if (article.faq.length) graph.push({
+    '@type': 'FAQPage', '@id': postUrl + '#faq',
+    mainEntity: article.faq.map(function (f) { return { '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.text } }; })
+  });
+  const jsonld = { '@context': 'https://schema.org', '@graph': graph };
+  const topicLabel = t('blog.topics.' + post.topic);
+  const zalo = company.zalo ? 'https://zalo.me/' + company.zalo : null;
+  const tel = (company.hotline || '').replace(/\s/g, '');
 %>
 <%- include('../partials/head', { jsonld }) %>
 
-<section class="phero">
-  <div class="phero__bg" aria-hidden="true"><svg class="phero__waves" viewBox="0 0 1440 220" preserveAspectRatio="none"><path d="M0 120 C 240 60 480 180 720 120 S 1200 60 1440 120 V220 H0z" fill="rgba(255,255,255,.04)"/><path d="M0 160 C 300 110 520 210 760 160 S 1180 100 1440 150 V220 H0z" fill="#fff"/></svg></div>
-  <div class="container phero__inner article">
-    <nav class="crumbs" aria-label="Breadcrumb"><a href="<%= url('') %>"><%= t('common.home') %></a><span>/</span><a href="<%= url('/blog') %>"><%= t('nav.blog') %></a><span>/</span><a href="<%= url('/blog?topic=' + post.topic) %>"><%= t('blog.topics.' + post.topic) %></a></nav>
-    <h1 class="phero__title"><%= post.titleText %></h1>
+<section class="phero phero--article">
+  <div class="phero__bg" aria-hidden="true"><svg class="phero__waves" viewBox="0 0 1440 220" preserveAspectRatio="none"><path d="M0 120 C 240 60 480 180 720 120 S 1200 60 1440 120 V220 H0z" fill="rgba(255,255,255,.04)"/><path d="M0 160 C 300 110 520 210 760 160 S 1180 100 1440 150 V220 H0z" fill="rgba(255,255,255,.05)"/></svg></div>
+  <div class="container phero__inner apost__head">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="<%= url('') %>"><%= t('common.home') %></a><span aria-hidden="true">/</span><a href="<%= url('/blog') %>"><%= t('nav.blog') %></a><span aria-hidden="true">/</span><a href="<%= url('/blog?topic=' + post.topic) %>"><%= topicLabel %></a></nav>
+    <%- include('../partials/crumbs-ld', { items: [{ label: t('nav.blog'), href: url('/blog') }, { label: topicLabel, href: url('/blog?topic=' + post.topic) }, { label: post.titleText }] }) %>
+    <span class="eyebrow eyebrow--light"><%= topicLabel %></span>
+    <h1 class="phero__title apost__title"><%= post.titleText %></h1>
+    <p class="apost__lead"><%= post.excerptText %></p>
     <div class="article__meta">
       <span><%- icon('user', '', 16) %> <%= post.author %></span>
-      <span><%- icon('calendar', '', 16) %> <%= date(post.published_at) %></span>
-      <span><%- icon('clock', '', 16) %> <%= post.read_minutes %> <%= t('blog.minutes') %></span>
+      <span><%- icon('calendar', '', 16) %> <time datetime="<%= new Date(post.published_at).toISOString() %>"><%= date(post.published_at) %></time></span>
+      <span><%- icon('clock', '', 16) %> <%= article.readMinutes %> <%= t('blog.minutes') %></span>
+      <span class="apost__badge"><%- icon('check', '', 15) %> <%= t('blog.reviewed') %></span>
     </div>
   </div>
 </section>
 
-<section class="section section--tight">
-  <div class="container">
-    <% if (post.coverSrc) { %><div class="article__cover"><img src="<%= post.coverSrc %>" alt="<%= post.titleText %>"></div><% } %>
-    <article class="article">
-      <p class="article__lead"><%= post.excerptText %></p>
-      <div class="prose"><%- md(post.bodyText) %></div>
+<div class="container">
+  <figure class="apost__cover"><img src="<%= post.coverSrc %>" alt="<%= post.titleText %>" width="1200" height="675" fetchpriority="high"></figure>
+</div>
+
+<section class="section section--tight apost">
+  <div class="container apost__grid">
+    <aside class="apost__side" aria-label="<%= t('blog.toc') %>">
+      <% if (article.toc.length > 1) { %>
+      <details class="toc" open data-toc>
+        <summary><%- icon('book', '', 16) %> <%= t('blog.toc') %></summary>
+        <ol>
+          <% article.toc.forEach(function (h) { %><li><a href="#<%= h.id %>"><%= h.text %></a></li><% }) %>
+          <% if (article.faq.length) { %><li><a href="#faq"><%= t('blog.faq') %></a></li><% } %>
+        </ol>
+      </details>
+      <% } %>
+      <div class="expert-card">
+        <span class="expert-card__icon"><%- icon('headset', '', 22) %></span>
+        <b><%= t('blog.expertTitle') %></b>
+        <p><%= t('blog.expertText') %></p>
+        <% if (zalo) { %><a class="btn btn--accent btn--sm btn--block" href="<%= zalo %>" target="_blank" rel="noopener"><%= t('blog.expertZalo') %></a><% } %>
+        <a class="expert-card__tel" href="tel:<%= tel %>"><%- icon('phone', '', 16) %> <%= company.hotline %></a>
+      </div>
+    </aside>
+
+    <article class="apost__body">
+      <div class="prose prose--article"><%- article.html %></div>
+
+      <% if (article.faq.length) { %>
+      <section class="faq" id="faq" aria-labelledby="faq-title">
+        <h2 id="faq-title" class="faq__title"><%= t('blog.faq') %></h2>
+        <% article.faq.forEach(function (f, i) { %>
+        <details class="faq__item" <%= i === 0 ? 'open' : '' %>>
+          <summary><span><%= f.q %></span><i aria-hidden="true"></i></summary>
+          <div class="faq__a prose"><%- f.html %></div>
+        </details>
+        <% }) %>
+      </section>
+      <% } %>
+
+      <div class="author-box">
+        <span class="author-box__mark"><%- include('../partials/logo', { uid: 'ab' }) %></span>
+        <div>
+          <small><%= t('blog.by') %></small>
+          <b><%= post.author %></b>
+          <p><%= t('blog.authorBio') %></p>
+          <span class="author-box__meta"><%= t('blog.updated') %>: <time datetime="<%= new Date(post.updated_at).toISOString() %>"><%= date(post.updated_at) %></time></span>
+        </div>
+      </div>
+
       <div class="article__share">
-        <%= t('blog.share') %>:
-        <a href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent(config.baseUrl + url('/blog/' + post.slug)) %>" target="_blank" rel="noopener" aria-label="Facebook"><%- icon('facebook', '', 18) %></a>
-        <button type="button" data-share aria-label="<%= t('blog.share') %>"><%- icon('external', '', 18) %></button>
+        <span><%= t('blog.share') %>:</span>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent(postUrl) %>" target="_blank" rel="noopener" aria-label="Facebook"><%- icon('facebook', '', 18) %></a>
+        <a href="https://sp.zalo.me/share_inline?d=<%= encodeURIComponent(postUrl) %>" target="_blank" rel="noopener" aria-label="Zalo"><%- icon('zalo', '', 18) %></a>
+        <button type="button" data-share data-copied="<%= t('blog.copied') %>" aria-label="<%= t('blog.copyLink') %>" title="<%= t('blog.copyLink') %>"><%- icon('external', '', 18) %></button>
       </div>
     </article>
   </div>
 </section>
 
-<% if (others.length) { %>
-<section class="section section--tint">
+<% if (picks.length) { %>
+<section class="section section--tint picks">
   <div class="container">
-    <div class="section__head section__head--split"><h2 class="section__title" style="margin:0"><%= t('blog.related') %></h2><a class="btn btn--outline" href="<%= url('/blog') %>"><%= t('nav.blog') %> <%- icon('arrow', '', 18) %></a></div>
+    <div class="section__head section__head--split">
+      <div><span class="eyebrow"><%= t('nav.products') %></span><h2 class="section__title"><%= t('blog.picksTitle') %></h2><p class="section__lead"><%= t('blog.picksLead') %></p></div>
+      <a class="btn btn--outline" href="<%= url('/products') %>"><%= t('home.viewAll') || t('nav.products') %> <%- icon('arrow', '', 18) %></a>
+    </div>
+    <div class="pgrid pgrid--3"><% picks.forEach(function (p) { %><%- include('../partials/product-card', { p }) %><% }) %></div>
+  </div>
+</section>
+<% } %>
+
+<% if (others.length) { %>
+<section class="section">
+  <div class="container">
+    <div class="section__head section__head--split"><h2 class="section__title" style="margin:0"><%= t('blog.related') %></h2><a class="btn btn--outline" href="<%= url('/blog') %>"><%= t('blog.backToBlog') %> <%- icon('arrow', '', 18) %></a></div>
     <div class="bgrid"><% others.forEach(function (p) { %><%- include('../partials/post-card', { p }) %><% }) %></div>
   </div>
 </section>

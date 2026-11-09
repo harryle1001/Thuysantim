@@ -10,10 +10,37 @@ async function seedSettings() {
   }
 }
 
+/** Reading time from the Vietnamese body (≈200 words/minute). */
+function readMinutes(post) {
+  const words = String(post.body.vi || '').replace(/[#*>|`_\[\]()-]/g, ' ').split(/\s+/).filter(Boolean).length;
+  return post.read || Math.max(2, Math.round(words / 200));
+}
+
+/**
+ * Articles are added by slug, never overwritten: new guides shipped in a release
+ * reach existing databases, and posts edited in the admin are left alone.
+ */
+async function seedPosts() {
+  let added = 0;
+  for (const p of data.posts) {
+    const published = new Date(Date.now() - p.daysAgo * 86400000);
+    const r = await query(
+      `INSERT IGNORE INTO posts (slug, title, excerpt, body, topic, read_minutes, published_at) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [p.slug, J(p.title), J(p.excerpt), J(p.body), p.topic, readMinutes(p), published]
+    );
+    added += r.affectedRows || 0;
+  }
+  if (added) console.log(`[db] Đã thêm ${added} bài viết mới.`);
+}
+
 async function seed({ force = false } = {}) {
   await seedSettings();
+  const existingPosts = await one('SELECT COUNT(*) AS n FROM posts');
   const existing = await one('SELECT COUNT(*) AS n FROM products');
-  if (existing.n > 0 && !force) return false;
+  if (existing.n > 0 && !force) {
+    if (existingPosts.n > 0) await seedPosts();
+    return false;
+  }
 
   const catIds = {};
   for (const [i, c] of data.categories.entries()) {
@@ -42,13 +69,7 @@ async function seed({ force = false } = {}) {
     );
   }
 
-  for (const p of data.posts) {
-    const published = new Date(Date.now() - p.daysAgo * 86400000);
-    await query(
-      `INSERT IGNORE INTO posts (slug, title, excerpt, body, topic, read_minutes, published_at) VALUES (?, ?, ?, ?, ?, ?, ?)`,
-      [p.slug, J(p.title), J(p.excerpt), J(p.body), p.topic, p.read, published]
-    );
-  }
+  await seedPosts();
   console.log('[db] Đã nạp dữ liệu mẫu.');
   return true;
 }

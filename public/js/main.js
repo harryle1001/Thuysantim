@@ -355,8 +355,48 @@
   var shareBtn = $('[data-share]');
   if (shareBtn) {
     shareBtn.addEventListener('click', function () {
-      if (navigator.share) navigator.share({ title: doc.title, url: location.href }).catch(function () {});
-      else if (navigator.clipboard) navigator.clipboard.writeText(location.href).then(function () { toast('✓ Link', 'success'); });
+      var done = function () { toast('✓ ' + (shareBtn.getAttribute('data-copied') || 'Link'), 'success'); };
+      if (navigator.share && matchMedia('(pointer: coarse)').matches) navigator.share({ title: doc.title, url: location.href }).catch(function () {});
+      else if (navigator.clipboard) navigator.clipboard.writeText(location.href).then(done, function () {});
     });
+  }
+
+  /* ---------- Blog: instant filter on this page (accent-insensitive) ---------- */
+  var postFilter = $('[data-post-filter]');
+  if (postFilter) {
+    var fold = function (s) { return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd'); };
+    var postItems = $$('[data-post-item]').map(function (el) { return { el: el, text: fold(el.textContent) }; });
+    var postEmpty = $('[data-post-empty]');
+    postFilter.addEventListener('input', function () {
+      var words = fold(postFilter.value).split(/\s+/).filter(Boolean);
+      var shown = 0;
+      postItems.forEach(function (it) {
+        var ok = words.every(function (w) { return it.text.indexOf(w) !== -1; });
+        it.el.hidden = !ok;
+        if (ok) shown++;
+      });
+      if (postEmpty) postEmpty.hidden = shown > 0;
+    });
+  }
+
+  /* ---------- Article table of contents: highlight the section being read ---------- */
+  var toc = $('[data-toc]');
+  if (toc && 'IntersectionObserver' in window) {
+    var links = $$('a[href^="#"]', toc);
+    var map = {};
+    links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+    var heads = links.map(function (a) { return doc.getElementById(a.getAttribute('href').slice(1)); }).filter(Boolean);
+    var current = null;
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        if (current) current.classList.remove('is-active');
+        current = map[e.target.id];
+        if (current) current.classList.add('is-active');
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    heads.forEach(function (h) { spy.observe(h); });
+    // On phones the contents list starts folded so the article comes first
+    if (matchMedia('(max-width: 1023px)').matches) toc.removeAttribute('open');
   }
 })();

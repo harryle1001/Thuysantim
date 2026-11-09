@@ -1,5 +1,5 @@
 <% const topicIcon = { technique: 'book', disease: 'shield', news: 'sparkle' }[p.topic] || 'book'; %>
-<article class="bcard reveal">
+<article class="bcard reveal" data-post-item>
   <a class="bcard__media bcard__media--<%= p.topic %>" href="<%= url('/blog/' + p.slug) %>" tabindex="-1" aria-hidden="true">
     <% if (p.coverSrc) { %>
       <img src="<%= p.coverSrc %>" alt="" loading="lazy">
