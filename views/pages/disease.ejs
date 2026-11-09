@@ -1,0 +1,57 @@
+<%- include('../partials/head') %>
+<%- include('../partials/page-hero', { title: disease.title, lead: disease.pathogenText, eyebrow: t('nav.diseases'), crumbs: [{ label: t('nav.diseases'), href: url('/diseases') }, { label: disease.title }] }) %>
+
+<section class="section section--tight">
+  <div class="container dd">
+    <article>
+      <div class="dd__meta">
+        <span class="sev sev--<%= disease.severity %>"><%= t('disease.severity.' + disease.severity) %></span>
+        <span><%- icon(disease.species === 'fish' ? 'fish' : 'shrimp', '', 16) %> <%= t('disease.species.' + disease.species) %></span>
+        <span><%- icon('microbe', '', 16) %> <%= disease.pathogenText %></span>
+      </div>
+      <% [
+        ['symptoms', 'eye', 'dd__icon--red', disease.symptomsText],
+        ['causes', 'microbe', 'dd__icon--amber', disease.causesText],
+        ['prevention', 'shield', 'dd__icon--aqua', disease.preventionText],
+        ['treatment', 'lab', '', disease.treatmentText]
+      ].forEach(function (b) { if (!b[3]) return; %>
+        <section class="dd__block reveal">
+          <span class="dd__icon <%= b[2] %>"><%- icon(b[1], '', 24) %></span>
+          <div><h2><%= t('disease.' + b[0]) %></h2><%- nl2p(b[3]) %></div>
+        </section>
+      <% }) %>
+      <p class="note"><%- icon('alert', '', 18) %> <%= t('disease.note') %></p>
+    </article>
+
+    <aside class="dd__aside">
+      <% if (products.length) { %>
+        <div class="card">
+          <h3><%= t('disease.products') %></h3>
+          <div class="mini-products">
+            <% products.forEach(function (p) { %>
+              <a class="mini-product" href="<%= url('/products/' + p.slug) %>">
+                <img src="<%= p.imageSrc %>" alt="" loading="lazy">
+                <span><b><%= p.title.split('—')[0].trim() %></b><small><%= p.minPrice ? t('product.from') + ' ' + money(p.minPrice) : t('product.requestQuote') %></small></span>
+              </a>
+            <% }) %>
+          </div>
+        </div>
+      <% } %>
+      <div class="help-card">
+        <h4><%= t('disease.askExpert') %></h4>
+        <p><%= t('home.ctaLead') %></p>
+        <a class="btn btn--accent btn--sm" href="tel:<%= ((settings.company || {}).hotline || '').replace(/\s/g, '') %>"><%- icon('phone', '', 16) %> <%= (settings.company || {}).hotline %></a>
+      </div>
+      <% if (others.length) { %>
+        <div class="card">
+          <h3><%= t('nav.diseases') %></h3>
+          <div class="related-d">
+            <% others.forEach(function (d) { %><a href="<%= url('/diseases/' + d.slug) %>"><%= d.title %></a><% }) %>
+          </div>
+        </div>
+      <% } %>
+    </aside>
+  </div>
+</section>
+
+<%- include('../partials/foot') %>

@@ -1,0 +1,17 @@
+<%
+  const values = H.parseJSON(value, {}) || {};
+  const isArea = typeof area !== 'undefined' && area;
+%>
+<div class="fld">
+  <label><%= label %><% if (typeof hint !== 'undefined' && hint) { %> <small><%= hint %></small><% } %></label>
+  <% LANGS.forEach(function (l, i) { %>
+    <div class="ml" data-lang="<%= l %>" <%= i === 0 ? '' : 'hidden' %>>
+      <span class="ml__tag"><%= l.toUpperCase() %></span>
+      <% if (isArea) { %>
+        <textarea name="<%= name %>[<%= l %>]" rows="<%= typeof rows !== 'undefined' ? rows : 4 %>" <%= i === 0 && typeof required !== 'undefined' && required ? 'required' : '' %>><%= values[l] || '' %></textarea>
+      <% } else { %>
+        <input name="<%= name %>[<%= l %>]" value="<%= values[l] || '' %>" <%= i === 0 && typeof required !== 'undefined' && required ? 'required' : '' %>>
+      <% } %>
+    </div>
+  <% }) %>
+</div>

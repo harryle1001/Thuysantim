@@ -1,0 +1,78 @@
+<%- include('../partials/head') %>
+<%
+  const qs = function (over) {
+    const p = Object.assign({}, filters, over);
+    const parts = Object.keys(p).filter(function (k) { return p[k]; }).map(function (k) { return k + '=' + encodeURIComponent(p[k]); });
+    return url('/products') + (parts.length ? '?' + parts.join('&') : '');
+  };
+  const total = categories.reduce(function (s, c) { return s + c.product_count; }, 0);
+%>
+<%- include('../partials/page-hero', {
+  title: currentCategory ? currentCategory.title : t('product.title'),
+  lead: currentCategory ? currentCategory.desc : t('product.lead'),
+  eyebrow: t('nav.products'),
+  crumbs: currentCategory ? [{ label: t('nav.products'), href: url('/products') }, { label: currentCategory.title }] : [{ label: t('nav.products') }]
+}) %>
+
+<section class="section section--tight">
+  <div class="container shop">
+    <aside class="filters" aria-label="Filters">
+      <div>
+        <h3><%= t('product.species') %></h3>
+        <div class="seg">
+          <a href="<%= qs({ species: '' }) %>" class="<%= !filters.species ? 'is-active' : '' %>"><%= t('product.all') %></a>
+          <a href="<%= qs({ species: 'shrimp' }) %>" class="<%= filters.species === 'shrimp' ? 'is-active' : '' %>"><%= t('product.shrimp') %></a>
+          <a href="<%= qs({ species: 'fish' }) %>" class="<%= filters.species === 'fish' ? 'is-active' : '' %>"><%= t('product.fish') %></a>
+        </div>
+      </div>
+      <div>
+        <h3><%= t('nav.products') %></h3>
+        <nav class="filters__list">
+          <a href="<%= qs({ category: '' }) %>" class="<%= !filters.category ? 'is-active' : '' %>"><%- icon('sparkle', '', 18) %> <%= t('product.all') %> <span class="count"><%= total %></span></a>
+          <% categories.forEach(function (c) { %>
+            <a href="<%= qs({ category: c.slug }) %>" class="<%= filters.category === c.slug ? 'is-active' : '' %>"><%- icon(c.icon, '', 18) %> <%= c.title %> <span class="count"><%= c.product_count %></span></a>
+          <% }) %>
+        </nav>
+      </div>
+      <div class="help-card">
+        <h4><%= t('home.ctaTitle') %></h4>
+        <p><%= t('home.ctaLead') %></p>
+        <a class="btn btn--accent btn--sm" href="tel:<%= ((settings.company || {}).hotline || '').replace(/\s/g, '') %>"><%- icon('phone', '', 16) %> <%= (settings.company || {}).hotline %></a>
+      </div>
+    </aside>
+
+    <div>
+      <div class="chips">
+        <a href="<%= qs({ category: '' }) %>" class="<%= !filters.category ? 'is-active' : '' %>"><%= t('product.all') %></a>
+        <% categories.forEach(function (c) { %><a href="<%= qs({ category: c.slug }) %>" class="<%= filters.category === c.slug ? 'is-active' : '' %>"><%= c.title %></a><% }) %>
+      </div>
+
+      <div class="toolbar">
+        <div class="toolbar__count"><b><%= items.length %></b> <%= t('product.results') %><% if (filters.q) { %> · “<%= filters.q %>”<% } %></div>
+        <form method="get" action="<%= url('/products') %>">
+          <% if (filters.category) { %><input type="hidden" name="category" value="<%= filters.category %>"><% } %>
+          <% if (filters.species) { %><input type="hidden" name="species" value="<%= filters.species %>"><% } %>
+          <label class="sr-only" for="pq"><%= t('nav.search') %></label>
+          <input id="pq" type="search" name="q" value="<%= filters.q %>" placeholder="<%= t('nav.search') %>">
+          <label class="sr-only" for="ps"><%= t('product.sort') %></label>
+          <select id="ps" name="sort" data-autosubmit>
+            <option value=""><%= t('product.sortFeatured') %></option>
+            <option value="price-asc" <%= filters.sort === 'price-asc' ? 'selected' : '' %>><%= t('product.sortPriceAsc') %></option>
+            <option value="price-desc" <%= filters.sort === 'price-desc' ? 'selected' : '' %>><%= t('product.sortPriceDesc') %></option>
+            <option value="name" <%= filters.sort === 'name' ? 'selected' : '' %>><%= t('product.sortName') %></option>
+          </select>
+        </form>
+      </div>
+
+      <% if (items.length) { %>
+        <div class="pgrid pgrid--3">
+          <% items.forEach(function (p) { %><%- include('../partials/product-card', { p }) %><% }) %>
+        </div>
+      <% } else { %>
+        <div class="empty"><%- icon('search', '', 40) %><p><%= t('product.empty') %></p><a class="btn btn--outline" style="margin-top:18px" href="<%= url('/products') %>"><%= t('product.all') %></a></div>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/foot') %>

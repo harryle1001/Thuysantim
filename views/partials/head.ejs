@@ -1,0 +1,140 @@
+<%
+  const company = (settings && settings.company) || {};
+  const seoData = (typeof seo !== 'undefined' && seo) || {};
+  const pageTitle = seoData.title || t('meta.title');
+  const pageDesc = seoData.description || t('meta.description');
+  const canonical = config.baseUrl + '/' + locale + pathRest;
+  const ogImage = seoData.image || (config.baseUrl + '/img/og-cover.png');
+  const navItems = [
+    { k: 'products', href: url('/products') },
+    { k: 'diseases', href: url('/diseases') },
+    { k: 'blog', href: url('/blog') },
+    { k: 'about', href: url('/about') },
+    { k: 'contact', href: url('/contact') },
+  ];
+%><!doctype html>
+<html lang="<%= L.lang.html %>" data-locale="<%= locale %>">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title><%= pageTitle %></title>
+  <meta name="description" content="<%= pageDesc %>">
+  <% if (seoData.noindex) { %><meta name="robots" content="noindex, follow"><% } %>
+  <link rel="canonical" href="<%= canonical %>">
+  <% LOCALES.forEach(function (l) { %><link rel="alternate" hreflang="<%= dicts[l].lang.html %>" href="<%= config.baseUrl %>/<%= l %><%= pathRest %>">
+  <% }) %><link rel="alternate" hreflang="x-default" href="<%= config.baseUrl %>/vi<%= pathRest %>">
+  <meta property="og:type" content="<%= seoData.type || 'website' %>">
+  <meta property="og:site_name" content="Thủy Sản Tím">
+  <meta property="og:title" content="<%= pageTitle %>">
+  <meta property="og:description" content="<%= pageDesc %>">
+  <meta property="og:url" content="<%= canonical %>">
+  <meta property="og:image" content="<%= ogImage %>">
+  <meta property="og:locale" content="<%= { vi: 'vi_VN', en: 'en_US', zh: 'zh_CN' }[locale] %>">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#2e1065">
+  <meta name="csrf-token" content="<%= csrfToken %>">
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@1,500;1,600&display=swap<% if (locale === 'zh') { %>&family=Noto+Sans+SC:wght@400;500;700<% } %>">
+  <link rel="stylesheet" href="/css/main.css?v=1.0.0">
+  <script type="application/ld+json" nonce="<%= nonce %>"><%- JSON.stringify({
+    '@context': 'https://schema.org', '@type': 'Organization', name: 'Thủy Sản Tím', legalName: tr(company.legal), url: config.baseUrl,
+    logo: config.baseUrl + '/img/favicon.svg', email: company.email, telephone: company.hotline,
+    address: { '@type': 'PostalAddress', streetAddress: tr(company.address), addressCountry: 'VN' },
+    sameAs: [company.facebook, company.youtube, company.tiktok].filter(Boolean)
+  }).replace(/</g, '\\u003c') %></script>
+  <% if (typeof jsonld !== 'undefined' && jsonld) { %><script type="application/ld+json" nonce="<%= nonce %>"><%- JSON.stringify(jsonld).replace(/</g, '\\u003c') %></script><% } %>
+</head>
+<body class="page-<%= page %>">
+<a class="skip-link" href="#main"><%= locale === 'vi' ? 'Bỏ qua đến nội dung' : locale === 'zh' ? '跳到内容' : 'Skip to content' %></a>
+
+<div class="topbar">
+  <div class="container topbar__inner">
+    <div class="topbar__left">
+      <a href="tel:<%= (company.hotline || '').replace(/\s/g, '') %>"><%- icon('phone', '', 14) %> <%= t('contact.hotline') %>: <strong><%= company.hotline %></strong></a>
+      <span class="topbar__sep hide-sm"></span>
+      <span class="hide-sm"><%- icon('clock', '', 14) %> <%= tr(company.hours) %></span>
+    </div>
+    <div class="topbar__right">
+      <a class="hide-sm" href="<%= url('/order-lookup') %>"><%= t('nav.lookup') %></a>
+      <a class="hide-sm" href="<%= url('/contact?kind=dealer') %>"><%= t('nav.dealer') %></a>
+      <div class="lang" data-dropdown>
+        <button class="lang__btn" type="button" aria-haspopup="true" aria-expanded="false" data-dropdown-toggle>
+          <%- icon('globe', '', 15) %> <%= L.lang.short %>
+        </button>
+        <ul class="lang__menu" role="menu">
+          <% LOCALES.forEach(function (l) { %>
+            <li><a role="menuitem" href="/<%= l %><%= pathRest %>" hreflang="<%= dicts[l].lang.html %>" class="<%= l === locale ? 'is-active' : '' %>"><span class="lang__code"><%= dicts[l].lang.short %></span> <%= dicts[l].lang.name %></a></li>
+          <% }) %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<header class="header" data-header>
+  <div class="container header__inner">
+    <a class="brand" href="<%= url('') %>" aria-label="Thủy Sản Tím">
+      <%- include('logo', { uid: 'h' }) %>
+      <span class="brand__text">
+        <span class="brand__name">THỦY SẢN <b>TÍM</b></span>
+        <span class="brand__tag"><%= tr(company.tagline) %></span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+      <ul class="nav__list">
+        <% navItems.forEach(function (n) { %>
+          <li class="nav__item">
+            <a class="nav__link <%= page === n.k ? 'is-active' : '' %>" href="<%= n.href %>"><%= t('nav.' + n.k) %></a>
+          </li>
+        <% }) %>
+      </ul>
+    </nav>
+
+    <div class="header__actions">
+      <button class="icon-btn" type="button" data-search-open aria-label="<%= t('nav.search') %>"><%- icon('search') %></button>
+      <a class="icon-btn cart-btn" href="<%= url('/cart') %>" aria-label="<%= t('nav.cart') %>">
+        <%- icon('cart') %><span class="cart-btn__count" data-cart-count <%= cartCount ? '' : 'hidden' %>><%= cartCount %></span>
+      </a>
+      <a class="btn btn--primary btn--sm hide-md" href="<%= url('/quote') %>"><%= t('nav.quote') %></a>
+      <button class="icon-btn nav-toggle" type="button" data-nav-open aria-label="<%= t('nav.menu') %>"><%- icon('menu') %></button>
+    </div>
+  </div>
+</header>
+
+<div class="search-overlay" data-search hidden>
+  <form class="search-overlay__box" action="<%= url('/products') %>" method="get" role="search">
+    <%- icon('search', '', 22) %>
+    <input type="search" name="q" placeholder="<%= t('nav.search') %>" aria-label="<%= t('nav.search') %>" autocomplete="off">
+    <button type="button" class="icon-btn" data-search-close aria-label="Close"><%- icon('close') %></button>
+  </form>
+</div>
+
+<div class="drawer" data-drawer hidden>
+  <div class="drawer__backdrop" data-nav-close></div>
+  <aside class="drawer__panel" aria-label="<%= t('nav.menu') %>">
+    <div class="drawer__head">
+      <a class="brand" href="<%= url('') %>"><%- include('logo', { uid: 'd' }) %><span class="brand__name">THỦY SẢN <b>TÍM</b></span></a>
+      <button class="icon-btn" type="button" data-nav-close aria-label="Close"><%- icon('close') %></button>
+    </div>
+    <nav class="drawer__nav">
+      <a href="<%= url('') %>" class="<%= page === 'home' ? 'is-active' : '' %>"><%= t('nav.home') %></a>
+      <% navItems.forEach(function (n) { %><a href="<%= n.href %>" class="<%= page === n.k ? 'is-active' : '' %>"><%= t('nav.' + n.k) %></a><% }) %>
+      <a href="<%= url('/order-lookup') %>"><%= t('nav.lookup') %></a>
+    </nav>
+    <div class="drawer__langs">
+      <% LOCALES.forEach(function (l) { %><a href="/<%= l %><%= pathRest %>" class="<%= l === locale ? 'is-active' : '' %>"><%= dicts[l].lang.name %></a><% }) %>
+    </div>
+    <a class="btn btn--primary btn--block" href="<%= url('/quote') %>"><%= t('nav.quote') %></a>
+    <a class="btn btn--ghost btn--block" href="tel:<%= (company.hotline || '').replace(/\s/g, '') %>"><%- icon('phone', '', 18) %> <%= company.hotline %></a>
+  </aside>
+</div>
+
+<% if (flash) { %>
+  <div class="toast toast--<%= flash.type %> is-visible" role="status" data-toast><%- icon(flash.type === 'success' ? 'check' : 'alert', '', 18) %> <span><%= flash.message %></span></div>
+<% } %>
+
+<main id="main">

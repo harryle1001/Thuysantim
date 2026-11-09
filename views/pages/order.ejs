@@ -1,0 +1,56 @@
+<%- include('../partials/head') %>
+<% const bank = settings.bank || {}; const failed = payState === 'failed' || order.payment_status === 'failed'; const paidNow = payState === 'success' || order.payment_status === 'paid'; %>
+
+<section class="section">
+  <div class="container">
+    <div class="order-hero">
+      <div class="order-hero__icon <%= failed && !paidNow ? 'order-hero__icon--warn' : '' %>"><%- icon(failed && !paidNow ? 'alert' : 'check', '', 42) %></div>
+      <h1><%= failed && !paidNow ? t('order.payFailed') : (paidNow ? t('order.paidOk') : t('order.thanks')) %></h1>
+      <p><%= t('order.received') %></p>
+      <div class="order-code"><%= t('order.code') %>: <%= order.code %> <button type="button" class="copy-btn" data-copy="<%= order.code %>">COPY</button></div>
+      <% if (canRetry && failed) { %>
+        <form action="<%= url('/order/' + order.code + '/retry') %>" method="post" style="margin-top:20px">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <button class="btn btn--primary" type="submit"><%= t('order.retry') %></button>
+        </form>
+      <% } %>
+    </div>
+
+    <div class="order-grid">
+      <% if (qr) { %>
+        <div class="qr-card">
+          <h2 style="font-size:20px"><%- icon('qr', '', 20) %> <%= t('order.scanQr') %></h2>
+          <img src="<%= qr %>" alt="VietQR <%= order.code %>" width="260" height="260">
+          <div class="kv">
+            <div><span><%= t('order.bank') %></span><b><%= bank.bankName || bank.bin %></b></div>
+            <div><span><%= t('order.account') %></span><b><%= bank.accountNo %> <button type="button" class="copy-btn" data-copy="<%= bank.accountNo %>">COPY</button></b></div>
+            <div><span><%= t('order.holder') %></span><b><%= bank.accountName %></b></div>
+            <div><span><%= t('order.amount') %></span><b><%= money(order.total) %></b></div>
+            <div><span><%= t('order.content') %></span><b><%= order.code %> <button type="button" class="copy-btn" data-copy="<%= order.code %>">COPY</button></b></div>
+          </div>
+          <p style="font-size:13.5px;color:var(--muted);margin-top:14px"><%= t('order.qrNote') %></p>
+        </div>
+      <% } %>
+
+      <div class="summary" style="position:static">
+        <h2><%= t('order.items') %></h2>
+        <div class="summary__items" style="max-height:none">
+          <% items.forEach(function (i) { %><div class="summary__item" style="grid-template-columns:1fr auto"><span><b><%= i.name.split('—')[0].trim() %></b><small><%= i.variant %> × <%= i.qty %></small></span><b><%= money(i.amount) %></b></div><% }) %>
+        </div>
+        <div class="summary__row"><span><%= t('cart.subtotal') %></span><b><%= money(order.subtotal) %></b></div>
+        <div class="summary__row"><span><%= t('cart.shipping') %></span><b><%= order.shipping_fee ? money(order.shipping_fee) : t('cart.free') %></b></div>
+        <div class="summary__row summary__row--total"><span><%= t('cart.total') %></span><span><%= money(order.total) %></span></div>
+        <div class="kv" style="margin-top:18px">
+          <div><span><%= t('order.date') %></span><b><%= H.formatDateTime(order.created_at) %></b></div>
+          <div><span><%= t('order.method') %></span><b><%= t('checkout.methods.' + order.payment_method + '.t') %></b></div>
+          <div><span><%= t('order.statusLabel') %></span><b><span class="status-badge status-badge--<%= order.status %>"><%= t('order.status.' + order.status) %></span> <span class="status-badge status-badge--<%= order.payment_status %>"><%= t('order.payStatus.' + order.payment_status) %></span></b></div>
+          <div><span><%= t('form.name') %></span><b><%= order.customer_name %> · <%= order.phone %></b></div>
+          <div><span><%= t('form.address') %></span><b><%= order.address %><%= order.province ? ', ' + order.province : '' %></b></div>
+        </div>
+        <a class="btn btn--outline btn--block" style="margin-top:20px" href="<%= url('/products') %>"><%= t('cart.continue') %></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/foot') %>

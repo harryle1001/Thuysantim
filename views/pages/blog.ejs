@@ -1,0 +1,26 @@
+<%- include('../partials/head') %>
+<%- include('../partials/page-hero', { title: t('blog.title'), lead: t('blog.lead'), eyebrow: t('nav.blog'), crumbs: [{ label: t('nav.blog') }] }) %>
+
+<section class="section section--tight">
+  <div class="container">
+    <nav class="topics" aria-label="Topics">
+      <% ['', 'technique', 'disease', 'news'].forEach(function (k) { %>
+        <a href="<%= url('/blog' + (k ? '?topic=' + k : '')) %>" class="<%= topic === k ? 'is-active' : '' %>"><%= t('blog.topics.' + (k || 'all')) %></a>
+      <% }) %>
+    </nav>
+    <% if (items.length) { %>
+      <div class="bgrid"><% items.forEach(function (p) { %><%- include('../partials/post-card', { p }) %><% }) %></div>
+    <% } else { %>
+      <div class="empty"><%- icon('book', '', 40) %><p><%= t('product.empty') %></p></div>
+    <% } %>
+    <% if (pages > 1) { %>
+      <nav class="pager" aria-label="Pagination">
+        <% for (let i = 1; i <= pages; i++) { %>
+          <% if (i === pageNo) { %><span class="is-active" aria-current="page"><%= i %></span><% } else { %><a href="<%= url('/blog?page=' + i + (topic ? '&topic=' + topic : '')) %>"><%= i %></a><% } %>
+        <% } %>
+      </nav>
+    <% } %>
+  </div>
+</section>
+
+<%- include('../partials/foot') %>

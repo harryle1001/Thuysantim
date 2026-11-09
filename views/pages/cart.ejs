@@ -1,0 +1,52 @@
+<%- include('../partials/head') %>
+<% const ship = settings.shipping || {}; %>
+<%- include('../partials/page-hero', { title: t('cart.title'), crumbs: [{ label: t('cart.title') }] }) %>
+
+<section class="section section--tight">
+  <div class="container">
+    <% if (!cart.lines.length) { %>
+      <div class="empty">
+        <%- icon('cart', '', 48) %>
+        <p style="font-size:18px;margin:6px 0 20px"><%= t('cart.empty') %></p>
+        <a class="btn btn--primary" href="<%= url('/products') %>"><%= t('cart.continue') %> <%- icon('arrow', '', 18) %></a>
+      </div>
+    <% } else { %>
+      <div class="cart" data-cart>
+        <div>
+          <div class="cart__lines">
+            <% cart.lines.forEach(function (l) { %>
+              <div class="cline" data-line data-pid="<%= l.pid %>" data-vi="<%= l.vi %>">
+                <img src="<%= l.product.imageSrc %>" alt="" loading="lazy">
+                <div>
+                  <a class="cline__title" href="<%= url('/products/' + l.product.slug) %>"><%= l.product.title.split('—')[0].trim() %></a>
+                  <div class="cline__variant"><%= l.variant %> · <%= money(l.price) %></div>
+                </div>
+                <form class="qty qty--sm" action="<%= url('/cart/update') %>" method="post">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                  <input type="hidden" name="pid" value="<%= l.pid %>"><input type="hidden" name="vi" value="<%= l.vi %>">
+                  <button type="button" data-qty="-" aria-label="−"><%- icon('minus', '', 14) %></button>
+                  <input type="number" name="qty" value="<%= l.qty %>" min="0" max="999" aria-label="<%= t('cart.qty') %>">
+                  <button type="button" data-qty="+" aria-label="+"><%- icon('plus', '', 14) %></button>
+                </form>
+                <div class="cline__amount" data-line-amount><%= money(l.amount) %></div>
+                <button class="cline__remove" type="button" data-remove aria-label="<%= t('cart.remove') %>"><%- icon('trash', '', 18) %></button>
+              </div>
+            <% }) %>
+          </div>
+          <a class="link-arrow" style="margin-top:20px" href="<%= url('/products') %>"><%- icon('arrowLeft', '', 16) %> <%= t('cart.continue') %></a>
+        </div>
+
+        <aside class="summary">
+          <h2><%= t('cart.summary') %></h2>
+          <div class="summary__row"><span><%= t('cart.subtotal') %></span><b data-subtotal><%= money(cart.subtotal) %></b></div>
+          <div class="summary__row"><span><%= t('cart.shipping') %></span><b data-shipping><%= cart.shipping ? money(cart.shipping) : t('cart.free') %></b></div>
+          <% if (ship.freeFrom) { %><div class="summary__hint"><%- icon('truck', '', 16) %> <%= t('cart.freeHint') %> <%= money(ship.freeFrom) %></div><% } %>
+          <div class="summary__row summary__row--total"><span><%= t('cart.total') %></span><span data-total><%= money(cart.total) %></span></div>
+          <a class="btn btn--primary btn--lg btn--block" href="<%= url('/checkout') %>"><%= t('cart.checkout') %> <%- icon('arrow', '', 18) %></a>
+        </aside>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('../partials/foot') %>

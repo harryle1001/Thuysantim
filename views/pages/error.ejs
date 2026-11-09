@@ -1,0 +1,13 @@
+<%- include('../partials/head') %>
+<section class="err">
+  <div class="container">
+    <div class="err__code"><%= status %></div>
+    <h1><%= status === 404 ? t('common.notFound') : t('common.error') %></h1>
+    <p><%= status === 404 ? t('common.notFoundLead') : t('common.errorLead') %></p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a class="btn btn--primary" href="<%= url('') %>"><%= t('common.home') %></a>
+      <a class="btn btn--outline" href="<%= url('/products') %>"><%= t('nav.products') %></a>
+    </div>
+  </div>
+</section>
+<%- include('../partials/foot') %>

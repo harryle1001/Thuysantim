@@ -1,0 +1,39 @@
+<%- include('_head') %>
+<% const isNew = !item.id; const selected = String(item.product_ids || '').split(',').map(Number); %>
+<form class="form" method="post" action="/admin/diseases/<%= isNew ? 'new' : item.id %>">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <div class="form__main">
+    <div class="panel pad">
+      <%- include('_langtabs') %>
+      <%- include('_ml', { name: 'name', label: 'Tên bệnh *', value: item.name, required: true }) %>
+      <%- include('_ml', { name: 'pathogen', label: 'Tác nhân', value: item.pathogen }) %>
+      <%- include('_ml', { name: 'symptoms', label: 'Triệu chứng', value: item.symptoms, area: true }) %>
+      <%- include('_ml', { name: 'causes', label: 'Nguyên nhân', value: item.causes, area: true }) %>
+      <%- include('_ml', { name: 'prevention', label: 'Phòng ngừa', value: item.prevention, area: true }) %>
+      <%- include('_ml', { name: 'treatment', label: 'Hướng xử lý', value: item.treatment, area: true }) %>
+    </div>
+  </div>
+  <aside class="form__side">
+    <div class="panel pad sticky">
+      <button class="btn btn--primary btn--block" type="submit"><%- icon('check', '', 18) %> Lưu</button>
+      <div class="fld"><label>Đối tượng</label><select name="species"><% [['shrimp', 'Tôm'], ['fish', 'Cá'], ['all', 'Tôm & Cá']].forEach(function (o) { %><option value="<%= o[0] %>" <%= item.species === o[0] ? 'selected' : '' %>><%= o[1] %></option><% }) %></select></div>
+      <div class="fld"><label>Mức độ</label><select name="severity"><% [['high', 'Nguy hiểm'], ['medium', 'Trung bình'], ['low', 'Nhẹ']].forEach(function (o) { %><option value="<%= o[0] %>" <%= item.severity === o[0] ? 'selected' : '' %>><%= o[1] %></option><% }) %></select></div>
+      <div class="row2">
+        <div class="fld"><label>Slug</label><input name="slug" value="<%= item.slug || '' %>" placeholder="tự tạo"></div>
+        <div class="fld"><label>Thứ tự</label><input name="sort_order" type="number" value="<%= item.sort_order || 0 %>"></div>
+      </div>
+    </div>
+    <div class="panel pad">
+      <label class="lbl">Sản phẩm hỗ trợ</label>
+      <div class="checklist">
+        <% products.forEach(function (p) { %><label class="check"><input type="checkbox" name="product_ids" value="<%= p.id %>" <%= selected.includes(p.id) ? 'checked' : '' %>> <%= tr(p.name).split('—')[0] %></label><% }) %>
+      </div>
+    </div>
+  </aside>
+</form>
+<% if (!isNew) { %>
+  <form method="post" action="/admin/diseases/<%= item.id %>/delete" data-confirm="Xóa mục bệnh này?" class="danger-zone">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="btn btn--danger" type="submit"><%- icon('trash', '', 16) %> Xóa</button>
+  </form>
+<% } %>
+<%- include('_foot') %>

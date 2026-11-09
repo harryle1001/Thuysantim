@@ -1,0 +1,21 @@
+<%- include('_head') %>
+<% const TOPIC = { technique: 'Kỹ thuật', disease: 'Phòng bệnh', news: 'Tin tức' }; %>
+<div class="bar"><span></span><a class="btn btn--primary" href="/admin/posts/new"><%- icon('plus', '', 18) %> Viết bài mới</a></div>
+<div class="panel">
+  <table class="tbl tbl--list">
+    <thead><tr><th>Tiêu đề</th><th>Chủ đề</th><th>Ngày đăng</th><th>Trạng thái</th><th></th></tr></thead>
+    <tbody>
+      <% items.forEach(function (p) { %>
+        <tr>
+          <td><a class="strong" href="/admin/posts/<%= p.id %>"><%= tr(p.title) %></a><br><small class="muted">/<%= p.slug %></small></td>
+          <td><span class="tag"><%= TOPIC[p.topic] %></span></td>
+          <td><%= dt(p.published_at) %></td>
+          <td><span class="tag <%= p.is_published ? 'tag--completed' : 'tag--cancelled' %>"><%= p.is_published ? 'Đã đăng' : 'Nháp' %></span></td>
+          <td class="r"><a class="link" href="/admin/posts/<%= p.id %>">Sửa</a></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  <% if (!items.length) { %><p class="muted pad">Chưa có bài viết.</p><% } %>
+</div>
+<%- include('_foot') %>

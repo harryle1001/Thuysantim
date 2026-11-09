@@ -1,0 +1,36 @@
+{
+  "name": "thuy-san-tim",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Website thương mại cao cấp cho THỦY SẢN TÍM — thuốc & chế phẩm thủy sản. Node.js + Express + MySQL, đa ngôn ngữ VI/EN/ZH.",
+  "main": "server.js",
+  "engines": {
+    "node": ">=18.18"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "db:migrate": "node src/db/cli.js migrate",
+    "db:seed": "node src/db/cli.js seed",
+    "db:reset": "node src/db/cli.js reset",
+    "check": "node scripts/check.js",
+    "test": "node --test \"test/**/*.test.js\""
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "compression": "^1.8.2",
+    "dotenv": "^18.0.10",
+    "ejs": "^7.0.2",
+    "express": "^5.3.0",
+    "express-mysql-session": "^3.0.3",
+    "express-rate-limit": "^8.7.3",
+    "express-session": "^1.19.0",
+    "helmet": "^8.3.0",
+    "marked": "^18.1.3",
+    "multer": "^2.5.0",
+    "mysql2": "^3.24.6",
+    "nodemailer": "^10.4.0",
+    "sanitize-html": "^2.18.1"
+  }
+}

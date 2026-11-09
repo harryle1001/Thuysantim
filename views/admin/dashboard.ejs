@@ -1,0 +1,55 @@
+<%- include('_head') %>
+<% const maxRev = Math.max(1, ...days.map(function (d) { return d.revenue; })); %>
+<div class="kpis">
+  <a class="kpi" href="/admin/orders?status=new"><span class="kpi__icon"><%- icon('cart', '', 22) %></span><div><small>Đơn hàng mới</small><b><%= stats.newOrders %></b></div></a>
+  <div class="kpi"><span class="kpi__icon kpi__icon--aqua"><%- icon('cash', '', 22) %></span><div><small>Doanh thu tháng này</small><b><%= money(stats.monthRevenue) %></b><em><%= stats.monthOrders %> đơn</em></div></div>
+  <a class="kpi" href="/admin/inquiries"><span class="kpi__icon kpi__icon--amber"><%- icon('inbox', '', 22) %></span><div><small>Liên hệ chưa đọc</small><b><%= stats.unread %></b></div></a>
+  <a class="kpi" href="/admin/products"><span class="kpi__icon kpi__icon--pink"><%- icon('box', '', 22) %></span><div><small>Sản phẩm đang bán</small><b><%= stats.products %></b><em><%= stats.posts %> bài viết</em></div></a>
+</div>
+
+<div class="panel">
+  <div class="panel__head"><h2>Doanh thu 14 ngày gần nhất</h2></div>
+  <div class="chart" role="img" aria-label="Biểu đồ doanh thu 14 ngày">
+    <% days.forEach(function (d) { %>
+      <div class="chart__col" title="<%= d.label %>: <%= money(d.revenue) %> (<%= d.n %> đơn)">
+        <div class="chart__bar" style="height: <%= Math.max(2, Math.round(d.revenue / maxRev * 100)) %>%"><span><%= d.revenue ? (d.revenue >= 1e6 ? (d.revenue / 1e6).toFixed(1).replace('.', ',') + 'tr' : Math.round(d.revenue / 1000) + 'k') : '' %></span></div>
+        <small><%= d.label %></small>
+      </div>
+    <% }) %>
+  </div>
+</div>
+
+<div class="grid2">
+  <div class="panel">
+    <div class="panel__head"><h2>Đơn hàng gần đây</h2><a href="/admin/orders">Xem tất cả →</a></div>
+    <% if (!recentOrders.length) { %><p class="muted pad">Chưa có đơn hàng.</p><% } else { %>
+    <table class="tbl">
+      <tbody>
+        <% recentOrders.forEach(function (o) { %>
+          <tr>
+            <td><a class="strong" href="/admin/orders/<%= o.id %>"><%= o.code %></a><br><small class="muted"><%= o.customer_name %></small></td>
+            <td><span class="tag tag--<%= o.status %>"><%= STATUS_LABEL[o.status] %></span></td>
+            <td class="r strong"><%= money(o.total) %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <% } %>
+  </div>
+  <div class="panel">
+    <div class="panel__head"><h2>Liên hệ mới</h2><a href="/admin/inquiries">Xem tất cả →</a></div>
+    <% if (!recentInq.length) { %><p class="muted pad">Chưa có liên hệ.</p><% } else { %>
+    <table class="tbl">
+      <tbody>
+        <% recentInq.forEach(function (q) { %>
+          <tr class="<%= q.is_read ? '' : 'unread' %>">
+            <td><b><%= q.name %></b><br><small class="muted"><%= q.phone %> · <%= dt(q.created_at) %></small></td>
+            <td><span class="tag"><%= KIND_LABEL[q.kind] || q.kind %></span></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <% } %>
+  </div>
+</div>
+<%- include('_foot') %>

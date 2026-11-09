@@ -1,0 +1,18 @@
+<%- include('../partials/head') %>
+<%- include('../partials/page-hero', { title: t('order.lookupTitle'), lead: t('order.lookupLead'), crumbs: [{ label: t('order.lookupTitle') }] }) %>
+
+<section class="section section--tight">
+  <div class="container" style="max-width:560px">
+    <div class="form-card">
+      <% if (error) { %><div class="alert alert--error" role="alert" style="margin-bottom:18px"><%- icon('alert', '', 18) %> <%= error %></div><% } %>
+      <form action="<%= url('/order-lookup') %>" method="post" data-once>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <div class="field" style="margin-bottom:16px"><label for="l-code"><%= t('order.code') %> *</label><input id="l-code" name="code" required placeholder="TST…" value="<%= form.code || '' %>" autocapitalize="characters"></div>
+        <div class="field" style="margin-bottom:8px"><label for="l-phone"><%= t('form.phone') %> *</label><input id="l-phone" name="phone" type="tel" required value="<%= form.phone || '' %>"></div>
+        <button class="btn btn--primary btn--lg btn--block" type="submit"><%- icon('search', '', 18) %> <%= t('order.lookupBtn') %></button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/foot') %>

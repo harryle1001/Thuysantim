@@ -1,0 +1,44 @@
+<%- include('_head') %>
+<a class="link" href="/admin/orders">← Danh sách đơn hàng</a>
+<div class="form" style="margin-top:16px">
+  <div class="form__main">
+    <div class="panel">
+      <div class="panel__head"><h2>Sản phẩm</h2><span class="muted"><%= dt(order.created_at) %> · <%= order.locale.toUpperCase() %></span></div>
+      <table class="tbl">
+        <thead><tr><th>Sản phẩm</th><th>Quy cách</th><th class="r">Đơn giá</th><th class="r">SL</th><th class="r">Thành tiền</th></tr></thead>
+        <tbody>
+          <% items.forEach(function (i) { %>
+            <tr><td><b><%= i.name %></b><br><small class="muted"><%= i.sku %></small></td><td><%= i.variant %></td><td class="r"><%= money(i.price) %></td><td class="r"><%= i.qty %></td><td class="r strong"><%= money(i.amount) %></td></tr>
+          <% }) %>
+        </tbody>
+        <tfoot>
+          <tr><td colspan="4" class="r">Tạm tính</td><td class="r"><%= money(order.subtotal) %></td></tr>
+          <tr><td colspan="4" class="r">Phí vận chuyển</td><td class="r"><%= money(order.shipping_fee) %></td></tr>
+          <tr class="total"><td colspan="4" class="r">Tổng cộng</td><td class="r"><%= money(order.total) %></td></tr>
+        </tfoot>
+      </table>
+    </div>
+    <div class="panel pad">
+      <h2 class="h2">Khách hàng</h2>
+      <dl class="dl">
+        <dt>Họ tên</dt><dd><%= order.customer_name %></dd>
+        <dt>Điện thoại</dt><dd><a class="link" href="tel:<%= order.phone %>"><%= order.phone %></a> · <a class="link" href="https://zalo.me/<%= order.phone.replace(/\D/g, '') %>" target="_blank" rel="noopener">Zalo</a></dd>
+        <dt>Email</dt><dd><%= order.email || '—' %></dd>
+        <dt>Địa chỉ</dt><dd><%= order.address %><%= order.province ? ', ' + order.province : '' %></dd>
+        <dt>Ghi chú</dt><dd><%= order.note || '—' %></dd>
+      </dl>
+    </div>
+  </div>
+  <aside class="form__side">
+    <form class="panel pad sticky" method="post" action="/admin/orders/<%= order.id %>">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <h2 class="h2">Xử lý đơn</h2>
+      <div class="fld"><label>Trạng thái đơn</label><select name="status"><% ORDER_STATUSES.forEach(function (s) { %><option value="<%= s %>" <%= order.status === s ? 'selected' : '' %>><%= STATUS_LABEL[s] %></option><% }) %></select></div>
+      <div class="fld"><label>Thanh toán — <%= METHOD_LABEL[order.payment_method] %></label><select name="payment_status"><% PAY_STATUSES.forEach(function (s) { %><option value="<%= s %>" <%= order.payment_status === s ? 'selected' : '' %>><%= PAY_LABEL[s] %></option><% }) %></select></div>
+      <% if (order.payment_ref) { %><p class="muted small">Mã giao dịch: <b><%= order.payment_ref %></b></p><% } %>
+      <div class="fld"><label>Ghi chú nội bộ</label><textarea name="admin_note" rows="4"><%= order.admin_note || '' %></textarea></div>
+      <button class="btn btn--primary btn--block" type="submit">Cập nhật</button>
+    </form>
+  </aside>
+</div>
+<%- include('_foot') %>

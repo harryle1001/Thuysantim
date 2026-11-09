@@ -1,0 +1,34 @@
+<%- include('_head') %>
+<% const ICONS = ['microbe', 'drop', 'mineral', 'shield', 'leaf', 'flask']; %>
+<p class="muted" style="margin-bottom:18px">Danh mục hiển thị trên trang chủ và bộ lọc sản phẩm. Nhấn vào từng mục để sửa.</p>
+<div class="stack">
+  <% items.concat([{ id: 'new', name: '{}', description: '{}', icon: 'drop', sort_order: items.length, slug: '' }]).forEach(function (c) { %>
+    <details class="panel acc" <%= c.id === 'new' ? '' : '' %>>
+      <summary>
+        <span class="acc__icon"><%- icon(c.icon, '', 20) %></span>
+        <b><%= c.id === 'new' ? '+ Thêm danh mục mới' : tr(c.name) %></b>
+        <% if (c.id !== 'new') { %><small class="muted">/<%= c.slug %> · <%= c.product_count %> sản phẩm</small><% } %>
+      </summary>
+      <form method="post" action="/admin/categories/<%= c.id %>" class="pad">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <%- include('_langtabs') %>
+        <%- include('_ml', { name: 'name', label: 'Tên danh mục *', value: c.name, required: true }) %>
+        <%- include('_ml', { name: 'description', label: 'Mô tả ngắn', value: c.description, area: true, rows: 2 }) %>
+        <div class="row3">
+          <div class="fld"><label>Biểu tượng</label><select name="icon"><% ICONS.forEach(function (i) { %><option <%= c.icon === i ? 'selected' : '' %>><%= i %></option><% }) %></select></div>
+          <div class="fld"><label>Slug</label><input name="slug" value="<%= c.slug %>" placeholder="tự tạo"></div>
+          <div class="fld"><label>Thứ tự</label><input name="sort_order" type="number" value="<%= c.sort_order %>"></div>
+        </div>
+        <div class="actions">
+          <button class="btn btn--primary" type="submit">Lưu</button>
+        </div>
+      </form>
+      <% if (c.id !== 'new') { %>
+        <form method="post" action="/admin/categories/<%= c.id %>/delete" data-confirm="Xóa danh mục? Sản phẩm sẽ chuyển về 'Không danh mục'." class="pad" style="padding-top:0">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="btn btn--danger btn--sm" type="submit">Xóa danh mục</button>
+        </form>
+      <% } %>
+    </details>
+  <% }) %>
+</div>
+<%- include('_foot') %>

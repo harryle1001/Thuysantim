@@ -1,0 +1,44 @@
+<%- include('../partials/head') %>
+<% const company = settings.company || {}; const isDealer = kind === 'dealer'; %>
+<%- include('../partials/page-hero', { title: isDealer ? t('contact.dealerTitle') : t('contact.title'), lead: t('contact.lead'), eyebrow: t('nav.contact'), crumbs: [{ label: t('nav.contact') }] }) %>
+
+<section class="section section--tight">
+  <div class="container contact">
+    <div class="info-cards">
+      <a class="info-card" href="tel:<%= (company.hotline || '').replace(/\s/g, '') %>"><span class="info-card__icon"><%- icon('phone', '', 22) %></span><span><small><%= t('contact.hotline') %></small><b><%= company.hotline %></b></span></a>
+      <a class="info-card" href="tel:<%= (company.phone || '').replace(/\s/g, '') %>"><span class="info-card__icon"><%- icon('headset', '', 22) %></span><span><small><%= t('contact.phone') %> / Zalo</small><b><%= company.phone %></b></span></a>
+      <a class="info-card" href="mailto:<%= company.email %>"><span class="info-card__icon"><%- icon('mail', '', 22) %></span><span><small><%= t('contact.email') %></small><b><%= company.email %></b></span></a>
+      <div class="info-card"><span class="info-card__icon"><%- icon('pin', '', 22) %></span><span><small><%= t('contact.address') %></small><b><%= tr(company.address) %></b></span></div>
+      <div class="info-card"><span class="info-card__icon"><%- icon('clock', '', 22) %></span><span><small><%= t('contact.hours') %></small><b><%= tr(company.hours) %></b></span></div>
+    </div>
+
+    <div class="form-card">
+      <div class="kind-switch">
+        <a href="<%= url('/contact') %>" class="<%= !isDealer ? 'is-active' : '' %>"><%= t('contact.formTitle') %></a>
+        <a href="<%= url('/contact?kind=dealer') %>" class="<%= isDealer ? 'is-active' : '' %>"><%= t('contact.dealerTitle') %></a>
+      </div>
+      <form action="<%= url('/inquiry') %>" method="post" data-once>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <input type="hidden" name="kind" value="<%= isDealer ? 'dealer' : 'contact' %>">
+        <input type="hidden" name="back" value="<%= url('/contact' + (isDealer ? '?kind=dealer' : '')) %>">
+        <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="form-grid">
+          <div class="field"><label for="c-name"><%= t('form.name') %> *</label><input id="c-name" name="name" required autocomplete="name"></div>
+          <div class="field"><label for="c-phone"><%= t('form.phone') %> *</label><input id="c-phone" name="phone" type="tel" required autocomplete="tel" inputmode="tel"></div>
+          <div class="field"><label for="c-email"><%= t('form.email') %> <small>(<%= t('form.optional') %>)</small></label><input id="c-email" name="email" type="email" autocomplete="email"></div>
+          <div class="field"><label for="c-prov"><%= t('form.province') %></label><input id="c-prov" name="province" autocomplete="address-level1"></div>
+          <% if (isDealer) { %>
+            <div class="field field--full"><label for="c-company"><%= t('quote.company') %></label><input id="c-company" name="company" autocomplete="organization"></div>
+          <% } %>
+          <div class="field field--full"><label for="c-msg"><%= t('form.message') %></label><textarea id="c-msg" name="message" rows="5"></textarea></div>
+        </div>
+        <button class="btn btn--primary btn--lg btn--block" type="submit"><%= t('form.send') %> <%- icon('arrow', '', 18) %></button>
+      </form>
+    </div>
+  </div>
+  <% if (company.mapEmbed) { %>
+    <div class="container"><div class="map"><iframe src="<%= company.mapEmbed %>" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="<%= t('contact.address') %>"></iframe></div></div>
+  <% } %>
+</section>
+
+<%- include('../partials/foot') %>

@@ -1,0 +1,27 @@
+<%- include('_head') %>
+<div class="bar">
+  <nav class="pills">
+    <a href="/admin/orders" class="<%= !status ? 'is-active' : '' %>">Tất cả</a>
+    <% ORDER_STATUSES.forEach(function (s) { %><a href="/admin/orders?status=<%= s %>" class="<%= status === s ? 'is-active' : '' %>"><%= STATUS_LABEL[s] %> <em><%= counts[s] || 0 %></em></a><% }) %>
+  </nav>
+  <form method="get" class="search"><% if (status) { %><input type="hidden" name="status" value="<%= status %>"><% } %><%- icon('search', '', 18) %><input name="q" value="<%= q %>" placeholder="Mã đơn, SĐT, tên…"></form>
+</div>
+<div class="panel">
+  <table class="tbl tbl--list">
+    <thead><tr><th>Mã đơn</th><th>Khách hàng</th><th>Thanh toán</th><th>Trạng thái</th><th class="r">Tổng</th><th>Ngày</th></tr></thead>
+    <tbody>
+      <% items.forEach(function (o) { %>
+        <tr data-href="/admin/orders/<%= o.id %>">
+          <td><a class="strong" href="/admin/orders/<%= o.id %>"><%= o.code %></a></td>
+          <td><b><%= o.customer_name %></b><br><small class="muted"><%= o.phone %><%= o.province ? ' · ' + o.province : '' %></small></td>
+          <td><%= METHOD_LABEL[o.payment_method] %><br><span class="tag tag--<%= o.payment_status %>"><%= PAY_LABEL[o.payment_status] %></span></td>
+          <td><span class="tag tag--<%= o.status %>"><%= STATUS_LABEL[o.status] %></span></td>
+          <td class="r strong"><%= money(o.total) %></td>
+          <td><small><%= dt(o.created_at) %></small></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  <% if (!items.length) { %><p class="muted pad">Không có đơn hàng.</p><% } %>
+</div>
+<%- include('_foot') %>

@@ -1,0 +1,6 @@
+<div class="langtabs" role="tablist" aria-label="Ngôn ngữ nội dung">
+  <% LANGS.forEach(function (l, i) { %>
+    <button type="button" class="<%= i === 0 ? 'is-active' : '' %>" data-lang-tab="<%= l %>"><%= LANG_NAMES[l] %></button>
+  <% }) %>
+  <span class="langtabs__hint">Nội dung để trống sẽ tự dùng bản Tiếng Việt.</span>
+</div>

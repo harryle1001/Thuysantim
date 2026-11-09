@@ -1,0 +1,45 @@
+<%- include('../partials/head') %>
+<% const company = settings.company || {}; %>
+<%- include('../partials/page-hero', { title: t('quote.title'), lead: t('quote.lead'), eyebrow: t('nav.quote'), crumbs: [{ label: t('nav.quote') }] }) %>
+
+<section class="section section--tight">
+  <div class="container contact">
+    <div class="info-cards">
+      <% L.product.perks.forEach(function (pk, i) { %>
+        <div class="info-card"><span class="info-card__icon"><%- icon(['headset', 'truck', 'badge', 'tag'][i], '', 22) %></span><span><b><%= pk %></b></span></div>
+      <% }) %>
+      <div class="help-card">
+        <h4><%= t('common.callNow') %></h4>
+        <p><%= tr(company.hours) %></p>
+        <a class="btn btn--accent btn--sm" href="tel:<%= (company.hotline || '').replace(/\s/g, '') %>"><%- icon('phone', '', 16) %> <%= company.hotline %></a>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <h2><%= t('quote.title') %></h2>
+      <p><%= t('quote.lead') %></p>
+      <form action="<%= url('/inquiry') %>" method="post" data-once>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <input type="hidden" name="kind" value="quote">
+        <input type="hidden" name="back" value="<%= url('/quote') %>">
+        <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="form-grid">
+          <div class="field"><label for="q-name"><%= t('form.name') %> *</label><input id="q-name" name="name" required autocomplete="name"></div>
+          <div class="field"><label for="q-phone"><%= t('form.phone') %> *</label><input id="q-phone" name="phone" type="tel" required autocomplete="tel" inputmode="tel"></div>
+          <div class="field"><label for="q-company"><%= t('quote.company') %></label><input id="q-company" name="company" autocomplete="organization"></div>
+          <div class="field"><label for="q-prov"><%= t('form.province') %></label><input id="q-prov" name="province" autocomplete="address-level1"></div>
+          <div class="field"><label for="q-product"><%= t('quote.product') %></label>
+            <input id="q-product" name="product" list="q-products" value="<%= form.product || '' %>">
+            <datalist id="q-products"><% products.forEach(function (p) { %><option value="<%= p.title.split('—')[0].trim() %>"></option><% }) %></datalist>
+          </div>
+          <div class="field"><label for="q-qty"><%= t('quote.quantity') %></label><input id="q-qty" name="quantity"></div>
+          <div class="field field--full"><label for="q-email"><%= t('form.email') %> <small>(<%= t('form.optional') %>)</small></label><input id="q-email" name="email" type="email" autocomplete="email"></div>
+          <div class="field field--full"><label for="q-msg"><%= t('form.message') %></label><textarea id="q-msg" name="message" rows="4"></textarea></div>
+        </div>
+        <button class="btn btn--primary btn--lg btn--block" type="submit"><%= t('form.send') %> <%- icon('arrow', '', 18) %></button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/foot') %>

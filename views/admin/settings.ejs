@@ -1,0 +1,62 @@
+<%- include('_head') %>
+<% const c = s.company || {}; const st = s.stats || {}; const bk = s.bank || {}; const sh = s.shipping || {}; const pm = s.payments || {}; const J = JSON.stringify; %>
+<form class="form" method="post" action="/admin/settings">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <div class="form__main">
+    <div class="panel pad">
+      <h2 class="h2">Thông tin công ty</h2>
+      <%- include('_langtabs') %>
+      <%- include('_ml', { name: 'company[legal]', label: 'Tên pháp lý', value: J(c.legal || {}) }) %>
+      <%- include('_ml', { name: 'company[tagline]', label: 'Khẩu hiệu', value: J(c.tagline || {}) }) %>
+      <%- include('_ml', { name: 'company[address]', label: 'Địa chỉ', value: J(c.address || {}) }) %>
+      <%- include('_ml', { name: 'company[hours]', label: 'Giờ làm việc', value: J(c.hours || {}) }) %>
+      <div class="row2">
+        <div class="fld"><label>Tên thương hiệu</label><input name="company[name]" value="<%= c.name %>"></div>
+        <div class="fld"><label>Email</label><input name="company[email]" type="email" value="<%= c.email %>"></div>
+        <div class="fld"><label>Hotline</label><input name="company[hotline]" value="<%= c.hotline %>"></div>
+        <div class="fld"><label>Điện thoại</label><input name="company[phone]" value="<%= c.phone %>"></div>
+        <div class="fld"><label>Số Zalo</label><input name="company[zalo]" value="<%= c.zalo %>"></div>
+        <div class="fld"><label>Facebook URL</label><input name="company[facebook]" value="<%= c.facebook %>"></div>
+        <div class="fld"><label>YouTube URL</label><input name="company[youtube]" value="<%= c.youtube %>"></div>
+        <div class="fld"><label>TikTok URL</label><input name="company[tiktok]" value="<%= c.tiktok %>"></div>
+      </div>
+      <div class="fld"><label>Link nhúng Google Maps <small>(Google Maps → Chia sẻ → Nhúng bản đồ → copy giá trị src)</small></label><input name="company[mapEmbed]" value="<%= c.mapEmbed %>"></div>
+    </div>
+    <div class="panel pad">
+      <h2 class="h2">Số liệu trang chủ</h2>
+      <div class="row4">
+        <div class="fld"><label>Năm kinh nghiệm</label><input type="number" name="stats[years]" value="<%= st.years %>"></div>
+        <div class="fld"><label>Đại lý</label><input type="number" name="stats[dealers]" value="<%= st.dealers %>"></div>
+        <div class="fld"><label>Tỉnh thành</label><input type="number" name="stats[provinces]" value="<%= st.provinces %>"></div>
+        <div class="fld"><label>Ao nuôi</label><input type="number" name="stats[ponds]" value="<%= st.ponds %>"></div>
+      </div>
+    </div>
+  </div>
+  <aside class="form__side">
+    <div class="panel pad sticky">
+      <button class="btn btn--primary btn--block" type="submit"><%- icon('check', '', 18) %> Lưu cài đặt</button>
+    </div>
+    <div class="panel pad">
+      <h2 class="h2">Phương thức thanh toán</h2>
+      <label class="switch"><input type="checkbox" name="payments[cod]" value="1" <%= pm.cod !== false ? 'checked' : '' %>><span></span> COD</label>
+      <label class="switch"><input type="checkbox" name="payments[vietqr]" value="1" <%= pm.vietqr !== false ? 'checked' : '' %>><span></span> Chuyển khoản VietQR</label>
+      <label class="switch"><input type="checkbox" name="payments[vnpay]" value="1" <%= pm.vnpay !== false ? 'checked' : '' %>><span></span> VNPay <% if (!gateways.vnpay) { %><em class="warn">chưa cấu hình key</em><% } %></label>
+      <label class="switch"><input type="checkbox" name="payments[momo]" value="1" <%= pm.momo !== false ? 'checked' : '' %>><span></span> MoMo <% if (!gateways.momo) { %><em class="warn">chưa cấu hình key</em><% } %></label>
+      <label class="switch"><input type="checkbox" name="payments[callback]" value="1" <%= pm.callback !== false ? 'checked' : '' %>><span></span> Đặt hàng — gọi lại</label>
+      <p class="muted small">Key VNPay/MoMo được đặt trong biến môi trường (hPanel → Node.js → Environment variables), không lưu trong database.</p>
+    </div>
+    <div class="panel pad">
+      <h2 class="h2">Tài khoản nhận VietQR</h2>
+      <div class="fld"><label>Mã ngân hàng <small>(VD: VCB, TCB, MB, ACB, BIDV)</small></label><input name="bank[bin]" value="<%= bk.bin %>"></div>
+      <div class="fld"><label>Số tài khoản</label><input name="bank[accountNo]" value="<%= bk.accountNo %>"></div>
+      <div class="fld"><label>Chủ tài khoản</label><input name="bank[accountName]" value="<%= bk.accountName %>"></div>
+      <div class="fld"><label>Tên ngân hàng hiển thị</label><input name="bank[bankName]" value="<%= bk.bankName %>"></div>
+    </div>
+    <div class="panel pad">
+      <h2 class="h2">Vận chuyển</h2>
+      <div class="fld"><label>Phí vận chuyển (₫)</label><input name="shipping[fee]" inputmode="numeric" value="<%= sh.fee %>"></div>
+      <div class="fld"><label>Miễn phí từ (₫)</label><input name="shipping[freeFrom]" inputmode="numeric" value="<%= sh.freeFrom %>"></div>
+    </div>
+  </aside>
+</form>
+<%- include('_foot') %>

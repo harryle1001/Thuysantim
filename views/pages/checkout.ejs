@@ -1,0 +1,55 @@
+<%- include('../partials/head') %>
+<% const payIcon = { cod: 'cash', vietqr: 'qr', vnpay: 'card', momo: 'wallet', callback: 'phone' }; %>
+<%- include('../partials/page-hero', { title: t('checkout.title'), crumbs: [{ label: t('cart.title'), href: url('/cart') }, { label: t('checkout.title') }] }) %>
+
+<section class="section section--tight">
+  <div class="container">
+    <form class="cart" action="<%= url('/checkout') %>" method="post" data-once novalidate>
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <div>
+        <% if (error) { %><div class="alert alert--error" role="alert" style="margin-bottom:20px"><%- icon('alert', '', 18) %> <%= error %></div><% } %>
+        <div class="checkout-section">
+          <h2><span>1</span> <%= t('checkout.customer') %></h2>
+          <div class="form-grid">
+            <div class="field"><label for="o-name"><%= t('form.name') %> *</label><input id="o-name" name="name" required autocomplete="name" value="<%= form.name || '' %>"></div>
+            <div class="field"><label for="o-phone"><%= t('form.phone') %> *</label><input id="o-phone" name="phone" type="tel" required autocomplete="tel" inputmode="tel" value="<%= form.phone || '' %>"></div>
+            <div class="field"><label for="o-email"><%= t('form.email') %> <small>(<%= t('form.optional') %>)</small></label><input id="o-email" name="email" type="email" autocomplete="email" value="<%= form.email || '' %>"></div>
+            <div class="field"><label for="o-prov"><%= t('form.province') %></label><input id="o-prov" name="province" autocomplete="address-level1" value="<%= form.province || '' %>"></div>
+            <div class="field field--full"><label for="o-addr"><%= t('form.address') %> *</label><input id="o-addr" name="address" required autocomplete="street-address" value="<%= form.address || '' %>"></div>
+            <div class="field field--full"><label for="o-note"><%= t('form.note') %></label><textarea id="o-note" name="note" rows="3"><%= form.note || '' %></textarea></div>
+          </div>
+        </div>
+        <div class="checkout-section">
+          <h2><span>2</span> <%= t('checkout.payment') %></h2>
+          <div class="pay-methods" role="radiogroup" aria-label="<%= t('checkout.payment') %>">
+            <% methods.forEach(function (m, i) { %>
+              <label class="pay">
+                <input type="radio" name="method" value="<%= m %>" <%= (form.method ? form.method === m : i === 0) ? 'checked' : '' %> required>
+                <span>
+                  <i class="pay__icon pay__icon--<%= m %>"><% if (m === 'momo') { %>MoMo<% } else if (m === 'vnpay') { %>VNPAY<% } else { %><%- icon(payIcon[m], '', 22) %><% } %></i>
+                  <span><b><%= t('checkout.methods.' + m + '.t') %></b><small><%= t('checkout.methods.' + m + '.d') %></small></span>
+                </span>
+              </label>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+
+      <aside class="summary">
+        <h2><%= t('cart.summary') %></h2>
+        <div class="summary__items">
+          <% cart.lines.forEach(function (l) { %>
+            <div class="summary__item"><img src="<%= l.product.imageSrc %>" alt=""><span><b><%= l.product.title.split('—')[0].trim() %></b><small><%= l.variant %> × <%= l.qty %></small></span><b><%= money(l.amount) %></b></div>
+          <% }) %>
+        </div>
+        <div class="summary__row"><span><%= t('cart.subtotal') %></span><b><%= money(cart.subtotal) %></b></div>
+        <div class="summary__row"><span><%= t('cart.shipping') %></span><b><%= cart.shipping ? money(cart.shipping) : t('cart.free') %></b></div>
+        <div class="summary__row summary__row--total"><span><%= t('cart.total') %></span><span><%= money(cart.total) %></span></div>
+        <button class="btn btn--primary btn--lg btn--block" type="submit"><%- icon('check', '', 18) %> <%= t('checkout.place') %></button>
+        <p style="font-size:13px;color:var(--muted);margin-top:12px"><%= t('checkout.agree') %></p>
+      </aside>
+    </form>
+  </div>
+</section>
+
+<%- include('../partials/foot') %>

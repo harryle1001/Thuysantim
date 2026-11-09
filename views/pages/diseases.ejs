@@ -1,0 +1,38 @@
+<%- include('../partials/head') %>
+<%- include('../partials/page-hero', { title: t('disease.title'), lead: t('disease.lead'), eyebrow: t('nav.diseases'), crumbs: [{ label: t('nav.diseases') }] }) %>
+
+<section class="section section--tight">
+  <div class="container">
+    <div class="dfilter">
+      <div class="dfilter__search">
+        <%- icon('search', '', 20) %>
+        <label class="sr-only" for="dsearch"><%= t('disease.search') %></label>
+        <input id="dsearch" type="search" placeholder="<%= t('disease.search') %>" data-disease-search autocomplete="off">
+      </div>
+      <div class="seg">
+        <a href="#" data-species-filter="all" class="is-active"><%= t('product.all') %></a>
+        <a href="#" data-species-filter="shrimp"><%= t('product.shrimp') %></a>
+        <a href="#" data-species-filter="fish"><%= t('product.fish') %></a>
+      </div>
+    </div>
+
+    <div class="dgrid" data-disease-list>
+      <% items.forEach(function (d) { %>
+        <a class="dcard dcard--<%= d.severity %> reveal" href="<%= url('/diseases/' + d.slug) %>" data-disease data-species="<%= d.species %>">
+          <span class="dcard__top">
+            <span class="sev sev--<%= d.severity %>"><%= t('disease.severity.' + d.severity) %></span>
+            <span class="dcard__species"><%- icon(d.species === 'fish' ? 'fish' : 'shrimp', '', 16) %> <%= t('disease.species.' + d.species) %></span>
+          </span>
+          <h2 class="dcard__title"><%= d.title %></h2>
+          <p class="dcard__text"><b><%= t('disease.symptoms') %>:</b> <%= d.symptomsText %></p>
+          <span class="link-arrow"><%= t('disease.readMore') %> <%- icon('arrow', '', 16) %></span>
+        </a>
+      <% }) %>
+    </div>
+    <div class="empty" data-disease-empty hidden><%- icon('search', '', 40) %><p><%= t('product.empty') %></p></div>
+
+    <p class="note" style="margin-top:36px"><%- icon('alert', '', 18) %> <%= t('disease.note') %></p>
+  </div>
+</section>
+
+<%- include('../partials/foot') %>

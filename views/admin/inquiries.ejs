@@ -1,0 +1,37 @@
+<%- include('_head') %>
+<div class="bar">
+  <nav class="pills">
+    <a href="/admin/inquiries" class="<%= !kind ? 'is-active' : '' %>">Tất cả</a>
+    <% Object.keys(KIND_LABEL).forEach(function (k) { %><a href="/admin/inquiries?kind=<%= k %>" class="<%= kind === k ? 'is-active' : '' %>"><%= KIND_LABEL[k] %></a><% }) %>
+  </nav>
+</div>
+<div class="stack">
+  <% items.forEach(function (q) { %>
+    <article class="panel inq <%= q.is_read ? '' : 'inq--unread' %>">
+      <div class="inq__head">
+        <div>
+          <span class="tag"><%= KIND_LABEL[q.kind] || q.kind %></span>
+          <b><%= q.name %></b>
+          <% if (q.phone && q.phone !== '-') { %><a class="link" href="tel:<%= q.phone %>"><%= q.phone %></a><% } %>
+          <% if (q.email) { %><a class="link" href="mailto:<%= q.email %>"><%= q.email %></a><% } %>
+        </div>
+        <small class="muted"><%= dt(q.created_at) %> · <%= q.locale.toUpperCase() %></small>
+      </div>
+      <% if (q.company || q.province || q.product || q.quantity) { %>
+        <div class="inq__meta">
+          <% if (q.company) { %><span>🏢 <%= q.company %></span><% } %>
+          <% if (q.province) { %><span>📍 <%= q.province %></span><% } %>
+          <% if (q.product) { %><span>📦 <%= q.product %></span><% } %>
+          <% if (q.quantity) { %><span>🔢 <%= q.quantity %></span><% } %>
+        </div>
+      <% } %>
+      <% if (q.message) { %><p class="inq__msg"><%= q.message %></p><% } %>
+      <div class="inq__actions">
+        <form method="post" action="/admin/inquiries/<%= q.id %>/read"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><input type="hidden" name="kind" value="<%= kind %>"><button class="btn btn--ghost btn--sm" type="submit"><%= q.is_read ? 'Đánh dấu chưa đọc' : '✓ Đã xử lý' %></button></form>
+        <form method="post" action="/admin/inquiries/<%= q.id %>/delete" data-confirm="Xóa liên hệ này?"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="btn btn--danger btn--sm" type="submit">Xóa</button></form>
+      </div>
+    </article>
+  <% }) %>
+  <% if (!items.length) { %><div class="panel pad muted">Chưa có liên hệ nào.</div><% } %>
+</div>
+<%- include('_foot') %>

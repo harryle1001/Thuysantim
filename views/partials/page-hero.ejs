@@ -1,0 +1,16 @@
+<section class="phero">
+  <div class="phero__bg" aria-hidden="true">
+    <svg class="phero__waves" viewBox="0 0 1440 220" preserveAspectRatio="none"><path d="M0 120 C 240 60 480 180 720 120 S 1200 60 1440 120 V220 H0z" fill="rgba(255,255,255,.04)"/><path d="M0 160 C 300 110 520 210 760 160 S 1180 100 1440 150 V220 H0z" fill="rgba(255,255,255,.05)"/></svg>
+  </div>
+  <div class="container phero__inner">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="<%= url('') %>"><%= t('common.home') %></a>
+      <% (typeof crumbs !== 'undefined' ? crumbs : []).forEach(function (c) { %>
+        <span aria-hidden="true">/</span><% if (c.href) { %><a href="<%= c.href %>"><%= c.label %></a><% } else { %><span aria-current="page"><%= c.label %></span><% } %>
+      <% }) %>
+    </nav>
+    <% if (typeof eyebrow !== 'undefined' && eyebrow) { %><span class="eyebrow eyebrow--light"><%= eyebrow %></span><% } %>
+    <h1 class="phero__title"><%= title %></h1>
+    <% if (typeof lead !== 'undefined' && lead) { %><p class="phero__lead"><%= lead %></p><% } %>
+  </div>
+</section>

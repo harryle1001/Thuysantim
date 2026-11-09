@@ -1,0 +1,48 @@
+<%
+  const jsonld = {
+    '@context': 'https://schema.org', '@type': 'Article', headline: post.titleText, description: post.excerptText,
+    datePublished: new Date(post.published_at).toISOString(), dateModified: new Date(post.updated_at).toISOString(),
+    author: { '@type': 'Organization', name: post.author }, publisher: { '@type': 'Organization', name: 'Thủy Sản Tím', logo: { '@type': 'ImageObject', url: config.baseUrl + '/img/favicon.svg' } },
+    mainEntityOfPage: config.baseUrl + url('/blog/' + post.slug)
+  };
+%>
+<%- include('../partials/head', { jsonld }) %>
+
+<section class="phero">
+  <div class="phero__bg" aria-hidden="true"><svg class="phero__waves" viewBox="0 0 1440 220" preserveAspectRatio="none"><path d="M0 120 C 240 60 480 180 720 120 S 1200 60 1440 120 V220 H0z" fill="rgba(255,255,255,.04)"/><path d="M0 160 C 300 110 520 210 760 160 S 1180 100 1440 150 V220 H0z" fill="#fff"/></svg></div>
+  <div class="container phero__inner article">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="<%= url('') %>"><%= t('common.home') %></a><span>/</span><a href="<%= url('/blog') %>"><%= t('nav.blog') %></a><span>/</span><a href="<%= url('/blog?topic=' + post.topic) %>"><%= t('blog.topics.' + post.topic) %></a></nav>
+    <h1 class="phero__title"><%= post.titleText %></h1>
+    <div class="article__meta">
+      <span><%- icon('user', '', 16) %> <%= post.author %></span>
+      <span><%- icon('calendar', '', 16) %> <%= date(post.published_at) %></span>
+      <span><%- icon('clock', '', 16) %> <%= post.read_minutes %> <%= t('blog.minutes') %></span>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container">
+    <% if (post.coverSrc) { %><div class="article__cover"><img src="<%= post.coverSrc %>" alt="<%= post.titleText %>"></div><% } %>
+    <article class="article">
+      <p class="article__lead"><%= post.excerptText %></p>
+      <div class="prose"><%- md(post.bodyText) %></div>
+      <div class="article__share">
+        <%= t('blog.share') %>:
+        <a href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent(config.baseUrl + url('/blog/' + post.slug)) %>" target="_blank" rel="noopener" aria-label="Facebook"><%- icon('facebook', '', 18) %></a>
+        <button type="button" data-share aria-label="<%= t('blog.share') %>"><%- icon('external', '', 18) %></button>
+      </div>
+    </article>
+  </div>
+</section>
+
+<% if (others.length) { %>
+<section class="section section--tint">
+  <div class="container">
+    <div class="section__head section__head--split"><h2 class="section__title" style="margin:0"><%= t('blog.related') %></h2><a class="btn btn--outline" href="<%= url('/blog') %>"><%= t('nav.blog') %> <%- icon('arrow', '', 18) %></a></div>
+    <div class="bgrid"><% others.forEach(function (p) { %><%- include('../partials/post-card', { p }) %><% }) %></div>
+  </div>
+</section>
+<% } %>
+
+<%- include('../partials/foot') %>

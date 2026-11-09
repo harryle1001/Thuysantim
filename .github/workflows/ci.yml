@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: thuysantim
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="mysqladmin ping -proot"
+          --health-interval=5s --health-timeout=5s --health-retries=20
+    env:
+      NODE_ENV: test
+      PORT: 3000
+      BASE_URL: http://localhost:3000
+      SESSION_SECRET: ci-session-secret-0123456789abcdef
+      DB_HOST: 127.0.0.1
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NAME: thuysantim
+      ADMIN_EMAIL: admin@thuysantim.vn
+      ADMIN_PASSWORD: ThuySanTim@2026
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Unit tests
+        run: npm test
+      - name: Template & module check
+        run: npm run check
+      - name: Start server
+        run: |
+          node server.js > server.log 2>&1 &
+          for i in $(seq 1 30); do curl -fs http://localhost:3000/health && break; sleep 1; done
+      - name: Install Playwright (test-only, not a project dependency)
+        run: |
+          npm install --no-save playwright@1.49.1
+          npx playwright install --with-deps chromium
+      - name: End-to-end tests
+        run: node scripts/e2e.js
+      - name: Server log
+        if: always()
+        run: cat server.log

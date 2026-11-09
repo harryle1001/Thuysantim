@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title><%= typeof title !== 'undefined' ? title + ' — ' : '' %>Quản trị Thủy Sản Tím</title>
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="/css/admin.css?v=1.0.0">
+</head>
+<body class="adm">
+<%
+  const navItems = [
+    { href: '/admin', icon: 'dashboard', label: 'Tổng quan', match: /^\/$/ },
+    { href: '/admin/orders', icon: 'cart', label: 'Đơn hàng', match: /^\/orders/, badge: badges && badges.o },
+    { href: '/admin/inquiries', icon: 'inbox', label: 'Liên hệ & Báo giá', match: /^\/inquiries/, badge: badges && badges.i },
+    { href: '/admin/products', icon: 'box', label: 'Sản phẩm', match: /^\/products/ },
+    { href: '/admin/categories', icon: 'folder', label: 'Danh mục', match: /^\/categories/ },
+    { href: '/admin/posts', icon: 'pen', label: 'Bài viết', match: /^\/posts/ },
+    { href: '/admin/diseases', icon: 'shield', label: 'Tra cứu bệnh', match: /^\/diseases/ },
+    { href: '/admin/settings', icon: 'settings', label: 'Cài đặt', match: /^\/settings/ },
+  ];
+%>
+<div class="adm__shell">
+  <aside class="side" data-side>
+    <a class="side__brand" href="/admin">
+      <img src="/img/favicon.svg" alt="" width="34" height="34">
+      <span>THỦY SẢN <b>TÍM</b><small>Quản trị</small></span>
+    </a>
+    <nav class="side__nav">
+      <% navItems.forEach(function (n) { %>
+        <a href="<%= n.href %>" class="<%= n.match.test(adminPath) ? 'is-active' : '' %>"><%- icon(n.icon, '', 19) %> <span><%= n.label %></span><% if (n.badge) { %><em><%= n.badge %></em><% } %></a>
+      <% }) %>
+    </nav>
+    <div class="side__foot">
+      <a href="/vi" target="_blank" rel="noopener"><%- icon('external', '', 17) %> Xem website</a>
+      <a href="/admin/account" class="<%= /^\/account/.test(adminPath) ? 'is-active' : '' %>"><%- icon('user', '', 17) %> <%= user.name %></a>
+      <form action="/admin/logout" method="post"><input type="hidden" name="_csrf" value="<%= csrfToken %>"><button type="submit"><%- icon('logout', '', 17) %> Đăng xuất</button></form>
+    </div>
+  </aside>
+  <div class="main">
+    <header class="topnav">
+      <button class="topnav__menu" type="button" data-side-toggle aria-label="Menu"><%- icon('menu', '', 22) %></button>
+      <h1><%= title %></h1>
+      <div class="topnav__right"><span class="avatar"><%= (user.name || 'A').charAt(0) %></span></div>
+    </header>
+    <% if (flash) { %><div class="flash flash--<%= flash.type %>" data-flash><%- icon(flash.type === 'success' ? 'check' : 'alert', '', 18) %> <%= flash.message %></div><% } %>
+    <div class="content">

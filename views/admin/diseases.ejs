@@ -1,0 +1,19 @@
+<%- include('_head') %>
+<% const SEV = { high: 'Nguy hiểm', medium: 'Trung bình', low: 'Nhẹ' }; const SP = { shrimp: 'Tôm', fish: 'Cá', all: 'Tôm & Cá' }; %>
+<div class="bar"><span></span><a class="btn btn--primary" href="/admin/diseases/new"><%- icon('plus', '', 18) %> Thêm bệnh</a></div>
+<div class="panel">
+  <table class="tbl tbl--list">
+    <thead><tr><th>Tên bệnh</th><th>Đối tượng</th><th>Mức độ</th><th></th></tr></thead>
+    <tbody>
+      <% items.forEach(function (d) { %>
+        <tr>
+          <td><a class="strong" href="/admin/diseases/<%= d.id %>"><%= tr(d.name) %></a><br><small class="muted"><%= tr(d.pathogen) %></small></td>
+          <td><%= SP[d.species] %></td>
+          <td><span class="tag tag--sev-<%= d.severity %>"><%= SEV[d.severity] %></span></td>
+          <td class="r"><a class="link" href="/admin/diseases/<%= d.id %>">Sửa</a></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<%- include('_foot') %>

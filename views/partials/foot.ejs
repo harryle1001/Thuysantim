@@ -1,0 +1,79 @@
+<% const company = (settings && settings.company) || {}; %>
+</main>
+
+<footer class="footer">
+  <div class="footer__glow" aria-hidden="true"></div>
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <a class="brand brand--light" href="<%= url('') %>">
+          <%- include('logo', { uid: 'f' }) %>
+          <span class="brand__text"><span class="brand__name">THỦY SẢN <b>TÍM</b></span><span class="brand__tag"><%= tr(company.tagline) %></span></span>
+        </a>
+        <p class="footer__about"><%= t('footer.about') %></p>
+        <div class="socials">
+          <% if (company.facebook) { %><a href="<%= company.facebook %>" target="_blank" rel="noopener" aria-label="Facebook"><%- icon('facebook', '', 18) %></a><% } %>
+          <% if (company.youtube) { %><a href="<%= company.youtube %>" target="_blank" rel="noopener" aria-label="YouTube"><%- icon('youtube', '', 18) %></a><% } %>
+          <% if (company.tiktok) { %><a href="<%= company.tiktok %>" target="_blank" rel="noopener" aria-label="TikTok"><%- icon('tiktok', '', 18) %></a><% } %>
+          <% if (company.zalo) { %><a href="https://zalo.me/<%= company.zalo %>" target="_blank" rel="noopener" aria-label="Zalo"><%- icon('zalo', '', 18) %></a><% } %>
+        </div>
+      </div>
+
+      <div class="footer__col">
+        <h3><%= t('footer.links') %></h3>
+        <ul>
+          <li><a href="<%= url('/products') %>"><%= t('nav.products') %></a></li>
+          <li><a href="<%= url('/diseases') %>"><%= t('nav.diseases') %></a></li>
+          <li><a href="<%= url('/blog') %>"><%= t('nav.blog') %></a></li>
+          <li><a href="<%= url('/about') %>"><%= t('nav.about') %></a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h3><%= t('footer.support') %></h3>
+        <ul>
+          <li><a href="<%= url('/quote') %>"><%= t('nav.quote') %></a></li>
+          <li><a href="<%= url('/order-lookup') %>"><%= t('nav.lookup') %></a></li>
+          <li><a href="<%= url('/contact?kind=dealer') %>"><%= t('nav.dealer') %></a></li>
+          <li><a href="<%= url('/contact') %>"><%= t('nav.contact') %></a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col footer__contact">
+        <h3><%= t('nav.contact') %></h3>
+        <ul>
+          <li><%- icon('pin', '', 18) %><span><%= tr(company.address) %></span></li>
+          <li><%- icon('phone', '', 18) %><a href="tel:<%= (company.hotline || '').replace(/\s/g, '') %>"><%= company.hotline %></a> · <a href="tel:<%= (company.phone || '').replace(/\s/g, '') %>"><%= company.phone %></a></li>
+          <li><%- icon('mail', '', 18) %><a href="mailto:<%= company.email %>"><%= company.email %></a></li>
+          <li><%- icon('clock', '', 18) %><span><%= tr(company.hours) %></span></li>
+        </ul>
+        <form class="newsletter" action="<%= url('/inquiry') %>" method="post" data-ajax-form>
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <input type="hidden" name="kind" value="newsletter">
+          <input type="hidden" name="back" value="<%= url(pathRest) %>">
+          <label class="sr-only" for="nl-email"><%= t('form.email') %></label>
+          <input id="nl-email" type="email" name="email" required placeholder="<%= t('footer.newsletter') %>…">
+          <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button class="btn btn--accent btn--sm" type="submit"><%= t('footer.subscribe') %></button>
+        </form>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© <%= new Date().getFullYear() %> <%= tr(company.legal) || 'Thủy Sản Tím' %>. <%= t('footer.rights') %></span>
+      <span class="footer__sample"><%= t('footer.sample') %></span>
+    </div>
+  </div>
+</footer>
+
+<div class="fab" aria-label="Quick contact">
+  <% if (company.zalo) { %><a class="fab__btn fab__btn--zalo" href="https://zalo.me/<%= company.zalo %>" target="_blank" rel="noopener" aria-label="Zalo"><span>Zalo</span></a><% } %>
+  <a class="fab__btn fab__btn--call" href="tel:<%= (company.hotline || '').replace(/\s/g, '') %>" aria-label="<%= t('common.callNow') %>"><%- icon('phone', '', 22) %></a>
+  <button class="fab__btn fab__btn--top" type="button" data-to-top aria-label="<%= t('common.backToTop') %>" hidden><%- icon('arrow', 'rot-up', 20) %></button>
+</div>
+
+<div class="toast" role="status" aria-live="polite" data-live-toast></div>
+
+<script src="/js/main.js?v=1.0.0" defer nonce="<%= nonce %>"></script>
+</body>
+</html>

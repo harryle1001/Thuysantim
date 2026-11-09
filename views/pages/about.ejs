@@ -1,0 +1,70 @@
+<%- include('../partials/head') %>
+<% const stats = settings.stats || {}; %>
+<%- include('../partials/page-hero', { title: t('about.title'), lead: t('about.lead'), eyebrow: t('nav.about'), crumbs: [{ label: t('nav.about') }] }) %>
+
+<section class="section">
+  <div class="container split">
+    <div class="split__art reveal" aria-hidden="true">
+      <svg viewBox="0 0 400 400">
+        <g fill="none" stroke="rgba(255,255,255,.75)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M160 70h80M175 70v90l-62 112a26 26 0 0 0 23 38h128a26 26 0 0 0 23-38l-62-112V70"/>
+          <path d="M130 250h140" stroke="rgba(94,234,212,.9)"/>
+        </g>
+        <path d="M128 258l-15 14a26 26 0 0 0 23 38h128a26 26 0 0 0 23-38l-15-14z" fill="rgba(94,234,212,.35)"/>
+        <g fill="#fff"><circle cx="190" cy="285" r="7" opacity=".8"/><circle cx="220" cy="270" r="4" opacity=".7"/><circle cx="240" cy="292" r="5" opacity=".6"/><circle cx="205" cy="230" r="4" opacity=".5"/><circle cx="198" cy="200" r="3" opacity=".4"/></g>
+      </svg>
+      <div class="split__badge"><b><%= stats.years %>+</b><small><%= t('stats.years') %></small></div>
+    </div>
+    <div>
+      <span class="eyebrow reveal"><%= t('about.storyTitle') %></span>
+      <h2 class="section__title reveal"><%= t('about.storyTitle') %></h2>
+      <p class="section__lead reveal" style="color:var(--text)"><%= t('about.story') %></p>
+      <p class="section__lead reveal"><%= t('about.story2') %></p>
+      <div class="stats__grid reveal" style="margin-top:32px;box-shadow:none">
+        <div class="stat"><div class="stat__num"><span data-count="<%= stats.dealers %>">0</span>+</div><div class="stat__label"><%= t('stats.dealers') %></div></div>
+        <div class="stat"><div class="stat__num"><span data-count="<%= stats.provinces %>">0</span></div><div class="stat__label"><%= t('stats.provinces') %></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint">
+  <div class="container">
+    <div class="section__head reveal"><span class="eyebrow"><%= t('about.valuesTitle') %></span><h2 class="section__title"><%= t('about.valuesTitle') %></h2></div>
+    <div class="values">
+      <% L.about.values.forEach(function (v, i) { %>
+        <div class="value reveal" style="--d: <%= i * 80 %>ms"><span class="value__icon"><%- icon(['lab', 'eye', 'headset', 'leaf'][i], '', 24) %></span><h3><%= v.t %></h3><p><%= v.d %></p></div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section__head reveal"><span class="eyebrow"><%= t('about.timelineTitle') %></span><h2 class="section__title"><%= t('about.timelineTitle') %></h2></div>
+    <div class="timeline">
+      <% L.about.timeline.forEach(function (it) { %><div class="tl reveal"><div class="tl__y"><%= it.y %></div><p><%= it.t %></p></div><% }) %>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tint section--tight">
+  <div class="container">
+    <div class="section__head reveal"><h2 class="section__title"><%= t('about.certTitle') %></h2></div>
+    <div class="certs"><% L.about.certs.forEach(function (c) { %><span class="cert reveal"><%- icon('badge', '', 22) %> <%= c %></span><% }) %></div>
+  </div>
+</section>
+
+<section class="cta" style="padding-top:100px">
+  <div class="container">
+    <div class="cta__box reveal">
+      <div class="cta__copy"><h2><%= t('home.ctaTitle') %></h2><p><%= t('home.ctaLead') %></p></div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end">
+        <a class="btn btn--accent btn--lg" href="<%= url('/contact') %>"><%= t('nav.contact') %> <%- icon('arrow', '', 18) %></a>
+        <a class="btn btn--glass btn--lg" href="<%= url('/contact?kind=dealer') %>"><%= t('nav.dealer') %></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/foot') %>

@@ -1,0 +1,26 @@
+<%- include('_head') %>
+<div class="bar">
+  <form method="get" class="search"><%- icon('search', '', 18) %><input name="q" value="<%= q %>" placeholder="Tìm theo tên, mã SP…"></form>
+  <a class="btn btn--primary" href="/admin/products/new"><%- icon('plus', '', 18) %> Thêm sản phẩm</a>
+</div>
+<div class="panel">
+  <table class="tbl tbl--list">
+    <thead><tr><th>Sản phẩm</th><th>Danh mục</th><th>Giá từ</th><th>Trạng thái</th><th></th></tr></thead>
+    <tbody>
+      <% items.forEach(function (p) { %>
+        <tr>
+          <td><a class="prow" href="/admin/products/<%= p.id %>"><img src="<%= p.imageSrc %>" alt="" width="48" height="48" loading="lazy"><span><b><%= p.title %></b><small class="muted"><%= p.sku %> · /<%= p.slug %></small></span></a></td>
+          <td><%= p.categoryTitle || '—' %></td>
+          <td class="strong"><%= p.minPrice ? money(p.minPrice) : '—' %></td>
+          <td>
+            <span class="tag <%= p.is_active ? 'tag--completed' : 'tag--cancelled' %>"><%= p.is_active ? 'Đang bán' : 'Ẩn' %></span>
+            <% if (p.is_featured) { %><span class="tag tag--new">Nổi bật</span><% } %>
+          </td>
+          <td class="r"><a class="link" href="/admin/products/<%= p.id %>">Sửa</a></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  <% if (!items.length) { %><p class="muted pad">Không có sản phẩm.</p><% } %>
+</div>
+<%- include('_foot') %>

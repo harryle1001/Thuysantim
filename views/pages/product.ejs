@@ -1,0 +1,131 @@
+<%
+  const company = settings.company || {};
+  const first = product.variantList[0] || { label: '', price: 0 };
+  const images = [product.imageSrc].concat(product.galleryList || []);
+  const jsonld = {
+    '@context': 'https://schema.org', '@type': 'Product', name: product.title, sku: product.sku, image: config.baseUrl + product.imageSrc,
+    description: product.summaryText, brand: { '@type': 'Brand', name: 'Thủy Sản Tím' }, category: product.categoryTitle,
+    aggregateRating: { '@type': 'AggregateRating', ratingValue: String(product.rating), reviewCount: '24' },
+    offers: product.variantList.filter(function (v) { return v.price > 0; }).map(function (v) {
+      return { '@type': 'Offer', priceCurrency: 'VND', price: String(v.price), name: v.label, availability: 'https://schema.org/InStock', url: config.baseUrl + url('/products/' + product.slug) };
+    })
+  };
+%>
+<%- include('../partials/head', { jsonld }) %>
+
+<section class="section section--tight" style="padding-top:40px">
+  <div class="container">
+    <nav class="crumbs" aria-label="Breadcrumb" style="color:var(--muted);margin-bottom:28px">
+      <a href="<%= url('') %>"><%= t('common.home') %></a><span>/</span>
+      <a href="<%= url('/products') %>"><%= t('nav.products') %></a><span>/</span>
+      <% if (product.category_slug) { %><a href="<%= url('/products?category=' + product.category_slug) %>"><%= product.categoryTitle %></a><span>/</span><% } %>
+      <span aria-current="page" style="color:var(--ink)"><%= product.title.split('—')[0].trim() %></span>
+    </nav>
+
+    <div class="pd" data-product>
+      <div class="pd__gallery">
+        <div class="pd__main">
+          <img data-gallery-main src="<%= product.imageSrc %>" alt="<%= product.title %>" width="600" height="600">
+          <% if (product.badge) { %><span class="pill pill--<%= product.badge %>"><%= t('product.badges.' + product.badge) %></span><% } %>
+        </div>
+        <% if (images.length > 1) { %>
+          <div class="pd__thumbs">
+            <% images.forEach(function (src, i) { %><button type="button" data-thumb="<%= src %>" class="<%= i === 0 ? 'is-active' : '' %>" aria-label="Image <%= i + 1 %>"><img src="<%= src %>" alt="" loading="lazy"></button><% }) %>
+          </div>
+        <% } %>
+      </div>
+
+      <div class="pd__info">
+        <% if (product.categoryTitle) { %><a class="pd__cat" href="<%= url('/products?category=' + product.category_slug) %>"><%- icon('tag', '', 16) %> <%= product.categoryTitle %></a><% } %>
+        <h1 class="pd__title"><%= product.title %></h1>
+        <div class="pd__rating">
+          <span class="stars"><%- icon('star', '', 16) %><%- icon('star', '', 16) %><%- icon('star', '', 16) %><%- icon('star', '', 16) %><%- icon('star', '', 16) %> <b><%= product.rating %></b></span>
+          <span><%= t('product.sku') %>: <b><%= product.sku %></b></span>
+          <span><%- icon(product.species === 'fish' ? 'fish' : 'shrimp', '', 16) %> <%= t('disease.species.' + product.species) %></span>
+        </div>
+        <p class="pd__summary"><%= product.summaryText %></p>
+
+        <form action="<%= url('/cart/add') %>" method="post" data-buybox>
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <input type="hidden" name="pid" value="<%= product.id %>">
+          <span class="pd__label"><%= t('product.packing') %></span>
+          <div class="variants" role="radiogroup" aria-label="<%= t('product.packing') %>">
+            <% product.variantList.forEach(function (v, i) { %>
+              <label class="variant">
+                <input type="radio" name="vi" value="<%= i %>" <%= i === 0 ? 'checked' : '' %> data-price-label="<%= v.price ? money(v.price) : t('product.requestQuote') %>">
+                <span><b><%= v.label %></b><small><%= v.price ? money(v.price) : '—' %></small></span>
+              </label>
+            <% }) %>
+          </div>
+          <div class="pd__price" data-price aria-live="polite"><%= first.price ? money(first.price) : t('product.requestQuote') %></div>
+          <% if (product.minPrice) { %>
+            <div class="pd__buy">
+              <div class="qty">
+                <button type="button" data-qty="-" aria-label="−"><%- icon('minus', '', 16) %></button>
+                <input type="number" name="qty" value="1" min="1" max="999" aria-label="<%= t('product.qty') %>">
+                <button type="button" data-qty="+" aria-label="+"><%- icon('plus', '', 16) %></button>
+              </div>
+              <button class="btn btn--primary btn--lg" type="button" data-add-to-cart data-pid="<%= product.id %>"><%- icon('cart', '', 18) %> <%= t('product.addToCart') %></button>
+            </div>
+            <div class="pd__alt">
+              <button class="btn btn--outline" type="submit" name="redirect" value="checkout"><%= t('product.buyNow') %></button>
+              <a class="btn btn--ghost" href="<%= url('/quote?product=' + encodeURIComponent(product.title.split('—')[0].trim())) %>"><%= t('product.requestQuote') %></a>
+            </div>
+          <% } else { %>
+            <a class="btn btn--primary btn--lg btn--block" href="<%= url('/quote?product=' + encodeURIComponent(product.title.split('—')[0].trim())) %>"><%= t('product.requestQuote') %></a>
+          <% } %>
+          <% if (company.zalo) { %><a class="btn btn--block" style="margin-top:12px;background:#0068ff;color:#fff" href="https://zalo.me/<%= company.zalo %>" target="_blank" rel="noopener"><%- icon('zalo', '', 18) %> <%= t('product.zalo') %></a><% } %>
+        </form>
+
+        <ul class="perks">
+          <% L.product.perks.forEach(function (pk, i) { %><li><%- icon(['headset', 'truck', 'badge', 'tag'][i], '', 18) %> <%= pk %></li><% }) %>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tabs" data-tabs>
+      <div class="tabs__nav" role="tablist">
+        <% ['description', 'composition', 'usage', 'dosage'].forEach(function (k, i) { %>
+          <button type="button" role="tab" id="tab-<%= k %>" aria-controls="panel-<%= k %>" aria-selected="<%= i === 0 %>" tabindex="<%= i === 0 ? 0 : -1 %>"><%= t('product.tabs.' + k) %></button>
+        <% }) %>
+      </div>
+      <div class="tabs__panel prose" role="tabpanel" id="panel-description" aria-labelledby="tab-description"><%- md(product.descriptionText) %></div>
+      <div class="tabs__panel prose" role="tabpanel" id="panel-composition" aria-labelledby="tab-composition" hidden><%- nl2p(product.compositionText) %></div>
+      <div class="tabs__panel prose" role="tabpanel" id="panel-usage" aria-labelledby="tab-usage" hidden><%- nl2p(product.usageText) %></div>
+      <div class="tabs__panel" role="tabpanel" id="panel-dosage" aria-labelledby="tab-dosage" hidden>
+        <div class="dosage-box prose"><% product.dosageText.split('\n').filter(Boolean).forEach(function (line) { %><p><%= line %></p><% }) %></div>
+        <p class="note"><%- icon('alert', '', 18) %> <%= t('product.disclaimer') %></p>
+      </div>
+    </div>
+
+    <% if (diseases.length) { %>
+      <div style="margin-top:20px">
+        <h2 style="font-size:20px;margin-bottom:16px"><%= t('disease.products') %> — <%= t('nav.diseases') %></h2>
+        <div class="related-d">
+          <% diseases.forEach(function (d) { %><a href="<%= url('/diseases/' + d.slug) %>"><span class="sev sev--<%= d.severity %>"><%= t('disease.severity.' + d.severity) %></span> <%= d.title %></a><% }) %>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<% if (related.length) { %>
+<section class="section section--tint">
+  <div class="container">
+    <div class="section__head section__head--split">
+      <h2 class="section__title" style="margin:0"><%= t('product.related') %></h2>
+      <a class="btn btn--outline" href="<%= url('/products') %>"><%= t('home.viewAll') %> <%- icon('arrow', '', 18) %></a>
+    </div>
+    <div class="pgrid"><% related.forEach(function (p) { %><%- include('../partials/product-card', { p }) %><% }) %></div>
+  </div>
+</section>
+<% } %>
+
+<% if (product.minPrice) { %>
+<div class="buybar" data-buybar>
+  <div class="buybar__price"><small><%= product.title.split('—')[0].trim() %></small><span data-bar-price><%= first.price ? money(first.price) : '' %></span></div>
+  <button class="btn btn--primary" type="button" data-add-to-cart data-pid="<%= product.id %>" data-vi="0"><%- icon('cart', '', 18) %> <%= t('product.addToCart') %></button>
+</div>
+<% } %>
+
+<%- include('../partials/foot') %>

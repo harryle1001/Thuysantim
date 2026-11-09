@@ -1,0 +1,17 @@
+<% const topicIcon = { technique: 'book', disease: 'shield', news: 'sparkle' }[p.topic] || 'book'; %>
+<article class="bcard reveal">
+  <a class="bcard__media bcard__media--<%= p.topic %>" href="<%= url('/blog/' + p.slug) %>" tabindex="-1" aria-hidden="true">
+    <% if (p.coverSrc) { %>
+      <img src="<%= p.coverSrc %>" alt="" loading="lazy">
+    <% } else { %>
+      <span class="bcard__art"><%- icon(topicIcon, '', 44) %></span>
+    <% } %>
+    <span class="pill pill--glass"><%= t('blog.topics.' + p.topic) %></span>
+  </a>
+  <div class="bcard__body">
+    <div class="bcard__meta"><%- icon('calendar', '', 14) %> <%= date(p.published_at) %> · <%= p.read_minutes %> <%= t('blog.minutes') %></div>
+    <h3 class="bcard__title"><a href="<%= url('/blog/' + p.slug) %>"><%= p.titleText %></a></h3>
+    <p class="bcard__excerpt"><%= p.excerptText %></p>
+    <a class="link-arrow" href="<%= url('/blog/' + p.slug) %>"><%= t('blog.readMore') %> <%- icon('arrow', '', 16) %></a>
+  </div>
+</article>

@@ -1,0 +1,47 @@
+<%- include('_head') %>
+<%
+  const isNew = !item.id;
+  const pad = function (n) { return String(n).padStart(2, '0'); };
+  const d = new Date(item.published_at || Date.now());
+  const local = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+  const coverSrc = item.cover ? (/^(https?:)?\//.test(item.cover) ? item.cover : '/media/' + item.cover) : '';
+%>
+<form class="form" method="post" action="/admin/posts/<%= isNew ? 'new' : item.id %>" enctype="multipart/form-data">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <div class="form__main">
+    <div class="panel pad">
+      <%- include('_langtabs') %>
+      <%- include('_ml', { name: 'title', label: 'Tiêu đề *', value: item.title, required: true }) %>
+      <%- include('_ml', { name: 'excerpt', label: 'Mô tả ngắn (sapo)', value: item.excerpt, area: true, rows: 3 }) %>
+      <%- include('_ml', { name: 'body', label: 'Nội dung', value: item.body, area: true, rows: 22, hint: 'Markdown: ## Tiêu đề, **đậm**, - danh sách, > trích dẫn, ![mô tả](url-ảnh)' }) %>
+    </div>
+  </div>
+  <aside class="form__side">
+    <div class="panel pad sticky">
+      <button class="btn btn--primary btn--block" type="submit"><%- icon('check', '', 18) %> <%= isNew ? 'Đăng bài' : 'Lưu bài viết' %></button>
+      <% if (!isNew) { %><a class="btn btn--ghost btn--block" href="/vi/blog/<%= item.slug %>" target="_blank" rel="noopener"><%- icon('eye', '', 18) %> Xem trên web</a><% } %>
+      <label class="switch"><input type="checkbox" name="is_published" value="1" <%= item.is_published ? 'checked' : '' %>><span></span> Công khai</label>
+      <div class="fld"><label>Ngày đăng</label><input type="datetime-local" name="published_at" value="<%= local %>"></div>
+    </div>
+    <div class="panel pad">
+      <div class="fld"><label>Ảnh bìa</label>
+        <div class="imgbox imgbox--wide"><img src="<%= coverSrc || '/img/favicon.svg' %>" alt="" data-preview></div>
+        <input type="file" name="cover_file" accept="image/*" data-preview-input>
+        <input name="cover" value="<%= item.cover || '' %>" placeholder="hoặc dán URL ảnh">
+        <% if (item.cover) { %><label class="check"><input type="checkbox" name="remove_cover" value="1"> Xóa ảnh bìa</label><% } %>
+      </div>
+      <div class="fld"><label>Chủ đề</label><select name="topic"><% [['technique', 'Kỹ thuật'], ['disease', 'Phòng bệnh'], ['news', 'Tin tức']].forEach(function (o) { %><option value="<%= o[0] %>" <%= item.topic === o[0] ? 'selected' : '' %>><%= o[1] %></option><% }) %></select></div>
+      <div class="fld"><label>Tác giả</label><input name="author" value="<%= item.author || 'Phòng Kỹ thuật Thủy Sản Tím' %>"></div>
+      <div class="row2">
+        <div class="fld"><label>Phút đọc</label><input name="read_minutes" type="number" min="1" value="<%= item.read_minutes || 5 %>"></div>
+        <div class="fld"><label>Slug</label><input name="slug" value="<%= item.slug || '' %>" placeholder="tự tạo"></div>
+      </div>
+    </div>
+  </aside>
+</form>
+<% if (!isNew) { %>
+  <form method="post" action="/admin/posts/<%= item.id %>/delete" data-confirm="Xóa vĩnh viễn bài viết này?" class="danger-zone">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>"><button class="btn btn--danger" type="submit"><%- icon('trash', '', 16) %> Xóa bài viết</button>
+  </form>
+<% } %>
+<%- include('_foot') %>
