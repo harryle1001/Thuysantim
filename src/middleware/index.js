@@ -4,7 +4,16 @@ const { marked } = require('marked');
 const sanitizeHtml = require('sanitize-html');
 const dict = { vi: require('../i18n/vi'), en: require('../i18n/en'), zh: require('../i18n/zh') };
 const H = require('../utils/helpers');
-const { getSettings } = require('../models');
+const { getSettings, categories: Categories, localizeCategory } = require('../models');
+
+// Product categories for the header's category menu; refreshed at most once a minute.
+let catCache = { at: 0, rows: [] };
+async function navCategories() {
+  if (Date.now() - catCache.at < 60000) return catCache.rows;
+  const rows = await Categories.all();
+  catCache = { at: Date.now(), rows };
+  return rows;
+}
 const config = require('../config');
 const { icon } = require('../utils/icons');
 
@@ -58,7 +67,9 @@ function localeMiddleware(req, res, next) {
 
 async function commonLocals(req, res, next) {
   try {
-    res.locals.settings = await getSettings();
+    const [settings, cats] = await Promise.all([getSettings(), navCategories()]);
+    res.locals.settings = settings;
+    res.locals.navCats = cats.map((c) => localizeCategory(c, res.locals.locale || 'vi'));
   } catch (e) {
     return next(e);
   }

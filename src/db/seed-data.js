@@ -29,7 +29,7 @@ const products = [
     variants: v(['500 g', 285000], ['1 kg', 520000], ['Thùng 10 kg', 4900000]),
   },
   {
-    slug: 'tim-gut-zyme', sku: 'TST-GZ', cat: 'men-vi-sinh', species: 'all', color: '#7c3aed', badge: null, featured: 1, rating: 4.8,
+    slug: 'tim-gut-zyme', sku: 'TST-GZ', cat: 'men-vi-sinh', species: 'all', color: '#0e7490', badge: null, featured: 1, rating: 4.8,
     name: L('TÍM GUT-ZYME — Men tiêu hóa & enzyme đường ruột', 'TÍM GUT-ZYME — Digestive Probiotic & Enzymes', 'TÍM GUT-ZYME — 消化益生菌与肠道酶'),
     summary: L('Bacillus + enzyme protease, amylase, cellulase giúp tôm cá ăn khỏe, tiêu hóa tốt, giảm FCR.', 'Bacillus plus protease, amylase and cellulase for better appetite, digestion and lower FCR.', '芽孢杆菌+蛋白酶、淀粉酶、纤维素酶，提高摄食与消化，降低饵料系数。'),
     description: L('Bổ sung hệ vi sinh có lợi và enzyme ngoại bào trực tiếp vào đường ruột. Giúp ruột đầy, phân chắc, hạn chế hiện tượng ruột lỏng và phân trắng trong giai đoạn tăng trọng.', 'Delivers beneficial microbes and exogenous enzymes directly to the gut, keeping guts full and faeces firm and reducing loose-gut and white-faeces issues during grow-out.', '直接向肠道补充有益菌与外源酶，肠道饱满、粪便成形，减少养成期肠炎与白便问题。'),
@@ -109,7 +109,7 @@ const products = [
     variants: v(['1 lít', 310000], ['Can 5 lít', 1450000]),
   },
   {
-    slug: 'tim-bkc-80', sku: 'TST-BKC', cat: 'sat-trung', species: 'all', color: '#7e22ce', badge: null, featured: 0, rating: 4.6,
+    slug: 'tim-bkc-80', sku: 'TST-BKC', cat: 'sat-trung', species: 'all', color: '#1d4ed8', badge: null, featured: 0, rating: 4.6,
     name: L('TÍM BKC 80 — Benzalkonium Chloride 80%', 'TÍM BKC 80 — Benzalkonium Chloride 80%', 'TÍM BKC 80 — 苯扎氯铵80%'),
     summary: L('Sát trùng phổ rộng, diệt khuẩn và nguyên sinh động vật, xử lý nước và cắt tảo.', 'Broad-spectrum disinfectant for bacteria and protozoa, water treatment and algae control.', '广谱消毒，杀灭细菌与原生动物，处理水质与控藻。'),
     description: L('Hoạt chất BKC nồng độ cao, phân hủy sinh học, hiệu quả trong cả nước ngọt và nước mặn.', 'High-concentration, biodegradable BKC effective in both fresh and brackish water.', '高浓度可生物降解苯扎氯铵，淡水和咸水均有效。'),

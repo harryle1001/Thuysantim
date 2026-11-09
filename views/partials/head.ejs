@@ -44,15 +44,15 @@
   <meta name="geo.region" content="VN-CT">
   <meta name="geo.placename" content="Cần Thơ">
   <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#fdfcfa" data-theme-color>
-  <script nonce="<%= nonce %>">(function(){var d=document.documentElement,t;try{t=localStorage.getItem('tst-theme')}catch(e){}if(t!=='light'&&t!=='dark')t=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';d.setAttribute('data-theme',t);var m=document.querySelector('[data-theme-color]');if(m)m.content=t==='dark'?'#0d0719':'#fdfcfa'})();</script>
+  <meta name="theme-color" content="#fbfcfd" data-theme-color>
+  <script nonce="<%= nonce %>">(function(){var d=document.documentElement,t;try{t=localStorage.getItem('tst-theme')}catch(e){}if(t!=='light'&&t!=='dark')t=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';d.setAttribute('data-theme',t);var m=document.querySelector('[data-theme-color]');if(m)m.content=t==='dark'?'#06111c':'#fbfcfd'})();</script>
   <meta name="csrf-token" content="<%= csrfToken %>">
   <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap<% if (locale === 'zh') { %>&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@500;600;700<% } %>">
-  <link rel="stylesheet" href="/css/main.css?v=2.1.0">
+  <link rel="stylesheet" href="/css/main.css?v=3.0.0">
   <script type="application/ld+json" nonce="<%= nonce %>"><%- JSON.stringify({
     '@context': 'https://schema.org',
     '@graph': [
@@ -113,26 +113,46 @@
       </span>
     </a>
 
-    <nav class="nav" aria-label="Main">
-      <ul class="nav__list">
-        <% navItems.forEach(function (n) { %>
-          <li class="nav__item">
-            <a class="nav__link <%= page === n.k ? 'is-active' : '' %>" href="<%= n.href %>"><%= t('nav.' + n.k) %></a>
-          </li>
-        <% }) %>
-      </ul>
-    </nav>
+    <form class="hsearch" action="<%= url('/products') %>" method="get" role="search">
+      <input type="search" name="q" placeholder="<%= t('nav.search') %>" aria-label="<%= t('nav.search') %>" autocomplete="off">
+      <button type="submit" aria-label="<%= t('nav.search') %>"><%- icon('search', '', 20) %></button>
+    </form>
 
     <div class="header__actions">
-      <button class="icon-btn theme-btn" type="button" data-theme-toggle aria-label="<%= t('common.themeDark') %>" data-label-dark="<%= t('common.themeDark') %>" data-label-light="<%= t('common.themeLight') %>"><span class="theme-btn__moon"><%- icon('moon') %></span><span class="theme-btn__sun"><%- icon('sun') %></span></button>
-      <button class="icon-btn" type="button" data-search-open aria-label="<%= t('nav.search') %>"><%- icon('search') %></button>
-      <a class="icon-btn cart-btn" href="<%= url('/cart') %>" aria-label="<%= t('nav.cart') %>">
-        <%- icon('cart') %><span class="cart-btn__count" data-cart-count <%= cartCount ? '' : 'hidden' %>><%= cartCount %></span>
+      <a class="hcall" href="tel:<%= (company.hotline || '').replace(/\s/g, '') %>">
+        <span class="hcall__icon"><%- icon('phone', '', 20) %></span>
+        <span class="hcall__text"><small><%= t('store.hotline') %></small><b><%= company.hotline %></b></span>
       </a>
-      <a class="btn btn--primary btn--sm hide-md" href="<%= url('/quote') %>"><%= t('nav.quote') %></a>
+      <button class="icon-btn theme-btn" type="button" data-theme-toggle aria-label="<%= t('common.themeDark') %>" data-label-dark="<%= t('common.themeDark') %>" data-label-light="<%= t('common.themeLight') %>"><span class="theme-btn__moon"><%- icon('moon') %></span><span class="theme-btn__sun"><%- icon('sun') %></span></button>
+      <button class="icon-btn hsearch-btn" type="button" data-search-open aria-label="<%= t('nav.search') %>"><%- icon('search') %></button>
+      <a class="hcart" href="<%= url('/cart') %>" aria-label="<%= t('nav.cart') %>">
+        <span class="icon-btn cart-btn"><%- icon('cart') %><span class="cart-btn__count" data-cart-count <%= cartCount ? '' : 'hidden' %>><%= cartCount %></span></span>
+        <span class="hcart__label"><%= t('nav.cart') %></span>
+      </a>
       <button class="icon-btn nav-toggle" type="button" data-nav-open aria-label="<%= t('nav.menu') %>"><%- icon('menu') %></button>
     </div>
   </div>
+
+  <nav class="mainnav" aria-label="Main">
+    <div class="container mainnav__inner">
+      <div class="catmenu" data-catmenu>
+        <button class="catmenu__btn" type="button" aria-expanded="false" data-catmenu-toggle><%- icon('menu', '', 20) %> <span><%= t('store.allCats') %></span></button>
+        <ul class="catmenu__list">
+          <% (typeof navCats !== 'undefined' ? navCats : []).forEach(function (c) { %>
+            <li><a href="<%= url('/products?category=' + c.slug) %>"><span class="catmenu__ic"><%- icon(c.icon, '', 18) %></span><span><%= c.title %></span><small><%= c.product_count %></small></a></li>
+          <% }) %>
+          <li><a class="catmenu__all" href="<%= url('/products') %>"><span class="catmenu__ic"><%- icon('grid', '', 18) %></span><span><%= t('home.viewAll') %></span><%- icon('arrow', '', 16) %></a></li>
+        </ul>
+      </div>
+      <ul class="nav__list">
+        <li class="nav__item"><a class="nav__link <%= page === 'home' ? 'is-active' : '' %>" href="<%= url('') %>"><%= t('nav.home') %></a></li>
+        <% navItems.forEach(function (n) { %>
+          <li class="nav__item"><a class="nav__link <%= page === n.k ? 'is-active' : '' %>" href="<%= n.href %>"><%= t('nav.' + n.k) %></a></li>
+        <% }) %>
+      </ul>
+      <a class="mainnav__quote" href="<%= url('/quote') %>"><%- icon('tag', '', 18) %> <%= t('nav.quote') %></a>
+    </div>
+  </nav>
 </header>
 
 <div class="search-overlay" data-search hidden>

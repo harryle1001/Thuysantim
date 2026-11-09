@@ -31,7 +31,7 @@
       setTimeout(function () { root.classList.remove('theme-anim'); }, 450);
     }
     root.setAttribute('data-theme', t);
-    if (themeMeta) themeMeta.content = t === 'dark' ? '#0d0719' : '#fdfcfa';
+    if (themeMeta) themeMeta.content = t === 'dark' ? '#06111c' : '#fbfcfd';
     swapPacks(t === 'dark');
     themeBtns.forEach(function (b) {
       b.setAttribute('aria-pressed', String(t === 'dark'));
@@ -50,7 +50,7 @@
     return src;
   }
   function swapPacks(dark) {
-    $$('img:not(.hero__pack)').forEach(function (img) {
+    $$('img:not(.hero__pack):not([data-pack-fixed])').forEach(function (img) {
       var src = img.getAttribute('src'), next = packSrc(src, dark);
       if (next !== src) img.setAttribute('src', next);
     });
@@ -398,5 +398,66 @@
     heads.forEach(function (h) { spy.observe(h); });
     // On phones the contents list starts folded so the article comes first
     if (matchMedia('(max-width: 1023px)').matches) toc.removeAttribute('open');
+  }
+
+  /* ---------- Header category menu (click for touch, hover handled in CSS) ---------- */
+  $$('[data-catmenu]').forEach(function (m) {
+    var btn = $('[data-catmenu-toggle]', m);
+    if (!btn) return;
+    var set = function (open) { m.classList.toggle('is-open', open); btn.setAttribute('aria-expanded', String(open)); };
+    btn.addEventListener('click', function (e) { e.stopPropagation(); set(!m.classList.contains('is-open')); });
+    doc.addEventListener('click', function (e) { if (!m.contains(e.target)) set(false); });
+    doc.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && m.classList.contains('is-open')) { set(false); btn.focus(); }
+    });
+  });
+
+  /* ---------- Home slider ---------- */
+  var slider = $('[data-slider]');
+  if (slider) {
+    var slides = $$('.slide', slider), dots = $$('[data-slide-to]', slider), idx = 0, timer = null;
+    var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var go = function (n) {
+      idx = (n + slides.length) % slides.length;
+      slides.forEach(function (s, i) {
+        var on = i === idx;
+        s.classList.toggle('is-active', on);
+        s.setAttribute('aria-hidden', on ? 'false' : 'true');
+        $$('a', s).forEach(function (a) { if (on) a.removeAttribute('tabindex'); else a.setAttribute('tabindex', '-1'); });
+      });
+      dots.forEach(function (d, i) { d.classList.toggle('is-active', i === idx); });
+    };
+    var stop = function () { if (timer) clearInterval(timer); timer = null; };
+    var play = function () { if (still || slides.length < 2) return; stop(); timer = setInterval(function () { go(idx + 1); }, 5500); };
+    var prev = $('[data-slide-prev]', slider), next = $('[data-slide-next]', slider);
+    if (prev) prev.addEventListener('click', function () { go(idx - 1); play(); });
+    if (next) next.addEventListener('click', function () { go(idx + 1); play(); });
+    dots.forEach(function (d) { d.addEventListener('click', function () { go(+d.getAttribute('data-slide-to')); play(); }); });
+    slider.addEventListener('mouseenter', stop);
+    slider.addEventListener('mouseleave', play);
+    slider.addEventListener('focusin', stop);
+    // Swipe on phones
+    var sx = null;
+    slider.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; }, { passive: true });
+    slider.addEventListener('touchend', function (e) {
+      if (sx === null) return;
+      var dx = e.changedTouches[0].clientX - sx;
+      sx = null;
+      if (Math.abs(dx) > 40) { go(idx + (dx < 0 ? 1 : -1)); play(); }
+    });
+    play();
+  }
+
+  /* ---------- Home: products by category tabs ---------- */
+  var catTabs = $('[data-cat-tabs]');
+  if (catTabs) {
+    var tabs = $$('[data-cat-tab]', catTabs), cells = $$('[data-cat]', catTabs);
+    tabs.forEach(function (tb) {
+      tb.addEventListener('click', function () {
+        var k = tb.getAttribute('data-cat-tab');
+        tabs.forEach(function (x) { x.setAttribute('aria-selected', String(x === tb)); });
+        cells.forEach(function (c) { c.hidden = Boolean(k) && c.getAttribute('data-cat') !== k; });
+      });
+    });
   }
 })();

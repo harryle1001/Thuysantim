@@ -18,9 +18,9 @@ const seo = (res, title, description, extra = {}) => {
 /* ---------------- Home ---------------- */
 router.get('/', async (req, res) => {
   const L = req.locale;
-  const [cats, featured, posts, diseases] = await Promise.all([
+  const [cats, all, posts, diseases] = await Promise.all([
     M.categories.all(),
-    M.products.list({ featured: true, limit: 8 }),
+    M.products.list({ limit: 60 }),
     M.posts.list({ limit: 14 }),
     M.diseases.all(),
   ]);
@@ -28,7 +28,12 @@ router.get('/', async (req, res) => {
   res.render('pages/home', {
     page: 'home',
     categories: cats.map((c) => M.localizeCategory(c, L)),
-    featured: featured.map((p) => M.localizeProduct(p, L)),
+    // Store layout: best sellers first, then every product for the category tabs.
+    ...(() => {
+      const items = all.map((p) => M.localizeProduct(p, L));
+      const featured = items.filter((p) => p.is_featured);
+      return { featured: featured.length ? featured : items, products: items };
+    })(),
     // Handbook: the pillar guide leads, the next newest follow, and the rest become keyword chips.
     ...(() => {
       const all = posts.map((p) => M.localizePost(p, L));
