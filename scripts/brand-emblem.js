@@ -1,4 +1,4 @@
-/* Generates the THỦY SẢN TÍM emblem: a segmented shrimp curling around a fish, gold on a navy-to-amethyst shield. */
+/* Generates the THỦY SẢN TÍM emblem: a segmented shrimp curling around a fish, ocean blue on a white, gold-rimmed shield. */
 const cx = 32, cy = 33.5, R = 13.6;
 const a0 = -38, a1 = 222; // head (upper right) -> tail (upper left), clockwise through the bottom
 const rad = (d) => (d * Math.PI) / 180;
@@ -59,32 +59,45 @@ const headCap = `M${f(head[0] - 3.3)} ${f(head[1] + 1.6)} Q${f(head[0] - 1.5)} $
 const SHIELD = 'M32 1.6 L57.6 9.4 C58.2 25.6 56.6 45 32 62.4 C7.4 45 5.8 25.6 6.4 9.4 Z';
 const SHIELD_IN = 'M32 4.5 L54.9 11.5 C55.3 25.8 53.9 43.2 32 59 C10.1 43.2 8.7 25.8 9.1 11.5 Z';
 
-function emblem(id = 'e', { ring = true, bg = true, shield = true } = {}) {
+// White shield, gold rim, ocean-blue shrimp and fish (the fish swims to the right).
+const PALETTE = {
+  rim: ['#f6e7bd', '#d8b46c', '#a47a36'],
+  art: ['#2a8fd6', '#0f5f9e', '#0b365c'],
+  shield: ['#ffffff', '#f2f7fc'],
+  detail: '#ffffff',
+};
+
+function emblem(id = 'e', { ring = true, bg = true, shield = true, pal = PALETTE } = {}) {
+  const grad = (n, c, x2 = 1, y2 = 1) => `<linearGradient id="${id}${n}" x1="0" y1="0" x2="${x2}" y2="${y2}">${c.map((v, i) => `<stop offset="${f(i / (c.length - 1))}" stop-color="${v}"/>`).join('')}</linearGradient>`;
+  const A = `url(#${id}a)`, G = `url(#${id}g)`, D = pal.detail;
   return `<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
 <defs>
-<linearGradient id="${id}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6e7bd"/><stop offset=".45" stop-color="#d8b46c"/><stop offset="1" stop-color="#a47a36"/></linearGradient>
-<linearGradient id="${id}b" x1="0" y1="0" x2=".35" y2="1"><stop offset="0" stop-color="#4a2f86"/><stop offset=".5" stop-color="#0f3f6e"/><stop offset="1" stop-color="#061f36"/></linearGradient>
+${grad('g', pal.rim)}
+${grad('a', pal.art)}
+${grad('b', pal.shield, 0.35, 1)}
 </defs>
-${bg ? (shield ? `<path d="${SHIELD}" fill="url(#${id}b)" stroke="url(#${id}g)" stroke-width="1.6" stroke-linejoin="round"/>` : `<circle cx="32" cy="32" r="31.5" fill="url(#${id}b)"/>`) : ''}
-${ring ? (shield ? `<path d="${SHIELD_IN}" fill="none" stroke="url(#${id}g)" stroke-width=".45" stroke-linejoin="round" opacity=".6"/>` : `<circle cx="32" cy="32" r="29.6" fill="none" stroke="url(#${id}g)" stroke-width="1"/><circle cx="32" cy="32" r="27.4" fill="none" stroke="url(#${id}g)" stroke-width=".4" opacity=".5"/>`) : ''}
+${bg ? (shield ? `<path d="${SHIELD}" fill="url(#${id}b)" stroke="${G}" stroke-width="2.2" stroke-linejoin="round"/>` : `<circle cx="32" cy="32" r="31.5" fill="url(#${id}b)"/>`) : ''}
+${ring ? (shield ? `<path d="${SHIELD_IN}" fill="none" stroke="${G}" stroke-width=".5" stroke-linejoin="round" opacity=".75"/>` : `<circle cx="32" cy="32" r="29.6" fill="none" stroke="${G}" stroke-width="1"/><circle cx="32" cy="32" r="27.4" fill="none" stroke="${G}" stroke-width=".4" opacity=".5"/>`) : ''}
 ${shield && bg ? '<g transform="translate(32 35) scale(.9) translate(-32 -33)">' : '<g>'}
-<g fill="none" stroke="url(#${id}g)" stroke-linecap="round" stroke-width=".55" opacity=".9"><path d="${ant1}"/><path d="${ant2}"/></g><path d="${legs()}" fill="none" stroke="url(#${id}g)" stroke-width=".5" stroke-linecap="round" opacity=".55"/>
-<path d="${fan}" fill="url(#${id}g)"/>
-<path d="${body}" fill="url(#${id}g)"/>
-<path d="${headCap}" fill="url(#${id}g)"/>
-<path d="${segments()}" fill="none" stroke="#061f36" stroke-width=".5" opacity=".55"/>
-<circle cx="${f(eye[0])}" cy="${f(eye[1])}" r=".95" fill="#061f36"/>
-<g fill="url(#${id}g)">
+<g fill="none" stroke="${A}" stroke-linecap="round" stroke-width=".6" opacity=".9"><path d="${ant1}"/><path d="${ant2}"/></g><path d="${legs()}" fill="none" stroke="${A}" stroke-width=".55" stroke-linecap="round" opacity=".6"/>
+<path d="${fan}" fill="${A}"/>
+<path d="${body}" fill="${A}"/>
+<path d="${headCap}" fill="${A}"/>
+<path d="${segments()}" fill="none" stroke="${D}" stroke-width=".5" opacity=".6"/>
+<circle cx="${f(eye[0])}" cy="${f(eye[1])}" r=".95" fill="${D}"/>
+<g transform="matrix(-1 0 0 1 63.6 0)">
+<g fill="${G}">
 <path d="M22.6 34.2 C 25.8 29.9, 32.6 29.7, 36.6 33.6 C 32.6 37.6, 25.8 37.6, 22.6 34.2 Z"/>
 <path d="M36.3 33.6 L 41 30.5 Q 39.6 33.6 41 36.8 Z"/>
 <path d="M28.4 30.7 Q 30.4 28 33.2 30.6 Z" opacity=".9"/>
 <path d="M29.4 36.7 Q 30.6 38.8 32.6 37 Z" opacity=".8"/>
 </g>
-<circle cx="25.4" cy="33.6" r=".8" fill="#061f36"/>
-<path d="M27.7 32 q1.1 2.1 0 4.2" stroke="#061f36" stroke-width=".5" fill="none" opacity=".6"/>
+<circle cx="25.4" cy="33.6" r=".8" fill="#0b365c"/>
+<path d="M27.7 32 q1.1 2.1 0 4.2" stroke="#0b365c" stroke-width=".5" fill="none" opacity=".6"/>
+</g>
 </g>
 </svg>`;
 }
 
-module.exports = { emblem };
+module.exports = { emblem, PALETTE };
 if (require.main === module) process.stdout.write(emblem(process.argv[2] || 'e'));
