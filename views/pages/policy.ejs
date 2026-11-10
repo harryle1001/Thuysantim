@@ -1,0 +1,62 @@
+<%- include('../partials/head') %>
+<% const company = (settings && settings.company) || {}; const tel = (company.hotline || '').replace(/\s/g, ''); %>
+<%- include('../partials/page-hero', { title: policy.title, lead: policy.lead, eyebrow: t('policy.eyebrow'), crumbs: [{ label: t('policy.title'), href: url('/policies') }, { label: policy.title }] }) %>
+
+<section class="section legal-page">
+  <div class="container legal">
+    <aside class="legal__side">
+      <nav class="legal__nav" aria-label="<%= t('policy.list') %>">
+        <b class="legal__navtitle"><%= t('policy.list') %></b>
+        <ul>
+          <% policies.forEach(function (p) { %>
+          <li><a href="<%= url('/policies/' + p.slug) %>"<% if (p.slug === policy.slug) { %> class="is-active" aria-current="page"<% } %>><%- icon(p.icon, '', 18) %><span><%= p.title %></span></a></li>
+          <% }) %>
+        </ul>
+      </nav>
+      <div class="legal__help">
+        <b><%= t('policy.help') %></b>
+        <p><%= t('policy.helpText') %></p>
+        <a class="btn btn--primary btn--sm btn--block" href="tel:<%= tel %>"><%- icon('phone', '', 16) %> <%= company.hotline %></a>
+        <% if (company.zalo) { %><a class="btn btn--outline btn--sm btn--block" href="https://zalo.me/<%= company.zalo %>" target="_blank" rel="noopener"><%= t('common.chatZalo') %></a><% } %>
+      </div>
+    </aside>
+
+    <article class="legal__doc">
+      <div class="legal__meta">
+        <span><%- icon('clock', '', 16) %> <%= t('policy.effective') %>: <b><%= effective %></b></span>
+        <span class="hide-sm"><%- icon('check', '', 16) %> <%= t('policy.scope') %>: <%= t('policy.scopeText') %></span>
+        <button class="legal__print" type="button" data-print><%- icon('doc', '', 16) %> <%= t('policy.print') %></button>
+      </div>
+      <% if (t('policy.viOnly')) { %><p class="legal__lang" lang="<%= locale %>"><%= t('policy.viOnly') %></p><% } %>
+
+      <% if (article.toc.length > 3) { %>
+      <details class="legal__toc" open>
+        <summary><%= t('policy.toc') %></summary>
+        <ol><% article.toc.forEach(function (h) { %><li><a href="#<%= h.id %>"><%= h.text %></a></li><% }) %></ol>
+      </details>
+      <% } %>
+
+      <div class="prose legal__body" lang="vi"><%- article.html %></div>
+
+      <% if (article.faq.length) { %>
+      <section class="faq" id="faq" aria-labelledby="faq-title" lang="vi">
+        <h2 id="faq-title" class="faq__title"><%= t('blog.faq') %></h2>
+        <% article.faq.forEach(function (f, i) { %>
+        <details class="faq__item" <%= i === 0 ? 'open' : '' %>>
+          <summary><span><%= f.q %></span><i aria-hidden="true"></i></summary>
+          <div class="faq__a prose"><%- f.html %></div>
+        </details>
+        <% }) %>
+      </section>
+      <% } %>
+
+      <% const idx = policies.findIndex(function (p) { return p.slug === policy.slug; }); const prev = policies[idx - 1]; const next = policies[idx + 1]; %>
+      <nav class="legal__pager" aria-label="<%= t('policy.list') %>">
+        <% if (prev) { %><a class="legal__pg" href="<%= url('/policies/' + prev.slug) %>"><small>‹ <%= prev.title %></small></a><% } else { %><span></span><% } %>
+        <% if (next) { %><a class="legal__pg legal__pg--next" href="<%= url('/policies/' + next.slug) %>"><small><%= next.title %> ›</small></a><% } %>
+      </nav>
+    </article>
+  </div>
+</section>
+
+<%- include('../partials/foot') %>

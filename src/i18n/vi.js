@@ -172,7 +172,7 @@ module.exports = {
     title: 'Giỏ hàng', empty: 'Giỏ hàng của bạn đang trống.', continue: 'Tiếp tục mua sắm', checkout: 'Tiến hành đặt hàng', remove: 'Xóa', subtotal: 'Tạm tính', shipping: 'Phí vận chuyển', total: 'Tổng cộng', free: 'Miễn phí', freeHint: 'Miễn phí vận chuyển cho đơn từ', update: 'Cập nhật', product: 'Sản phẩm', price: 'Đơn giá', qty: 'Số lượng', amount: 'Thành tiền', summary: 'Tóm tắt đơn hàng',
   },
   checkout: {
-    title: 'Đặt hàng', customer: 'Thông tin nhận hàng', payment: 'Phương thức thanh toán', place: 'Đặt hàng', agree: 'Bằng việc đặt hàng, bạn đồng ý với điều khoản mua bán của Thủy Sản Tím.',
+    title: 'Đặt hàng', customer: 'Thông tin nhận hàng', payment: 'Phương thức thanh toán', place: 'Đặt hàng', agree: 'Bằng việc đặt hàng, bạn đồng ý với <a href="{terms}">Điều khoản sử dụng</a>, <a href="{ret}">Chính sách đổi trả</a> và <a href="{priv}">Chính sách bảo mật</a> của Thủy Sản Tím.',
     methods: {
       cod: { t: 'Thanh toán khi nhận hàng (COD)', d: 'Trả tiền mặt cho nhân viên giao hàng.' },
       vietqr: { t: 'Chuyển khoản ngân hàng (VietQR)', d: 'Quét mã QR bằng app ngân hàng — tự điền số tiền và nội dung.' },
@@ -191,8 +191,13 @@ module.exports = {
     payFailed: 'Thanh toán chưa thành công. Bạn có thể thử lại hoặc chọn phương thức khác.', retry: 'Thanh toán lại', paidOk: 'Thanh toán thành công — cảm ơn bạn!',
     items: 'Sản phẩm', date: 'Ngày đặt', method: 'Thanh toán', statusLabel: 'Trạng thái',
   },
+  policy: {
+    title: 'Chính sách và quy định', lead: 'Các chính sách mua hàng, giao nhận, thanh toán, đổi trả và bảo mật thông tin của Thủy Sản Tím.', eyebrow: 'Chính sách',
+    effective: 'Hiệu lực từ', scope: 'Áp dụng cho', scopeText: 'mọi đơn hàng tại website và kênh bán hàng trực tuyến', toc: 'Nội dung', list: 'Tất cả chính sách',
+    viOnly: '', help: 'Cần hỗ trợ?', helpText: 'Gọi hotline hoặc nhắn Zalo, chúng tôi phản hồi trong giờ làm việc.', read: 'Xem chi tiết', print: 'In trang',
+  },
   footer: {
-    about: 'Thủy Sản Tím cung cấp giải pháp sinh học cao cấp cho nuôi trồng thủy sản bền vững tại Việt Nam và khu vực.',
+    policies: 'Chính sách', taxCode: 'Mã số doanh nghiệp', issued: 'cấp ngày', at: 'tại', notified: 'Đã thông báo Bộ Công Thương', about: 'Thủy Sản Tím cung cấp giải pháp sinh học cao cấp cho nuôi trồng thủy sản bền vững tại Việt Nam và khu vực.',
     links: 'Liên kết', support: 'Hỗ trợ', newsletter: 'Nhận bản tin kỹ thuật', newsletterLead: 'Mẹo nuôi, cảnh báo dịch bệnh mỗi tháng.', subscribe: 'Đăng ký', rights: 'Bảo lưu mọi quyền.', policy: 'Chính sách bảo mật', terms: 'Điều khoản', sample: 'Website đang dùng dữ liệu mẫu.',
   },
   common: { chatZalo: 'Chat Zalo', chatMessenger: 'Nhắn Messenger', themeDark: 'Bật giao diện tối', themeLight: 'Bật giao diện sáng', home: 'Trang chủ', back: 'Quay lại', notFound: 'Không tìm thấy trang', notFoundLead: 'Trang bạn tìm có thể đã được di chuyển hoặc không tồn tại.', error: 'Đã có lỗi xảy ra', errorLead: 'Vui lòng thử lại sau ít phút.', callNow: 'Gọi ngay', backToTop: 'Lên đầu trang', loading: 'Đang xử lý…' },

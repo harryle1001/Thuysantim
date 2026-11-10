@@ -39,6 +39,15 @@
         </ul>
       </div>
 
+      <div class="footer__col">
+        <h3><%= t('footer.policies') %></h3>
+        <ul>
+          <% (typeof policyLinks !== 'undefined' ? policyLinks : []).forEach(function (p) { %>
+          <li><a href="<%= url('/policies/' + p.slug) %>"><%= p.title %></a></li>
+          <% }) %>
+        </ul>
+      </div>
+
       <div class="footer__col footer__contact">
         <h3><%= t('nav.contact') %></h3>
         <ul>
@@ -57,6 +66,15 @@
           <button class="btn btn--accent btn--sm" type="submit"><%= t('footer.subscribe') %></button>
         </form>
       </div>
+    </div>
+
+    <div class="footer__legal">
+      <div class="footer__legaltext">
+        <b><%= tr(company.legal) || 'Công ty TNHH Thủy Sản Tím' %></b>
+        <span><%= t('footer.taxCode') %>: <%= legalInfo.taxCode %><% if (legalInfo.licenseDate) { %> · <%= t('footer.issued') %> <%= legalInfo.licenseDate %><% } %><% if (legalInfo.licenseIssuer) { %> · <%= t('footer.at') %> <%= legalInfo.licenseIssuer %><% } %></span>
+        <% if (legalInfo.representative) { %><span><%= locale === 'vi' ? 'Người đại diện' : locale === 'zh' ? '法定代表人' : 'Legal representative' %>: <%= legalInfo.representative %></span><% } %>
+      </div>
+      <% if (company.bctUrl) { %><a class="footer__bct" href="<%= company.bctUrl %>" target="_blank" rel="noopener" title="<%= t('footer.notified') %>"><img src="https://online.gov.vn/Content/EndUser/LogoCCDVSaleNoti/logoSaleNoti.png" alt="<%= t('footer.notified') %>" width="150" height="57" loading="lazy"></a><% } %>
     </div>
 
     <div class="footer__bottom">
@@ -79,7 +97,7 @@
 
 <div class="toast" role="status" aria-live="polite" data-live-toast></div>
 
-<script src="/js/main.js?v=3.1.0" defer nonce="<%= nonce %>"></script>
-<script src="/js/motion.js?v=3.1.0" defer nonce="<%= nonce %>"></script>
+<script src="/js/main.js?v=3.2.0" defer nonce="<%= nonce %>"></script>
+<script src="/js/motion.js?v=3.2.0" defer nonce="<%= nonce %>"></script>
 </body>
 </html>

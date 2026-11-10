@@ -69,6 +69,9 @@ async function commonLocals(req, res, next) {
   try {
     const [settings, cats] = await Promise.all([getSettings(), navCategories()]);
     res.locals.settings = settings;
+    const policies = require('../content/policies');
+    res.locals.legalInfo = policies.companyInfo(settings, config.baseUrl);
+    res.locals.policyLinks = policies.list(res.locals.locale || 'vi');
     res.locals.navCats = cats.map((c) => localizeCategory(c, res.locals.locale || 'vi'));
   } catch (e) {
     return next(e);

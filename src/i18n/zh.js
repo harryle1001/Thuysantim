@@ -172,7 +172,7 @@ module.exports = {
     title: '购物车', empty: '您的购物车是空的。', continue: '继续购物', checkout: '去结算', remove: '删除', subtotal: '小计', shipping: '运费', total: '合计', free: '免运费', freeHint: '订单满额免运费：', update: '更新', product: '产品', price: '单价', qty: '数量', amount: '金额', summary: '订单摘要',
   },
   checkout: {
-    title: '结算', customer: '收货信息', payment: '支付方式', place: '提交订单', agree: '提交订单即表示您同意 Thủy Sản Tím 的销售条款。',
+    title: '结算', customer: '收货信息', payment: '支付方式', place: '提交订单', agree: '提交订单即表示您同意 Thủy Sản Tím 的<a href="{terms}">使用条款</a>、<a href="{ret}">退换货政策</a>和<a href="{priv}">隐私政策</a>。',
     methods: {
       cod: { t: '货到付款（COD）', d: '收货时向快递员支付现金。' },
       vietqr: { t: '银行转账（VietQR）', d: '用银行App扫码——自动填写金额与备注。' },
@@ -191,8 +191,13 @@ module.exports = {
     payFailed: '支付未完成。您可以重试或选择其他方式。', retry: '重新支付', paidOk: '支付成功——谢谢！',
     items: '商品', date: '下单日期', method: '支付方式', statusLabel: '状态',
   },
+  policy: {
+    title: '政策与条款', lead: 'Thủy Sản Tím 关于下单、配送、支付、退换货及隐私的政策。', eyebrow: '政策',
+    effective: '生效日期', scope: '适用范围', scopeText: '网站及在线销售渠道的所有订单', toc: '目录', list: '全部政策',
+    viOnly: '本政策以越南语发布，越南语版本具有法律效力。', help: '需要帮助？', helpText: '工作时间内请拨打热线或通过 Zalo 联系我们。', read: '查看详情', print: '打印',
+  },
   footer: {
-    about: 'Thủy Sản Tím 为越南及区域的可持续水产养殖提供高端生物解决方案。',
+    policies: '政策', taxCode: '企业代码', issued: '签发日期', at: '签发机关', notified: '已向工贸部备案', about: 'Thủy Sản Tím 为越南及区域的可持续水产养殖提供高端生物解决方案。',
     links: '链接', support: '支持', newsletter: '技术简报', newsletterLead: '每月养殖技巧与疫病预警。', subscribe: '订阅', rights: '版权所有。', policy: '隐私政策', terms: '条款', sample: '本网站目前使用示例数据。',
   },
   common: { chatZalo: 'Zalo咨询', chatMessenger: 'Messenger咨询', themeDark: '切换到深色模式', themeLight: '切换到浅色模式', home: '首页', back: '返回', notFound: '页面未找到', notFoundLead: '您访问的页面可能已移动或不存在。', error: '出现错误', errorLead: '请稍后再试。', callNow: '立即致电', backToTop: '返回顶部', loading: '处理中…' },

@@ -172,7 +172,7 @@ module.exports = {
     title: 'Cart', empty: 'Your cart is empty.', continue: 'Continue shopping', checkout: 'Proceed to checkout', remove: 'Remove', subtotal: 'Subtotal', shipping: 'Shipping', total: 'Total', free: 'Free', freeHint: 'Free shipping on orders from', update: 'Update', product: 'Product', price: 'Unit price', qty: 'Qty', amount: 'Amount', summary: 'Order summary',
   },
   checkout: {
-    title: 'Checkout', customer: 'Delivery details', payment: 'Payment method', place: 'Place order', agree: 'By placing an order you agree to Thủy Sản Tím’s terms of sale.',
+    title: 'Checkout', customer: 'Delivery details', payment: 'Payment method', place: 'Place order', agree: 'By placing an order you agree to Thủy Sản Tím’s <a href="{terms}">Terms of use</a>, <a href="{ret}">Returns policy</a> and <a href="{priv}">Privacy policy</a>.',
     methods: {
       cod: { t: 'Cash on delivery (COD)', d: 'Pay the courier in cash on delivery.' },
       vietqr: { t: 'Bank transfer (VietQR)', d: 'Scan the QR code in your banking app — amount and reference pre-filled.' },
@@ -191,8 +191,13 @@ module.exports = {
     payFailed: 'Payment was not completed. You can retry or choose another method.', retry: 'Retry payment', paidOk: 'Payment successful — thank you!',
     items: 'Items', date: 'Order date', method: 'Payment', statusLabel: 'Status',
   },
+  policy: {
+    title: 'Policies and terms', lead: 'Thủy Sản Tím policies on ordering, delivery, payment, returns and privacy.', eyebrow: 'Policies',
+    effective: 'Effective from', scope: 'Applies to', scopeText: 'all orders on the website and online sales channels', toc: 'Contents', list: 'All policies',
+    viOnly: 'This policy is published in Vietnamese, which is the legally binding version.', help: 'Need help?', helpText: 'Call our hotline or message us on Zalo during business hours.', read: 'Read more', print: 'Print',
+  },
   footer: {
-    about: 'Thủy Sản Tím provides premium biological solutions for sustainable aquaculture in Vietnam and the region.',
+    policies: 'Policies', taxCode: 'Business registration no.', issued: 'issued on', at: 'by', notified: 'Notified to the Ministry of Industry and Trade', about: 'Thủy Sản Tím provides premium biological solutions for sustainable aquaculture in Vietnam and the region.',
     links: 'Links', support: 'Support', newsletter: 'Technical newsletter', newsletterLead: 'Monthly farming tips and disease alerts.', subscribe: 'Subscribe', rights: 'All rights reserved.', policy: 'Privacy policy', terms: 'Terms', sample: 'This website currently uses sample data.',
   },
   common: { chatZalo: 'Chat on Zalo', chatMessenger: 'Message on Messenger', themeDark: 'Switch to dark mode', themeLight: 'Switch to light mode', home: 'Home', back: 'Back', notFound: 'Page not found', notFoundLead: 'The page you are looking for may have moved or no longer exists.', error: 'Something went wrong', errorLead: 'Please try again in a few minutes.', callNow: 'Call now', backToTop: 'Back to top', loading: 'Processing…' },

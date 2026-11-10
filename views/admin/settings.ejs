@@ -21,6 +21,14 @@
         <div class="fld"><label>YouTube URL</label><input name="company[youtube]" value="<%= c.youtube %>"></div>
         <div class="fld"><label>TikTok URL</label><input name="company[tiktok]" value="<%= c.tiktok %>"></div>
       </div>
+      <h3 class="h3" style="margin-top:18px">Thông tin pháp lý <small class="muted">(hiển thị ở chân trang và các trang chính sách, bắt buộc khi thông báo website với Bộ Công Thương)</small></h3>
+      <div class="row2">
+        <div class="fld"><label>Mã số doanh nghiệp / MST</label><input name="company[taxCode]" value="<%= c.taxCode || '' %>" placeholder="VD: 1801234567"></div>
+        <div class="fld"><label>Ngày cấp</label><input name="company[licenseDate]" value="<%= c.licenseDate || '' %>" placeholder="VD: 15/03/2011"></div>
+        <div class="fld"><label>Nơi cấp</label><input name="company[licenseIssuer]" value="<%= c.licenseIssuer || '' %>" placeholder="VD: Sở Kế hoạch và Đầu tư TP. Cần Thơ"></div>
+        <div class="fld"><label>Người đại diện theo pháp luật</label><input name="company[representative]" value="<%= c.representative || '' %>"></div>
+      </div>
+      <div class="fld"><label>Link xác nhận Bộ Công Thương <small>(sau khi được duyệt trên online.gov.vn — hiện logo “Đã thông báo Bộ Công Thương” ở chân trang)</small></label><input name="company[bctUrl]" value="<%= c.bctUrl || '' %>" placeholder="http://online.gov.vn/Home/WebDetails/..."></div>
       <div class="fld"><label>Link nhúng Google Maps <small>(Google Maps → Chia sẻ → Nhúng bản đồ → copy giá trị src)</small></label><input name="company[mapEmbed]" value="<%= c.mapEmbed %>"></div>
     </div>
     <div class="panel pad">

@@ -1,0 +1,21 @@
+<%- include('../partials/head') %>
+<% const company = (settings && settings.company) || {}; %>
+<%- include('../partials/page-hero', { title: t('policy.title'), lead: t('policy.lead'), eyebrow: t('policy.eyebrow'), crumbs: [{ label: t('policy.title') }] }) %>
+
+<section class="section legal-page">
+  <div class="container">
+    <div class="legal-grid">
+      <% policies.forEach(function (p) { %>
+      <a class="legal-card" href="<%= url('/policies/' + p.slug) %>">
+        <span class="legal-card__icon"><%- icon(p.icon, '', 22) %></span>
+        <b><%= p.title %></b>
+        <small><%= p.lead %></small>
+        <span class="legal-card__more"><%= t('policy.read') %> ›</span>
+      </a>
+      <% }) %>
+    </div>
+    <%- include('../partials/legal-info') %>
+  </div>
+</section>
+
+<%- include('../partials/foot') %>

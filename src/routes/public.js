@@ -6,6 +6,7 @@ const H = require('../utils/helpers');
 const { query } = require('../config/db');
 const { notifyInquiry } = require('../services/mailer');
 const { analyzeArticle } = require('../services/article');
+const policies = require('../content/policies');
 
 const router = express.Router({ mergeParams: true });
 
@@ -156,6 +157,31 @@ router.get('/blog/:slug', async (req, res, next) => {
 router.get('/about', (req, res) => {
   seo(res, `${res.locals.t('about.title')}`, res.locals.t('about.lead'));
   res.render('pages/about', { page: 'about' });
+});
+
+/* ---------------- Policies (Ministry of Industry and Trade set) ---------------- */
+router.get('/policies', (req, res) => {
+  const t = res.locals.t;
+  seo(res, `${t('policy.title')} | Thủy Sản Tím`, t('policy.lead'));
+  res.render('pages/policies', { page: 'policies', policies: policies.list(req.locale) });
+});
+
+router.get('/policies/:slug', (req, res, next) => {
+  const meta = policies.find(req.params.slug);
+  if (!meta) return next();
+  const L = req.locale;
+  const all = policies.list(L);
+  const current = all.find((p) => p.slug === meta.slug);
+  const pay = require('../services/payments');
+  const md = policies.body(meta.slug, {
+    settings: res.locals.settings,
+    baseUrl: res.locals.config.baseUrl,
+    gateways: { vnpay: pay.vnpayEnabled(), momo: pay.momoEnabled() },
+    link: (p) => res.locals.url(p),
+  });
+  const article = analyzeArticle(md, { render: res.locals.md });
+  seo(res, `${current.title} | Thủy Sản Tím`, current.lead);
+  res.render('pages/policy', { page: 'policies', policy: current, policies: all, article, effective: policies.EFFECTIVE });
 });
 
 router.get('/contact', (req, res) => {

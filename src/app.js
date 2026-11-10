@@ -107,7 +107,9 @@ function createApp() {
       { p: '/about', pr: '0.5', f: 'monthly' },
       { p: '/contact', pr: '0.5', f: 'monthly' },
       { p: '/quote', pr: '0.6', f: 'monthly' },
+      { p: '/policies', pr: '0.4', f: 'yearly' },
     ]
+      .concat(require('./content/policies').slugs.map((s) => ({ p: `/policies/${s}`, pr: '0.4', f: 'yearly' })))
       .concat(cats.map((c) => ({ p: `/products?category=${c.slug}`, pr: '0.7', f: 'weekly' })))
       .concat(['technique', 'disease', 'news'].map((t) => ({ p: `/blog?topic=${t}`, pr: '0.7', f: 'weekly' })))
       .concat(products.map((r) => ({ p: `/products/${r.slug}`, m: r.updated_at, pr: '0.8', f: 'weekly', i: r.image ? (r.image.startsWith('/') || /^https?:/.test(r.image) ? r.image : `/media/${r.image}`) : `/pack/${r.slug}.svg` })))
@@ -236,6 +238,8 @@ function createApp() {
     } catch {
       res.locals.settings = { company: { name: 'THỦY SẢN TÍM' } };
     }
+    res.locals.legalInfo = require('./content/policies').companyInfo(res.locals.settings, config.baseUrl);
+    res.locals.policyLinks = require('./content/policies').list(locale);
     res.render('pages/error', { page: 'error', status });
   }
 

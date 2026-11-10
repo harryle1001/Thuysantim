@@ -1,0 +1,6 @@
+<% const co = (settings && settings.company) || {}; const lg = legalInfo || {}; %>
+<div class="legal-info">
+  <b class="legal-info__name"><%= tr(co.legal) || 'Công ty TNHH Thủy Sản Tím' %></b>
+  <span><%= t('footer.taxCode') %>: <%= lg.taxCode %><% if (lg.licenseDate) { %> · <%= t('footer.issued') %> <%= lg.licenseDate %><% } %><% if (lg.licenseIssuer) { %> · <%= t('footer.at') %> <%= lg.licenseIssuer %><% } %></span>
+  <span><%= tr(co.address) %> · <%= co.hotline %> · <%= co.email %></span>
+</div>

@@ -396,6 +396,11 @@ router.post('/settings', csrfProtect, async (req, res) => {
     facebook: str(c.facebook, 255),
     youtube: str(c.youtube, 255),
     tiktok: str(c.tiktok, 255),
+    taxCode: str(c.taxCode, 40),
+    licenseDate: str(c.licenseDate, 40),
+    licenseIssuer: str(c.licenseIssuer, 190),
+    representative: str(c.representative, 120),
+    bctUrl: /^https?:\/\/(www\.)?online\.gov\.vn\//i.test(str(c.bctUrl, 500)) ? str(c.bctUrl, 500) : '',
     mapEmbed: /^https:\/\/(www\.)?google\.[a-z.]+\/maps/.test(str(c.mapEmbed, 1000)) ? str(c.mapEmbed, 1000) : '',
   });
   const st = b.stats || {};

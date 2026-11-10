@@ -46,7 +46,7 @@
         <div class="summary__row"><span><%= t('cart.shipping') %></span><b><%= cart.shipping ? money(cart.shipping) : t('cart.free') %></b></div>
         <div class="summary__row summary__row--total"><span><%= t('cart.total') %></span><span><%= money(cart.total) %></span></div>
         <button class="btn btn--primary btn--lg btn--block" type="submit"><%- icon('check', '', 18) %> <%= t('checkout.place') %></button>
-        <p style="font-size:13px;color:var(--muted);margin-top:12px"><%= t('checkout.agree') %></p>
+        <p style="font-size:13px;color:var(--muted);margin-top:12px"><%- H.escapeHtml(t('checkout.agree')).replace(/&lt;a href=&quot;\{(terms|ret|priv)\}&quot;&gt;(.*?)&lt;\/a&gt;/g, function (m, k, label) { return '<a href="' + url('/policies/' + { terms: 'dieu-khoan-su-dung', ret: 'chinh-sach-doi-tra', priv: 'chinh-sach-bao-mat' }[k]) + '" target="_blank">' + label + '</a>'; }) %></p>
       </aside>
     </form>
   </div>
