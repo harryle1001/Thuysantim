@@ -1719,3 +1719,11 @@ html[data-theme='dark'] .pcard__buy { border-color: var(--line-strong); }
   .legal { display: block; }
   .legal__doc { border: 0; padding: 0; }
 }
+
+/* Crisp logo: larger mark, tight shadow (a wide blur made the small shield look soft) */
+.logo-mark { width: 52px; height: 52px; filter: drop-shadow(0 2px 3px rgba(7, 38, 64, .22)); }
+html[data-theme='dark'] .logo-mark { filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .45)); }
+.brand:hover .logo-mark { transform: scale(1.06); }
+@media (max-width: 1200px) { .header .logo-mark { width: 46px; height: 46px; } }
+@media (max-width: 640px) { .logo-mark, .header .logo-mark { width: 44px; height: 44px; } }
+.author-box__mark .logo-mark { width: 64px; height: 64px; }

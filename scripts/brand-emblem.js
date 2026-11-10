@@ -61,29 +61,30 @@ const SHIELD_IN = 'M32 4.5 L54.9 11.5 C55.3 25.8 53.9 43.2 32 59 C10.1 43.2 8.7 
 
 // White shield, gold rim, ocean-blue shrimp and fish (the fish swims to the right).
 const PALETTE = {
-  rim: ['#f6e7bd', '#d8b46c', '#a47a36'],
-  art: ['#2a8fd6', '#0f5f9e', '#0b365c'],
-  shield: ['#ffffff', '#f2f7fc'],
+  rim: ['#f3d98f', '#c9973f', '#8a5a1c'],
+  art: ['#1f7fc4', '#0e4f86', '#082c4c'],
+  shield: ['#ffffff', '#f4f8fc'],
   detail: '#ffffff',
+  edge: '#0b2f52',
 };
 
 function emblem(id = 'e', { ring = true, bg = true, shield = true, pal = PALETTE } = {}) {
   const grad = (n, c, x2 = 1, y2 = 1) => `<linearGradient id="${id}${n}" x1="0" y1="0" x2="${x2}" y2="${y2}">${c.map((v, i) => `<stop offset="${f(i / (c.length - 1))}" stop-color="${v}"/>`).join('')}</linearGradient>`;
   const A = `url(#${id}a)`, G = `url(#${id}g)`, D = pal.detail;
-  return `<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  return `<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
 <defs>
 ${grad('g', pal.rim)}
 ${grad('a', pal.art)}
 ${grad('b', pal.shield, 0.35, 1)}
 </defs>
-${bg ? (shield ? `<path d="${SHIELD}" fill="url(#${id}b)" stroke="${G}" stroke-width="2.2" stroke-linejoin="round"/>` : `<circle cx="32" cy="32" r="31.5" fill="url(#${id}b)"/>`) : ''}
-${ring ? (shield ? `<path d="${SHIELD_IN}" fill="none" stroke="${G}" stroke-width=".5" stroke-linejoin="round" opacity=".75"/>` : `<circle cx="32" cy="32" r="29.6" fill="none" stroke="${G}" stroke-width="1"/><circle cx="32" cy="32" r="27.4" fill="none" stroke="${G}" stroke-width=".4" opacity=".5"/>`) : ''}
+${bg ? (shield ? `${pal.edge ? `<path d="${SHIELD}" fill="none" stroke="${pal.edge}" stroke-width="3.6" stroke-linejoin="round"/>` : ''}<path d="${SHIELD}" fill="url(#${id}b)" stroke="${G}" stroke-width="2.4" stroke-linejoin="round"/>` : `<circle cx="32" cy="32" r="31.5" fill="url(#${id}b)"/>`) : ''}
+${ring ? (shield ? `<path d="${SHIELD_IN}" fill="none" stroke="${G}" stroke-width=".7" stroke-linejoin="round"/>` : `<circle cx="32" cy="32" r="29.6" fill="none" stroke="${G}" stroke-width="1"/><circle cx="32" cy="32" r="27.4" fill="none" stroke="${G}" stroke-width=".4" opacity=".5"/>`) : ''}
 ${shield && bg ? '<g transform="translate(32 35) scale(.9) translate(-32 -33)">' : '<g>'}
-<g fill="none" stroke="${A}" stroke-linecap="round" stroke-width=".6" opacity=".9"><path d="${ant1}"/><path d="${ant2}"/></g><path d="${legs()}" fill="none" stroke="${A}" stroke-width=".55" stroke-linecap="round" opacity=".6"/>
+<g fill="none" stroke="${A}" stroke-linecap="round" stroke-width="1"><path d="${ant1}"/><path d="${ant2}"/></g><path d="${legs()}" fill="none" stroke="${A}" stroke-width=".8" stroke-linecap="round" opacity=".85"/>
 <path d="${fan}" fill="${A}"/>
 <path d="${body}" fill="${A}"/>
 <path d="${headCap}" fill="${A}"/>
-<path d="${segments()}" fill="none" stroke="${D}" stroke-width=".5" opacity=".6"/>
+<path d="${segments()}" fill="none" stroke="${D}" stroke-width=".6" opacity=".7"/>
 <circle cx="${f(eye[0])}" cy="${f(eye[1])}" r=".95" fill="${D}"/>
 <g transform="matrix(-1 0 0 1 63.6 0)">
 <g fill="${G}">
