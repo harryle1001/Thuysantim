@@ -1,4 +1,4 @@
-/* Generates the THỦY SẢN TÍM emblem: a segmented shrimp curling around a fish, ocean blue on a white, gold-rimmed shield. */
+/* Generates the THỦY SẢN TÍM emblem: a segmented shrimp curling around a fish, gold on a white, gold-rimmed shield. */
 const cx = 32, cy = 33.5, R = 13.6;
 const a0 = -38, a1 = 222; // head (upper right) -> tail (upper left), clockwise through the bottom
 const rad = (d) => (d * Math.PI) / 180;
@@ -59,12 +59,12 @@ const headCap = `M${f(head[0] - 3.3)} ${f(head[1] + 1.6)} Q${f(head[0] - 1.5)} $
 const SHIELD = 'M32 1.6 L57.6 9.4 C58.2 25.6 56.6 45 32 62.4 C7.4 45 5.8 25.6 6.4 9.4 Z';
 const SHIELD_IN = 'M32 4.5 L54.9 11.5 C55.3 25.8 53.9 43.2 32 59 C10.1 43.2 8.7 25.8 9.1 11.5 Z';
 
-// White shield, gold rim, ocean-blue shrimp and fish (the fish swims to the right).
+// White shield, gold rim, gold shrimp and fish with navy details (the fish swims to the right).
 const PALETTE = {
   rim: ['#f3d98f', '#c9973f', '#8a5a1c'],
-  art: ['#1f7fc4', '#0e4f86', '#082c4c'],
+  art: ['#e9c468', '#bd8a32', '#7f5317'],
   shield: ['#ffffff', '#f4f8fc'],
-  detail: '#ffffff',
+  detail: '#0b2f52',
   edge: '#0b2f52',
 };
 
@@ -84,7 +84,7 @@ ${shield && bg ? '<g transform="translate(32 35) scale(.9) translate(-32 -33)">'
 <path d="${fan}" fill="${A}"/>
 <path d="${body}" fill="${A}"/>
 <path d="${headCap}" fill="${A}"/>
-<path d="${segments()}" fill="none" stroke="${D}" stroke-width=".6" opacity=".7"/>
+<path d="${segments()}" fill="none" stroke="${D}" stroke-width=".55" opacity=".75"/>
 <circle cx="${f(eye[0])}" cy="${f(eye[1])}" r=".95" fill="${D}"/>
 <g transform="matrix(-1 0 0 1 63.6 0)">
 <g fill="${G}">
