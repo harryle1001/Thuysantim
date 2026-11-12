@@ -32,5 +32,10 @@
     "mysql2": "^3.24.6",
     "nodemailer": "^10.4.0",
     "sanitize-html": "^2.18.1"
+  },
+  "overrides": {
+    "express-mysql-session": {
+      "mysql2": "$mysql2"
+    }
   }
 }
