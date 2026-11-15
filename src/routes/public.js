@@ -7,6 +7,7 @@ const { query } = require('../config/db');
 const { notifyInquiry } = require('../services/mailer');
 const { analyzeArticle } = require('../services/article');
 const policies = require('../content/policies');
+const { parseDosage } = require('../utils/dosage');
 
 const router = express.Router({ mergeParams: true });
 
@@ -68,6 +69,25 @@ router.get('/products', async (req, res) => {
   res.render('pages/products', { page: 'products', categories: cats.map((c) => M.localizeCategory(c, L)), items, filters: { category, species, q, sort }, currentCategory: catLoc });
 });
 
+// Instant search suggestions (accent-insensitive: "tom" finds "tôm")
+const fold = (v) => String(v || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd');
+router.get('/search/suggest', async (req, res) => {
+  const L = req.locale;
+  const t = res.locals.t;
+  const words = fold(typeof req.query.q === 'string' ? req.query.q.slice(0, 80) : '').split(/\s+/).filter(Boolean);
+  if (!words.length) return res.json({ items: [] });
+  const items = (await M.products.list({ limit: 300 }))
+    .map((r) => M.localizeProduct(r, L))
+    .filter((p) => {
+      const sp = p.species === 'all' ? `${t('product.shrimp')} ${t('product.fish')}` : t(`product.${p.species}`);
+      const hay = fold(`${p.title} ${p.sku} ${p.summaryText} ${p.categoryTitle} ${sp}`);
+      return words.every((w) => hay.includes(w));
+    })
+    .slice(0, 6)
+    .map((p) => ({ title: p.title, sku: p.sku, url: `/${L}/products/${p.slug}`, img: p.imageSrc, price: p.minPrice ? res.locals.money(p.minPrice) : '' }));
+  res.set('Cache-Control', 'private, max-age=60').json({ items });
+});
+
 router.get('/products/:slug', async (req, res, next) => {
   const L = req.locale;
   const row = await M.products.bySlug(req.params.slug);
@@ -82,7 +102,8 @@ router.get('/products/:slug', async (req, res, next) => {
   ]);
   const diseases = allDiseases.map((d) => M.localizeDisease(d, L)).filter((d) => d.productIdList.includes(row.id));
   seo(res, `${product.title} | Thủy Sản Tím`, product.summaryText.slice(0, 170), { image: `${res.locals.config.baseUrl}${product.imageSrc}`, type: 'product' });
-  res.render('pages/product', { page: 'products', product, related: related.map((p) => M.localizeProduct(p, L)), diseases, guides: guides.map((p) => M.localizePost(p, L)) });
+  const doseRules = parseDosage(H.tr(row.dosage, 'vi'), product.dosageText);
+  res.render('pages/product', { page: 'products', product, doseRules, related: related.map((p) => M.localizeProduct(p, L)), diseases, guides: guides.map((p) => M.localizePost(p, L)) });
 });
 
 /* ---------------- Diseases ---------------- */

@@ -95,6 +95,30 @@
       <div class="tabs__panel prose" role="tabpanel" id="panel-usage" aria-labelledby="tab-usage" hidden><%- nl2p(product.usageText) %></div>
       <div class="tabs__panel" role="tabpanel" id="panel-dosage" aria-labelledby="tab-dosage" hidden>
         <div class="dosage-box prose"><% product.dosageText.split('\n').filter(Boolean).forEach(function (line) { %><p><%= line %></p><% }) %></div>
+        <% if (doseRules.length) { %>
+          <div class="dcalc" data-dcalc data-rules="<%= JSON.stringify(doseRules) %>" data-units="<%= JSON.stringify(L.ux.dose.units) %>" data-locale="<%= locale %>">
+            <div class="dcalc__head">
+              <span class="dcalc__ic"><%- icon('flask', '', 22) %></span>
+              <div><h3><%= t('ux.dose.title') %></h3><p><%= t('ux.dose.lead') %></p></div>
+            </div>
+            <% if (doseRules.length > 1) { %>
+              <div class="dcalc__rules" role="radiogroup" aria-label="<%= t('ux.dose.title') %>">
+                <% doseRules.forEach(function (r, i) { %><label class="chip"><input type="radio" name="dose-rule" value="<%= i %>" <%= i ? '' : 'checked' %>><span><%= r.label || ('#' + (i + 1)) %></span></label><% }) %>
+              </div>
+            <% } %>
+            <div class="dcalc__grid">
+              <label class="dcalc__f" data-for="vol area"><span><%= t('ux.dose.area') %></span><input type="number" inputmode="decimal" min="0" step="any" value="3000" data-in="area"></label>
+              <label class="dcalc__f" data-for="vol"><span><%= t('ux.dose.depth') %></span><input type="number" inputmode="decimal" min="0" step="0.1" value="1.2" data-in="depth"></label>
+              <label class="dcalc__f" data-for="feed"><span><%= t('ux.dose.feed') %></span><input type="number" inputmode="decimal" min="0" step="any" value="20" data-in="feed"></label>
+            </div>
+            <div class="dcalc__out" aria-live="polite">
+              <span><%= t('ux.dose.need') %></span>
+              <b data-out>—</b>
+              <small data-for="vol"><%= t('ux.dose.volume') %>: <span data-vol>—</span> m³</small>
+              <small data-for="feed"><%= t('ux.dose.perDay') %></small>
+            </div>
+          </div>
+        <% } %>
         <p class="note"><%- icon('alert', '', 18) %> <%= t('product.disclaimer') %></p>
       </div>
     </div>
@@ -121,6 +145,13 @@
   </div>
 </section>
 <% } %>
+
+<section class="section recent" data-recent data-current="<%= JSON.stringify({ id: product.id, t: product.title.split('—')[0].trim(), u: url('/products/' + product.slug), i: product.imageSrc, p: product.minPrice ? money(product.minPrice) : '' }) %>" hidden>
+  <div class="container">
+    <h2 class="section__title"><%= t('ux.recent') %></h2>
+    <div class="recent__row" data-recent-list></div>
+  </div>
+</section>
 
 <% if (related.length) { %>
 <section class="section section--tint">

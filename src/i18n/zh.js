@@ -200,5 +200,12 @@ module.exports = {
     policies: '政策', taxCode: '企业代码', issued: '签发日期', at: '签发机关', notified: '已向工贸部备案', about: 'Thủy Sản Tím 为越南及区域的可持续水产养殖提供高端生物解决方案。',
     links: '链接', support: '支持', newsletter: '技术简报', newsletterLead: '每月养殖技巧与疫病预警。', subscribe: '订阅', rights: '版权所有。', policy: '隐私政策', terms: '条款', sample: '本网站目前使用示例数据。',
   },
+  ux: {
+    mini: { title: '您的购物车', empty: '购物车还是空的。', view: '查看购物车', checkout: '去结算', freeLeft: '再买 {x} 即可免运费', freeOk: '您的订单已免运费', close: '关闭购物车' },
+    search: { suggest: '推荐产品', all: '查看全部结果', none: '未找到相关产品' },
+    dose: { title: '池塘用量计算器', lead: '输入池塘参数，按标签说明立即算出所需用量。', area: '池塘面积 (m²)', depth: '水深 (m)', feed: '每日投喂量 (kg)', need: '每次用量', volume: '水体积', perDay: '每天', units: { kg: 'kg', g: 'g', l: '升', ml: 'ml' } },
+    recent: '最近浏览',
+    fab: '快速联系',
+  },
   common: { chatZalo: 'Zalo咨询', chatMessenger: 'Messenger咨询', themeDark: '切换到深色模式', themeLight: '切换到浅色模式', home: '首页', back: '返回', notFound: '页面未找到', notFoundLead: '您访问的页面可能已移动或不存在。', error: '出现错误', errorLead: '请稍后再试。', callNow: '立即致电', backToTop: '返回顶部', loading: '处理中…' },
 };

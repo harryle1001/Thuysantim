@@ -27,6 +27,18 @@ function availableMethods(settings) {
 }
 
 /* ---------------- Cart API (JSON) ---------------- */
+// Slide-out mini cart, rendered server-side so prices/translations stay in one place
+function miniCart(res, s) {
+  return new Promise((resolve) => {
+    res.render('partials/minicart', { cart: s }, (err, html) => resolve(err ? '' : html));
+  });
+}
+
+router.get('/cart/mini', async (req, res) => {
+  const s = await cart.resolve(req, req.locale, res.locals.settings);
+  res.json({ ok: true, count: s.count, html: await miniCart(res, s) });
+});
+
 router.post('/cart/add', async (req, res) => {
   const pid = H.clampInt(req.body.pid, 1, 1e9, 0);
   const vi = H.clampInt(req.body.vi, 0, 50, 0);
@@ -37,7 +49,7 @@ router.post('/cart/add', async (req, res) => {
   cart.add(req, pid, vi, qty);
   const summary = await cart.resolve(req, req.locale, res.locals.settings);
   if (req.body.redirect) return res.redirect(`/${req.locale}/${req.body.redirect === 'checkout' ? 'checkout' : 'cart'}`);
-  res.json({ ok: true, count: summary.count, message: res.locals.t('product.added') });
+  res.json({ ok: true, count: summary.count, message: res.locals.t('product.added'), html: await miniCart(res, summary) });
 });
 
 router.post('/cart/update', async (req, res) => {
@@ -54,6 +66,7 @@ router.post('/cart/update', async (req, res) => {
     subtotal: m(s.subtotal),
     shipping: s.shipping ? m(s.shipping) : res.locals.t('cart.free'),
     total: m(s.total),
+    html: req.body.mini ? await miniCart(res, s) : undefined,
     line: (() => {
       const l = s.lines.find((x) => x.pid === pid && x.vi === vi);
       return l ? m(l.amount) : null;

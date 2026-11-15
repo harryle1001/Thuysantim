@@ -200,5 +200,12 @@ module.exports = {
     policies: 'Chính sách', taxCode: 'Mã số doanh nghiệp', issued: 'cấp ngày', at: 'tại', notified: 'Đã thông báo Bộ Công Thương', about: 'Thủy Sản Tím cung cấp giải pháp sinh học cao cấp cho nuôi trồng thủy sản bền vững tại Việt Nam và khu vực.',
     links: 'Liên kết', support: 'Hỗ trợ', newsletter: 'Nhận bản tin kỹ thuật', newsletterLead: 'Mẹo nuôi, cảnh báo dịch bệnh mỗi tháng.', subscribe: 'Đăng ký', rights: 'Bảo lưu mọi quyền.', policy: 'Chính sách bảo mật', terms: 'Điều khoản', sample: 'Website đang dùng dữ liệu mẫu.',
   },
+  ux: {
+    mini: { title: 'Giỏ hàng của bạn', empty: 'Chưa có sản phẩm nào trong giỏ.', view: 'Xem giỏ hàng', checkout: 'Thanh toán', freeLeft: 'Mua thêm {x} để được miễn phí vận chuyển', freeOk: 'Đơn hàng của bạn được miễn phí vận chuyển', close: 'Đóng giỏ hàng' },
+    search: { suggest: 'Gợi ý sản phẩm', all: 'Xem tất cả kết quả', none: 'Không tìm thấy sản phẩm phù hợp' },
+    dose: { title: 'Tính liều cho ao của bạn', lead: 'Nhập thông số ao, hệ thống tính ngay lượng cần dùng theo hướng dẫn trên nhãn.', area: 'Diện tích ao (m²)', depth: 'Độ sâu nước (m)', feed: 'Thức ăn mỗi ngày (kg)', need: 'Lượng cần dùng mỗi lần', volume: 'Thể tích nước', perDay: 'mỗi ngày', units: { kg: 'kg', g: 'g', l: 'lít', ml: 'ml' } },
+    recent: 'Sản phẩm bạn vừa xem',
+    fab: 'Liên hệ nhanh',
+  },
   common: { chatZalo: 'Chat Zalo', chatMessenger: 'Nhắn Messenger', themeDark: 'Bật giao diện tối', themeLight: 'Bật giao diện sáng', home: 'Trang chủ', back: 'Quay lại', notFound: 'Không tìm thấy trang', notFoundLead: 'Trang bạn tìm có thể đã được di chuyển hoặc không tồn tại.', error: 'Đã có lỗi xảy ra', errorLead: 'Vui lòng thử lại sau ít phút.', callNow: 'Gọi ngay', backToTop: 'Lên đầu trang', loading: 'Đang xử lý…' },
 };

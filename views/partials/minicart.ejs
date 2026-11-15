@@ -1,0 +1,47 @@
+<%
+  var ship = settings.shipping || {};
+  var freeFrom = Number(ship.freeFrom) || 0;
+  var left = Math.max(0, freeFrom - cart.subtotal);
+  var pct = freeFrom ? Math.min(100, Math.round(cart.subtotal / freeFrom * 100)) : 100;
+%>
+<% if (!cart.lines.length) { %>
+  <div class="mcart__empty">
+    <span class="mcart__empty-ic"><%- icon('cart', '', 30) %></span>
+    <p><%= t('ux.mini.empty') %></p>
+    <a class="btn btn--primary" href="<%= url('/products') %>"><%= t('cart.continue') %> <%- icon('arrow', '', 18) %></a>
+  </div>
+<% } else { %>
+  <% if (freeFrom) { %>
+    <div class="mcart__ship<%= left ? '' : ' is-free' %>">
+      <p><%- icon('truck', '', 18) %> <% if (left) { %><%- t('ux.mini.freeLeft').replace('{x}', '<b>' + money(left) + '</b>') %><% } else { %><%= t('ux.mini.freeOk') %><% } %></p>
+      <span class="mcart__bar"><i style="width:<%= pct %>%"></i></span>
+    </div>
+  <% } %>
+  <ul class="mcart__lines">
+    <% cart.lines.forEach(function (l) { %>
+      <li class="mline" data-mline data-pid="<%= l.pid %>" data-vi="<%= l.vi %>">
+        <a class="mline__img" href="<%= url('/products/' + l.product.slug) %>"><img src="<%= l.product.imageSrc %>" alt="" width="64" height="64" loading="lazy"></a>
+        <div class="mline__info">
+          <a class="mline__title" href="<%= url('/products/' + l.product.slug) %>"><%= l.product.title.split('—')[0].trim() %></a>
+          <span class="mline__variant"><%= l.variant %> · <%= money(l.price) %></span>
+          <div class="mline__row">
+            <span class="mline__qty">
+              <button type="button" data-mqty="-1" aria-label="−"><%- icon('minus', '', 14) %></button>
+              <b><%= l.qty %></b>
+              <button type="button" data-mqty="1" aria-label="+"><%- icon('plus', '', 14) %></button>
+            </span>
+            <b class="mline__amount"><%= money(l.amount) %></b>
+          </div>
+        </div>
+        <button class="mline__rm" type="button" data-mqty="0" aria-label="<%= t('cart.remove') %>"><%- icon('trash', '', 16) %></button>
+      </li>
+    <% }) %>
+  </ul>
+  <div class="mcart__foot">
+    <div class="mcart__sum"><span><%= t('cart.subtotal') %></span><b><%= money(cart.subtotal) %></b></div>
+    <div class="mcart__btns">
+      <a class="btn btn--outline" href="<%= url('/cart') %>"><%= t('ux.mini.view') %></a>
+      <a class="btn btn--accent" href="<%= url('/checkout') %>"><%= t('ux.mini.checkout') %> <%- icon('arrow', '', 18) %></a>
+    </div>
+  </div>
+<% } %>

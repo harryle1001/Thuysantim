@@ -97,10 +97,15 @@
     $$('[data-dropdown].is-open').forEach(function (d) { d.classList.remove('is-open'); });
   });
 
+  var openMini, closeMini;
+
   /* ---------- Drawer & search ---------- */
   var drawer = $('[data-drawer]');
   var search = $('[data-search]');
-  function lock(on) { doc.body.style.overflow = on ? 'hidden' : ''; }
+  function lock(on) {
+    doc.body.style.overflow = on ? 'hidden' : '';
+    if (window.tstLenis) { if (on) window.tstLenis.stop(); else window.tstLenis.start(); }
+  }
   $$('[data-nav-open]').forEach(function (b) { b.addEventListener('click', function () { drawer.hidden = false; lock(true); }); });
   $$('[data-nav-close]').forEach(function (b) { b.addEventListener('click', function () { drawer.hidden = true; lock(false); }); });
   $$('[data-search-open]').forEach(function (b) {
@@ -110,7 +115,7 @@
   $$('[data-search-close]').forEach(function (b) { b.addEventListener('click', closeSearch); });
   if (search) search.addEventListener('click', function (e) { if (e.target === search) closeSearch(); });
   doc.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') { closeSearch(); if (drawer && !drawer.hidden) { drawer.hidden = true; lock(false); } }
+    if (e.key === 'Escape') { closeSearch(); if (closeMini) closeMini(); if (drawer && !drawer.hidden) { drawer.hidden = true; lock(false); } }
   });
 
   /* ---------- Reveal on scroll ---------- */
@@ -188,7 +193,7 @@
     btn.classList.add('is-loading');
     post('/' + locale + '/cart/add', { pid: btn.getAttribute('data-pid'), vi: vi || 0, qty: qty })
       .then(function (r) {
-        if (r.ok) { setCartCount(r.count); toast(r.message, 'success'); } else toast(r.error || 'Error', 'error');
+        if (r.ok) { setCartCount(r.count); if (r.html && openMini) openMini(r.html); else toast(r.message, 'success'); } else toast(r.error || 'Error', 'error');
       })
       .catch(function () { toast('Network error', 'error'); })
       .then(function () { btn.classList.remove('is-loading'); });
@@ -483,6 +488,172 @@
     window.addEventListener('resize', sync);
     sync();
   });
+  /* ---------- Mini cart (slide-out) ---------- */
+  var mcart = $('[data-mcart]');
+  if (mcart) {
+    var mbody = $('[data-mcart-body]', mcart);
+    var lastFocus;
+    var fill = function (html) { if (typeof html === 'string') mbody.innerHTML = html; };
+    openMini = function (html) {
+      fill(html);
+      lastFocus = doc.activeElement;
+      mcart.hidden = false;
+      lock(true);
+      requestAnimationFrame(function () { mcart.classList.add('is-open'); $('.mcart__head .icon-btn', mcart).focus({ preventScroll: true }); });
+    };
+    closeMini = function () {
+      if (mcart.hidden) return;
+      mcart.classList.remove('is-open');
+      lock(false);
+      setTimeout(function () { mcart.hidden = true; }, 320);
+      if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+    };
+    $$('[data-mcart-close]', mcart).forEach(function (b) { b.addEventListener('click', closeMini); });
+    // Header cart icon opens the drawer (still a normal link without JS / on the cart page itself)
+    $$('a.hcart').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || doc.body.classList.contains('page-cart')) return;
+        e.preventDefault();
+        openMini('');
+        mbody.classList.add('is-loading');
+        fetch('/' + locale + '/cart/mini', { headers: { Accept: 'application/json' }, credentials: 'same-origin' })
+          .then(function (r) { return r.json(); })
+          .then(function (r) { fill(r.html); setCartCount(r.count); })
+          .catch(function () { window.location.href = a.href; })
+          .then(function () { mbody.classList.remove('is-loading'); });
+      });
+    });
+    mbody.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-mqty]');
+      if (!b) return;
+      var line = b.closest('[data-mline]');
+      var cur = parseInt($('.mline__qty b', line).textContent, 10) || 0;
+      var d = parseInt(b.getAttribute('data-mqty'), 10);
+      mbody.classList.add('is-loading');
+      post('/' + locale + '/cart/update', { pid: line.getAttribute('data-pid'), vi: line.getAttribute('data-vi'), qty: d === 0 ? 0 : Math.max(0, cur + d), mini: 1 })
+        .then(function (r) { if (r.ok) { setCartCount(r.count); fill(r.html); } })
+        .catch(function () { toast('Network error', 'error'); })
+        .then(function () { mbody.classList.remove('is-loading'); });
+    });
+  }
+
+  /* ---------- Instant search suggestions ---------- */
+  $$('form[data-suggest]').forEach(function (form) {
+    var input = $('input[name="q"]', form);
+    var box = doc.createElement('div');
+    box.className = 'ssug';
+    box.id = 'ssug-' + Math.random().toString(36).slice(2, 8);
+    box.setAttribute('role', 'listbox');
+    box.setAttribute('data-lenis-prevent', '');
+    box.hidden = true;
+    form.appendChild(box);
+    input.setAttribute('aria-controls', box.id);
+    input.setAttribute('aria-autocomplete', 'list');
+    var timer, ctl, active = -1;
+    var esc = function (t) { return String(t).replace(/[&<>"']/g, function (c) { return '&#' + c.charCodeAt(0) + ';'; }); };
+    var hide = function () { box.hidden = true; active = -1; };
+    var items = function () { return $$('.ssug__item', box); };
+    var mark = function (i) {
+      var list = items();
+      list.forEach(function (el, k) { el.classList.toggle('is-active', k === i); el.setAttribute('aria-selected', k === i); });
+      active = i;
+    };
+    var run = function () {
+      var q = input.value.trim();
+      if (q.length < 2) return hide();
+      if (ctl) ctl.abort();
+      ctl = 'AbortController' in window ? new AbortController() : null;
+      fetch(form.getAttribute('data-suggest') + '?q=' + encodeURIComponent(q), { signal: ctl && ctl.signal, credentials: 'same-origin' })
+        .then(function (r) { return r.json(); })
+        .then(function (r) {
+          var html = '<p class="ssug__head">' + esc(form.getAttribute('data-s-title')) + '</p>';
+          if (!r.items.length) html += '<p class="ssug__none">' + esc(form.getAttribute('data-s-none')) + '</p>';
+          r.items.forEach(function (it) {
+            html += '<a class="ssug__item" role="option" href="' + esc(it.url) + '"><img src="' + esc(it.img) + '" alt="" width="44" height="44" loading="lazy"><span><b>' + esc(it.title.split('—')[0].trim()) + '</b><small>' + esc(it.sku || '') + '</small></span><em>' + esc(it.price) + '</em></a>';
+          });
+          html += '<button class="ssug__all" type="submit">' + esc(form.getAttribute('data-s-all')) + ' “' + esc(q) + '” →</button>';
+          box.innerHTML = html;
+          box.hidden = false;
+          active = -1;
+        })
+        .catch(function () {});
+    };
+    input.addEventListener('input', function () { clearTimeout(timer); timer = setTimeout(run, 180); });
+    input.addEventListener('focus', function () { if (box.innerHTML && input.value.trim().length > 1) box.hidden = false; });
+    input.addEventListener('keydown', function (e) {
+      var list = items();
+      if (box.hidden || !list.length) return;
+      if (e.key === 'ArrowDown') { e.preventDefault(); mark((active + 1) % list.length); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); mark((active - 1 + list.length) % list.length); }
+      else if (e.key === 'Enter' && active > -1) { e.preventDefault(); window.location.href = list[active].href; }
+      else if (e.key === 'Escape') hide();
+    });
+    doc.addEventListener('click', function (e) { if (!form.contains(e.target)) hide(); });
+  });
+
+  /* ---------- Pond dose calculator ---------- */
+  var dc = $('[data-dcalc]');
+  if (dc) {
+    var rules = JSON.parse(dc.getAttribute('data-rules') || '[]');
+    var unitName = JSON.parse(dc.getAttribute('data-units') || '{}');
+    var nfmt = new Intl.NumberFormat(dc.getAttribute('data-locale') === 'vi' ? 'vi-VN' : 'en-US', { maximumFractionDigits: 1 });
+    var val = function (k) { var v = parseFloat(($('[data-in="' + k + '"]', dc).value || '').replace(',', '.')); return v > 0 ? v : 0; };
+    // Pick a readable unit: 0.4 kg → 400 g, 2500 ml → 2.5 L
+    var pretty = function (x, unit) {
+      if (unit === 'kg' && x < 1) return [x * 1000, 'g'];
+      if (unit === 'l' && x < 1) return [x * 1000, 'ml'];
+      if (unit === 'g' && x >= 1000) return [x / 1000, 'kg'];
+      if (unit === 'ml' && x >= 1000) return [x / 1000, 'l'];
+      return [x, unit];
+    };
+    var calc = function () {
+      var picked = $('input[name="dose-rule"]:checked', dc);
+      var r = rules[picked ? +picked.value : 0];
+      if (!r) return;
+      $$('[data-for]', dc).forEach(function (el) { el.hidden = el.getAttribute('data-for').split(' ').indexOf(r.type) === -1; });
+      var vol = val('area') * val('depth');
+      var base = r.type === 'vol' ? vol : r.type === 'area' ? val('area') : val('feed');
+      $('[data-vol]', dc).textContent = nfmt.format(vol);
+      if (!base) { $('[data-out]', dc).textContent = '—'; return; }
+      var hi = pretty(r.max * base, r.unit);
+      var lo = r.min * base * (hi[0] / (r.max * base)); // same unit as the upper bound
+      var u = unitName[hi[1]] || hi[1];
+      $('[data-out]', dc).textContent = nfmt.format(lo) === nfmt.format(hi[0]) ? nfmt.format(lo) + ' ' + u : nfmt.format(lo) + ' – ' + nfmt.format(hi[0]) + ' ' + u;
+    };
+    dc.addEventListener('input', calc);
+    dc.addEventListener('change', calc);
+    calc();
+  }
+
+  /* ---------- Recently viewed products (stored only in this browser) ---------- */
+  var recent = $('[data-recent]');
+  if (recent) {
+    var KEY = 'tst-recent-' + locale;
+    var list = [];
+    try { list = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { list = []; }
+    var cur = JSON.parse(recent.getAttribute('data-current'));
+    var others = list.filter(function (x) { return x && x.id !== cur.id; });
+    try { localStorage.setItem(KEY, JSON.stringify([cur].concat(others).slice(0, 8))); } catch (e) { /* private mode */ }
+    if (others.length) {
+      var e2 = function (t) { return String(t || '').replace(/[&<>"']/g, function (c) { return '&#' + c.charCodeAt(0) + ';'; }); };
+      $('[data-recent-list]', recent).innerHTML = others.slice(0, 6).map(function (x) {
+        return '<a class="rcard" href="' + e2(x.u) + '"><img src="' + e2(x.i) + '" alt="" width="72" height="72" loading="lazy"><span><b>' + e2(x.t) + '</b>' + (x.p ? '<em>' + e2(x.p) + '</em>' : '') + '</span></a>';
+      }).join('');
+      recent.hidden = false;
+    }
+  }
+
+  /* ---------- Quick-contact button (folds into one on phones) ---------- */
+  var fab = $('[data-fab]');
+  var fabBtn = $('[data-fab-toggle]');
+  if (fab && fabBtn) {
+    fabBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var open = fab.classList.toggle('is-open');
+      fabBtn.setAttribute('aria-expanded', open);
+    });
+    doc.addEventListener('click', function (e) { if (!fab.contains(e.target)) { fab.classList.remove('is-open'); fabBtn.setAttribute('aria-expanded', 'false'); } });
+  }
 })();
 
 /* Print buttons on policy pages */

@@ -105,3 +105,15 @@ test('landing pages: content complete, products exist, lead tag sanitised', () =
   const tag = lp.leadTag('x', { utm_source: 'facebook', utm_campaign: 'mua<script>', fbclid: 'abc' });
   assert.equal(tag, 'LP x | utm: facebook/muascript | via fb');
 });
+
+test('parseDosage turns label text into calculator rules', () => {
+  const { parseDosage } = require('../src/utils/dosage');
+  const r = parseDosage('Định kỳ: 1 kg/3.000–4.000 m³.\nĐáy ao dơ: 20–30 kg/1.000 m².\nPhòng: 3–5 g/kg thức ăn.\nKhông dùng chung với men vi sinh.', 'Routine: x\nDirty: y\nPrevention: z');
+  assert.equal(r.length, 3);
+  assert.deepEqual([r[0].type, r[0].unit, r[0].label], ['vol', 'kg', 'Routine']);
+  assert.equal(r[0].min, 1 / 4000);
+  assert.equal(r[0].max, 1 / 3000);
+  assert.deepEqual([r[1].type, r[1].min, r[1].max], ['area', 0.02, 0.03]);
+  assert.deepEqual([r[2].type, r[2].unit, r[2].min, r[2].max], ['feed', 'g', 3, 5]);
+  assert.deepEqual(parseDosage('', ''), []);
+});

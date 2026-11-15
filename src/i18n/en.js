@@ -200,5 +200,12 @@ module.exports = {
     policies: 'Policies', taxCode: 'Business registration no.', issued: 'issued on', at: 'by', notified: 'Notified to the Ministry of Industry and Trade', about: 'Thủy Sản Tím provides premium biological solutions for sustainable aquaculture in Vietnam and the region.',
     links: 'Links', support: 'Support', newsletter: 'Technical newsletter', newsletterLead: 'Monthly farming tips and disease alerts.', subscribe: 'Subscribe', rights: 'All rights reserved.', policy: 'Privacy policy', terms: 'Terms', sample: 'This website currently uses sample data.',
   },
+  ux: {
+    mini: { title: 'Your cart', empty: 'Your cart is empty.', view: 'View cart', checkout: 'Checkout', freeLeft: 'Add {x} more for free shipping', freeOk: 'Your order ships free', close: 'Close cart' },
+    search: { suggest: 'Suggested products', all: 'See all results', none: 'No matching products' },
+    dose: { title: 'Pond dose calculator', lead: 'Enter your pond details to get the exact amount based on the label directions.', area: 'Pond area (m²)', depth: 'Water depth (m)', feed: 'Feed per day (kg)', need: 'Amount per application', volume: 'Water volume', perDay: 'per day', units: { kg: 'kg', g: 'g', l: 'L', ml: 'ml' } },
+    recent: 'Recently viewed',
+    fab: 'Quick contact',
+  },
   common: { chatZalo: 'Chat on Zalo', chatMessenger: 'Message on Messenger', themeDark: 'Switch to dark mode', themeLight: 'Switch to light mode', home: 'Home', back: 'Back', notFound: 'Page not found', notFoundLead: 'The page you are looking for may have moved or no longer exists.', error: 'Something went wrong', errorLead: 'Please try again in a few minutes.', callNow: 'Call now', backToTop: 'Back to top', loading: 'Processing…' },
 };

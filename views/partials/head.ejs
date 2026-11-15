@@ -52,7 +52,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap<% if (locale === 'zh') { %>&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@500;600;700<% } %>">
-  <link rel="stylesheet" href="/css/main.css?v=3.4.0">
+  <link rel="stylesheet" href="/css/main.css?v=3.5.0">
   <script type="application/ld+json" nonce="<%= nonce %>"><%- JSON.stringify({
     '@context': 'https://schema.org',
     '@graph': [
@@ -117,7 +117,7 @@
       </span>
     </a>
 
-    <form class="hsearch" action="<%= url('/products') %>" method="get" role="search">
+    <form class="hsearch" action="<%= url('/products') %>" method="get" role="search" data-suggest="<%= url('/search/suggest') %>" data-s-title="<%= t('ux.search.suggest') %>" data-s-all="<%= t('ux.search.all') %>" data-s-none="<%= t('ux.search.none') %>">
       <input type="search" name="q" placeholder="<%= t('nav.search') %>" aria-label="<%= t('nav.search') %>" autocomplete="off">
       <button type="submit" aria-label="<%= t('nav.search') %>"><%- icon('search', '', 20) %></button>
     </form>
@@ -160,7 +160,7 @@
 </header>
 
 <div class="search-overlay" data-search hidden>
-  <form class="search-overlay__box" action="<%= url('/products') %>" method="get" role="search">
+  <form class="search-overlay__box" action="<%= url('/products') %>" method="get" role="search" data-suggest="<%= url('/search/suggest') %>" data-s-title="<%= t('ux.search.suggest') %>" data-s-all="<%= t('ux.search.all') %>" data-s-none="<%= t('ux.search.none') %>">
     <%- icon('search', '', 22) %>
     <input type="search" name="q" placeholder="<%= t('nav.search') %>" aria-label="<%= t('nav.search') %>" autocomplete="off">
     <button type="button" class="icon-btn" data-search-close aria-label="Close"><%- icon('close') %></button>
