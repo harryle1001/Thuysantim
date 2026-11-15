@@ -196,6 +196,17 @@ router.get('/quote', async (req, res) => {
   res.render('pages/quote', { page: 'quote', products: rows.map((p) => M.localizeProduct(p, L)), form: { product: typeof req.query.product === 'string' ? req.query.product.slice(0, 200) : '' }, sent: req.query.sent === '1' });
 });
 
+/* ---------------- Ad landing pages (minimal header, own CSS/JS) ---------------- */
+router.get('/lp/:slug', async (req, res, next) => {
+  const landings = require('../content/landings');
+  const lp = landings.get(req.params.slug, req.locale);
+  if (!lp) return next();
+  const rows = await Promise.all(lp.products.slugs.map((s) => M.products.bySlug(s)));
+  const products = rows.filter(Boolean).map((p) => M.localizeProduct(p, req.locale));
+  seo(res, lp.title, lp.description);
+  res.render('pages/landing', { page: 'landing', lp, slug: req.params.slug, products, leadTag: landings.leadTag(req.params.slug, req.query) });
+});
+
 /* ---------------- Inquiry submit (contact / quote / dealer / callback) ---------------- */
 router.post('/inquiry', formLimiter, async (req, res) => {
   const t = res.locals.t;

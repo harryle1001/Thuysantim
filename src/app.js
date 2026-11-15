@@ -122,7 +122,9 @@ function createApp() {
           (l) => `<url><loc>${loc(l, p)}</loc>${m && +new Date(m) > 0 ? `<lastmod>${new Date(m).toISOString().slice(0, 10)}</lastmod>` : ''}<changefreq>${f}</changefreq><priority>${pr}</priority>${H.LOCALES.map((a) => `<xhtml:link rel="alternate" hreflang="${dict[a].lang.html}" href="${loc(a, p)}"/>`).join('')}<xhtml:link rel="alternate" hreflang="x-default" href="${loc('vi', p)}"/>${img(i)}</url>`
         ).join('')
       )
-      .join('');
+      .join('')
+      // Ad landing pages exist in Vietnamese only
+      + require('./content/landings').slugs().map((s) => `<url><loc>${loc('vi', `/lp/${s}`)}</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>`).join('');
     res.set('Cache-Control', 'public, max-age=3600');
     res.type('application/xml').send(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">${urls}</urlset>`);
   });

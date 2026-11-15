@@ -17,6 +17,7 @@ Website đa ngôn ngữ **Tiếng Việt · English · 中文**, có catalog s�
 | **Giỏ hàng & đặt hàng** | Giỏ hàng lưu theo phiên, phí ship & ngưỡng miễn phí, kiểm tra dữ liệu, mã đơn ngẫu nhiên, tra cứu đơn bằng mã + SĐT |
 | **Thanh toán** | COD · **VietQR** (tự sinh mã QR có sẵn số tiền + mã đơn) · **VNPay** · **MoMo** · Đặt hàng — nhân viên gọi lại |
 | **Form** | Liên hệ, đăng ký đại lý, yêu cầu báo giá, nhận bản tin, gọi lại — có chống spam (honeypot + giới hạn tần suất), gửi email thông báo |
+| **Landing page quảng cáo** | `/vi/lp/xu-ly-khi-doc-day-ao` — trang riêng cho Facebook/TikTok/Google Ads: header tối giản, form gọi lại (lưu vào Liên hệ & Báo giá, kèm nguồn `utm_*`/fbclid/ttclid/gclid), nút Gọi/Zalo nổi, nền 3D lặn biển tải sau. Bắn sự kiện `lp_lead` vào `dataLayer` và `fbq`/`ttq`/`gtag` nếu đã cài pixel. Thêm chiến dịch mới: thêm 1 khối trong `src/content/landings.js` |
 | **Admin `/admin`** | Tổng quan (KPI + biểu đồ doanh thu 14 ngày), Đơn hàng, Liên hệ & Báo giá, Sản phẩm (nhập 3 ngôn ngữ, nhiều quy cách, upload ảnh), Danh mục, Bài viết (Markdown), Tra cứu bệnh, Cài đặt (thông tin công ty, ngân hàng VietQR, phí ship, bật/tắt phương thức thanh toán), đổi mật khẩu |
 | **SEO** | URL `/vi` `/en` `/zh`, hreflang, canonical, Open Graph, JSON-LD (Organization, Product, Article), `sitemap.xml` đa ngôn ngữ, `robots.txt` |
 | **Bảo mật** | Helmet + CSP có nonce, CSRF token, session lưu MySQL, bcrypt, giới hạn đăng nhập sai, xác thực chữ ký HMAC cho VNPay/MoMo, kiểm tra số tiền khi IPN |

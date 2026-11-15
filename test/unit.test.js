@@ -89,3 +89,19 @@ test('i18n dictionaries have identical key structure', () => {
   assert.deepEqual(keys(dict.en), vi);
   assert.deepEqual(keys(dict.zh), vi);
 });
+
+test('landing pages: content complete, products exist, lead tag sanitised', () => {
+  const lp = require('../src/content/landings');
+  const seedSlugs = require('../src/db/seed-data').products.map((p) => p.slug);
+  assert.ok(lp.slugs().length > 0);
+  for (const slug of lp.slugs()) {
+    const page = lp.get(slug, 'vi');
+    assert.ok(page.title && page.description.length <= 200, `${slug}: SEO title/description`);
+    assert.ok(page.faq.length >= 3);
+    page.products.slugs.forEach((s) => assert.ok(seedSlugs.includes(s), `${slug}: unknown product ${s}`));
+  }
+  assert.equal(lp.get('xu-ly-khi-doc-day-ao', 'en'), null);
+  assert.equal(lp.get('__proto__', 'vi'), null);
+  const tag = lp.leadTag('x', { utm_source: 'facebook', utm_campaign: 'mua<script>', fbclid: 'abc' });
+  assert.equal(tag, 'LP x | utm: facebook/muascript | via fb');
+});

@@ -1,0 +1,263 @@
+<%
+  const company = (settings && settings.company) || {};
+  const stats = (settings && settings.stats) || {};
+  const tel = (company.hotline || '').replace(/\s/g, '');
+  const zalo = company.zalo ? 'https://zalo.me/' + company.zalo : '';
+  const canonical = config.baseUrl + '/' + locale + pathRest;
+  const ogImage = config.baseUrl + '/img/og-cover.png';
+  const num = (n) => Number(n || 0).toLocaleString('vi-VN');
+  const dec = (n) => String(n).replace('.', ',');
+  const byRole = lp.products.roles;
+%><!doctype html>
+<html lang="vi" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title><%= lp.title %></title>
+  <meta name="description" content="<%= lp.description %>">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="<%= canonical %>">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Thủy Sản Tím">
+  <meta property="og:title" content="<%= lp.title %>">
+  <meta property="og:description" content="<%= lp.description %>">
+  <meta property="og:url" content="<%= canonical %>">
+  <meta property="og:image" content="<%= ogImage %>">
+  <meta property="og:locale" content="vi_VN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#04162a">
+  <meta name="color-scheme" content="dark">
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&display=swap">
+  <link rel="stylesheet" href="/css/lp.css?v=1.0.0">
+  <script type="application/ld+json" nonce="<%= nonce %>"><%- JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      { '@type': 'WebPage', '@id': canonical, url: canonical, name: lp.title, description: lp.description, inLanguage: 'vi-VN',
+        publisher: { '@type': 'Organization', name: 'Thủy Sản Tím', url: config.baseUrl, logo: config.baseUrl + '/img/apple-touch-icon.png', telephone: company.hotline } },
+      { '@type': 'FAQPage', mainEntity: lp.faq.map(function (f) { return { '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } }; }) },
+      { '@type': 'ItemList', name: lp.products.title, itemListElement: products.map(function (p, i) { return { '@type': 'ListItem', position: i + 1, url: config.baseUrl + url('/products/' + p.slug), name: p.title }; }) }
+    ]
+  }).replace(/</g, '\\u003c') %></script>
+</head>
+<body class="lp">
+<canvas class="lp-ocean" data-ocean aria-hidden="true"></canvas>
+
+<header class="lp-head">
+  <div class="lp-wrap lp-head__in">
+    <a class="lp-brand" href="<%= url('') %>" aria-label="Thủy Sản Tím — trang chủ">
+      <%- include('../partials/logo', { uid: 'lp' }) %>
+      <span><b>THỦY SẢN <em>TÍM</em></b><small><%= tr(company.tagline) %></small></span>
+    </a>
+    <a class="lp-head__call" href="tel:<%= tel %>" data-track="call">
+      <%- icon('phone', '', 18) %><span><small>Hotline kỹ thuật</small><b><%= company.hotline %></b></span>
+    </a>
+  </div>
+</header>
+
+<main id="main">
+  <!-- ============ HERO + FORM ============ -->
+  <section class="lp-hero">
+    <div class="lp-wrap lp-hero__grid">
+      <div class="lp-hero__copy">
+        <p class="lp-eyebrow"><span class="lp-dot"></span><%= lp.hero.eyebrow %></p>
+        <h1><%= lp.hero.title %> <em><%= lp.hero.titleEm %></em></h1>
+        <p class="lp-lead"><%= lp.hero.lead %></p>
+        <ul class="lp-checks">
+          <% lp.hero.bullets.forEach(function (b) { %><li><%- icon('check', '', 18) %><%= b %></li><% }) %>
+        </ul>
+        <div class="lp-hero__cta" data-hero-cta>
+          <a class="lp-btn lp-btn--gold" href="#dang-ky"><%= lp.cta.button %> <%- icon('arrow', '', 18) %></a>
+          <% if (zalo) { %><a class="lp-btn lp-btn--zalo" href="<%= zalo %>" target="_blank" rel="noopener" data-track="zalo"><span class="lp-zalo">Zalo</span> Nhắn kỹ sư</a><% } %>
+        </div>
+        <dl class="lp-stats">
+          <div><dt><%= num(stats.ponds || 12000) %>+</dt><dd>ao nuôi tin dùng</dd></div>
+          <div><dt><%= stats.years || 15 %> năm</dt><dd>kinh nghiệm</dd></div>
+          <div><dt><%= stats.provinces || 28 %></dt><dd>tỉnh thành</dd></div>
+        </dl>
+      </div>
+
+      <div class="lp-card lp-form" id="dang-ky">
+        <div data-form-body>
+          <h2><%= lp.form.title %></h2>
+          <p class="lp-form__lead"><%= lp.form.lead %></p>
+          <% if (flash) { %><p class="lp-alert lp-alert--<%= flash.type %>" role="status"><%= flash.message %></p><% } %>
+          <form action="<%= url('/inquiry') %>" method="post" data-lp-form novalidate>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input type="hidden" name="kind" value="callback">
+            <input type="hidden" name="back" value="<%= url('/lp/' + slug) %>">
+            <input type="hidden" name="product" value="<%= leadTag %>">
+            <input type="text" name="website" class="lp-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <div class="lp-field"><label for="lp-name">Họ tên *</label><input id="lp-name" name="name" required maxlength="160" autocomplete="name" placeholder="VD: Nguyễn Văn Tư"></div>
+            <div class="lp-field"><label for="lp-phone">Số điện thoại / Zalo *</label><input id="lp-phone" name="phone" type="tel" required maxlength="20" inputmode="tel" autocomplete="tel" pattern="[+0-9][0-9 .\-]{7,16}" placeholder="VD: 0909 123 456"></div>
+            <div class="lp-field"><label for="lp-prov">Tỉnh nuôi</label>
+              <select id="lp-prov" name="province"><option value="">— Chọn tỉnh —</option><% lp.form.provinces.forEach(function (p) { %><option><%= p %></option><% }) %></select>
+            </div>
+            <fieldset class="lp-chips"><legend>Ao đang gặp vấn đề gì?</legend>
+              <% lp.form.issues.forEach(function (s, i) { %><label><input type="radio" name="message" value="<%= s %>"<%= i === 0 ? ' checked' : '' %>><span><%= s %></span></label><% }) %>
+            </fieldset>
+            <p class="lp-err" data-form-error role="alert" hidden></p>
+            <button class="lp-btn lp-btn--gold lp-btn--block" type="submit"><%= lp.form.button %> <%- icon('phone', '', 18) %></button>
+            <p class="lp-form__note"><%- icon('shield', '', 15) %> <%= lp.form.note %></p>
+          </form>
+        </div>
+        <div class="lp-done" data-form-done hidden tabindex="-1">
+          <span class="lp-done__ic"><%- icon('check', '', 30) %></span>
+          <h2><%= lp.form.done %></h2>
+          <p><%= lp.form.doneLead %></p>
+          <div class="lp-done__row">
+            <% if (zalo) { %><a class="lp-btn lp-btn--zalo" href="<%= zalo %>" target="_blank" rel="noopener" data-track="zalo"><span class="lp-zalo">Zalo</span> Nhắn ngay</a><% } %>
+            <a class="lp-btn lp-btn--ghost" href="tel:<%= tel %>" data-track="call"><%- icon('phone', '', 18) %> <%= company.hotline %></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SIGNS ============ -->
+  <section class="lp-sec">
+    <div class="lp-wrap">
+      <header class="lp-shead rv"><p class="lp-kicker"><%= lp.signs.kicker %></p><h2><%= lp.signs.title %></h2></header>
+      <ul class="lp-signs">
+        <% lp.signs.items.forEach(function (s) { %>
+        <li class="lp-card rv"><span class="lp-ic"><%- icon(s.icon, '', 22) %></span><h3><%= s.t %></h3><p><%= s.d %></p></li>
+        <% }) %>
+      </ul>
+      <div class="lp-why rv">
+        <div><h3><%= lp.signs.whyTitle %></h3><p><%= lp.signs.why %></p></div>
+        <div class="lp-limits"><h3><%= lp.signs.limitsTitle %></h3>
+          <dl><% lp.signs.limits.forEach(function (l) { %><div><dt><%= l.k %></dt><dd><%= l.v %></dd></div><% }) %></dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SOLUTION ============ -->
+  <section class="lp-sec lp-sec--glass">
+    <div class="lp-wrap">
+      <header class="lp-shead rv"><p class="lp-kicker"><%= lp.solution.kicker %></p><h2><%= lp.solution.title %></h2><p><%= lp.solution.lead %></p></header>
+      <ol class="lp-steps">
+        <% lp.solution.steps.forEach(function (s) { %>
+        <li class="lp-step rv"><span class="lp-step__n"><%= s.n %></span><h3><%= s.t %></h3><p><%= s.d %></p><small><%= byRole[s.p] %></small></li>
+        <% }) %>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ PRODUCTS ============ -->
+  <section class="lp-sec" id="san-pham">
+    <div class="lp-wrap">
+      <header class="lp-shead rv"><p class="lp-kicker"><%= lp.products.kicker %></p><h2><%= lp.products.title %></h2></header>
+      <div class="lp-prods">
+        <% products.forEach(function (p) { const parts = p.title.split('—'); %>
+        <article class="lp-card lp-prod rv">
+          <span class="lp-prod__role"><%= byRole[p.slug] %></span>
+          <div class="lp-prod__img"><img src="<%= p.imageSrc %>" alt="<%= p.title %>" width="240" height="240" loading="lazy" decoding="async"></div>
+          <h3><%= parts[0].trim() %></h3>
+          <% if (parts[1]) { %><p class="lp-prod__sub"><%= parts[1].trim() %></p><% } %>
+          <p class="lp-prod__sum"><%= p.summaryText %></p>
+          <div class="lp-prod__foot">
+            <% if (p.minPrice) { %><span><small><%= lp.products.from %></small><b><%= money(p.minPrice) %></b></span><% } %>
+            <a href="<%= url('/products/' + p.slug) %>"><%= lp.products.detail %> <%- icon('arrow', '', 16) %></a>
+          </div>
+        </article>
+        <% }) %>
+      </div>
+      <p class="lp-combo rv"><%- icon('tag', '', 18) %> <%= lp.products.combo %> <a href="#dang-ky">Nhận báo giá bộ</a></p>
+    </div>
+  </section>
+
+  <!-- ============ PROOF ============ -->
+  <section class="lp-sec lp-sec--glass">
+    <div class="lp-wrap">
+      <header class="lp-shead rv"><p class="lp-kicker"><%= lp.proof.kicker %></p><h2><%= lp.proof.title %></h2></header>
+      <div class="lp-proof">
+        <figure class="lp-card lp-case rv">
+          <figcaption><h3><%= lp.proof.caseTitle %></h3>
+            <span class="lp-legend"><i class="is-before"></i><%= lp.proof.before %> <i class="is-after"></i><%= lp.proof.after %></span></figcaption>
+          <% lp.proof.metrics.forEach(function (m) { %>
+          <div class="lp-metric">
+            <span class="lp-metric__k"><%= m.k %></span>
+            <div class="lp-bar"><i class="is-before" style="--w:<%= Math.round(m.before / m.max * 100) %>%"></i><b><%= dec(m.before) %></b></div>
+            <div class="lp-bar"><i class="is-after" style="--w:<%= Math.max(3, Math.round(m.after / m.max * 100)) %>%"></i><b><%= dec(m.after) %></b></div>
+          </div>
+          <% }) %>
+          <p class="lp-note"><%= lp.proof.caseNote %></p>
+        </figure>
+        <div class="lp-reviews">
+          <% lp.proof.reviews.forEach(function (r) { %>
+          <blockquote class="lp-card lp-review rv">
+            <span class="lp-stars" aria-label="5 sao">★★★★★</span>
+            <p>“<%= r.text %>”</p>
+            <footer><span class="lp-avatar" aria-hidden="true"><%= r.name.split(' ').pop()[0] %></span><span><b><%= r.name %></b><small><%= r.place %></small></span></footer>
+          </blockquote>
+          <% }) %>
+        </div>
+      </div>
+      <ul class="lp-certs rv">
+        <% lp.proof.certs.forEach(function (c) { %><li><%- icon('badge', '', 18) %><%= c %></li><% }) %>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ USAGE ============ -->
+  <section class="lp-sec">
+    <div class="lp-wrap lp-usage">
+      <header class="lp-shead lp-shead--left rv"><p class="lp-kicker"><%= lp.usage.kicker %></p><h2><%= lp.usage.title %></h2>
+        <ul class="lp-tips"><% lp.usage.tips.forEach(function (tip) { %><li><%- icon('sparkle', '', 16) %><%= tip %></li><% }) %></ul>
+      </header>
+      <ol class="lp-timeline">
+        <% lp.usage.steps.forEach(function (s) { %><li class="rv"><b><%= s.when %></b><p><%= s.what %></p></li><% }) %>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="lp-sec lp-sec--glass">
+    <div class="lp-wrap lp-wrap--narrow">
+      <header class="lp-shead rv"><p class="lp-kicker">Hỏi đáp</p><h2>Bà con thường hỏi</h2></header>
+      <div class="lp-faq">
+        <% lp.faq.forEach(function (f, i) { %>
+        <details class="rv"<%= i === 0 ? ' open' : '' %>><summary><%= f.q %><%- icon('plus', '', 18) %></summary><p><%= f.a %></p></details>
+        <% }) %>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section class="lp-sec lp-final">
+    <div class="lp-wrap">
+      <div class="lp-final__box rv">
+        <h2><%= lp.cta.title %></h2>
+        <p><%= lp.cta.lead %></p>
+        <div class="lp-final__row">
+          <a class="lp-btn lp-btn--gold" href="#dang-ky"><%= lp.cta.button %> <%- icon('arrow', '', 18) %></a>
+          <a class="lp-btn lp-btn--ghost" href="tel:<%= tel %>" data-track="call"><%- icon('phone', '', 18) %> <%= company.hotline %></a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="lp-foot">
+  <div class="lp-wrap">
+    <p><b><%= tr(company.legal) || 'Công ty TNHH Thủy Sản Tím' %></b> · MST <%= legalInfo.taxCode %></p>
+    <p><%= tr(company.address) %> · <a href="tel:<%= tel %>"><%= company.hotline %></a> · <a href="mailto:<%= company.email %>"><%= company.email %></a></p>
+    <p class="lp-foot__links"><a href="<%= url('') %>">Trang chủ</a><a href="<%= url('/products') %>">Sản phẩm</a><% (policyLinks || []).slice(0, 2).forEach(function (p) { %><a href="<%= url('/policies/' + p.slug) %>"><%= p.title %></a><% }) %></p>
+    <p class="lp-foot__note">Sản phẩm dùng trong nuôi trồng thủy sản, đọc kỹ hướng dẫn trước khi dùng. <%= t('footer.sample') %></p>
+  </div>
+</footer>
+
+<!-- Floating contact: bottom bar on phones, round buttons on desktop -->
+<nav class="lp-dock" aria-label="Liên hệ nhanh" data-dock>
+  <a class="lp-dock__call" href="tel:<%= tel %>" data-track="call"><%- icon('phone', '', 20) %><span><%= lp.sticky.call %></span></a>
+  <% if (zalo) { %><a class="lp-dock__zalo" href="<%= zalo %>" target="_blank" rel="noopener" data-track="zalo"><span class="lp-zalo">Zalo</span><span><%= lp.sticky.zalo %></span></a><% } %>
+  <a class="lp-dock__form" href="#dang-ky"><%- icon('headset', '', 20) %><span><%= lp.sticky.form %></span></a>
+</nav>
+
+<script src="/js/lp.js?v=1.0.0" defer nonce="<%= nonce %>"></script>
+</body>
+</html>
