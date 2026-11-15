@@ -1727,3 +1727,8 @@ html[data-theme='dark'] .logo-mark { filter: drop-shadow(0 2px 4px rgba(0, 0, 0,
 @media (max-width: 1200px) { .header .logo-mark { width: 46px; height: 46px; } }
 @media (max-width: 640px) { .logo-mark, .header .logo-mark { width: 44px; height: 44px; } }
 .author-box__mark .logo-mark { width: 64px; height: 64px; }
+
+/* Lenis: keep the map and video iframes clickable, only ignore them while the page is moving */
+html.lenis { scroll-behavior: auto; }
+.lenis.lenis-smooth iframe { pointer-events: auto; }
+.lenis.lenis-scrolling iframe { pointer-events: none; }

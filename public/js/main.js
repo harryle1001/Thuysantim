@@ -82,7 +82,7 @@
   };
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
-  if (toTop) toTop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  if (toTop) toTop.addEventListener('click', function () { if (window.__lenis) window.__lenis.scrollTo(0); else window.scrollTo({ top: 0, behavior: 'smooth' }); });
 
   /* ---------- Dropdowns ---------- */
   $$('[data-dropdown]').forEach(function (dd) {
@@ -100,7 +100,7 @@
   /* ---------- Drawer & search ---------- */
   var drawer = $('[data-drawer]');
   var search = $('[data-search]');
-  function lock(on) { doc.body.style.overflow = on ? 'hidden' : ''; }
+  function lock(on) { doc.body.style.overflow = on ? 'hidden' : ''; if (window.__lenis) { if (on) window.__lenis.stop(); else window.__lenis.start(); } }
   $$('[data-nav-open]').forEach(function (b) { b.addEventListener('click', function () { drawer.hidden = false; lock(true); }); });
   $$('[data-nav-close]').forEach(function (b) { b.addEventListener('click', function () { drawer.hidden = true; lock(false); }); });
   $$('[data-search-open]').forEach(function (b) {

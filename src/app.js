@@ -49,6 +49,8 @@ function createApp() {
 
   /* ---------- Static & generated assets ---------- */
   app.use(express.static(path.join(__dirname, '../public'), { maxAge: config.isProd ? '7d' : 0, etag: true }));
+  // Lenis smooth scrolling, served from the installed package (no CDN needed)
+  app.use('/vendor/lenis', express.static(path.join(__dirname, '../node_modules/lenis/dist'), { maxAge: config.isProd ? '30d' : 0, etag: true }));
 
   app.get('/media/:id', async (req, res, next) => {
     const id = parseInt(req.params.id, 10);
