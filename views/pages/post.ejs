@@ -4,7 +4,7 @@
   const coverAbs = /^https?:/.test(post.coverSrc) ? post.coverSrc : config.baseUrl + post.coverSrc;
   const graph = [{
     '@type': 'BlogPosting', '@id': postUrl + '#article', headline: post.titleText, description: post.excerptText,
-    image: [coverAbs, config.baseUrl + '/img/og-cover.png'], inLanguage: L.lang.html, articleSection: t('blog.topics.' + post.topic),
+    image: [coverAbs, config.baseUrl + '/img/og-cover.png?v=2'], inLanguage: L.lang.html, articleSection: t('blog.topics.' + post.topic),
     wordCount: article.words, timeRequired: 'PT' + article.readMinutes + 'M',
     datePublished: new Date(post.published_at).toISOString(), dateModified: new Date(post.updated_at).toISOString(),
     author: { '@type': 'Organization', name: post.author, url: config.baseUrl + url('/about') },

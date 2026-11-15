@@ -1732,3 +1732,9 @@ html[data-theme='dark'] .logo-mark { filter: drop-shadow(0 2px 4px rgba(0, 0, 0,
 html.lenis { scroll-behavior: auto; }
 .lenis.lenis-smooth iframe { pointer-events: auto; }
 .lenis.lenis-scrolling iframe { pointer-events: none; }
+
+/* ===== Logo TIM (tỉ lệ vàng) ===== */
+.logo-mark { filter: drop-shadow(0 4px 10px rgba(74, 4, 78, .18)); }
+.brand:hover .logo-mark { transform: scale(1.06); }
+html[data-theme='dark'] { --logo-c1: #f5d0fe; --logo-c2: #d8b4fe; --logo-c3: #a78bfa; }
+html[data-theme='dark'] .logo-mark { filter: drop-shadow(0 4px 12px rgba(0, 0, 0, .45)); }
