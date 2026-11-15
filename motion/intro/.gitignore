@@ -1,0 +1,4 @@
+node_modules/
+public/music.wav
+out/*.png
+out/*.log

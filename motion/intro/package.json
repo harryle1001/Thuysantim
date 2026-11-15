@@ -1,0 +1,24 @@
+{
+  "name": "thuysantim-intro",
+  "private": true,
+  "description": "Video motion graphic giới thiệu Thủy Sản Tím (Remotion). Độc lập với website.",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "render:16x9": "remotion render src/index.ts Intro16x9 out/thuysantim-intro-1920x1080.mp4",
+    "render:9x16": "remotion render src/index.ts Intro9x16 out/thuysantim-intro-1080x1920.mp4",
+    "music": "node scripts/make-music.mjs",
+    "build": "npm run music && npm run render:16x9 && npm run render:9x16"
+  },
+  "dependencies": {
+    "@fontsource/be-vietnam-pro": "^5.3.0",
+    "@fontsource/cormorant-garamond": "^5.3.0",
+    "@remotion/cli": "^4.0.543",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "remotion": "^4.0.543"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "typescript": "^7.0.2"
+  }
+}
