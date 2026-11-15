@@ -1,26 +1,25 @@
-# Logo motion — Thủy Sản Tím
+# Logo motion — Thủy Sản Tím (logo TIM)
 
-Logo reveal 6 s, 60 fps, dựng bằng HTML/SVG điều khiển theo thời gian (`stage.html` → `renderAt(t)`), render khung hình bằng Playwright, ghép bằng ffmpeg. Độc lập với code website.
+Logo reveal ~6.2 s, 60 fps, theo logo chốt `public/brand/logo-tim-4k` (vòng tròn + chữ thập TIM, tỷ lệ φ). Mốc thời gian theo φ: 0.382 · 0.618 · 1 · 1.618 · 2.618 · 4.236 s.
 
-**Kịch bản:** giọt nước vàng → sóng lan → khiên vẽ nét vàng → nước dâng lấp đầy khiên → tôm cuộn vòng từ đầu tới đuôi, râu vẽ nét → cá bơi vào → ánh vàng quét qua khiên → logo lùi sang vị trí lockup, chữ "THỦY SẢN TÍM" hiện từng ký tự → đường kẻ vàng + slogan → ánh kim chạy trên chữ "TÍM".
+**Kịch bản:** giọt nước rơi → gợn sóng lan → gợn thu lại thành vòng logo → chữ I mọc lên → T, M trượt ngang → T trên, M dưới ghép thành chữ thập → ánh champagne quét qua → logo lùi vào lockup, "THỦY SẢN TÍM" hiện từng chữ → vạch vàng + slogan.
 
 ## File xuất (`out/`)
 | File | Dùng cho |
 |---|---|
-| `thuysantim-logo-1920x1080.mp4` | YouTube, màn hình, intro video ngang |
+| `thuysantim-logo-1920x1080.mp4` | Intro video ngang, YouTube |
 | `thuysantim-logo-1080x1920.mp4` | Reels / TikTok / Shorts |
-| `*-alpha.webm` | Nền trong suốt (VP9 alpha) — web, CapCut, Premiere |
-| `*-alpha.mov` | ProRes 4444 nền trong suốt cho dựng phim chuyên nghiệp — **không commit** (~200 MB), tạo lại bằng lệnh render |
-| `poster-1920x1080.jpg` | Ảnh khung cuối |
+| `*-alpha.webm` | Nền trong suốt (VP9 alpha) |
+| `*-alpha.mov` | ProRes 4444 nền trong suốt — **không commit** (~200 MB), tạo lại bằng `node render.js` |
+| `poster-1920x1080.jpg` | Khung cuối |
 
 ## Render lại
 ```bash
 cd motion/logo
-node render.js            # cả ngang + dọc, kèm bản alpha
-node render.js h --no-alpha
-node render.js v --stills 1,3,6   # chỉ xuất ảnh tĩnh để duyệt
+node render.js                    # ngang + dọc, kèm alpha
+node render.js v --stills 1,3,6   # ảnh tĩnh để duyệt
 ```
-Xem trực tiếp trong trình duyệt: mở `stage.html?play=1` (thêm `&o=v` cho bản dọc).
+Xem trực tiếp: mở `stage.html?play=1` (thêm `&o=v` cho bản dọc).
 
-## Loader cho website
-`web/loader.html` — bản SVG + CSS (~5 KB, không cần JS), có `prefers-reduced-motion`. Copy khối `.tst-loader` + style vào layout và thêm class `is-done` khi trang tải xong.
+## Loader website
+`web/loader.html` — SVG + CSS (~4 KB), tôn trọng `prefers-reduced-motion`. Thêm class `is-done` khi trang tải xong.
