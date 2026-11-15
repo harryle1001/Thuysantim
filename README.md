@@ -10,7 +10,7 @@ Website đa ngôn ngữ **Tiếng Việt · English · 中文**, có catalog s�
 
 | Khu vực | Chi tiết |
 |---|---|
-| **Trang chủ** | Hero động (sóng nước, bong bóng, phân tử), số liệu đếm tăng, 6 nhóm sản phẩm, sản phẩm nổi bật, quy trình 4 giai đoạn, R&D/Lab, tra cứu bệnh nhanh, đánh giá khách hàng, blog, form "gọi lại cho tôi" |
+| **Trang chủ** | Nền 3D WebGL "lặn biển" cố định sau nội dung (`public/js/ocean.js`): cuộn xuống là lặn từ mặt nước nắng chiếu xuống đáy sâu phát sáng, đàn cá bơi ngang, cuộn mượt bằng Lenis; tự giảm độ phân giải trên máy yếu, ảnh tĩnh khi bật giảm chuyển động. Hero động (sóng nước, bong bóng, phân tử), số liệu đếm tăng, 6 nhóm sản phẩm, sản phẩm nổi bật, quy trình 4 giai đoạn, R&D/Lab, tra cứu bệnh nhanh, đánh giá khách hàng, blog, form "gọi lại cho tôi" |
 | **Sản phẩm** | Lọc theo danh mục / tôm / cá, tìm kiếm, sắp xếp giá; trang chi tiết có nhiều quy cách & giá, tab Mô tả / Thành phần / Công dụng / Liều dùng, bệnh liên quan, sản phẩm liên quan, thanh mua hàng cố định trên mobile |
 | **Ảnh bao bì tự động** | Khi chưa có ảnh thật, hệ thống tự vẽ ảnh bao bì SVG (túi / chai) theo màu chủ đạo của từng sản phẩm |
 | **Tra cứu bệnh** | 8 bệnh tôm cá phổ biến: triệu chứng, nguyên nhân, phòng ngừa, hướng xử lý, sản phẩm hỗ trợ; tìm kiếm tức thì không phân biệt dấu |

@@ -82,7 +82,7 @@
   };
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
-  if (toTop) toTop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  if (toTop) toTop.addEventListener('click', function () { if (window.tstLenis) window.tstLenis.scrollTo(0); else window.scrollTo({ top: 0, behavior: 'smooth' }); });
 
   /* ---------- Dropdowns ---------- */
   $$('[data-dropdown]').forEach(function (dd) {
