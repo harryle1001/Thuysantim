@@ -45,10 +45,26 @@ function createApp() {
       crossOriginEmbedderPolicy: false,
     })
   );
+  app.use((req, res, next) => {
+    res.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=(self), usb=(), interest-cohort=()');
+    next();
+  });
   app.use(compression());
 
   /* ---------- Static & generated assets ---------- */
-  app.use(express.static(path.join(__dirname, '../public'), { maxAge: config.isProd ? '7d' : 0, etag: true }));
+  // Versioned (?v=…) and version-named vendor files never change → cache for a year; the rest 7 days
+  const YEAR = 'public, max-age=31536000, immutable';
+  app.use(
+    express.static(path.join(__dirname, '../public'), {
+      maxAge: config.isProd ? '7d' : 0,
+      etag: true,
+      setHeaders(res, file) {
+        if (!config.isProd) return;
+        if (res.req.query.v || file.includes(`${path.sep}vendor${path.sep}`)) res.set('Cache-Control', YEAR);
+      },
+    })
+  );
+  const svgCache = (req, fallback) => (req.query.v ? YEAR : fallback);
 
   app.get('/media/:id', async (req, res, next) => {
     const id = parseInt(req.params.id, 10);
@@ -64,7 +80,7 @@ function createApp() {
     const slug = String(req.params.file).replace(/\.svg$/, '');
     const row = await one('SELECT id, slug, sku, name, variants, color FROM products WHERE slug = ?', [slug]);
     if (!row) return next();
-    res.set('Cache-Control', 'public, max-age=86400');
+    res.set('Cache-Control', svgCache(req, 'public, max-age=86400, stale-while-revalidate=604800'));
     res.type('image/svg+xml').send(packshotSvg(row, { transparent: req.query.bg === '0' }));
   });
 
@@ -72,7 +88,7 @@ function createApp() {
     const slug = String(req.params.file).replace(/\.svg$/, '');
     const row = await one('SELECT slug, topic FROM posts WHERE slug = ?', [slug]);
     if (!row) return next();
-    res.set('Cache-Control', 'public, max-age=604800');
+    res.set('Cache-Control', svgCache(req, 'public, max-age=604800, stale-while-revalidate=604800'));
     res.type('image/svg+xml').send(coverSvg(row.slug, row.topic));
   });
 
@@ -182,6 +198,11 @@ function createApp() {
   app.get('/', (req, res) => res.redirect(302, `/${detectLocale(req)}`));
 
   const localized = express.Router({ mergeParams: true });
+  // HTML carries the session's CSRF token & cart → never let a shared cache/CDN store it
+  localized.use((req, res, next) => {
+    res.set('Cache-Control', 'private, no-cache');
+    next();
+  });
   localized.use(localeMiddleware, commonLocals);
   localized.use(require('./routes/public'));
   localized.use(require('./routes/shop'));

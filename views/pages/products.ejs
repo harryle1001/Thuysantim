@@ -18,7 +18,7 @@
   <div class="container shop">
     <aside class="filters" aria-label="Filters">
       <div>
-        <h3><%= t('product.species') %></h3>
+        <h2><%= t('product.species') %></h2>
         <div class="seg">
           <a href="<%= qs({ species: '' }) %>" class="<%= !filters.species ? 'is-active' : '' %>"><%= t('product.all') %></a>
           <a href="<%= qs({ species: 'shrimp' }) %>" class="<%= filters.species === 'shrimp' ? 'is-active' : '' %>"><%= t('product.shrimp') %></a>
@@ -26,7 +26,7 @@
         </div>
       </div>
       <div>
-        <h3><%= t('nav.products') %></h3>
+        <h2><%= t('nav.products') %></h2>
         <nav class="filters__list">
           <a href="<%= qs({ category: '' }) %>" class="<%= !filters.category ? 'is-active' : '' %>"><%- icon('sparkle', '', 18) %> <%= t('product.all') %> <span class="count"><%= total %></span></a>
           <% categories.forEach(function (c) { %>
@@ -65,8 +65,9 @@
       </div>
 
       <% if (items.length) { %>
+        <h2 class="sr-only"><%= t('nav.products') %></h2>
         <div class="pgrid pgrid--shop">
-          <% items.forEach(function (p) { %><%- include('../partials/product-card', { p }) %><% }) %>
+          <% items.forEach(function (p, i) { %><%- include('../partials/product-card', { p, eager: i < 2 ? 'high' : i < 4 }) %><% }) %>
         </div>
       <% } else { %>
         <div class="empty"><%- icon('search', '', 40) %><p><%= t('product.empty') %></p><a class="btn btn--outline" style="margin-top:18px" href="<%= url('/products') %>"><%= t('product.all') %></a></div>

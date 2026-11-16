@@ -93,9 +93,15 @@
       btn.setAttribute('aria-expanded', open);
     });
   });
-  doc.addEventListener('click', function () {
-    $$('[data-dropdown].is-open').forEach(function (d) { d.classList.remove('is-open'); });
-  });
+  function closeDropdowns() {
+    $$('[data-dropdown].is-open').forEach(function (d) {
+      d.classList.remove('is-open');
+      var b = $('[data-dropdown-toggle]', d);
+      if (b) b.setAttribute('aria-expanded', 'false');
+    });
+  }
+  doc.addEventListener('click', closeDropdowns);
+  doc.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeDropdowns(); });
 
   var openMini, closeMini;
 

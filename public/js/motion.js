@@ -17,7 +17,7 @@
     this.items = [];
     this.bubbles = [];
     this.t = 0;
-    this.visible = true;
+    this.visible = !('IntersectionObserver' in window); // animate only once it scrolls into view
     this.resize();
     this.populate();
     var self = this;
@@ -32,7 +32,7 @@
 
   Aquarium.prototype.resize = function () {
     var r = this.c.getBoundingClientRect();
-    this.dpr = Math.min(2, window.devicePixelRatio || 1);
+    this.dpr = Math.min(1.5, window.devicePixelRatio || 1);
     this.w = Math.max(1, r.width);
     this.h = Math.max(1, r.height);
     this.c.width = Math.round(this.w * this.dpr);

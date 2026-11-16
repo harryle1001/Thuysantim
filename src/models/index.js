@@ -22,6 +22,12 @@ async function saveSetting(key, value) {
 }
 
 /* ---------------- Localizers ---------------- */
+// Cache-busting token for generated SVGs, so /pack and /cover can be cached as immutable
+function ver(row) {
+  const t = row && row.updated_at ? +new Date(row.updated_at) : 0;
+  return t > 0 ? `?v=${Math.floor(t / 1000).toString(36)}` : '';
+}
+
 function imageUrl(image, fallback) {
   if (!image) return fallback;
   if (/^https?:\/\//.test(image) || image.startsWith('/')) return image;
@@ -48,14 +54,14 @@ function localizeProduct(row, locale) {
     categoryTitle: row.category_name ? tr(row.category_name, locale) : '',
     variantList: variants,
     minPrice: prices.length ? Math.min(...prices) : 0,
-    imageSrc: imageUrl(row.image, `/pack/${row.slug}.svg`),
+    imageSrc: imageUrl(row.image, `/pack/${row.slug}.svg${ver(row)}`),
     galleryList: parseJSON(row.gallery, []).map((g) => imageUrl(g)),
   };
 }
 
 function localizePost(row, locale) {
   if (!row) return null;
-  return { ...row, titleText: tr(row.title, locale), excerptText: tr(row.excerpt, locale), bodyText: tr(row.body, locale), coverSrc: imageUrl(row.cover, `/cover/${row.slug}.svg`) };
+  return { ...row, titleText: tr(row.title, locale), excerptText: tr(row.excerpt, locale), bodyText: tr(row.body, locale), coverSrc: imageUrl(row.cover, `/cover/${row.slug}.svg${ver(row)}`) };
 }
 
 function localizeDisease(row, locale) {

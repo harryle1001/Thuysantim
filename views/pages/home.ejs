@@ -30,7 +30,7 @@
               <p class="slide__lead"><%= s.lead %></p>
               <a class="btn btn--accent" href="<%= url('/products?category=' + s.cat) %>" <%= i ? 'tabindex="-1"' : '' %>><%= s.cta %> <%- icon('arrow', '', 18) %></a>
             </div>
-            <% if (p) { %><img class="slide__img" data-pack-fixed src="<%= p.image ? p.imageSrc : p.imageSrc + '?bg=0' %>" alt="<%= p.title %>" width="600" height="600" <%= i ? 'loading="lazy"' : 'fetchpriority="high"' %>><% } %>
+            <% if (p) { %><img class="slide__img" data-pack-fixed src="<%= p.image ? p.imageSrc : p.imageSrc + (p.imageSrc.includes('?') ? '&' : '?') + 'bg=0' %>" alt="<%= p.title %>" width="600" height="600" <%- i ? 'loading="lazy"' : 'fetchpriority="high"' %>><% } %>
           </div>
         <% }) %>
       </div>
@@ -86,7 +86,7 @@
         </ul>
       </div>
       <a class="duo__media" href="#consult" tabindex="-1" aria-hidden="true">
-        <% if (featured[0]) { %><img data-pack-fixed src="<%= featured[0].image ? featured[0].imageSrc : featured[0].imageSrc + '?bg=0' %>" alt="" loading="lazy" width="600" height="600"><% } %>
+        <% if (featured[0]) { %><img data-pack-fixed src="<%= featured[0].image ? featured[0].imageSrc : featured[0].imageSrc + (featured[0].imageSrc.includes('?') ? '&' : '?') + 'bg=0' %>" alt="" loading="lazy" width="600" height="600"><% } %>
         <span class="duo__cap"><b><%= S.side[0].t %></b><small><%= S.side[0].d %></small></span>
       </a>
     </div>

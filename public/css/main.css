@@ -38,7 +38,7 @@
   --gold-600: #8a6a2e;
   --gold-100: #f6ecd6;
   --gold-grad: linear-gradient(120deg, #f6e7bd 0%, #d8b46c 45%, #a47a36 100%);
-  --font-display: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  --font-display: 'Cormorant Garamond', 'Cormorant Fallback', 'Playfair Display', Georgia, serif;
   --danger: #e11d48;
   --warn: #d97706;
   --ok: #059669;
@@ -52,14 +52,14 @@
   --shadow-lg: 0 30px 60px -20px rgba(11, 54, 92, .35);
   --ring: 0 0 0 4px rgba(23, 119, 189, .18);
 
-  --font: 'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  --font: 'Be Vietnam Pro', 'Be Vietnam Pro Fallback', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
   --font-serif: 'Playfair Display', Georgia, serif;
   --container: 1240px;
   --header-h: 76px;
   --ease: cubic-bezier(.2, .7, .2, 1);
 }
 
-html[data-locale='zh'] { --font: 'Be Vietnam Pro', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif; --font-display: 'Cormorant Garamond', 'Noto Serif SC', 'Songti SC', serif; }
+html[data-locale='zh'] { --font: 'Be Vietnam Pro', 'Be Vietnam Pro Fallback', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif; --font-display: 'Cormorant Garamond', 'Cormorant Fallback', 'Noto Serif SC', 'Songti SC', serif; }
 
 /* ---------- Reset ---------- */
 *, *::before, *::after { box-sizing: border-box; }
@@ -77,6 +77,9 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 :focus-visible { outline: 2px solid var(--p-500); outline-offset: 3px; border-radius: 6px; }
 ::selection { background: var(--p-600); color: #fff; }
 
+/* Metric-matched local fallbacks: text keeps its size while web fonts swap in → no layout shift (CLS) */
+@font-face { font-family: 'Be Vietnam Pro Fallback'; src: local('Arial'), local('Helvetica'), local('Liberation Sans'); size-adjust: 103%; ascent-override: 97%; descent-override: 25.7%; line-gap-override: 0%; }
+@font-face { font-family: 'Cormorant Fallback'; src: local('Times New Roman'), local('Times'), local('Liberation Serif'); size-adjust: 92%; ascent-override: 100.4%; descent-override: 31.2%; line-gap-override: 0%; }
 .sr-only, .hp { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .skip-link { position: absolute; left: 12px; top: -60px; z-index: 200; background: var(--p-800); color: #fff; padding: 10px 16px; border-radius: 10px; transition: top .2s; }
 .skip-link:focus { top: 12px; }
@@ -542,7 +545,7 @@ html[data-locale='zh'] .hero__title { letter-spacing: 0; line-height: 1.2; }
    ========================================================================== */
 .shop { display: grid; grid-template-columns: 270px 1fr; gap: 40px; align-items: start; }
 .filters { position: sticky; top: calc(var(--header-h) + 20px); display: flex; flex-direction: column; gap: 26px; }
-.filters h3 { font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+.filters h2, .filters h3 { font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
 .filters__list { display: flex; flex-direction: column; gap: 4px; }
 .filters__list a { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; font-size: 15px; color: var(--text); transition: background .2s; }
 .filters__list a:hover { background: var(--bg-tint); }
@@ -1292,8 +1295,9 @@ html[data-theme='dark'] { --price: #ff8a7a; --violet: #b49cf0; }
 .slider__nav:hover { background: rgba(255, 255, 255, .3); }
 .slider__nav--prev { left: 12px; }
 .slider__nav--next { right: 12px; }
-.slider__dots { position: absolute; left: 48px; bottom: 20px; z-index: 2; display: flex; gap: 8px; }
-.slider__dots button { width: 10px; height: 10px; border-radius: 99px; background: rgba(255, 255, 255, .35); transition: width .3s, background .3s; }
+.slider__dots { position: absolute; left: 41px; bottom: 13px; z-index: 2; display: flex; gap: 0; }
+/* 24×24 touch target (WCAG 2.5.8); the visible dot is the content box */
+.slider__dots button { box-sizing: content-box; padding: 7px; background-clip: content-box; width: 10px; height: 10px; border-radius: 99px; background: rgba(255, 255, 255, .35); transition: width .3s, background .3s; }
 .slider__dots button.is-active { width: 30px; background: var(--gold); }
 
 .shop-side { display: grid; grid-template-rows: 1fr 1fr; gap: 16px; }
@@ -1423,7 +1427,7 @@ html[data-theme='dark'] .policy__icon { border-color: #2a4a68; }
   .slide__lead { display: none; }
   .slide__img { position: absolute; right: -14px; bottom: 6px; width: 46%; max-width: 220px; }
   .slide .btn { padding: 10px 16px; font-size: 14px; }
-  .slider__dots { left: 22px; bottom: 16px; }
+  .slider__dots { left: 15px; bottom: 9px; }
   .slider__nav { display: none; }
   .shop-side { grid-template-columns: 1fr; gap: 10px; }
   .shop-side__card { min-height: 92px; padding: 14px 16px 14px 78px; }
@@ -1479,7 +1483,7 @@ html[data-theme='dark'] .policy__icon { border-color: #2a4a68; }
 .shop-cats a { padding: 8px 14px; }
 .shop-cats .catmenu__all { margin-top: 0; padding-top: 10px; border-top-style: solid; }
 .slider { margin-top: 20px; min-height: 380px; border-radius: 12px; }
-.slider__dots button { border-radius: 3px; }
+.slider__dots button { border-radius: 10px; } /* inner (dot) radius = 10 − 7px padding = 3px */
 
 /* Policy strip: flat, round filled icons, uppercase titles */
 .policy { padding: 30px 0 4px; }
@@ -1736,7 +1740,8 @@ html.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-stopped { overflow: clip; }
 .lenis.lenis-smooth iframe { pointer-events: none; }
 
-.ocean { position: fixed; inset: 0; z-index: -1; width: 100%; height: 100vh; height: 100lvh; display: block; pointer-events: none; }
+.ocean { position: fixed; inset: 0; z-index: -1; width: 100%; height: 100vh; height: 100lvh; display: block; pointer-events: none; opacity: 0; transition: opacity .9s ease; }
+html.ocean-on .ocean { opacity: 1; }
 /* Fallback before WebGL starts / when it's unavailable: same palette as the shader */
 html.has-ocean { background: linear-gradient(180deg, #edf7fb, #cae4f0) fixed; }
 html.has-ocean[data-theme='dark'] { background: linear-gradient(180deg, #0b3f66, #04182c 55%, #01060d) fixed; }

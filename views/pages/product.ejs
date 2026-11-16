@@ -26,12 +26,12 @@
     <div class="pd" data-product>
       <div class="pd__gallery">
         <div class="pd__main">
-          <img data-gallery-main src="<%= product.imageSrc %>" alt="<%= product.title %>" width="600" height="600">
+          <img data-gallery-main src="<%= product.imageSrc %>" alt="<%= product.title %>" width="600" height="600" fetchpriority="high">
           <% if (product.badge) { %><span class="pill pill--<%= product.badge %>"><%= t('product.badges.' + product.badge) %></span><% } %>
         </div>
         <% if (images.length > 1) { %>
           <div class="pd__thumbs">
-            <% images.forEach(function (src, i) { %><button type="button" data-thumb="<%= src %>" class="<%= i === 0 ? 'is-active' : '' %>" aria-label="Image <%= i + 1 %>"><img src="<%= src %>" alt="" loading="lazy"></button><% }) %>
+            <% images.forEach(function (src, i) { %><button type="button" data-thumb="<%= src %>" class="<%= i === 0 ? 'is-active' : '' %>" aria-label="Image <%= i + 1 %>"><img src="<%= src %>" alt="" loading="lazy" decoding="async" width="600" height="600"></button><% }) %>
           </div>
         <% } %>
       </div>

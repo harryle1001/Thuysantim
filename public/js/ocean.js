@@ -7,13 +7,33 @@
   var canvas = document.querySelector('[data-ocean]');
   if (!canvas) return;
   var root = document.documentElement;
+  // Never compete with first paint / LCP: start only after `load`, when the main thread is idle.
+  // Until then (and when WebGL is unavailable) the CSS gradient on html.has-ocean is the backdrop.
+  function schedule() {
+    var go = function () { if (window.requestIdleCallback) requestIdleCallback(init, { timeout: 1500 }); else setTimeout(init, 200); };
+    if (document.readyState === 'complete') go(); else window.addEventListener('load', go, { once: true });
+  }
+  schedule();
+
+  function init() {
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var mobile = window.matchMedia && window.matchMedia('(max-width: 820px), (pointer: coarse)').matches;
 
-  function fail() { root.classList.add('ocean-off'); canvas.remove(); }
+  var lenis = null;
+  function fail() {
+    root.classList.remove('ocean-on');
+    root.classList.add('ocean-off');
+    canvas.remove();
+    if (lenis) { lenis.destroy(); lenis = null; window.tstLenis = null; } // autoRaf is off → would freeze the wheel
+  }
 
-  var gl = canvas.getContext('webgl', { antialias: false, alpha: false, depth: false, stencil: false, premultipliedAlpha: true, powerPreference: 'high-performance' });
+  // failIfMajorPerformanceCaveat: skip software-rendered WebGL (no GPU / blocklisted driver) — a full-screen
+  // shader there costs seconds of main-thread time; the static gradient is used instead.
+  var gl = canvas.getContext('webgl', { antialias: false, alpha: false, depth: false, stencil: false, premultipliedAlpha: true, powerPreference: 'high-performance', failIfMajorPerformanceCaveat: true });
   if (!gl) return fail();
+  // Software rasterisers that don't report the caveat (SwiftShader, llvmpipe, Basic Render Driver)
+  var dbg = gl.getExtension('WEBGL_debug_renderer_info');
+  if (dbg && /swiftshader|llvmpipe|softpipe|software|basic render/i.test(String(gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL)))) return fail();
   var hp = gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER, gl.HIGH_FLOAT);
   var PREC = hp && hp.precision > 0 ? 'highp' : 'mediump';
 
@@ -249,7 +269,6 @@
   /* ------------------------------------------------------------------ */
   /* Smooth scroll (Lenis) — desktop wheel only; touch stays native      */
   /* ------------------------------------------------------------------ */
-  var lenis = null;
   if (!reduce && window.Lenis) {
     lenis = new window.Lenis({ autoRaf: false, lerp: 0.085, smoothWheel: true, wheelMultiplier: 0.95, allowNestedScroll: true, anchors: { offset: -96 } });
     window.tstLenis = lenis;
@@ -262,7 +281,7 @@
   /* ------------------------------------------------------------------ */
   /* Render loop                                                         */
   /* ------------------------------------------------------------------ */
-  var start = performance.now(), last = start, running = false, frames = 0, slow = 0, lost = false;
+  var start = performance.now(), last = start, running = false, frames = 0, slow = 0, lost = false, shown = false, winStart = start;
   var timeFrozen = 18.0;
 
   function draw(now) {
@@ -314,13 +333,18 @@
     st.ptr[0] += (st.tPtr[0] - st.ptr[0]) * k * 0.6;
     st.ptr[1] += (st.tPtr[1] - st.ptr[1]) * k * 0.6;
     draw(now);
+    if (!shown) { shown = true; root.classList.add('ocean-on'); } // fade in after the first real frame
 
-    // Adaptive quality: drop resolution if the device can't hold ~45 fps
+    // Adaptive quality: drop resolution if the device can't hold ~45 fps; still too slow at the
+    // lowest resolution → fall back to the static gradient instead of draining the device
     frames++;
     if (dt > 0.024) slow++;
-    if (frames >= 90) {
-      if (slow > 45 && quality > 0.5) { quality = Math.max(0.5, quality - 0.15); resize(true); }
-      frames = 0; slow = 0;
+    if (frames >= 90 || (frames >= 10 && now - winStart > 2000)) {
+      if (slow > frames * 0.5) {
+        if (quality > 0.5) { quality = Math.max(0.5, quality - 0.15); resize(true); }
+        else if (slow > frames * 0.8) { pause(); fail(); return; }
+      }
+      frames = 0; slow = 0; winStart = now;
     }
     requestAnimationFrame(step);
   }
@@ -337,9 +361,10 @@
     window.addEventListener('resize', function () { resize(false); redraw(); });
     new MutationObserver(redraw).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
     redraw();
+    root.classList.add('ocean-on');
   } else {
     document.addEventListener('visibilitychange', function () { if (document.hidden) pause(); else play(); });
     play();
   }
-  root.classList.add('ocean-on');
+  }
 })();
