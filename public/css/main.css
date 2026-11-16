@@ -1885,3 +1885,133 @@ html.has-ocean .ncard > :not(.ncard__cover) { padding-inline: 6px; }
 @keyframes pheroRays { from { transform: translateX(-3%) skewX(-2deg); } to { transform: translateX(3%) skewX(2deg); } }
 @keyframes pheroBubbles { from { transform: translateY(0); } to { transform: translateY(-50%); } }
 @media (prefers-reduced-motion: reduce) { .phero__bg::before, .phero__bg::after, .mcart__panel, .mcart__scrim { animation: none; transition: none; } }
+/* Lenis: keep the map and video iframes clickable, only ignore them while the page is moving */
+html.lenis { scroll-behavior: auto; }
+.lenis.lenis-smooth iframe { pointer-events: auto; }
+.lenis.lenis-scrolling iframe { pointer-events: none; }
+
+/* ===== Logo TIM (tỉ lệ vàng) ===== */
+.logo-mark { filter: drop-shadow(0 4px 10px rgba(74, 4, 78, .18)); }
+.brand:hover .logo-mark { transform: scale(1.06); }
+html[data-theme='dark'] { --logo-c1: #f5d0fe; --logo-c2: #d8b4fe; --logo-c3: #a78bfa; }
+html[data-theme='dark'] .logo-mark { filter: drop-shadow(0 4px 12px rgba(0, 0, 0, .45)); }
+
+/* ==========================================================================
+   HỆ TỈ LỆ VÀNG φ & HẰNG SỐ π
+   φ = 1.618 · √φ = 1.272 · φ^¼ = 1.128 · π = 3.1416
+   - Cỡ chữ: thang nhân φ^¼ từ 16px (cứ 4 bậc = ×φ)
+   - Khoảng cách: dãy Fibonacci / luỹ thừa φ (6 · 10 · 16 · 26 · 42 · 68 · 110)
+   - Bố cục 2 cột: tỉ lệ φ : 1 (61,8% / 38,2%); cột phụ = 23,6% (φ⁻³)
+   - Bo góc: bội số của π (3,14 · 6,28 · 9,42 · 12,57 · 18,85)
+   - Thời gian chuyển động: π/2 · π · φ phần mười giây (157 · 314 · 618 ms)
+   - Ảnh ngang: khung chữ nhật vàng φ : 1
+   ========================================================================== */
+:root {
+  --phi: 1.618034; --pi: 3.141593;
+  /* type scale ×φ^¼ */
+  --fs--1: 14.18px; --fs-0: 16px; --fs-1: 18.04px; --fs-2: 20.35px; --fs-3: 22.95px; --fs-4: 25.89px;
+  --fs-5: 29.2px; --fs-6: 32.94px; --fs-7: 37.15px; --fs-8: 41.89px; --fs-9: 47.25px; --fs-10: 53.29px; --fs-12: 67.77px; --fs-14: 86.2px;
+  /* spacing ×φ */
+  --sp-1: 6px; --sp-2: 10px; --sp-3: 16px; --sp-4: 26px; --sp-5: 42px; --sp-6: 68px; --sp-7: 110px;
+  /* radius = n·π */
+  --r-1: 3.14px; --r-2: 6.28px; --r-3: 9.42px; --r-4: 12.57px; --r-5: 15.71px; --r-6: 18.85px; --r-8: 25.13px;
+  --radius-sm: var(--r-2); --radius: var(--r-3); --radius-lg: var(--r-4); --radius-xl: var(--r-6);
+  /* motion */
+  --dur-1: 157ms; --dur-2: 314ms; --dur-3: 618ms; --dur-4: 1000ms;
+  --ease: cubic-bezier(.236, .618, .382, 1);
+  --lh-body: 1.618; --lh-head: 1.236; --lh-tight: 1.118;
+}
+
+/* ----- Chữ ----- */
+body { line-height: var(--lh-body); }
+h1, h2, h3, h4 { line-height: var(--lh-head); }
+.eyebrow { letter-spacing: .236em; gap: var(--sp-2); }
+.eyebrow::before, .section__head:not(.section__head--split) .eyebrow::after { width: var(--sp-4); }
+.section__title { font-size: clamp(var(--fs-6), 4.2vw, var(--fs-10)); line-height: var(--lh-tight); margin-top: var(--sp-3); }
+.section__lead { font-size: var(--fs-1); line-height: var(--lh-body); margin-top: var(--sp-3); max-width: 61.8ch; }
+.section__head:not(.section__head--split) .section__lead { margin-inline: auto; }
+.phero__title { line-height: var(--lh-tight); }
+.phero:not(.phero--article) .phero__title { font-size: clamp(var(--fs-4), 3vw, var(--fs-7)); }
+.phero__lead { font-size: var(--fs-1); line-height: var(--lh-body); max-width: 61.8ch; }
+.slide__title { line-height: var(--lh-tight); }
+.shead__title { font-size: var(--fs-0); }
+.dbanner h2 { font-size: var(--fs-3); line-height: var(--lh-head); }
+.ncard__title { line-height: var(--lh-head); }
+.pcard__title { line-height: 1.382; }
+.prose { line-height: var(--lh-body); }
+.prose > * + * { margin-top: .618em; }
+.prose h2 { font-size: var(--fs-4); line-height: var(--lh-head); margin-top: 1.618em; }
+.prose h3 { font-size: var(--fs-2); line-height: var(--lh-head); margin-top: 1.272em; }
+.prose--article { font-size: var(--fs-1); line-height: var(--lh-body); }
+.legal__body { line-height: var(--lh-body); }
+
+/* ----- Nhịp dọc (Fibonacci) ----- */
+.section { padding: var(--sp-7) 0; }
+.section--tight { padding: var(--sp-6) 0; }
+.shop-block { padding: var(--sp-5) 0 var(--sp-2); }
+.shead { margin-bottom: var(--sp-4); }
+.policy { padding: var(--sp-4) 0 var(--sp-1); }
+.policy__grid { gap: var(--sp-4); }
+.duo { padding: var(--sp-4) 0 var(--sp-1); }
+.duo__grid, .news__grid, .bgrid, .dgrid, .testis, .cats { gap: var(--sp-4); }
+.pgrid--5, .pgrid--shop { gap: var(--sp-3); }
+.prow__track { gap: var(--sp-3); grid-auto-columns: calc((100% - 4 * var(--sp-3)) / 5); }
+.faq { margin-top: var(--sp-6); }
+.card, .info-card, .dd__block, .legal-card { padding: var(--sp-4); }
+.form-card { padding: var(--sp-5); }
+.footer__top { gap: var(--sp-5) var(--sp-4); }
+@media (max-width: 1200px) { .prow__track { grid-auto-columns: calc((100% - 3 * var(--sp-3)) / 4); } }
+@media (max-width: 960px) { .prow__track { grid-auto-columns: calc((100% - 2 * var(--sp-3)) / 3); } }
+@media (max-width: 640px) {
+  .section { padding: var(--sp-6) 0; }
+  .section--tight { padding: var(--sp-5) 0; }
+  .shop-block { padding: var(--sp-4) 0 var(--sp-1); }
+  .form-card { padding: var(--sp-4); }
+  .prow__track { gap: var(--sp-2); grid-auto-columns: calc((100% - var(--sp-2)) / 2); }
+}
+
+/* ----- Bố cục φ : 1 ----- */
+@media (min-width: 1201px) {
+  .catmenu { width: 23.6%; }
+  .shop-hero__grid { grid-template-columns: 23.6% minmax(0, 1fr); gap: var(--sp-4); }
+  .footer__top { grid-template-columns: 1.618fr 1fr 1fr 1fr 1.618fr; }
+}
+@media (min-width: 961px) {
+  .slider { min-height: 382px; } /* 1000 / φ² */
+  .slide { grid-template-columns: 1.618fr 1fr; }
+  .pd { grid-template-columns: 1.272fr 1fr; gap: var(--sp-5); } /* √φ */
+  .dd { grid-template-columns: minmax(0, 1.618fr) minmax(300px, 1fr); gap: var(--sp-5); }
+}
+@media (min-width: 1201px) { .dbanner { grid-template-columns: 1.618fr 1fr auto; gap: var(--sp-4); padding: var(--sp-4) var(--sp-5); } }
+@media (min-width: 981px) { .shop { grid-template-columns: 23.6% minmax(0, 1fr); gap: var(--sp-5); } }
+@media (min-width: 901px) { .bfeature { grid-template-columns: 1.618fr 1fr; } }
+@media (min-width: 921px) { .science__inner { grid-template-columns: 1fr 1.618fr; gap: var(--sp-6); } }
+@media (min-width: 881px) { .cta__box { grid-template-columns: 1.618fr 1fr; gap: var(--sp-5); padding: var(--sp-6) var(--sp-5); } }
+
+/* ----- Khung ảnh chữ nhật vàng φ : 1 ----- */
+.ncard__cover, .guide__cover, .apost__cover { aspect-ratio: 1.618 / 1; }
+@media (max-width: 900px) { .bfeature .guide__cover { aspect-ratio: 1.618 / 1; } }
+
+/* ----- Bo góc bội số π ----- */
+.pcard { border-radius: var(--r-4); }
+.slider { border-radius: var(--r-4); }
+.shop-cats { border-radius: 0 0 var(--r-3) var(--r-3); }
+.policy__grid, .shop-side__card { border-radius: var(--r-4); }
+.dbanner { border-radius: var(--r-6); }
+.ncard__cover { border-radius: var(--r-3); }
+.shead__title { border-radius: var(--r-3) var(--r-3) 0 0; }
+.chips a, .related-d a { border-radius: 999px; }
+:focus-visible { border-radius: var(--r-2); }
+
+/* ----- Nút: cao = 15π px, đệm ngang = 16φ px ----- */
+.btn { --bh: 47.12px; padding: 0 var(--sp-4); transition-duration: var(--dur-2); }
+.btn--lg { --bh: 53.29px; padding: 0 var(--fs-6); }
+
+/* ----- Chuyển động π ----- */
+.pcard { transition: transform var(--dur-2) var(--ease), box-shadow var(--dur-3) var(--ease); }
+.ncard__cover img, .duo__media img, .guide__cover img { transition-duration: var(--dur-3); }
+.slide { transition-duration: var(--dur-3); }
+.slide__img { transition-duration: var(--dur-4); }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 1ms !important; animation-duration: 1ms !important; } }
+/* sửa tràn ngang trang sản phẩm trên điện thoại (thanh chip danh mục) */
+.shop > * { min-width: 0; }

@@ -1,6 +1,6 @@
 /* THỦY SẢN TÍM — "Ocean Dive": a fixed WebGL backdrop. Scrolling the page dives the camera from the
    sunlit surface (god rays, caustics, bubbles) down to the deep (marine snow, bioluminescent plankton,
-   gold sparkles) with schools of fish crossing mid-water. Raw WebGL1, no dependencies; Lenis (optional)
+   gold sparkles) with schools of fish crossing mid-water. Raw WebGL1, no dependencies; the site-wide Lenis (smooth.js)
    gives the smooth wheel. Adaptive resolution keeps phones smooth; reduced-motion gets a still frame. */
 (function () {
   'use strict';
@@ -19,12 +19,10 @@
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var mobile = window.matchMedia && window.matchMedia('(max-width: 820px), (pointer: coarse)').matches;
 
-  var lenis = null;
   function fail() {
     root.classList.remove('ocean-on');
     root.classList.add('ocean-off');
     canvas.remove();
-    if (lenis) { lenis.destroy(); lenis = null; window.tstLenis = null; } // autoRaf is off → would freeze the wheel
   }
 
   // failIfMajorPerformanceCaveat: skip software-rendered WebGL (no GPU / blocklisted driver) — a full-screen
@@ -267,18 +265,6 @@
   window.addEventListener('resize', function () { resize(false); });
 
   /* ------------------------------------------------------------------ */
-  /* Smooth scroll (Lenis) — desktop wheel only; touch stays native      */
-  /* ------------------------------------------------------------------ */
-  if (!reduce && window.Lenis) {
-    lenis = new window.Lenis({ autoRaf: false, lerp: 0.085, smoothWheel: true, wheelMultiplier: 0.95, allowNestedScroll: true, anchors: { offset: -96 } });
-    window.tstLenis = lenis;
-    // Keep Lenis paused while a drawer/overlay locks the body
-    new MutationObserver(function () {
-      if (document.body.style.overflow === 'hidden') lenis.stop(); else lenis.start();
-    }).observe(document.body, { attributes: true, attributeFilter: ['style'] });
-  }
-
-  /* ------------------------------------------------------------------ */
   /* Render loop                                                         */
   /* ------------------------------------------------------------------ */
   var start = performance.now(), last = start, running = false, frames = 0, slow = 0, lost = false, shown = false, winStart = start;
@@ -321,7 +307,6 @@
     if (!running) return;
     var dt = Math.min(0.1, (now - last) / 1000);
     last = now;
-    if (lenis) lenis.raf(now);
     readDepth();
     var k = 1 - Math.pow(0.0009, dt);           // frame-rate independent easing
     st.depth += (st.tDepth - st.depth) * k;

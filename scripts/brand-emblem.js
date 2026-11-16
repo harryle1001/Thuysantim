@@ -100,5 +100,5 @@ ${shield && bg ? '<g transform="translate(32 35) scale(.9) translate(-32 -33)">'
 </svg>`;
 }
 
-module.exports = { emblem, PALETTE };
+module.exports = { emblem, PALETTE, geo: { body: bodyPath(), headCap, fan, segments: segments(), legs: legs(), ant1, ant2, eye } };
 if (require.main === module) process.stdout.write(emblem(process.argv[2] || 'e'));
