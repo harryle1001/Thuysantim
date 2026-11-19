@@ -33,7 +33,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&display=swap">
   <link rel="stylesheet" href="/css/lp.css?v=1.1.0">
-  <% if (lp.theme === 'sang') { %><link rel="stylesheet" href="/css/lp-sang.css?v=1.0.0"><% } %>
+  <% if (lp.theme === 'hoang-hon') { %><link rel="stylesheet" href="/css/lp-hoang-hon.css?v=1.1.0"><% } %>
   <script type="application/ld+json" nonce="<%= nonce %>"><%- JSON.stringify({
     '@context': 'https://schema.org',
     '@graph': [
@@ -62,9 +62,9 @@
 <main id="main">
   <!-- ============ HERO + FORM ============ -->
   <section class="lp-hero">
-    <% if (lp.theme === 'sang') { %>
+    <% if (lp.theme === 'hoang-hon') { %>
     <div class="lp-hero__bg" aria-hidden="true">
-      <video autoplay muted loop playsinline preload="metadata" poster="/video/nang-cau-vong-1280.webp"><source src="/video/nang-cau-vong-1280.mp4" type="video/mp4"></video>
+      <video autoplay muted loop playsinline preload="metadata" poster="/video/hoang-hon-1280.webp"><source src="/video/hoang-hon-720v.mp4" type="video/mp4" media="(max-width: 700px)"><source src="/video/hoang-hon-1280.mp4" type="video/mp4"></video>
     </div>
     <% } %>
     <div class="lp-wrap lp-hero__grid">

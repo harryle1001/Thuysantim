@@ -1,0 +1,41 @@
+/* ==========================================================================
+   THỦY SẢN TÍM — Landing "hoàng hôn": lớp phủ lên lp.css cho các trang có theme: 'hoang-hon'.
+   Cùng ngôn ngữ với đầu trang chủ: nền tím mận đậm, nhấn vàng đồng, video hoàng hôn tối giản.
+   Giữ bố cục tối của lp.css, chỉ đổi bảng màu từ xanh navy sang tím mận.
+   ========================================================================== */
+.lp--hoang-hon {
+  --navy-950: #0f0520; --navy-900: #1a0a30; --navy-800: #2a0f45; --navy-700: #3b1560; --sea: #d6a0e8;
+  --pearl: #fbf2f6; --text: #e4d3ea; --muted: #b8a3c4;
+  --line: rgba(236, 212, 155, .18); --line-soft: rgba(255, 255, 255, .09);
+  --glass: rgba(26, 10, 48, .6); --card: linear-gradient(160deg, rgba(110, 40, 120, .34), rgba(26, 10, 48, .66));
+  --logo-c1: #fbe3ff; --logo-c2: #e9b8f5; --logo-c3: #c18ae6; /* logo TIM sáng lên trên nền tối */
+}
+html:has(.lp--hoang-hon) { background: radial-gradient(120% 70% at 50% 0%, #4a1b66 0%, #1c0b30 55%, #0a0314 100%) fixed #1a0a30; }
+.lp--hoang-hon .lp-ocean { display: none; }
+.lp--hoang-hon ::selection { background: var(--gold); color: #1c0b30; }
+.lp--hoang-hon .lp-head { background: rgba(15, 5, 32, .66); }
+.lp--hoang-hon .lp-eyebrow { background: rgba(26, 10, 48, .55); }
+.lp--hoang-hon .lp-field input, .lp--hoang-hon .lp-field select { background: rgba(15, 5, 32, .55); border-color: rgba(236, 212, 155, .22); }
+.lp--hoang-hon .lp-field select option { background: #1a0a30; }
+.lp--hoang-hon .lp-field input::placeholder { color: #8f7aa0; }
+.lp--hoang-hon .lp-chips span { border-color: rgba(236, 212, 155, .22); }
+.lp--hoang-hon .lp-sec--glass { background: linear-gradient(180deg, rgba(26, 10, 48, .25), rgba(26, 10, 48, .62) 30%, rgba(26, 10, 48, .62) 70%, rgba(26, 10, 48, .25)); }
+.lp--hoang-hon .lp-why { background: rgba(15, 5, 32, .4); }
+.lp--hoang-hon .lp-certs li { background: rgba(15, 5, 32, .5); }
+.lp--hoang-hon .lp-prod__img { background: radial-gradient(circle at 50% 40%, rgba(214, 160, 232, .22), transparent 70%); }
+.lp--hoang-hon .lp-prod__img img { border-radius: 50%; }
+.lp--hoang-hon .lp-final__box { background: radial-gradient(80% 120% at 50% 0%, rgba(214, 181, 111, .2), transparent 60%), linear-gradient(160deg, var(--navy-700), var(--navy-950)); }
+.lp--hoang-hon .lp-foot { background: rgba(15, 5, 32, .72); }
+.lp--hoang-hon .lp-dock { background: rgba(15, 5, 32, .92); }
+.lp--hoang-hon .lp-dock__form { background: var(--navy-800); }
+@media (min-width: 980px) { .lp--hoang-hon .lp-dock { background: none; } }
+
+/* Hero: video hoàng hôn phía sau, lớp tối nhẹ phía trái cho chữ */
+.lp--hoang-hon .lp-hero { position: relative; isolation: isolate; overflow: hidden; }
+.lp-hero__bg { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.lp-hero__bg video { width: 100%; height: 100%; object-fit: cover; object-position: 62% 50%; display: block; }
+.lp-hero__bg::after { content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(15, 5, 32, .78) 0%, rgba(15, 5, 32, .55) 38.2%, rgba(15, 5, 32, .25) 76.4%, rgba(15, 5, 32, .1) 100%),
+              linear-gradient(180deg, rgba(15, 5, 32, 0) 61.8%, #140828 100%); }
+@media (max-width: 979px) { .lp-hero__bg::after { background: linear-gradient(180deg, rgba(15, 5, 32, .6) 0%, rgba(15, 5, 32, .8) 38.2%, #140828 100%); } }
+@media (prefers-reduced-motion: reduce) { .lp-hero__bg video { display: none; } .lp-hero__bg { background: url(/video/hoang-hon-1280.webp) 62% 50% / cover no-repeat; } }

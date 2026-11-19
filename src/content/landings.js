@@ -20,7 +20,7 @@ const pages = {
       title: 'Xử lý khí độc NH₃, H₂S & đáy ao nuôi tôm | Thủy Sản Tím',
       description: 'Tôm nổi đầu, đáy ao bùn đen, nước hôi? Bộ 3 SUPER YUCCA, CLEAR 12H, ROVAZYME hấp thu khí độc, phân hủy mùn bã đáy ao. Kỹ sư tư vấn liều miễn phí, giao tận ao.',
       campaign: 'Khí độc & đáy ao',
-      theme: 'sang',
+      theme: 'hoang-hon',
       hero: {
         eyebrow: 'Mùa mưa · Ao tôm thẻ, tôm sú, cá',
         title: 'Đáy ao dơ, khí độc tăng —',
@@ -94,7 +94,7 @@ const pages = {
       title: 'Bổ gan, men tiêu hóa, khoáng cho tôm: gan khỏe, ruột đầy | Thủy Sản Tím',
       description: 'Gan tụy nhạt màu, phân lỏng, tôm mềm vỏ? Bộ 3 HEPALIVER-FS, US LACTO, MIX 79 bồi bổ gan, bổ sung lợi khuẩn, khoáng tạt ao. Kỹ sư tư vấn liều miễn phí, giao tận ao.',
       campaign: 'Gan ruột & vỏ',
-      theme: 'sang',
+      theme: 'hoang-hon',
       hero: {
         eyebrow: 'Ao tôm thẻ, tôm sú · Cả vụ nuôi',
         title: 'Gan khỏe, ruột đầy, vỏ cứng —',
