@@ -2,8 +2,8 @@
 'use strict';
 // Bộ nhãn Thủy Sản Tím: nhãn quấn chai/gói, khổ tỷ lệ vàng 161,8 × 100 mm (φ : 1), 3 mặt.
 //   node nhan/build.js                 sinh tất cả sản phẩm trong nhan/san-pham.json
-//   node nhan/build.js --chi vh-glubenco-pro,us-lacto
-// Xuất ra nhan/out/: <slug>.pdf (vector, tràn lề 3 mm + dấu xén, đưa nhà in),
+//   node nhan/build.js --chi vh-glubenco-pro,us-lacto --concept a   (a, b, c; mặc định cả 3)
+// Xuất ra nhan/out/: <slug>-concept-<a|b|c>.pdf (vector, tràn lề 3 mm + dấu xén, đưa nhà in),
 //                    <slug>.png (ảnh xem trước 600 dpi, trong đường xén), <slug>.html (mở/sửa trực tiếp).
 // Chữ tự co để vừa khung; nhãn nào phải xuống dưới cỡ tối thiểu sẽ báo lỗi.
 const fs = require('fs');
@@ -23,9 +23,15 @@ const MIN_BODY = 1.6; // mm ≈ 4,5 pt
 // Thang chữ φ (mm), gốc 2,1 mm ≈ 6 pt.
 const T = { xs: 1.62, s: 1.85, b: 2.1, h: 3.4, l: 5.5, xl: 8.9, xxl: 14.4 };
 
-const NHOM = {
-  'moi-truong': { ten: 'Xử lý môi trường nuôi', accent: '#8fd8c3', ink: '#1f6b5c' },
-  'thuc-an': { ten: 'Thức ăn bổ sung', accent: '#f3c97a', ink: '#8a5a12' },
+// In trực tiếp lên bao bì: CHỈ 2 MÀU ĐẶC — tím TIM và trắng. Không chuyển màu, không tram mờ, nét ≥ 0,2 mm.
+const P = '#4a044e'; // tím (màu giữa của logo TIM) — nhà in pha theo mã này
+const WH = '#ffffff';
+const LINE = 0.25; // mm, nét mảnh nhất
+const NHOM = { 'moi-truong': 'Xử lý môi trường nuôi', 'thuc-an': 'Thức ăn bổ sung' };
+const CONCEPTS = {
+  a: 'Concept A · Ấn tím: mặt trước tím đặc, chữ trắng; hai mặt bên trắng, chữ tím',
+  b: 'Concept B · Trắng dược phẩm: nền trắng, tên chữ đậm không chân, hàng biểu tượng, dải tím 23,6% đáy mặt trước',
+  c: 'Concept C · Vòng φ: nền tím toàn bộ, vòng tròn trắng lớn, tên chữ đậm không chân, thẻ trắng ở mặt bên',
 };
 
 const data = JSON.parse(fs.readFileSync(path.join(DIR, 'san-pham.json'), 'utf8'));
@@ -58,127 +64,121 @@ function fontFaces() {
   return out.join('\n');
 }
 
-// Xoắn ốc vàng (logarit): bán kính tăng φ lần mỗi 1/4 vòng. Tâm (0,0), bán kính ngoài = 1.
-function goldenSpiral(turns = 3.25) {
-  const pts = [], end = turns * 2 * Math.PI;
-  for (let t = 0; t <= end; t += 0.04) {
-    const r = Math.pow(PHI, (2 * (t - end)) / Math.PI);
-    pts.push(`${(r * Math.cos(t)).toFixed(4)} ${(r * Math.sin(t)).toFixed(4)}`);
-  }
-  return 'M' + pts.join(' L');
-}
 
-function css() {
+function css(c) {
+  const dark = c === 'c';
   return `${fontFaces()}
-:root{--phi:1.61803;--plum-0:#12061f;--plum-1:#1e0b3a;--plum-2:#2c0f47;--plum-3:#4a044e;--orchid:#86198f;
---ivory:#f8f3ea;--ivory-2:#efe6d6;--ink:#231330;--ink-2:#4b3a58;--mute:#7c6c86;
---gold-1:#f6e7bd;--gold-2:#d8b46c;--gold-3:#a47a36;--gold:#c9a25a}
+:root{--phi:1.61803;--P:${P};--W:${WH};--ln:${LINE}mm}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:#fff}
 sup{font-size:.62em;vertical-align:.5em;line-height:0}sub{font-size:.62em;vertical-align:-.2em;line-height:0}
-mark{background:#ffe08a;color:#5a3b00;padding:0 .3mm;border-radius:.4mm}
+mark{background:#ffe08a;color:#5a3b00;padding:0 .3mm}
 .sheet{position:relative;width:${W + 2 * (BLEED + MARK)}mm;height:${H + 2 * (BLEED + MARK)}mm;background:#fff}
-.bleed{position:absolute;left:${MARK}mm;top:${MARK}mm;width:${W + 2 * BLEED}mm;height:${H + 2 * BLEED}mm;overflow:hidden}
+.bleed{position:absolute;left:${MARK}mm;top:${MARK}mm;width:${W + 2 * BLEED}mm;height:${H + 2 * BLEED}mm;overflow:hidden;background:${dark ? P : WH}}
 .trim{position:absolute;left:${BLEED}mm;top:${BLEED}mm;width:${W}mm;height:${H}mm;display:grid;grid-template-columns:${SIDE}mm ${FRONT}mm ${SIDE}mm}
 .bg{position:absolute;inset:0}
 .marks{position:absolute;inset:0;pointer-events:none}
-/* --- Mặt bên (ngà) --- */
-.side{position:relative;height:${H}mm;padding:${T.l + 1.3}mm ${T.h + 0.8}mm ${T.l + 0.6}mm;color:var(--ink);font-family:BVP,sans-serif;font-size:var(--fs);line-height:1.45;display:flex;flex-direction:column}
+/* ---- mặt bên ---- */
+.side{position:relative;height:${H}mm;padding:var(--pt) var(--px) var(--pb);color:var(--P);font-family:BVP,sans-serif;font-size:var(--fs);line-height:1.45;display:flex;flex-direction:column}
 .side .fill{flex:1;min-height:0}
 .sec{margin-bottom:calc(var(--fs) * 1.618)}
-.sec:last-child{margin-bottom:0}
-.hd{display:flex;align-items:center;gap:1.6mm;font-family:BVP;font-weight:700;font-size:calc(var(--fs) * .92);letter-spacing:.22em;text-transform:uppercase;color:var(--plum-3);margin-bottom:calc(var(--fs) * .75)}
-.hd::after{content:'';flex:1;height:.18mm;background:linear-gradient(90deg,var(--gold-2),rgba(201,162,90,0))}
-.hd i{width:1.5mm;height:1.5mm;transform:rotate(45deg);background:linear-gradient(135deg,var(--gold-1),var(--gold-3));flex:none}
+.hd{display:flex;align-items:center;gap:1.6mm;font-weight:700;font-size:calc(var(--fs) * .92);letter-spacing:.22em;text-transform:uppercase;margin-bottom:calc(var(--fs) * .75)}
+.hd::after{content:'';flex:1;height:var(--ln);background:var(--P)}
+.hd i{width:1.5mm;height:1.5mm;transform:rotate(45deg);background:var(--P);flex:none}
 ul{list-style:none}
 li{position:relative;padding-left:2.4mm;margin-bottom:calc(var(--fs) * .38)}
-li::before{content:'';position:absolute;left:.3mm;top:calc(var(--fs) * .55);width:.9mm;height:.9mm;transform:rotate(45deg);background:var(--gold-3)}
-li b{font-weight:600;color:var(--plum-3)}
-.cp{display:flex;align-items:baseline;gap:1mm;padding:calc(var(--fs) * .32) 0;border-bottom:.12mm solid rgba(164,122,54,.35)}
-.cp:first-child{border-top:.12mm solid rgba(164,122,54,.35)}
-.cp span{flex:1}
-.cp b{font-weight:600;color:var(--plum-3);white-space:nowrap}
-.cp.note{border:0;padding-top:calc(var(--fs) * .2);color:var(--mute);font-style:normal}
-.chips{display:flex;gap:1.2mm;flex-wrap:wrap;margin-top:calc(var(--fs) * .6)}
-.chips span{border:.15mm solid var(--gold);color:var(--gold-3);border-radius:5mm;padding:.35mm 2mm;font-size:calc(var(--fs) * .82);font-weight:600;letter-spacing:.06em}
-.small{font-size:calc(var(--fs) * .88);color:var(--ink-2)}
-.legal{border-top:.15mm solid var(--gold-2);padding-top:calc(var(--fs) * .8);font-size:calc(var(--fs) * .88);color:var(--ink-2)}
+li::before{content:'';position:absolute;left:.3mm;top:calc(var(--fs) * .52);width:1mm;height:1mm;transform:rotate(45deg);background:var(--P)}
+li b{font-weight:700}
+.cp{display:flex;align-items:baseline;gap:1mm;padding:calc(var(--fs) * .32) 0;border-bottom:var(--ln) solid var(--P)}
+.cp:first-of-type{border-top:var(--ln) solid var(--P)}
+.cp span{flex:1}.cp b{font-weight:700;white-space:nowrap}
+.cp.note{border:0;padding-top:calc(var(--fs) * .2)}
+.chips{display:flex;gap:1.2mm;flex-wrap:wrap;margin-top:calc(var(--fs) * .7)}
+.chips span{border:var(--ln) solid var(--P);border-radius:5mm;padding:.35mm 2mm;font-size:calc(var(--fs) * .82);font-weight:600;letter-spacing:.06em}
+.small{font-size:calc(var(--fs) * .9)}
+.legal{border-top:var(--ln) solid var(--P);padding-top:calc(var(--fs) * .8);font-size:calc(var(--fs) * .9)}
 .legal p{margin-bottom:calc(var(--fs) * .3)}
-.legal strong{color:var(--ink);font-weight:600}
+.legal strong{font-weight:700}
 .boxes{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1mm;margin:calc(var(--fs) * .55) 0}
-.boxes div{border:.15mm solid rgba(74,4,78,.35);border-radius:.8mm;padding:.6mm 1mm;height:6.2mm;font-size:calc(var(--fs) * .78);letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
-.foot{display:flex;gap:2mm;align-items:flex-end;margin-top:calc(var(--fs) * .6)}
+.boxes div{border:var(--ln) solid var(--P);border-radius:.8mm;padding:.6mm 1mm;height:6.2mm;font-size:calc(var(--fs) * .8);font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.foot{display:flex;gap:2mm;align-items:flex-end}
 .foot .who{flex:1}
-.bc{width:21mm;height:13mm;flex:none;border:.15mm dashed rgba(74,4,78,.45);border-radius:.8mm;display:grid;place-items:center;text-align:center;font-size:calc(var(--fs) * .78);color:var(--mute);letter-spacing:.08em}
-.only{margin-top:calc(var(--fs) * .55);font-weight:700;letter-spacing:.14em;font-size:calc(var(--fs) * .8);color:var(--plum-3);text-transform:uppercase}
-/* --- Mặt trước (tím đêm) --- */
-.front{position:relative;height:${H}mm;color:var(--ivory);text-align:center;display:flex;flex-direction:column;align-items:center;padding:${T.h + 3.6}mm ${T.h + 3}mm ${T.h + 3}mm}
-.brand{font-family:BVP;font-weight:600;font-size:${T.s}mm;letter-spacing:.42em;margin:${T.b}mm 0 .6mm;padding-left:.42em;background:linear-gradient(100deg,var(--gold-1),var(--gold-2) 55%,var(--gold-3));-webkit-background-clip:text;background-clip:text;color:transparent}
-.motto{font-family:Cormorant;font-style:italic;font-weight:500;font-size:${T.b * 1.12}mm;color:#cdb7dc;letter-spacing:.04em}
-.rule{display:flex;align-items:center;gap:1.6mm;width:${FRONT * 0.382 * 1.3}mm;margin:${T.h * 0.9}mm 0 ${T.h * 0.9}mm}
-.rule::before,.rule::after{content:'';flex:1;height:.16mm;background:linear-gradient(90deg,rgba(216,180,108,0),var(--gold-2))}
-.rule::after{transform:scaleX(-1)}
-.rule i{width:1.4mm;height:1.4mm;transform:rotate(45deg);border:.16mm solid var(--gold-2)}
-.cat{margin-top:auto;font-family:BVP;font-weight:600;font-size:${T.s}mm;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);padding-left:.32em}
-.name{font-feature-settings:'lnum' 1;font-family:Cormorant;font-weight:600;line-height:.92;margin:${T.b}mm 0 ${T.b}mm;color:#fbf6ec;letter-spacing:.01em;white-space:nowrap}
+.bc{width:21mm;height:13mm;flex:none;border:var(--ln) dashed var(--P);border-radius:.8mm;display:grid;place-items:center;text-align:center;font-size:calc(var(--fs) * .8);letter-spacing:.08em}
+.only{margin-top:calc(var(--fs) * .55);font-weight:700;letter-spacing:.14em;font-size:calc(var(--fs) * .82);text-transform:uppercase}
+/* ---- mặt trước ---- */
+.front{position:relative;height:${H}mm;text-align:center;display:flex;flex-direction:column;align-items:center;color:var(--fc)}
+.brand{font-family:BVP;font-weight:700;font-size:${T.s}mm;letter-spacing:.42em;padding-left:.42em}
+.motto{font-family:Cormorant;font-style:italic;font-weight:600;font-size:${T.b * 1.15}mm;letter-spacing:.03em}
+.rule{display:flex;align-items:center;gap:1.6mm;width:${FRONT * 0.5}mm}
+.rule::before,.rule::after{content:'';flex:1;height:var(--ln);background:currentColor}
+.rule i{width:1.5mm;height:1.5mm;transform:rotate(45deg);border:var(--ln) solid currentColor}
+.cat{font-family:BVP;font-weight:700;font-size:${T.s}mm;letter-spacing:.32em;text-transform:uppercase;padding-left:.32em}
+.name{font-feature-settings:'lnum' 1;font-family:Cormorant;font-weight:700;line-height:.92;white-space:nowrap;letter-spacing:.01em}
 .name span{display:block}
-.tag{font-family:Cormorant;font-style:italic;font-weight:500;font-size:${T.h}mm;line-height:1.25;color:#e7d9ef;max-width:${FRONT - 16}mm}
-.hero{margin-top:auto;margin-bottom:${T.h + 1.2}mm;display:flex;flex-direction:column;align-items:center;gap:1.2mm}
-.pill{border:.18mm solid var(--gold-2);border-radius:6mm;padding:1mm 3.4mm;font-family:BVP;font-weight:500;font-size:${T.s}mm;letter-spacing:.06em;color:var(--gold-1);background:rgba(18,6,31,.35)}
-.pill b{font-weight:700;color:#fff}
-.vol{display:flex;align-items:baseline;gap:2.6mm;margin-top:${T.b * 0.8}mm;font-family:BVP;font-size:${T.xs}mm;letter-spacing:.24em;text-transform:uppercase;color:#bfa9cf}
-.vol strong{font-variant-numeric:lining-nums;font-feature-settings:'lnum' 1;font-family:Cormorant;font-weight:600;font-size:${T.l}mm;letter-spacing:.04em;color:var(--gold-1);text-transform:none}
-.no{font-feature-settings:'lnum' 1;position:absolute;top:${T.h + 0.6}mm;right:${T.h + 1.4}mm;font-family:Cormorant;font-style:italic;font-weight:500;font-size:${T.b * 1.05}mm;color:var(--gold-2);letter-spacing:.06em}
-.no2{position:absolute;top:${T.h + 0.6}mm;left:${T.h + 1.4}mm;font-family:BVP;font-weight:600;font-size:${T.xs}mm;color:#a993bb;letter-spacing:.2em}
-.ms{position:absolute;bottom:${T.h + 2.4}mm;left:0;right:0;font-family:BVP;font-size:${T.xs}mm;letter-spacing:.2em;color:#9f8ab2;text-transform:uppercase}
-`;
+.tag{font-family:Cormorant;font-style:italic;font-weight:600;font-size:${T.h}mm;line-height:1.25}
+.pill{border:var(--ln) solid currentColor;border-radius:6mm;padding:1mm 3.4mm;font-family:BVP;font-weight:500;font-size:${T.s}mm;letter-spacing:.06em}
+.pill b{font-weight:700}
+.vol{display:flex;align-items:baseline;gap:2.4mm;font-family:BVP;font-weight:600;font-size:${T.xs}mm;letter-spacing:.24em;text-transform:uppercase}
+.vol strong{font-feature-settings:'lnum' 1;font-family:Cormorant;font-weight:700;font-size:${T.l}mm;letter-spacing:.02em;text-transform:none}
+.icons{display:flex;justify-content:center;gap:${T.h}mm}
+.icons div{display:flex;flex-direction:column;align-items:center;gap:.7mm;font-family:BVP;font-weight:700;font-size:${T.xs}mm;letter-spacing:.16em;text-transform:uppercase;padding-left:.16em}
+.icons svg{width:${T.l + 0.6}mm;height:${T.l + 0.6}mm}
+.meta{font-family:BVP;font-weight:600;font-size:${T.xs}mm;letter-spacing:.2em}
+.no{font-feature-settings:'lnum' 1;font-family:Cormorant;font-style:italic;font-weight:600;font-size:${T.b * 1.1}mm;letter-spacing:.06em}
+${CONCEPT_CSS[c]}`;
 }
 
-function background(p) {
-  const B = BLEED, tot = W + 2 * B, hh = H + 2 * B;
-  const fx = B + SIDE, fw = FRONT;
-  const g = NHOM[p.nhom] || NHOM['moi-truong'];
-  // gợn sóng nước: các cung đồng tâm, bán kính nhân φ
-  const ripples = [];
-  for (let i = 0, r = 6; i < 7; i++, r *= Math.sqrt(PHI)) ripples.push(`<ellipse cx="${fx + fw / 2}" cy="${B + H + 6}" rx="${(r * 1.9).toFixed(2)}" ry="${(r * 0.62).toFixed(2)}" fill="none" stroke="url(#gold)" stroke-width="${(0.22 - i * 0.02).toFixed(2)}" opacity="${(0.55 - i * 0.06).toFixed(2)}"/>`);
-  const sp = goldenSpiral();
-  const inset = 3.6;
-  const corner = (x, y, sx, sy) => `<path d="M${x} ${y + sy * 5.5} L${x} ${y} L${x + sx * 5.5} ${y}" fill="none" stroke="url(#gold)" stroke-width=".32"/><rect x="${x + sx * 1.3 - 0.6}" y="${y + sy * 1.3 - 0.6}" width="1.2" height="1.2" transform="rotate(45 ${x + sx * 1.3} ${y + sy * 1.3})" fill="url(#gold)"/>`;
-  const L = fx + inset, R = fx + fw - inset, Tp = B + inset, Bt = B + H - inset;
-  return `<svg class="bg" viewBox="0 0 ${tot} ${hh}" width="${tot}mm" height="${hh}mm" xmlns="http://www.w3.org/2000/svg">
-<defs>
-<linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6e7bd"/><stop offset=".45" stop-color="#d8b46c"/><stop offset="1" stop-color="#a47a36"/></linearGradient>
-<linearGradient id="plum" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2c0f47"/><stop offset=".618" stop-color="#1e0b3a"/><stop offset="1" stop-color="#12061f"/></linearGradient>
-<radialGradient id="glow" cx=".5" cy=".2" r=".62"><stop offset="0" stop-color="#86198f" stop-opacity=".55"/><stop offset=".618" stop-color="#4a044e" stop-opacity=".18"/><stop offset="1" stop-color="#4a044e" stop-opacity="0"/></radialGradient>
-<linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbf7f0"/><stop offset="1" stop-color="#f1e8d8"/></linearGradient>
-<pattern id="weave" width="2.4" height="2.4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0 L0 2.4" stroke="#a47a36" stroke-width=".05" opacity=".35"/></pattern>
-</defs>
-<rect width="${tot}" height="${hh}" fill="url(#paper)"/>
-<rect width="${tot}" height="${hh}" fill="url(#weave)" opacity=".5"/>
-<!-- dải tím mảnh trên/dưới mặt bên, nối liền với mặt trước khi quấn -->
-<rect x="0" y="0" width="${tot}" height="${B + 2.6}" fill="url(#plum)"/>
-<rect x="0" y="${B + H - 2.6}" width="${tot}" height="${2.6 + B}" fill="url(#plum)"/>
-<rect x="0" y="${B + 2.6}" width="${tot}" height=".3" fill="url(#gold)"/>
-<rect x="0" y="${B + H - 2.9}" width="${tot}" height=".3" fill="url(#gold)"/>
-<!-- hình chìm logo TIM trên mặt bên -->
-<g opacity=".05" transform="translate(${B + SIDE / 2 - 19} ${B + H * 0.618 - 19}) scale(.19)"><path d="${ringPath}" fill="#4a044e" fill-rule="evenodd"/><path d="${letterPath}" fill="#4a044e"/></g>
-<g opacity=".05" transform="translate(${B + SIDE + FRONT + SIDE / 2 - 19} ${B + H * 0.382 - 19}) scale(.19)"><path d="${ringPath}" fill="#4a044e" fill-rule="evenodd"/><path d="${letterPath}" fill="#4a044e"/></g>
-<!-- mặt trước -->
-<rect x="${fx}" y="0" width="${fw}" height="${hh}" fill="url(#plum)"/>
-<rect x="${fx}" y="0" width="${fw}" height="${hh}" fill="url(#glow)"/>
-<g opacity=".22" transform="translate(${fx + fw * 0.5} ${B + 13.5}) scale(30)"><path d="${sp}" fill="none" stroke="#d8b46c" stroke-width="${(0.16 / 30).toFixed(4)}"/></g>
-<clipPath id="fc"><rect x="${fx}" y="0" width="${fw}" height="${hh}"/></clipPath>
-<g clip-path="url(#fc)">${ripples.join('')}</g>
-<rect x="${fx}" y="0" width=".35" height="${hh}" fill="url(#gold)"/><rect x="${fx + fw - 0.35}" y="0" width=".35" height="${hh}" fill="url(#gold)"/>
-<rect x="${L}" y="${Tp}" width="${R - L}" height="${Bt - Tp}" fill="none" stroke="url(#gold)" stroke-width=".14" opacity=".75"/>
-${corner(L - 1.2, Tp - 1.2, 1, 1)}${corner(R + 1.2, Tp - 1.2, -1, 1)}${corner(L - 1.2, Bt + 1.2, 1, -1)}${corner(R + 1.2, Bt + 1.2, -1, -1)}
-<!-- dải màu nhóm sản phẩm (38,2% chiều rộng mặt trước) -->
-<rect x="${fx + fw * 0.309}" y="${B + H - inset - 0.35}" width="${fw * 0.382}" height=".7" fill="${g.accent}"/>
-</svg>`;
+const CONCEPT_CSS = {
+  // A — mặt trước tím đặc, chữ trắng; mặt bên trắng
+  a: `.side{--pt:${T.l + 1.3}mm;--px:${T.h + 0.8}mm;--pb:${T.l + 0.6}mm}
+.front{--fc:var(--W);padding:${T.h + 4}mm ${T.h + 3}mm ${T.h + 3.4}mm}
+.front .top{position:absolute;top:${T.h + 1}mm;left:${T.h + 1.6}mm;right:${T.h + 1.6}mm;display:flex;justify-content:space-between;align-items:baseline}
+.brand{margin:${T.b}mm 0 .5mm}.rule{margin:${T.h * 0.8}mm 0}
+.cat{margin-top:auto}.name{margin:${T.b}mm 0}
+.hero{margin-top:auto;display:flex;flex-direction:column;align-items:center;gap:${T.b * 1.1}mm;margin-bottom:${T.b * 1.6}mm}
+.hero .icons{margin-bottom:${T.b * 0.4}mm}
+.front .meta.bot{position:absolute;bottom:${T.h + 2.6}mm;left:0;right:0}`,
+  // B — nền trắng toàn bộ, chữ tím; đáy mặt trước có dải tím 23,6% (= 1/φ³)
+  b: `.side{--pt:${T.l}mm;--px:${T.h + 0.8}mm;--pb:${T.l}mm}
+.front{--fc:var(--P);padding:${T.h + 4.4}mm ${T.h + 3}mm 0}
+.front .top{position:absolute;top:${T.h + 1.2}mm;left:${T.h + 2}mm;right:${T.h + 2}mm;display:flex;justify-content:space-between;align-items:baseline}
+.brand{margin:${T.b}mm 0 .5mm}.rule{margin:${T.h * 0.7}mm 0}
+.cat{margin-top:auto}.name{margin:${T.b}mm 0}
+.name{font-family:BVP;font-weight:700;letter-spacing:-.01em;line-height:1}
+.tag{font-family:BVP;font-style:normal;font-weight:500;font-size:${T.b * 1.3}mm}
+.front>.icons{margin:${T.h}mm 0 auto}
+.band{width:calc(100% + ${2 * (T.h + 3)}mm);height:${H * 0.236}mm;margin-top:${T.h}mm;background:var(--P);color:var(--W);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:${T.b * 0.8}mm}
+.band .pill{border-color:var(--W)}
+.band .meta{font-size:${T.xs * 0.95}mm}`,
+  // C — nền tím toàn bộ; vòng tròn trắng mặt trước; thẻ trắng bo góc ở mặt bên
+  c: `.side{--pt:${T.l + 2.6}mm;--px:${T.h + 3.4}mm;--pb:${T.l + 2.6}mm}
+.side::before{content:'';position:absolute;inset:${T.h + 0.6}mm ${T.h - 0.6}mm;background:var(--W);border-radius:2.6mm}
+.side>*{position:relative}
+.front{--fc:var(--W);padding:${T.h + 1.6}mm ${T.b}mm ${T.h}mm}
+.brand{margin:${T.b * 0.7}mm 0 0}
+.disc{position:relative;width:${FRONT * 0.854}mm;height:${FRONT * 0.854}mm;margin:${T.b * 1.2}mm 0 ${T.b * 1.1}mm;border-radius:50%;background:var(--W);color:var(--P);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 ${T.h}mm}
+.disc::after{content:'';position:absolute;inset:1.6mm;border:var(--ln) solid var(--P);border-radius:50%}
+.disc .name{margin:${T.b * 0.8}mm 0;font-family:BVP;font-weight:700;letter-spacing:-.01em;line-height:1}
+.disc .tag{font-family:BVP;font-style:normal;font-weight:500;font-size:${T.b * 1.2}mm;max-width:${FRONT * 0.854 - 12}mm}
+.disc .no{margin-bottom:${T.b * 0.6}mm}
+.hero{display:flex;flex-direction:column;align-items:center;gap:${T.b * 0.9}mm}
+.front .meta.bot{margin-top:auto}`,
+};
+
+// Biểu tượng nét (24×24), học từ hàng icon công dụng trên nhãn Keeton/QB Labs. Màu theo chữ.
+const ICON = {
+  tom: '<path d="M17 5.5c-5.5 0-9.5 3.4-9.5 8.3 0 3.3 2.4 5.7 5.7 5.7"/><path d="M13.2 19.5l-3.4 2.6M13.2 19.5l.6 3"/><path d="M10.4 9.5l2.4 2.6M8.6 12.6l3.2 1.4M8.6 16l3.2-.4"/><path d="M17 5.5c2.2-.9 4.4-.6 5.8.6M17 5.5c.6-1.9 2.6-3.4 5.2-3.4"/><circle cx="16.4" cy="8.2" r=".9" fill="currentColor" stroke="none"/>',
+  ca: '<path d="M2.8 12c3.4-5.6 10.6-6.2 15.4 0-4.8 6.2-12 5.6-15.4 0z"/><path d="M18.2 12l3.8-3.8v7.6z"/><path d="M9.6 7.6c.8 1.4 1.2 2.9 1.2 4.4s-.4 3-1.2 4.4"/><circle cx="6.6" cy="11" r=".9" fill="currentColor" stroke="none"/>',
+  nuoc: '<path d="M12 2.8c4.2 5 6.3 8.3 6.3 11.2a6.3 6.3 0 0 1-12.6 0c0-2.9 2.1-6.2 6.3-11.2z"/><path d="M8.6 15.2c1.1 1.1 2.2 1.1 3.4 0s2.3-1.1 3.4 0"/>',
+  an: '<path d="M3.5 12.5h17a8.5 6.5 0 0 1-17 0z"/><circle cx="8.6" cy="8.8" r="1.3"/><circle cx="12.2" cy="6.4" r="1.3"/><circle cx="15.6" cy="9" r="1.3"/>',
+};
+function icons(p) {
+  const third = p.nhom === 'thuc-an' ? ['an', 'Trộn ăn'] : ['nuoc', 'Ao nuôi'];
+  return `<div class="icons">${[['tom', 'Tôm'], ['ca', 'Cá'], third].map(([k, t]) => `<div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round">${ICON[k]}</svg><span>${t}</span></div>`).join('')}</div>`;
 }
 
-function logo(sizeMm) {
-  return `<svg width="${sizeMm}mm" height="${sizeMm}mm" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6e7bd"/><stop offset=".45" stop-color="#d8b46c"/><stop offset="1" stop-color="#a47a36"/></linearGradient></defs><circle cx="100" cy="100" r="88" fill="#1e0b3a" opacity=".55"/><path d="${ringPath}" fill="url(#lg)" fill-rule="evenodd"/><path d="${letterPath}" fill="#fbf6ec"/></svg>`;
+function logo(sizeMm, ring, letters, fill) {
+  return `<svg width="${sizeMm}mm" height="${sizeMm}mm" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">${fill ? `<circle cx="100" cy="100" r="92" fill="${fill}"/>` : ''}<path d="${ringPath}" fill="${ring}" fill-rule="evenodd"/><path d="${letterPath}" fill="${letters}"/></svg>`;
 }
 
 function cpRow(t) {
@@ -187,44 +187,49 @@ function cpRow(t) {
   return `<div class="cp"><span>${rich(m[1])}</span><b>${rich(m[2])}</b></div>`;
 }
 
-function html(p) {
-  const g = NHOM[p.nhom] || NHOM['moi-truong'];
+// Nét trang trí (SVG, màu đặc) cho từng concept: khung, góc, nếp gấp.
+function background(c) {
+  const B = BLEED, tot = W + 2 * B, hh = H + 2 * B, fx = B + SIDE, fw = FRONT;
+  const ln = LINE;
+  const corner = (x, y, sx, sy, col) => `<path d="M${x} ${y + sy * 5.5} L${x} ${y} L${x + sx * 5.5} ${y}" fill="none" stroke="${col}" stroke-width="${ln * 1.4}"/><rect x="${x + sx * 1.4 - 0.65}" y="${y + sy * 1.4 - 0.65}" width="1.3" height="1.3" transform="rotate(45 ${x + sx * 1.4} ${y + sy * 1.4})" fill="${col}"/>`;
+  const frame = (inset, col) => {
+    const L = fx + inset, R = fx + fw - inset, Tp = B + inset, Bt = B + H - inset;
+    return `<rect x="${L}" y="${Tp}" width="${R - L}" height="${Bt - Tp}" fill="none" stroke="${col}" stroke-width="${ln}"/>${corner(L - 1.3, Tp - 1.3, 1, 1, col)}${corner(R + 1.3, Tp - 1.3, -1, 1, col)}${corner(L - 1.3, Bt + 1.3, 1, -1, col)}${corner(R + 1.3, Bt + 1.3, -1, -1, col)}`;
+  };
+  let s = '';
+  if (c === 'a') {
+    s += `<rect x="0" y="0" width="${tot}" height="${B + 2.6}" fill="${P}"/><rect x="0" y="${B + H - 2.6}" width="${tot}" height="${2.6 + B}" fill="${P}"/>`;
+    s += `<rect x="0" y="${B + 3.4}" width="${tot}" height="${ln}" fill="${P}"/><rect x="0" y="${B + H - 3.4 - ln}" width="${tot}" height="${ln}" fill="${P}"/>`;
+    s += `<rect x="${fx}" y="0" width="${fw}" height="${hh}" fill="${P}"/>${frame(3.6, WH)}`;
+  } else if (c === 'b') {
+    s += `<rect x="0" y="${B + 2.2}" width="${tot}" height="${ln * 2}" fill="${P}"/><rect x="0" y="${B + 3.2}" width="${tot}" height="${ln}" fill="${P}"/>`;
+    s += `<rect x="0" y="${B + H - 2.2 - ln * 2}" width="${tot}" height="${ln * 2}" fill="${P}"/><rect x="0" y="${B + H - 3.2 - ln}" width="${tot}" height="${ln}" fill="${P}"/>`;
+    s += `<rect x="${fx - ln / 2}" y="${B + 6}" width="${ln}" height="${H - 12}" fill="${P}"/><rect x="${fx + fw - ln / 2}" y="${B + 6}" width="${ln}" height="${H - 12}" fill="${P}"/>`;
+    s += `<rect x="${fx}" y="${B + H * (1 - 0.236)}" width="${fw}" height="${H * 0.236 + B}" fill="${P}"/>`;
+    s += `<g>${frame(3.6, P).replace(/height="([\d.]+)" fill="none"/, `height="${(H * (1 - 0.236) - 3.6 - 1.6).toFixed(2)}" fill="none"`)}</g>`;
+  } else {
+    // C: nền tím đã tô ở .bleed; vạch gấp trắng mảnh giữa các mặt
+    s += `<rect x="${fx - ln / 2}" y="${B + 8}" width="${ln}" height="${H - 16}" fill="${WH}"/><rect x="${fx + fw - ln / 2}" y="${B + 8}" width="${ln}" height="${H - 16}" fill="${WH}"/>`;
+  }
+  return `<svg class="bg" viewBox="0 0 ${tot} ${hh}" width="${tot}mm" height="${hh}mm" xmlns="http://www.w3.org/2000/svg">${s}</svg>`;
+}
+
+function parts(p) {
   const pp = data.phan_phoi, sx = data.san_xuat;
   const total = String(data.san_pham.length).padStart(2, '0');
-  const no = String(p.stt).padStart(2, '0');
+  const no = `N° ${String(p.stt).padStart(2, '0')} / ${total}`;
   const hero = (p.thanh_phan[0] || '').split(':');
   const heroHtml = hero.length > 1 ? `${rich(hero[0].replace(/\s*\(min\)/i, ''))} <b>${rich(hero[1].trim())}</b>` : rich(hero[0]);
   const nameParts = p.ten.length > 11 && p.ten.includes(' ') ? splitName(p.ten) : [p.ten];
   const vol = p.the_tich && !/In trên/.test(p.the_tich) ? p.the_tich : (p.quy_cach || '').replace(/^(Chai|Gói)\s*/i, '').split(/[,·]/)[0].trim();
   const volLabel = p.dang === 'chai' ? 'Thể tích thực' : 'Khối lượng tịnh';
-  return `<!doctype html><html lang="vi"><head><meta charset="utf-8"><title>Nhãn ${esc(p.ten)} – Thủy Sản Tím</title>
-<style>${css()}</style></head><body>
-<div class="sheet"><div class="bleed">${background(p)}
-<div class="trim">
-  <section class="side" data-fit>
+  const left = `
     <div class="sec"><div class="hd"><i></i>Công dụng</div><ul>${p.cong_dung.map((c) => `<li>${rich(c)}</li>`).join('')}</ul></div>
-    <div class="sec"><div class="hd"><i></i>Thành phần <span style="letter-spacing:.06em;text-transform:none;font-weight:500;color:var(--mute)">${p.dang === 'chai' ? '(trong 1 lít)' : '(trong 1 kg)'}</span></div>${p.thanh_phan.map(cpRow).join('')}
+    <div class="sec"><div class="hd"><i></i>Thành phần <span style="letter-spacing:.06em;text-transform:none;font-weight:500">${p.dang === 'chai' ? '(trong 1 lít)' : '(trong 1 kg)'}</span></div>${p.thanh_phan.map(cpRow).join('')}
       ${p.nhan_phu && p.nhan_phu.length ? `<div class="chips">${p.nhan_phu.map((c) => `<span>${esc(c)}</span>`).join('')}</div>` : ''}</div>
     <div class="fill"></div>
-    <div class="foot"><div class="who small"><b style="color:var(--ink);font-weight:600">Bảo quản:</b> ${rich(p.bao_quan)}</div><div class="bc">MÃ VẠCH<br>EAN-13</div></div>
-  </section>
-  <section class="front" style="--accent:${g.accent}">
-    <div class="no2">MS ${esc(p.ma_so)}</div>
-    <div class="no">N° ${no} / ${total}</div>
-    ${logo(16.2)}
-    <div class="brand">THỦY SẢN TÍM</div>
-    <div class="motto">Tinh hoa sinh học · Vững vàng mùa vụ</div>
-    <div class="rule"><i></i></div>
-    <div class="cat">${esc(g.ten)}</div>
-    <h1 class="name" data-name>${nameParts.map((s) => `<span>${esc(s)}</span>`).join('')}</h1>
-    <div class="tag">${rich(p.phu_de)}</div>
-    <div class="hero">
-      <div class="pill">${heroHtml}</div>
-      <div class="vol">${volLabel} <strong>${rich(vol || '[ĐIỀN]')}</strong></div>
-    </div>
-    <div class="ms">TCCS ${esc(p.tccs)}</div>
-  </section>
-  <section class="side" data-fit>
+    <div class="foot"><div class="who small"><b>Bảo quản:</b> ${rich(p.bao_quan)}</div><div class="bc">MÃ VẠCH<br>EAN-13</div></div>`;
+  const right = `
     <div class="sec"><div class="hd"><i></i>Hướng dẫn sử dụng</div><ul>${p.huong_dan.map((c) => `<li>${rich(c).replace(/^([^:]{3,48}):/, '<b>$1:</b>')}</li>`).join('')}</ul></div>
     <div class="fill"></div>
     <div class="legal">
@@ -234,10 +239,49 @@ function html(p) {
       <p><strong>Sản xuất:</strong> ${esc(sx.ten)} · ${esc(sx.dia_chi)} · ĐT ${esc(sx.dien_thoai)}</p>
       <p><strong>Phân phối:</strong> ${esc(pp.ten)} · Hotline ${rich(pp.hotline)} · ${esc(pp.web)}</p>
       <div class="only">Chỉ dùng trong nuôi trồng thủy sản · Để xa tầm tay trẻ em</div>
-    </div>
-  </section>
+    </div>`;
+  return {
+    no, left, right, cat: esc(NHOM[p.nhom] || NHOM['moi-truong']),
+    name: `<h1 class="name" data-name data-max="0">${nameParts.map((s) => `<span>${esc(s)}</span>`).join('')}</h1>`,
+    tag: `<div class="tag">${rich(p.phu_de)}</div>`,
+    pill: `<div class="pill">${heroHtml}</div>`,
+    vol: `<div class="vol">${volLabel} <strong>${rich(vol || '[ĐIỀN]')}</strong></div>`,
+    ms: esc(p.ma_so), tccs: esc(p.tccs), icons: icons(p), ten: p.ten,
+  };
+}
+
+function front(c, x) {
+  x.name = x.name.replace(/data-max="[^"]*"/, `data-max="${c === 'c' ? FRONT * 0.854 - 11 : FRONT - 13}"`);
+  const brand = `<div class="brand">THỦY SẢN TÍM</div><div class="motto">Tinh hoa sinh học · Vững vàng mùa vụ</div>`;
+  if (c === 'a') return `<section class="front">
+    <div class="top"><span class="meta">MS ${x.ms}</span><span class="no">${x.no}</span></div>
+    ${logo(16.2, WH, WH)}${brand}<div class="rule"><i></i></div>
+    <div class="cat">${x.cat}</div>${x.name}${x.tag}
+    <div class="hero">${x.icons}${x.pill}${x.vol}</div>
+    <div class="meta bot">TCCS ${x.tccs}</div></section>`;
+  if (c === 'b') return `<section class="front">
+    <div class="top"><span class="meta">MS ${x.ms}</span><span class="no">${x.no}</span></div>
+    ${logo(14.6, P, P)}${brand}<div class="rule"><i></i></div>
+    <div class="cat">${x.cat}</div>${x.name}${x.tag}${x.icons}
+    <div class="band">${x.pill}${x.vol}<div class="meta">TCCS ${x.tccs}</div></div></section>`;
+  return `<section class="front">
+    ${logo(11.8, WH, WH)}<div class="brand">THỦY SẢN TÍM</div>
+    <div class="disc"><div class="no">${x.no}</div><div class="cat">${x.cat}</div>${x.name}${x.tag}</div>
+    <div class="hero">${x.icons}${x.vol}</div>
+    <div class="meta bot">MS ${x.ms} · TCCS ${x.tccs}</div></section>`;
+}
+
+function html(p, c) {
+  const x = parts(p);
+  return `<!doctype html><html lang="vi"><head><meta charset="utf-8"><title>Nhãn ${esc(p.ten)} – ${CONCEPTS[c]}</title>
+<style>${css(c)}</style></head><body>
+<div class="sheet"><div class="bleed">${background(c)}
+<div class="trim">
+  <section class="side" data-fit>${x.left}</section>
+  ${front(c, x)}
+  <section class="side" data-fit>${x.right}</section>
 </div></div>
-${cropMarks()}
+${cropMarks(c)}
 </div></body></html>`;
 }
 
@@ -252,7 +296,7 @@ function splitName(n) {
   return best;
 }
 
-function cropMarks() {
+function cropMarks(c) {
   const tw = W + 2 * (BLEED + MARK), th = H + 2 * (BLEED + MARK);
   const x0 = MARK + BLEED, y0 = MARK + BLEED, x1 = x0 + W, y1 = y0 + H, L = MARK - 1;
   const ln = (a, b, c, d) => `<line x1="${a}" y1="${b}" x2="${c}" y2="${d}" stroke="#000" stroke-width=".1"/>`;
@@ -261,7 +305,7 @@ function cropMarks() {
   for (const y of [y0, y1]) { m.push(ln(0, y, L, y), ln(tw - L, y, tw, y)); }
   for (const x of [x0 + SIDE, x0 + SIDE + FRONT]) { m.push(ln(x, 0, x, L * 0.6), ln(x, th - L * 0.6, x, th)); }
   return `<svg class="marks" viewBox="0 0 ${tw} ${th}" width="${tw}mm" height="${th}mm">${m.join('')}
-<text x="${x0}" y="${th - 1.6}" font-family="BVP" font-size="1.6" fill="#555">Thủy Sản Tím · nhãn quấn ${W} × ${H} mm (φ : 1) · tràn lề ${BLEED} mm · gấp: ${SIDE} | ${FRONT} | ${SIDE} mm</text></svg>`;
+<text x="${x0}" y="${th - 1.6}" font-family="BVP" font-size="1.6" fill="#555">Thủy Sản Tím · nhãn quấn ${W} × ${H} mm (φ : 1) · tràn lề ${BLEED} mm · gấp: ${SIDE} | ${FRONT} | ${SIDE} mm · ${CONCEPTS[c]} · 2 màu đặc: tím ${P} + trắng</text></svg>`;
 }
 
 // Co chữ cho vừa: mặt bên giảm --fs, tên sản phẩm co theo chiều rộng.
@@ -281,40 +325,39 @@ async function fit(page) {
     const n = document.querySelector('[data-name]');
     let size = T.xxl;
     n.style.fontSize = size + 'mm';
-    const max = (FRONT - 13) * mm;
+    const max = (+n.dataset.max || FRONT - 13) * mm;
     while ([...n.children].some((c) => c.getBoundingClientRect().width > max) && size > 5) { size -= 0.1; n.style.fontSize = size + 'mm'; }
     const f = document.querySelector('.front');
     const fb = f.getBoundingClientRect().bottom;
-    const overFront = [...f.querySelectorAll('.name,.tag,.hero')].some((e) => e.getBoundingClientRect().bottom > fb);
+    const overFront = [...f.querySelectorAll('.name,.tag,.hero,.band,.disc')].some((e) => e.getBoundingClientRect().bottom > fb);
     return { sides: rep, name: +size.toFixed(1), overFront };
   }, { T, MIN: MIN_BODY, FRONT });
 }
 
 async function main() {
   const only = opt('--chi') ? new Set(opt('--chi').split(',')) : null;
+  const concepts = (opt('--concept') || 'a,b,c').split(',');
   const list = data.san_pham.filter((p) => !only || only.has(p.slug));
   fs.mkdirSync(OUT, { recursive: true });
   const { chromium } = require('playwright');
   const browser = await chromium.launch();
   const page = await browser.newPage({ deviceScaleFactor: 600 / 96 });
   let bad = 0;
-  for (const p of list) {
-    await page.setContent(html(p), { waitUntil: 'load' });
+  for (const p of list) for (const c of concepts) {
+    const base = `${p.slug}-concept-${c}`;
+    await page.setContent(html(p, c), { waitUntil: 'load' });
     await page.evaluate(() => document.fonts.ready);
     const r = await fit(page);
-    const fixed = await page.evaluate(() => '<!doctype html>' + document.documentElement.outerHTML);
-    fs.writeFileSync(path.join(OUT, `${p.slug}.html`), fixed);
+    fs.writeFileSync(path.join(OUT, `${base}.html`), await page.evaluate(() => '<!doctype html>' + document.documentElement.outerHTML));
     const tw = W + 2 * (BLEED + MARK), th = H + 2 * (BLEED + MARK);
-    await page.pdf({ path: path.join(OUT, `${p.slug}.pdf`), width: `${tw}mm`, height: `${th}mm`, printBackground: true, pageRanges: '1' });
-    const box = await page.locator('.trim').boundingBox();
-    await page.screenshot({ path: path.join(OUT, `${p.slug}.png`), clip: box });
-    const small = r.sides.some((s) => s.fs < 1.75);
+    await page.pdf({ path: path.join(OUT, `${base}.pdf`), width: `${tw}mm`, height: `${th}mm`, printBackground: true, pageRanges: '1' });
+    await page.screenshot({ path: path.join(OUT, `${base}.png`), clip: await page.locator('.trim').boundingBox() });
     const err = r.sides.some((s) => s.over) || r.overFront;
     if (err) bad++;
-    console.log(`${err ? 'LỖI TRÀN' : small ? 'chữ nhỏ' : 'ok'}  ${p.slug}  chữ mặt bên ${r.sides.map((s) => (s.fs / 0.3528).toFixed(1) + 'pt').join(' / ')} · tên ${r.name} mm`);
+    console.log(`${err ? 'LỖI TRÀN' : 'ok'}  ${base}  chữ mặt bên ${r.sides.map((s) => (s.fs / 0.3528).toFixed(1) + 'pt').join(' / ')} · tên ${r.name} mm`);
   }
   await browser.close();
-  console.log(`${list.length} nhãn, ${bad} lỗi → ${path.relative(process.cwd(), OUT)}/`);
+  console.log(`${list.length * concepts.length} nhãn, ${bad} lỗi → ${path.relative(process.cwd(), OUT)}/`);
   process.exitCode = bad ? 1 : 0;
 }
 
