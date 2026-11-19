@@ -510,4 +510,4 @@ const settings = {
   payments: { cod: true, vietqr: true, vnpay: true, momo: true, callback: true },
 };
 
-module.exports = { categories, products, diseases, posts: posts.concat(require('./seed-posts')), settings };
+module.exports = { categories, products, diseases, posts: posts.concat(require('./seed-posts'), require('./seed-posts-a'), require('./seed-posts-b')), settings };

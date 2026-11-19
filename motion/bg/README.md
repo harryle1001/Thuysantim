@@ -11,3 +11,16 @@ Bố cục φ: chân trời ở 61.8% chiều cao, mặt trời ở 61.8% chiề
 | `thuysantim-bg-3840x2160*.png` / `2160x3840*.png` | Ảnh tĩnh 4K: banner, poster, ảnh bìa |
 
 Render lại: `cd motion/bg && node render.js`. Xem trực tiếp: `scene.html?play=1` (`&o=v` bản dọc, `&logo=0` bỏ logo).
+
+## Bản sáng · nắng sau mưa, cầu vồng (`scene-sang.html`)
+Buổi sáng sau cơn mưa trên vùng ao nuôi: trời xanh, mây trắng trôi, mưa bóng mây thưa dần, cầu vồng rõ (có cung phụ và phản chiếu trên mặt nước), quạt nước quay sủi bọt, cò trắng bay, cỏ xanh lay theo gió. Logo tím mận trên nền trời sáng.
+Bố cục φ: chân trời 61.8% chiều cao, mặt trời ở 23.6% chiều cao, tâm cầu vồng ở 23.6% chiều ngang. Video 10 s lặp liền mạch.
+
+| File | Dùng cho |
+|---|---|
+| `thuysantim-bg-sang-1920x1080.mp4` / `-1080x1920.mp4` | Nền có logo |
+| `*-trong.mp4` | Nền trống để chèn chữ/sản phẩm |
+| `*-zen.mp4` | Bản có nhạc zen |
+| `thuysantim-bg-sang-3840x2160*.png` / `2160x3840*.png` | Ảnh tĩnh 4K |
+
+Render lại: `node render.js sang`. Bản web nhẹ cho landing page: `public/video/nang-cau-vong-1280.mp4` (+ ảnh `.webp`).

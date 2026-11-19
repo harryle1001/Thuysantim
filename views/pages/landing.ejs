@@ -32,7 +32,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&display=swap">
-  <link rel="stylesheet" href="/css/lp.css?v=1.0.0">
+  <link rel="stylesheet" href="/css/lp.css?v=1.1.0">
+  <% if (lp.theme === 'sang') { %><link rel="stylesheet" href="/css/lp-sang.css?v=1.0.0"><% } %>
   <script type="application/ld+json" nonce="<%= nonce %>"><%- JSON.stringify({
     '@context': 'https://schema.org',
     '@graph': [
@@ -43,7 +44,7 @@
     ]
   }).replace(/</g, '\\u003c') %></script>
 </head>
-<body class="lp">
+<body class="lp<%= lp.theme ? ' lp--' + lp.theme : '' %>">
 <canvas class="lp-ocean" data-ocean aria-hidden="true"></canvas>
 
 <header class="lp-head">
@@ -61,6 +62,11 @@
 <main id="main">
   <!-- ============ HERO + FORM ============ -->
   <section class="lp-hero">
+    <% if (lp.theme === 'sang') { %>
+    <div class="lp-hero__bg" aria-hidden="true">
+      <video autoplay muted loop playsinline preload="metadata" poster="/video/nang-cau-vong-1280.webp"><source src="/video/nang-cau-vong-1280.mp4" type="video/mp4"></video>
+    </div>
+    <% } %>
     <div class="lp-wrap lp-hero__grid">
       <div class="lp-hero__copy">
         <p class="lp-eyebrow"><span class="lp-dot"></span><%= lp.hero.eyebrow %></p>
@@ -171,6 +177,7 @@
   </section>
 
   <!-- ============ PROOF ============ -->
+  <% if (lp.proof) { %>
   <section class="lp-sec lp-sec--glass">
     <div class="lp-wrap">
       <header class="lp-shead rv"><p class="lp-kicker"><%= lp.proof.kicker %></p><h2><%= lp.proof.title %></h2></header>
@@ -202,6 +209,7 @@
       </ul>
     </div>
   </section>
+  <% } %>
 
   <!-- ============ USAGE ============ -->
   <section class="lp-sec">

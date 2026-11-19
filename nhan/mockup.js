@@ -159,7 +159,7 @@ function scene() {
   } else if (SHOT.k === 'tui') {
     const a = pouch(); a.rotation.y = -0.12; s.add(a);
     const b = pouch(); b.position.set(13, 0, -9); b.rotation.y = Math.PI - 0.5; s.add(b);
-    cam.position.set(-3, 15, 52); cam.lookAt(5, 10.8, 0);
+    { const k = WW / HH < 1.2 ? 1.32 : 1; cam.position.set(5 + (-3 - 5) * k, 10.8 + (15 - 10.8) * k, 52 * k); } cam.lookAt(5, 10.8, 0); // khung vuông: lùi máy để túi không chạm mép
   } else {
     const a = sack(); a.rotation.y = -0.15; s.add(a);
     cam.position.set(-12, 44, 192); cam.lookAt(0, 37, 0);

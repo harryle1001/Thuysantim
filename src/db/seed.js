@@ -33,12 +33,53 @@ async function seedPosts() {
   if (added) console.log(`[db] Đã thêm ${added} bài viết mới.`);
 }
 
+/**
+ * One-time switch from the sample catalogue to the real 15 products (catalog-v2):
+ * add the real products, hide the samples, point disease pages at the replacements.
+ * Runs once per database (settings key `catalog_v2`), so later admin edits are kept.
+ */
+async function syncCatalogV2() {
+  const done = await one("SELECT `value` FROM settings WHERE `key` = 'catalog_v2'");
+  if (done) return;
+  const { products, REPLACES } = require('./catalog-v2');
+  const cats = {};
+  for (const [i, c] of data.categories.entries()) {
+    const r = await query(
+      'INSERT INTO categories (slug, name, description, icon, sort_order) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id)',
+      [c.slug, J(c.name), J(c.description), c.icon, i]
+    );
+    cats[c.slug] = r.insertId;
+  }
+  const ids = {};
+  for (const p of products) {
+    const r = await query(
+      `INSERT INTO products (slug, sku, category_id, species, name, summary, description, composition, usage_text, dosage, variants, image, color, badge, is_featured, is_active, sort_order)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?) ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id)`,
+      [p.slug, p.sku, cats[p.cat], p.species, J(p.name), J(p.summary), J(p.description), J(p.composition), J(p.usage), J(p.dosage), J(p.variants), p.image, p.color, p.badge, p.featured, p.sort]
+    );
+    ids[p.slug] = r.insertId;
+  }
+  const old = Object.keys(REPLACES);
+  const oldRows = await query('SELECT id, slug FROM products WHERE slug IN (?)', [old]);
+  const map = {};
+  for (const r of oldRows) map[r.id] = ids[REPLACES[r.slug]];
+  await query('UPDATE products SET is_active = 0, is_featured = 0 WHERE slug IN (?)', [old]);
+  const diseases = await query('SELECT id, product_ids FROM diseases');
+  for (const d of diseases) {
+    const next = [...new Set(String(d.product_ids || '').split(',').filter(Boolean).map((id) => map[id] || id))].join(',');
+    if (next !== d.product_ids) await query('UPDATE diseases SET product_ids = ? WHERE id = ?', [next, d.id]);
+  }
+  await query("INSERT INTO settings (`key`, `value`) VALUES ('catalog_v2', ?)", [J(new Date().toISOString())]);
+  console.log(`[db] Đã chuyển sang danh mục thật: ${products.length} sản phẩm, ẩn ${oldRows.length} sản phẩm mẫu.`);
+}
+
 async function seed({ force = false } = {}) {
   await seedSettings();
   const existingPosts = await one('SELECT COUNT(*) AS n FROM posts');
   const existing = await one('SELECT COUNT(*) AS n FROM products');
   if (existing.n > 0 && !force) {
     if (existingPosts.n > 0) await seedPosts();
+    await syncCatalogV2();
     return false;
   }
 
@@ -70,6 +111,7 @@ async function seed({ force = false } = {}) {
   }
 
   await seedPosts();
+  await syncCatalogV2();
   console.log('[db] Đã nạp dữ liệu mẫu.');
   return true;
 }

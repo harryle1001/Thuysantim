@@ -31,9 +31,9 @@ module.exports = {
     allCats: 'Danh mục sản phẩm',
     hotline: 'Hotline tư vấn',
     slides: [
-      { tag: 'Men vi sinh thế hệ mới', title: 'Đáy sạch, nước đẹp, tôm lớn nhanh', lead: 'Phân hủy bùn đáy, giảm NH3, NO2, H2S và giữ màu nước ổn định suốt vụ nuôi.', cta: 'Mua ngay', cat: 'men-vi-sinh', pid: 'tim-pro-bio-9' },
-      { tag: 'Khoáng & Vitamin', title: 'Tôm cứng vỏ, lột xác đồng loạt', lead: 'Bổ sung khoáng đa lượng, vi lượng và vitamin C giúp tôm chống sốc khi thời tiết thay đổi.', cta: 'Xem sản phẩm', cat: 'khoang-vitamin', pid: 'tim-mineral-plus' },
-      { tag: 'Bổ gan – đường ruột', title: 'Gan khỏe, ruột đầy, tôm ăn mạnh', lead: 'Thảo dược và enzyme tiêu hóa giúp phòng bệnh gan tụy, phân trắng ngay từ đầu vụ.', cta: 'Xem sản phẩm', cat: 'gan-ruot', pid: 'tim-liver-guard' },
+      { tag: 'Vi sinh xử lý đáy · CLEAR 12H', title: 'Đáy sạch, nước đẹp, tôm lớn nhanh', lead: 'Phân hủy mùn bã, thức ăn thừa ở đáy ao, giảm NH3, H2S, hỗ trợ làm sạch nhớt bạt.', cta: 'Mua ngay', cat: 'men-vi-sinh', pid: 'clear-12h' },
+      { tag: 'Khoáng tạt ao · MIX 79', title: 'Tôm cứng vỏ, lột xác đúng chu kỳ', lead: 'Bổ sung P, Ca, Mg vào môi trường ao, giúp tôm lột xác đúng chu kỳ, vỏ cứng dày, thịt săn chắc.', cta: 'Xem sản phẩm', cat: 'khoang-vitamin', pid: 'mix-79' },
+      { tag: 'Bổ gan · HEPALIVER-FS', title: 'Gan khỏe, ruột đầy, tôm ăn mạnh', lead: 'Sorbitol, methionine, betaine trộn ăn hằng ngày, hỗ trợ bồi bổ, giải độc gan cho tôm.', cta: 'Xem sản phẩm', cat: 'gan-ruot', pid: 'hepaliver-fs' },
     ],
     side: [
       { t: 'Kỹ sư tư vấn miễn phí', d: 'Gửi ảnh tôm, thông số nước qua Zalo', href: '#consult', i: 'headset' },

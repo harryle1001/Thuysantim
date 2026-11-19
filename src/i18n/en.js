@@ -31,9 +31,9 @@ module.exports = {
     allCats: 'Product categories',
     hotline: 'Advice hotline',
     slides: [
-      { tag: 'Next-generation probiotics', title: 'Clean bottoms, clear water, fast growth', lead: 'Breaks down sludge, cuts NH3, NO2 and H2S, and keeps water colour stable all crop long.', cta: 'Shop now', cat: 'men-vi-sinh', pid: 'tim-pro-bio-9' },
-      { tag: 'Minerals & vitamins', title: 'Hard shells, even moulting', lead: 'Macro- and trace minerals plus vitamin C help shrimp ride out sudden weather changes.', cta: 'View products', cat: 'khoang-vitamin', pid: 'tim-mineral-plus' },
-      { tag: 'Liver & gut care', title: 'Healthy liver, full gut, strong appetite', lead: 'Herbal extracts and digestive enzymes help prevent hepatopancreas and white-faeces problems.', cta: 'View products', cat: 'gan-ruot', pid: 'tim-liver-guard' },
+      { tag: 'Next-generation probiotics', title: 'Clean bottoms, clear water, fast growth', lead: 'Breaks down sludge, cuts NH3, NO2 and H2S, and keeps water colour stable all crop long.', cta: 'Shop now', cat: 'men-vi-sinh', pid: 'clear-12h' },
+      { tag: 'Minerals & vitamins', title: 'Hard shells, even moulting', lead: 'Macro- and trace minerals plus vitamin C help shrimp ride out sudden weather changes.', cta: 'View products', cat: 'khoang-vitamin', pid: 'mix-79' },
+      { tag: 'Liver & gut care', title: 'Healthy liver, full gut, strong appetite', lead: 'Herbal extracts and digestive enzymes help prevent hepatopancreas and white-faeces problems.', cta: 'View products', cat: 'gan-ruot', pid: 'hepaliver-fs' },
     ],
     side: [
       { t: 'Free engineer advice', d: 'Send shrimp photos and water data via Zalo', href: '#consult', i: 'headset' },

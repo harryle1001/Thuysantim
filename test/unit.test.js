@@ -92,7 +92,7 @@ test('i18n dictionaries have identical key structure', () => {
 
 test('landing pages: content complete, products exist, lead tag sanitised', () => {
   const lp = require('../src/content/landings');
-  const seedSlugs = require('../src/db/seed-data').products.map((p) => p.slug);
+  const seedSlugs = require('../src/db/catalog-v2').products.map((p) => p.slug); // real catalogue (sample products are hidden)
   assert.ok(lp.slugs().length > 0);
   for (const slug of lp.slugs()) {
     const page = lp.get(slug, 'vi');

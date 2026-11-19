@@ -31,9 +31,9 @@ module.exports = {
     allCats: '产品分类',
     hotline: '咨询热线',
     slides: [
-      { tag: '新一代益生菌', title: '池底干净，水色稳定，虾长得快', lead: '分解底泥，降低氨氮、亚硝酸盐和硫化氢，整季保持水色稳定。', cta: '立即购买', cat: 'men-vi-sinh', pid: 'tim-pro-bio-9' },
-      { tag: '矿物质与维生素', title: '虾壳硬实，蜕壳整齐', lead: '补充常量、微量矿物质和维生素C，帮助虾应对天气骤变。', cta: '查看产品', cat: 'khoang-vitamin', pid: 'tim-mineral-plus' },
-      { tag: '护肝护肠', title: '肝好肠满，摄食旺盛', lead: '草本提取物与消化酶，从养殖初期预防肝胰腺和白便问题。', cta: '查看产品', cat: 'gan-ruot', pid: 'tim-liver-guard' },
+      { tag: '新一代益生菌', title: '池底干净，水色稳定，虾长得快', lead: '分解底泥，降低氨氮、亚硝酸盐和硫化氢，整季保持水色稳定。', cta: '立即购买', cat: 'men-vi-sinh', pid: 'clear-12h' },
+      { tag: '矿物质与维生素', title: '虾壳硬实，蜕壳整齐', lead: '补充常量、微量矿物质和维生素C，帮助虾应对天气骤变。', cta: '查看产品', cat: 'khoang-vitamin', pid: 'mix-79' },
+      { tag: '护肝护肠', title: '肝好肠满，摄食旺盛', lead: '草本提取物与消化酶，从养殖初期预防肝胰腺和白便问题。', cta: '查看产品', cat: 'gan-ruot', pid: 'hepaliver-fs' },
     ],
     side: [
       { t: '工程师免费咨询', d: '通过Zalo发送虾的照片和水质数据', href: '#consult', i: 'headset' },
