@@ -8,6 +8,63 @@
   const zaloHref = company.zalo ? 'https://zalo.me/' + company.zalo : url('/contact');
 %>
 
+<%
+  const TXT = {
+    vi: { eyebrow: 'Thủy Sản Tím', title: 'Tinh hoa sinh học,', em: 'vững vàng mùa vụ.', lead: 'Chế phẩm sinh học và dinh dưỡng cho ao nuôi tôm, cá. Kỹ sư tư vấn miễn phí, giao tận ao.', cta1: 'Xem sản phẩm', cta2: 'Nhận báo giá', sound: 'Bật nhạc', mute: 'Tắt nhạc',
+      dTitle: 'Thiết kế bao bì mới', dLead: 'Nhãn và bao bì cho 15 sản phẩm: nền trắng, mỗi nhóm một màu riêng, logo TIM ở góc trái.', film: 'Phim giới thiệu', filmLead: 'Thủy Sản Tím trong 60 giây', play: 'Xem phim' },
+    en: { eyebrow: 'Thuy San Tim', title: 'Refined bioscience,', em: 'assured harvests.', lead: 'Probiotics and nutrition for shrimp and fish ponds. Free technical advice, delivered to your pond.', cta1: 'View products', cta2: 'Get a quote', sound: 'Sound on', mute: 'Sound off',
+      dTitle: 'New packaging design', dLead: 'Labels and packaging for 15 products: white base, one colour per group, TIM logo at top left.', film: 'Brand film', filmLead: 'Thuy San Tim in 60 seconds', play: 'Play film' },
+    zh: { eyebrow: 'Thuy San Tim', title: '生物科技精粹，', em: '稳赢每一季。', lead: '虾、鱼塘益生菌与营养产品，免费技术咨询，送货到塘。', cta1: '查看产品', cta2: '获取报价', sound: '开启音乐', mute: '关闭音乐',
+      dTitle: '全新包装设计', dLead: '15款产品标签与包装：白色底，每组一种颜色，左上角TIM标志。', film: '品牌短片', filmLead: '60秒了解Thuy San Tim', play: '播放' },
+  };
+  const X = TXT[locale] || TXT.vi;
+%>
+<!-- ============ BRAND STAGE: sunset video, logo, music · packaging gallery · brand film ============ -->
+<section class="stage" aria-label="<%= X.eyebrow %>">
+  <div class="stage__media" aria-hidden="true">
+    <video class="stage__video" data-stage-video autoplay muted loop playsinline preload="metadata" poster="/video/hoang-hon-1280.webp">
+      <source src="/video/hoang-hon-720v.mp4" type="video/mp4" media="(max-width: 700px)">
+      <source src="/video/hoang-hon-1280.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="container stage__inner">
+    <div class="stage__copy">
+      <p class="stage__eyebrow"><%= X.eyebrow %></p>
+      <h1 class="stage__title"><%= X.title %> <em><%= X.em %></em></h1>
+      <p class="stage__lead"><%= X.lead %></p>
+      <div class="stage__cta">
+        <a class="btn btn--primary btn--lg" href="<%= url('/products') %>"><%= X.cta1 %> <%- icon('arrow', '', 18) %></a>
+        <a class="btn btn--ghost-light btn--lg" href="<%= url('/quote') %>"><%= X.cta2 %></a>
+      </div>
+    </div>
+    <button class="stage__sound" type="button" data-stage-sound aria-pressed="false" data-on="<%= X.mute %>" data-off="<%= X.sound %>"><span class="stage__bars" aria-hidden="true"><i></i><i></i><i></i></span><span data-stage-sound-label><%= X.sound %></span></button>
+  </div>
+</section>
+
+<section class="showcase-design" aria-labelledby="sd-title">
+  <div class="container">
+    <div class="sd__grid">
+      <div class="sd__head">
+        <p class="eyebrow"><%= X.eyebrow %></p>
+        <h2 id="sd-title" class="section__title"><%= X.dTitle %></h2>
+        <p class="section__lead"><%= X.dLead %></p>
+      </div>
+      <figure class="sd__film">
+        <video data-film controls preload="none" playsinline poster="/video/gioi-thieu-1280.webp" aria-label="<%= X.film %>"><source src="/video/gioi-thieu-1280.mp4" type="video/mp4"></video>
+        <figcaption><b><%= X.film %></b><span><%= X.filmLead %></span></figcaption>
+      </figure>
+    </div>
+    <div class="sd__rail" data-rail tabindex="0" aria-label="<%= X.dTitle %>">
+      <% products.forEach(function (p) { if (!/^\/img\/products\//.test(p.imageSrc || '')) return; %>
+      <a class="sd__item" href="<%= url('/products/' + p.slug) %>" style="--c: <%= p.color %>">
+        <img src="<%= p.imageSrc %>" alt="<%= p.title %>" width="400" height="400" loading="lazy" decoding="async">
+        <span><%= p.title.split('—')[0].trim() %></span>
+      </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
 <!-- ============ STORE HERO: category list (joined to the menu bar) · slider ============ -->
 <section class="shop-hero">
   <div class="container shop-hero__grid">
@@ -26,7 +83,7 @@
           <div class="slide slide--<%= i + 1 %> <%= i === 0 ? 'is-active' : '' %>" role="group" aria-roledescription="slide" aria-label="<%= i + 1 %> / <%= S.slides.length %>" <%= i ? 'aria-hidden="true"' : '' %> style="--c: <%= p ? p.color : 'var(--p-600)' %>">
             <div class="slide__copy">
               <span class="slide__tag"><%= s.tag %></span>
-              <% if (i === 0) { %><h1 class="slide__title"><%= s.title %></h1><% } else { %><h2 class="slide__title"><%= s.title %></h2><% } %>
+              <% if (i === 0) { %><h2 class="slide__title"><%= s.title %></h2><% } else { %><h2 class="slide__title"><%= s.title %></h2><% } %>
               <p class="slide__lead"><%= s.lead %></p>
               <a class="btn btn--accent" href="<%= url('/products?category=' + s.cat) %>" <%= i ? 'tabindex="-1"' : '' %>><%= s.cta %> <%- icon('arrow', '', 18) %></a>
             </div>

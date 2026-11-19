@@ -2015,3 +2015,55 @@ h1, h2, h3, h4 { line-height: var(--lh-head); }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 1ms !important; animation-duration: 1ms !important; } }
 /* sửa tràn ngang trang sản phẩm trên điện thoại (thanh chip danh mục) */
 .shop > * { min-width: 0; }
+
+/* ==========================================================================
+   Sân khấu thương hiệu (trang chủ): video hoàng hôn + nhạc, thư viện bao bì, phim giới thiệu.
+   Khung hình φ: cao 61,8 vw tối thiểu 420 px, tối đa 618 px; cột chữ 61,8 %.
+   ========================================================================== */
+.stage { grid-template-columns: minmax(0, 1fr); position: relative; isolation: isolate; overflow: hidden; color: #fff; background: #1c0b30; min-height: clamp(420px, 38.2vw, 618px); display: grid; align-items: center; }
+.stage__media, .stage__video { position: absolute; inset: 0; width: 100%; height: 100%; }
+.stage__video { object-fit: cover; object-position: 62% 50%; }
+.stage__media { z-index: -1; }
+.stage__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(20, 6, 36, .6) 0%, rgba(20, 6, 36, .3) 38.2%, rgba(20, 6, 36, 0) 61.8%), linear-gradient(0deg, rgba(20, 6, 36, .45), rgba(20, 6, 36, 0) 38.2%); }
+.stage__inner { position: relative; padding-block: var(--sp-6); }
+.stage__copy { width: 100%; max-width: 61.8%; text-align: left; }
+.stage__eyebrow { margin: 0 0 var(--sp-3); font-size: 13px; font-weight: 600; letter-spacing: .32em; text-transform: uppercase; color: #ecd49b; }
+.stage__title { margin: 0; color: #fff; font-family: var(--font-display); font-weight: 500; font-size: clamp(34px, 5.2vw, 68px); line-height: 1.1; letter-spacing: -.005em; text-wrap: balance; }
+.stage__title em { display: block; font-style: italic; background: var(--gold-grad); -webkit-background-clip: text; background-clip: text; color: transparent; padding-bottom: .06em; }
+.stage__lead { margin: var(--sp-4) 0 var(--sp-4); max-width: 38em; font-size: clamp(16px, 1.6vw, 18px); color: rgba(255, 240, 236, .9); }
+.stage__cta { display: flex; flex-wrap: wrap; gap: var(--sp-3); }
+.stage .btn--primary { background: var(--gold-grad); color: #1c1407; box-shadow: 0 10px 30px -10px rgba(214, 181, 111, .6); }
+.btn--ghost-light { border-color: rgba(255, 255, 255, .55); color: #fff; background: rgba(255, 255, 255, .08); backdrop-filter: blur(6px); }
+.btn--ghost-light:hover { background: rgba(255, 255, 255, .18); }
+.stage__sound { position: absolute; right: max(16px, env(safe-area-inset-right)); bottom: var(--sp-4); display: inline-flex; align-items: center; gap: var(--sp-2); height: 42px; padding: 0 var(--sp-3); border-radius: 999px; border: 1px solid rgba(255, 255, 255, .45); background: rgba(20, 6, 36, .4); backdrop-filter: blur(8px); color: #fff; font-size: 13.5px; font-weight: 500; letter-spacing: .04em; }
+.stage__sound:hover { background: rgba(20, 6, 36, .62); }
+.stage__bars { display: inline-flex; align-items: flex-end; gap: 2px; height: 14px; }
+.stage__bars i { display: block; width: 2px; height: 4px; border-radius: 1px; background: #ecd49b; }
+.stage__sound[aria-pressed='true'] .stage__bars i { animation: stageBar var(--dur-3, 618ms) ease-in-out infinite alternate; }
+.stage__sound[aria-pressed='true'] .stage__bars i:nth-child(2) { animation-delay: 157ms; }
+.stage__sound[aria-pressed='true'] .stage__bars i:nth-child(3) { animation-delay: 314ms; }
+@keyframes stageBar { to { height: 14px; } }
+@media (max-width: 700px) {
+  .stage { min-height: 520px; align-items: end; }
+  .stage__copy { max-width: 100%; }
+  .stage__media::after { background: linear-gradient(0deg, rgba(20, 6, 36, .82) 0%, rgba(20, 6, 36, .45) 61.8%, rgba(20, 6, 36, .1) 100%); }
+  .stage__inner { padding-block: var(--sp-5) 78px; }
+  .stage__sound { bottom: var(--sp-3); left: max(16px, env(safe-area-inset-left)); right: auto; }
+}
+@media (prefers-reduced-motion: reduce) { .stage__video { display: none; } .stage__media { background: url(/video/hoang-hon-1280.webp) 62% 50% / cover no-repeat; } .stage__bars i { animation: none !important; } }
+
+.showcase-design { padding: var(--sp-6) 0 var(--sp-5); background: linear-gradient(180deg, var(--bg), var(--bg-soft)); }
+.sd__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.618fr); gap: var(--sp-5); align-items: center; }
+.sd__head .section__lead { margin-inline: 0; }
+.sd__film { margin: 0; border-radius: var(--r-6); overflow: hidden; background: #1c0b30; box-shadow: var(--shadow-lg); aspect-ratio: 1.618 / 1; position: relative; }
+.sd__film video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.sd__film figcaption { position: absolute; left: var(--sp-3); top: var(--sp-3); display: grid; gap: 2px; padding: 8px 14px; border-radius: var(--r-4); background: rgba(20, 6, 36, .55); backdrop-filter: blur(6px); color: #fff; font-size: 13px; pointer-events: none; }
+.sd__film figcaption b { font-weight: 600; }
+.sd__film video:not([controls]) + figcaption, .sd__film.is-playing figcaption { display: none; }
+.sd__rail { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 4 * var(--sp-3)) / 5); gap: var(--sp-3); margin-top: var(--sp-5); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: var(--sp-1); }
+.sd__rail::-webkit-scrollbar { display: none; }
+.sd__item { scroll-snap-align: start; display: grid; gap: var(--sp-2); text-align: center; font-size: 14px; font-weight: 600; color: var(--ink); }
+.sd__item img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: var(--r-5); background: #efe9f3; transition: transform var(--dur-2, 314ms) var(--ease), box-shadow var(--dur-2, 314ms) var(--ease); }
+.sd__item:hover img { transform: translateY(-4px); box-shadow: 0 18px 34px -18px var(--c, #6b1a75); }
+@media (max-width: 960px) { .sd__grid { grid-template-columns: 1fr; gap: var(--sp-4); } .sd__rail { grid-auto-columns: calc((100% - 2 * var(--sp-3)) / 3); } }
+@media (max-width: 560px) { .sd__rail { grid-auto-columns: 62%; } }
