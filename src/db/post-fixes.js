@@ -122,6 +122,14 @@ const FIXES = {
     [`[phòng bệnh phân trắng từ đường ruột](/vi/blog/phong-benh-phan-trang-tu-duong-ruot)`, `[bệnh phân trắng](/vi/diseases/phan-trang-wfd)`],
     [`(nhiều trại, đại lý có dịch vụ đếm khuẩn)`, `(có thể nhờ phòng xét nghiệm)`],
   ],
+  'axit-amin-va-dam-bo-sung-cho-tom-tac-dung-cach-tron': [
+    [`hỏi kỹ thuật viên của cửa hàng`, `liên hệ Thủy Sản Tím để được tư vấn`],
+    [`hỏi kỹ thuật viên Thủy Sản Tím để được tư vấn liều phù hợp giai đoạn nuôi`, `liên hệ Thủy Sản Tím để được tư vấn liều phù hợp giai đoạn nuôi`],
+  ],
+  'khoang-tron-thuc-an-va-khoang-tat-ao-khac-nhau-the-nao': [
+    [`hỏi kỹ thuật viên cửa hàng`, `liên hệ Thủy Sản Tím để được tư vấn`],
+    [`liên hệ kỹ thuật viên Thủy Sản Tím để được tư vấn theo giai đoạn nuôi`, `liên hệ Thủy Sản Tím để được tư vấn theo giai đoạn nuôi`],
+  ],
   'bo-gan-cho-tom-khi-nao-can-dau-hieu-gan-tuy-yeu': [
     [`Hỏi mười hộ nuôi tôm thì có đến tám, chín hộ đang trộn "thuốc bổ gan" vào thức ăn.`, `Nhiều hộ nuôi tôm hiện nay trộn "thuốc bổ gan" vào thức ăn.`],
     [`thường sau vài ngày đến một tuần sẽ thấy màu gan và sức ăn thay đổi`, `có thể thấy màu gan và sức ăn thay đổi sau vài ngày đến một tuần, tùy từng ao`],

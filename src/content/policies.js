@@ -107,7 +107,7 @@ Gọi **${co.hotline}**${co.phone ? ` hoặc nhắn Zalo **${co.phone}**` : ''},
 - ${co.brand} có thể từ chối hoặc hủy đơn khi không liên lạc được với người đặt sau 3 lần gọi trong 2 ngày làm việc, khi thông tin đặt hàng không chính xác, hoặc khi sản phẩm hết hàng. Trong mọi trường hợp, chúng tôi sẽ thông báo cho bạn và hoàn lại toàn bộ số tiền đã thanh toán (nếu có).
 
 ## Lưu ý khi sử dụng sản phẩm
-Sản phẩm thủy sản cần được dùng đúng liều lượng và hướng dẫn in trên nhãn. Nếu chưa chắc chắn, hãy gọi hotline để kỹ thuật viên tư vấn miễn phí trước khi sử dụng.
+Sản phẩm thủy sản cần được dùng đúng liều lượng và hướng dẫn in trên nhãn. Nếu chưa chắc chắn, hãy gọi hotline để được tư vấn trước khi sử dụng.
 
 ## Cần hỗ trợ?
 ${contactBlock(co, link)}
@@ -258,7 +258,7 @@ Nếu bạn muốn đổi sang sản phẩm khác hoặc trả lại hàng vì k
 - Hàng khuyến mãi, quà tặng kèm (trừ khi bị lỗi);
 - Đơn hàng của đại lý, đơn số lượng lớn có hợp đồng riêng: áp dụng theo điều khoản đổi trả trong hợp đồng.
 
-> **Về hiệu quả sử dụng:** kết quả nuôi phụ thuộc vào nhiều yếu tố như môi trường ao, con giống, thời tiết, quy trình chăm sóc. Vì vậy, chúng tôi không hoàn tiền dựa trên kết quả vụ nuôi. Tuy nhiên, kỹ thuật viên của ${co.brand} luôn **hỗ trợ miễn phí** để bạn sử dụng sản phẩm đúng cách và đạt hiệu quả tốt nhất.
+> **Về hiệu quả sử dụng:** kết quả nuôi phụ thuộc vào nhiều yếu tố như môi trường ao, con giống, thời tiết, quy trình chăm sóc. Vì vậy, chúng tôi không hoàn tiền dựa trên kết quả vụ nuôi. Tuy nhiên, ${co.brand} luôn sẵn sàng **tư vấn** để bạn sử dụng sản phẩm đúng cách và đạt hiệu quả tốt nhất.
 
 ## 4. Hình thức hoàn tiền
 | Phương thức đã thanh toán | Cách hoàn tiền | Thời gian |

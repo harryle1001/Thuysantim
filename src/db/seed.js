@@ -116,11 +116,11 @@ async function syncContactV3() {
 }
 
 /**
- * One-time article clean-up (settings key `post_fixes_v1`): delete the retired articles and apply the
+ * One-time article clean-up (settings key `post_fixes_v2`): delete the retired articles and apply the
  * fact-check corrections (src/db/post-fixes.js) to stored posts. Later admin edits are not touched again.
  */
 async function syncPostFixes() {
-  if (await one("SELECT `value` FROM settings WHERE `key` = 'post_fixes_v1'")) return;
+  if (await one("SELECT `value` FROM settings WHERE `key` = 'post_fixes_v2'")) return;
   const fx = require('./post-fixes');
   const del = await query('DELETE FROM posts WHERE slug IN (?)', [fx.RETIRED]);
   let fixed = 0;
@@ -131,7 +131,8 @@ async function syncPostFixes() {
     await query('UPDATE posts SET title = ?, excerpt = ?, body = ? WHERE slug = ?', [o.title, o.excerpt, o.body, slug]);
     fixed += 1;
   }
-  await query("INSERT INTO settings (`key`, `value`) VALUES ('post_fixes_v1', ?)", [J(new Date().toISOString())]);
+  await query("UPDATE posts SET author = 'Thủy Sản Tím' WHERE author LIKE 'Phòng Kỹ thuật%'");
+  await query("INSERT INTO settings (`key`, `value`) VALUES ('post_fixes_v2', ?)", [J(new Date().toISOString())]);
   console.log(`[db] Kiểm chứng bài viết: xóa ${del.affectedRows || 0} bài bịa, sửa ${fixed} bài.`);
 }
 
