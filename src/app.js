@@ -122,7 +122,6 @@ function createApp() {
       { p: '/products', m: newest(products), pr: '0.9', f: 'weekly' },
       { p: '/blog', m: newest(posts), pr: '0.9', f: 'daily' },
       { p: '/diseases', m: newest(diseases), pr: '0.8', f: 'weekly' },
-      { p: '/about', pr: '0.5', f: 'monthly' },
       { p: '/contact', pr: '0.5', f: 'monthly' },
       { p: '/quote', pr: '0.6', f: 'monthly' },
       { p: '/policies', pr: '0.4', f: 'yearly' },

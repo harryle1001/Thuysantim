@@ -7,7 +7,7 @@
     image: [coverAbs, config.baseUrl + '/img/og-cover.png?v=2'], inLanguage: L.lang.html, articleSection: t('blog.topics.' + post.topic),
     wordCount: article.words, timeRequired: 'PT' + article.readMinutes + 'M',
     datePublished: new Date(post.published_at).toISOString(), dateModified: new Date(post.updated_at).toISOString(),
-    author: { '@type': 'Organization', name: post.author, url: config.baseUrl + url('/about') },
+    author: { '@type': 'Organization', name: post.author, url: config.baseUrl + url('') },
     publisher: { '@id': config.baseUrl + '/#org' },
     mainEntityOfPage: { '@type': 'WebPage', '@id': postUrl },
     about: picks.map(function (p) { return { '@type': 'Product', name: p.title.split('—')[0].trim(), url: config.baseUrl + url('/products/' + p.slug) }; })

@@ -175,10 +175,8 @@ router.get('/blog/:slug', async (req, res, next) => {
 });
 
 /* ---------------- Static pages ---------------- */
-router.get('/about', (req, res) => {
-  seo(res, `${res.locals.t('about.title')}`, res.locals.t('about.lead'));
-  res.render('pages/about', { page: 'about' });
-});
+// Trang "Về chúng tôi" đã gỡ: link cũ chuyển về trang chủ.
+router.get('/about', (req, res) => res.redirect(301, res.locals.url ? res.locals.url('') : '/'));
 
 /* ---------------- Policies (Ministry of Industry and Trade set) ---------------- */
 router.get('/policies', (req, res) => {
