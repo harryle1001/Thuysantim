@@ -124,7 +124,7 @@ Thời gian tính theo **ngày làm việc** kể từ khi đơn hàng được 
 
 | Khu vực nhận hàng | Thời gian dự kiến |
 | --- | --- |
-| Nội thành TP. Cần Thơ | 1 ngày |
+| Nội thành TP. Hồ Chí Minh | 1 ngày |
 | Các tỉnh Đồng bằng sông Cửu Long | 1 – 3 ngày |
 | TP. Hồ Chí Minh và các tỉnh miền Đông Nam Bộ | 2 – 3 ngày |
 | Miền Trung, Tây Nguyên | 3 – 5 ngày |

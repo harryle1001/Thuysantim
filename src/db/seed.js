@@ -73,6 +73,23 @@ async function syncCatalogV2() {
   console.log(`[db] Đã chuyển sang danh mục thật: ${products.length} sản phẩm, ẩn ${oldRows.length} sản phẩm mẫu.`);
 }
 
+/**
+ * One-time contact update (settings key `contact_v2`): real hotline/Zalo and address replace the sample ones,
+ * and product images get a cache-busting version because the packshots were re-rendered with the hotline.
+ */
+async function syncContactV2() {
+  if (await one("SELECT `value` FROM settings WHERE `key` = 'contact_v2'")) return;
+  const row = await one("SELECT `value` FROM settings WHERE `key` = 'company'");
+  let company = {};
+  try { company = row ? JSON.parse(row.value) : {}; } catch (e) { company = {}; }
+  const fresh = data.settings.company;
+  for (const k of ['address', 'hotline', 'phone', 'zalo', 'mapEmbed']) company[k] = fresh[k];
+  await query("INSERT INTO settings (`key`, `value`) VALUES ('company', ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)", [J(company)]);
+  await query("UPDATE products SET image = CONCAT(SUBSTRING_INDEX(image, '?', 1), '?v=2') WHERE image LIKE '/img/products/%'");
+  await query("INSERT INTO settings (`key`, `value`) VALUES ('contact_v2', ?)", [J(new Date().toISOString())]);
+  console.log('[db] Đã cập nhật hotline, Zalo, địa chỉ công ty.');
+}
+
 async function seed({ force = false } = {}) {
   await seedSettings();
   const existingPosts = await one('SELECT COUNT(*) AS n FROM posts');
@@ -80,6 +97,7 @@ async function seed({ force = false } = {}) {
   if (existing.n > 0 && !force) {
     if (existingPosts.n > 0) await seedPosts();
     await syncCatalogV2();
+    await syncContactV2();
     return false;
   }
 
@@ -112,6 +130,7 @@ async function seed({ force = false } = {}) {
 
   await seedPosts();
   await syncCatalogV2();
+  await syncContactV2();
   console.log('[db] Đã nạp dữ liệu mẫu.');
   return true;
 }
