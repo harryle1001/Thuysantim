@@ -28,11 +28,24 @@ const P = '#4a044e'; // tím (màu giữa của logo TIM) — nhà in pha theo m
 const WH = '#ffffff';
 const G = '#b8914a'; // nhũ vàng champagne (concept D, mực nhũ / ép kim)
 const { emblemSvg } = require('./emblem.js');
+// Pha màu với trắng (t = 0..1) — tạo tông nhạt của màu sản phẩm.
+function tint(hex, t) {
+  const n = parseInt(hex.slice(1), 16), c = [n >> 16, (n >> 8) & 255, n & 255].map((v) => Math.round(v + (255 - v) * t));
+  return '#' + c.map((v) => v.toString(16).padStart(2, '0')).join('');
+}
+// Cung sóng φ (concept E): các phần tư hình tròn đồng tâm ở góc (cx, cy), bán kính chia φ, nhiều lớp màu.
+function arcs(pc, cx, cy, Rmax, dir = [-1, -1]) {
+  const cols = [tint(pc, 0.82), tint(pc, 0.55), G, pc, P, WH];
+  let s = '';
+  cols.forEach((col, k) => { s += `<circle cx="${cx}" cy="${cy}" r="${(Rmax / Math.pow(PHI, k * 0.72)).toFixed(3)}" fill="${col}"/>`; });
+  return s;
+}
 const LINE = 0.25; // mm, nét mảnh nhất
 const NHOM = { 'moi-truong': 'Xử lý môi trường nuôi', 'thuc-an': 'Thức ăn bổ sung' };
 const CONCEPTS = {
   a: 'Concept A · Ấn tím: mặt trước tím đặc, chữ trắng; hai mặt bên trắng, chữ tím',
   b: 'Concept B · Trắng dược phẩm: nền trắng, tên chữ đậm không chân, hàng biểu tượng, dải tím 23,6% đáy mặt trước',
+  e: 'Concept E · Trắng φ: nền trắng chủ đạo, logo góc trái trên, màu riêng từng sản phẩm, cung sóng φ nhiều màu',
   d: 'Concept D · Hoàng gia: tím + nhũ vàng + trắng, biểu tượng vòng Tôm–Cá',
   c: 'Concept C · Vòng φ: nền tím toàn bộ, vòng tròn trắng lớn, tên chữ đậm không chân, thẻ trắng ở mặt bên',
 };
@@ -153,6 +166,28 @@ const CONCEPT_CSS = {
 .band{width:calc(100% + ${2 * (T.h + 3)}mm);height:${H * 0.236}mm;margin-top:${T.h}mm;background:var(--P);color:var(--W);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:${T.b * 0.8}mm}
 .band .pill{border-color:var(--W)}
 .band .meta{font-size:${T.xs * 0.95}mm}`,
+  // E — trắng chủ đạo, logo góc trái trên, màu riêng từng sản phẩm (--pc), bố cục theo đường vàng 38,2%
+  e: `.side{--pt:${T.l + 1.6}mm;--px:${T.h + 0.8}mm;--pb:${T.l}mm}
+.hd{color:var(--P)}.hd i,li::before{background:var(--pc)}.hd::after{background:var(--pcl)}
+.cp{border-color:var(--pcl)!important}.chips span{border-color:var(--pc);color:var(--pc)}
+.legal{border-color:var(--pcl)}.boxes div,.bc{border-color:var(--pcl)}
+.front{--fc:var(--P);text-align:left;align-items:stretch;padding:0}
+.lock{position:absolute;left:4.6mm;top:5.2mm;display:flex;align-items:center;gap:2.2mm}
+.lock .w{display:flex;flex-direction:column;gap:.5mm}
+.lock .brand{font-size:${T.s}mm;letter-spacing:.3em;padding-left:0;color:var(--P)}
+.lock .motto{font-size:${T.b}mm;color:var(--G)}
+.no{position:absolute;right:4.6mm;top:6mm;color:var(--pc)}
+.mid{position:absolute;left:4.6mm;right:4.6mm;top:${H * 0.382 - 6.5}mm}
+.cat{padding-left:0;color:var(--pc);letter-spacing:.26em}
+.cat::after{content:'';display:block;width:${FRONT * 0.236}mm;height:.5mm;background:var(--pc);margin-top:1.6mm}
+.name{font-family:BVP;font-weight:700;letter-spacing:-.015em;line-height:1;margin:${T.b * 1.2}mm 0 ${T.b * 0.9}mm;color:var(--P)}
+.tag{color:var(--pc);font-size:${T.h * 1.02}mm}
+.pill{display:inline-block;margin-top:${T.b * 1.4}mm;background:var(--pc);border-color:var(--pc);color:var(--W)}
+.icons{position:absolute;left:4.6mm;bottom:${T.xl + 9}mm;justify-content:flex-start;gap:${T.h}mm;color:var(--pc)}
+.icons span{color:var(--P)}
+.vol{position:absolute;left:4.6mm;bottom:9mm;color:var(--P)}
+.vol strong{color:var(--P)}
+.front .meta.bot{position:absolute;left:4.6mm;bottom:5mm;color:var(--P);opacity:1;font-size:${T.xs * 0.95}mm}`,
   // D — tím + nhũ vàng: mặt trước tím, biểu tượng Tôm–Cá vàng; mặt bên trắng, điểm nhấn vàng
   d: `.side{--pt:${T.l + 1.3}mm;--px:${T.h + 0.8}mm;--pb:${T.l + 0.6}mm}
 .hd i,li::before{background:var(--G)}.hd::after{background:var(--G)}
@@ -194,6 +229,11 @@ function icons(p) {
   return `<div class="icons">${[['tom', 'Tôm'], ['ca', 'Cá'], third].map(([k, t]) => `<div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round">${ICON[k]}</svg><span>${t}</span></div>`).join('')}</div>`;
 }
 
+// Logo TIM (đúng logo trên web), một màu đặc để in.
+function brandMark({ fill = P } = {}, sizeAttr = '') {
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" ${sizeAttr}><path d="${ringPath}" fill="${fill}" fill-rule="evenodd"/><path d="${letterPath}" fill="${fill}"/></svg>`;
+}
+
 function logo(sizeMm, ring, letters, fill) {
   return `<svg width="${sizeMm}mm" height="${sizeMm}mm" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">${fill ? `<circle cx="100" cy="100" r="92" fill="${fill}"/>` : ''}<path d="${ringPath}" fill="${ring}" fill-rule="evenodd"/><path d="${letterPath}" fill="${letters}"/></svg>`;
 }
@@ -205,7 +245,8 @@ function cpRow(t) {
 }
 
 // Nét trang trí (SVG, màu đặc) cho từng concept: khung, góc, nếp gấp.
-function background(c) {
+function background(c, pc = '#0a8fb5') {
+  const ARCS = arcs(pc, BLEED + SIDE + FRONT, BLEED + H - 1.2, FRONT * 0.618);
   const B = BLEED, tot = W + 2 * B, hh = H + 2 * B, fx = B + SIDE, fw = FRONT;
   const ln = LINE;
   const corner = (x, y, sx, sy, col) => `<path d="M${x} ${y + sy * 5.5} L${x} ${y} L${x + sx * 5.5} ${y}" fill="none" stroke="${col}" stroke-width="${ln * 1.4}"/><rect x="${x + sx * 1.4 - 0.65}" y="${y + sy * 1.4 - 0.65}" width="1.3" height="1.3" transform="rotate(45 ${x + sx * 1.4} ${y + sy * 1.4})" fill="${col}"/>`;
@@ -220,8 +261,15 @@ function background(c) {
     s += `<rect x="0" y="${B + 3.4}" width="${tot}" height="${ln}" fill="${P}"/><rect x="0" y="${B + H - 3.4 - ln}" width="${tot}" height="${ln}" fill="${P}"/>`;
     s += `<rect x="${fx}" y="0" width="${fw}" height="${hh}" fill="${P}"/>${frame(3.6, acc)}`;
     if (c === 'd') s += `<rect x="0" y="${B + 2.6}" width="${tot}" height="${ln * 1.4}" fill="${G}"/><rect x="0" y="${B + H - 2.6 - ln * 1.4}" width="${tot}" height="${ln * 1.4}" fill="${G}"/>`;
+  } else if (c === 'e') {
+    // dải 3 màu mép trên chia φ (61,8 / 23,6 / 14,6) và vạch mảnh mép dưới; cung sóng φ góc phải dưới mặt trước
+    const a1 = tot * 0.618, a2 = tot * 0.236;
+    s += `<rect x="0" y="0" width="${a1}" height="${B + 2.2}" fill="var(--pc)"/><rect x="${a1}" y="0" width="${a2}" height="${B + 2.2}" fill="${P}"/><rect x="${a1 + a2}" y="0" width="${tot - a1 - a2}" height="${B + 2.2}" fill="${G}"/>`;
+    s += `<rect x="0" y="${B + H - 1.2}" width="${tot}" height="${B + 1.2}" fill="${P}"/>`;
+    s += `<clipPath id="fe"><rect x="${fx}" y="${B + 2.2}" width="${fw}" height="${H - 3.4}"/></clipPath><g clip-path="url(#fe)">${ARCS}</g>`;
+    s += `<rect x="${fx - ln / 2}" y="${B + 6}" width="${ln * 0.8}" height="${H - 12}" fill="var(--pcl)"/><rect x="${fx + fw - ln / 2}" y="${B + 6}" width="${ln * 0.8}" height="${H - 12}" fill="var(--pcl)"/>`;
   } else if (c === 'b') {
-    s += `<rect x="0" y="${B + 2.2}" width="${tot}" height="${ln * 2}" fill="${P}"/><rect x="0" y="${B + 3.2}" width="${tot}" height="${ln}" fill="${P}"/>`;
+    s += `<rect x="0" y="${B + 2.2}"" width="${tot}" height="${ln * 2}" fill="${P}"/><rect x="0" y="${B + 3.2}" width="${tot}" height="${ln}" fill="${P}"/>`;
     s += `<rect x="0" y="${B + H - 2.2 - ln * 2}" width="${tot}" height="${ln * 2}" fill="${P}"/><rect x="0" y="${B + H - 3.2 - ln}" width="${tot}" height="${ln}" fill="${P}"/>`;
     s += `<rect x="${fx - ln / 2}" y="${B + 6}" width="${ln}" height="${H - 12}" fill="${P}"/><rect x="${fx + fw - ln / 2}" y="${B + 6}" width="${ln}" height="${H - 12}" fill="${P}"/>`;
     s += `<rect x="${fx}" y="${B + H * (1 - 0.236)}" width="${fw}" height="${H * 0.236 + B}" fill="${P}"/>`;
@@ -270,7 +318,7 @@ function parts(p) {
 }
 
 function front(c, x) {
-  x.name = x.name.replace(/data-max="[^"]*"/, `data-max="${c === 'c' ? FRONT * 0.854 - 11 : FRONT - 13}"`);
+  x.name = x.name.replace(/data-max="[^"]*"/, `data-max="${c === 'c' ? FRONT * 0.854 - 11 : FRONT - 10}"`);
   const brand = `<div class="brand">THỦY SẢN TÍM</div><div class="motto">Tinh hoa sinh học · Vững vàng mùa vụ</div>`;
   if (c === 'a') return `<section class="front">
     <div class="top"><span class="meta">MS ${x.ms}</span><span class="no">${x.no}</span></div>
@@ -278,6 +326,11 @@ function front(c, x) {
     <div class="cat">${x.cat}</div>${x.name}${x.tag}
     <div class="hero">${x.icons}${x.pill}${x.vol}</div>
     <div class="meta bot">TCCS ${x.tccs}</div></section>`;
+  if (c === 'e') return `<section class="front">
+    <div class="lock">${brandMark({ fill: P }, 'width="11.5mm" height="11.5mm"')}<div class="w"><div class="brand">THỦY SẢN TÍM</div><div class="motto">Tinh hoa sinh học</div></div></div>
+    <span class="no">${x.no}</span>
+    <div class="mid"><div class="cat">${x.cat}</div>${x.name}${x.tag}${x.pill}</div>
+    ${x.icons}${x.vol}<div class="meta bot">MS ${x.ms}</div></section>`;
   if (c === 'd') return `<section class="front">
     <div class="top"><span class="meta">MS ${x.ms}</span><span class="no">${x.no}</span></div>
     ${emblemSvg({ fill: G, bg: P }, 'width="21mm" height="21mm"')}${brand}<div class="rule"><i></i></div>
@@ -300,7 +353,7 @@ function html(p, c) {
   const x = parts(p);
   return `<!doctype html><html lang="vi"><head><meta charset="utf-8"><title>Nhãn ${esc(p.ten)} – ${CONCEPTS[c]}</title>
 <style>${css(c)}</style></head><body>
-<div class="sheet"><div class="bleed">${background(c)}
+<div class="sheet"><div class="bleed" style="--pc:${p.mau || '#0a8fb5'};--pcl:${tint(p.mau || '#0a8fb5', 0.62)}">${background(c, p.mau || '#0a8fb5')}
 <div class="trim">
   <section class="side" data-fit>${x.left}</section>
   ${front(c, x)}
@@ -361,7 +414,7 @@ async function fit(page) {
 
 async function main() {
   const only = opt('--chi') ? new Set(opt('--chi').split(',')) : null;
-  const concepts = (opt('--concept') || 'a,b,c,d').split(',');
+  const concepts = (opt('--concept') || 'a,b,c,d,e').split(',');
   const list = data.san_pham.filter((p) => !only || only.has(p.slug));
   fs.mkdirSync(OUT, { recursive: true });
   const { chromium } = require('playwright');
@@ -386,5 +439,5 @@ async function main() {
   process.exitCode = bad ? 1 : 0;
 }
 
-module.exports = { fontFaces, rich, esc, data, parts, icons, T, P, G, WH, PHI, NHOM, splitName, cpRow };
+module.exports = { brandMark, tint, arcs, fontFaces, rich, esc, data, parts, icons, T, P, G, WH, PHI, NHOM, splitName, cpRow };
 if (require.main === module) main().catch((e) => { console.error(e); process.exit(1); });

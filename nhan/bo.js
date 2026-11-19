@@ -15,6 +15,7 @@ const opt = (f) => { const i = args.indexOf(f); return i > -1 ? args[i + 1] : nu
 const KHO = { tui: { w: 130, h: 210.3, ten: 'Túi đứng' }, bao: { w: 450, h: 728.1, ten: 'Bao' } };
 const BLEED = 3;
 const { P, G, WH, PHI, rich, esc } = B;
+const KIEU = opt('--kieu') || 'e'; // d: tím + nhũ vàng · e: trắng φ nhiều màu
 
 function css(u) {
   const m = (n) => `${(n * u).toFixed(3)}mm`;
@@ -86,7 +87,65 @@ li b{font-weight:700}
 `;
 }
 
+// ---- Concept E: trắng chủ đạo, logo góc trái trên, màu riêng sản phẩm, cung sóng φ ----
+function cssE(u) {
+  const m = (n) => `${(n * u).toFixed(3)}mm`;
+  return `
+.fe{background:var(--W);color:var(--P)}
+.stripe{position:absolute;left:0;right:0;top:0;height:${m(4.2)};display:flex}.stripe i{display:block;height:100%}
+.lockE{position:absolute;left:${m(10)};top:${m(13)};display:flex;align-items:center;gap:${m(3.6)}}
+.lockE .b{font-family:BVP;font-weight:700;font-size:${m(3.4)};letter-spacing:.3em;color:var(--P)}
+.lockE .m{font-family:Cormorant;font-style:italic;font-weight:600;font-size:${m(3.9)};color:var(--G);margin-top:${m(0.8)}}
+.noE{position:absolute;right:${m(10)};top:${m(15)};font-family:Cormorant;font-style:italic;font-weight:600;font-size:${m(4.4)};color:var(--pc);font-feature-settings:'lnum' 1}
+.midE{position:absolute;left:${m(10)};right:${m(10)};top:calc(38.2% - ${m(16)})}
+.midE .cat{font-family:BVP;font-weight:700;font-size:${m(3)};letter-spacing:.28em;color:var(--pc);text-transform:uppercase}
+.midE .cat::after{content:'';display:block;width:${m(30)};height:${m(0.9)};background:var(--pc);margin-top:${m(2.6)}}
+.midE .name{font-family:BVP;font-weight:700;letter-spacing:-.015em;line-height:1;white-space:nowrap;margin:${m(5)} 0 ${m(3.4)};color:var(--P)}
+.midE .name span{display:table}
+.midE .tag{font-family:Cormorant;font-style:italic;font-weight:600;font-size:${m(6.2)};line-height:1.2;color:var(--pc);max-width:${m(105)}}
+.midE .pill{display:inline-block;margin-top:${m(6)};background:var(--pc);color:var(--W);border:0;border-radius:${m(9)};padding:${m(2)} ${m(6)};font-family:BVP;font-weight:500;font-size:${m(3.3)};letter-spacing:.05em}
+.midE .pill b{font-weight:700}
+.fe .icons{position:absolute;left:${m(10)};bottom:${m(36)};display:flex;gap:${m(8)};color:var(--pc)}
+.fe .icons div{display:flex;flex-direction:column;align-items:center;gap:${m(1.4)};font-family:BVP;font-weight:700;font-size:${m(2.4)};letter-spacing:.18em;color:var(--P)}
+.fe .icons svg{width:${m(10.5)};height:${m(10.5)};color:var(--pc)}
+.volE{position:absolute;left:${m(10)};bottom:${m(15)};display:flex;align-items:baseline;gap:${m(3.4)};font-family:BVP;font-weight:700;font-size:${m(2.4)};letter-spacing:.22em;text-transform:uppercase}
+.volE strong{font-family:Cormorant;font-weight:700;font-size:${m(11)};letter-spacing:0;text-transform:none;font-feature-settings:'lnum' 1}
+.onlyE{position:absolute;left:${m(10)};bottom:${m(8.5)};font-family:BVP;font-weight:700;font-size:${m(2.1)};letter-spacing:.2em}
+.arcE{position:absolute;right:0;bottom:0}
+.bot{position:absolute;left:0;right:0;bottom:0;height:${m(2.4)};background:var(--P)}
+/* mặt sau E */
+.bk.e .hdr{background:var(--W);color:var(--P);border-bottom:${m(0.8)} solid var(--pc)}
+.bk.e .hdr .c{color:var(--pc)}.bk.e .hdr .b{color:var(--P)}
+.bk.e .hd::after{background:var(--pcl)}.bk.e .hd i,.bk.e li::before{background:var(--pc)}
+.bk.e .cp{border-color:var(--pcl)!important}.bk.e .boxes div,.bk.e .bc{border-color:var(--pcl)}
+.bk.e .ftr{border-top:${m(0.8)} solid var(--pc)}.bk.e .ftr b,.bk.e .ftr .w{color:var(--pcl)}
+`;
+}
+
+function stripe(p) {
+  return `<div class="stripe"><i style="width:61.8%;background:var(--pc)"></i><i style="width:23.6%;background:${P}"></i><i style="width:14.6%;background:${G}"></i></div>`;
+}
+
+function frontE(p, k, u) {
+  const x = B.parts(p);
+  const m = (n) => `${(n * u).toFixed(3)}mm`;
+  const { w, h } = KHO[k], Rr = w * 0.618;
+  const vol = (/kg|g\b/i.test(p.quy_cach) ? 'Khối lượng tịnh' : 'Thể tích thực');
+  const volV = x.vol.replace(/.*<strong>/, '').replace('</strong></div>', '');
+  return `<div class="face fe" style="width:${w}mm;height:${h}mm">
+  <svg class="arcE" width="${Rr}mm" height="${Rr}mm" viewBox="0 0 ${Rr} ${Rr}">${B.arcs(p.mau, Rr, Rr, Rr)}</svg>
+  ${stripe(p)}<div class="bot"></div>
+  <div class="lockE">${B.brandMark({ fill: P }, `width="${m(23)}" height="${m(23)}"`)}<div><div class="b">THỦY SẢN TÍM</div><div class="m">Tinh hoa sinh học · Vững vàng mùa vụ</div></div></div>
+  <div class="noE">${x.no}</div>
+  <div class="midE"><div class="cat">${x.cat}</div>${x.name.replace(/data-max="[^"]*"/, `data-max="${(w * 0.82).toFixed(1)}"`)}${x.tag}<br>${x.pill}</div>
+  ${x.icons}
+  <div class="volE">${vol} <strong>${volV}</strong></div>
+  <div class="onlyE">CHỈ DÙNG TRONG NUÔI TRỒNG THỦY SẢN</div>
+</div>`;
+}
+
 function front(p, k, u) {
+  if (KIEU === 'e') return frontE(p, k, u);
   const x = B.parts(p);
   const m = (n) => `${(n * u).toFixed(3)}mm`;
   const vol = (/kg|g\b/i.test(p.quy_cach) ? 'Khối lượng tịnh' : 'Thể tích thực');
@@ -107,8 +166,9 @@ function front(p, k, u) {
 function back(p, k, u) {
   const d = B.data, pp = d.phan_phoi, sx = d.san_xuat;
   const m = (n) => `${(n * u).toFixed(3)}mm`;
-  return `<div class="face bk" style="width:${KHO[k].w}mm;height:${KHO[k].h}mm">
-  <div class="hdr">${emblemSvg({ fill: G, bg: P }, `width="${m(17)}" height="${m(17)}"`)}
+  const e = KIEU === 'e';
+  return `<div class="face bk${e ? ' e' : ''}" style="width:${KHO[k].w}mm;height:${KHO[k].h}mm">${e ? stripe(p) : ''}
+  <div class="hdr"${e ? ` style="margin-top:${m(4.2)}"` : ''}>${e ? B.brandMark({ fill: P }, `width="${m(17)}" height="${m(17)}"`) : emblemSvg({ fill: G, bg: P }, `width="${m(17)}" height="${m(17)}"`)}
     <div class="t"><div class="n">${esc(p.ten)}</div><div class="c">${esc(B.NHOM[p.nhom] || '')}</div></div><div class="b">THỦY SẢN TÍM</div></div>
   <div class="cols" data-fit>
     <div class="col">
@@ -166,10 +226,10 @@ async function main() {
       const page = await browser.newPage({ deviceScaleFactor: dsf, viewport: { width: Math.ceil(tw * 96 / 25.4), height: Math.ceil(th * 96 / 25.4) } });
       const body = side === 'truoc' ? front(p, k, u) : back(p, k, u);
       const bg = side === 'truoc' ? P : WH;
-      await page.setContent(`<!doctype html><html lang="vi"><head><meta charset="utf-8"><style>${css(u)}</style></head><body><div class="page" style="width:${tw}mm;height:${th}mm;background:${bg}">${body}</div></body></html>`);
+      await page.setContent(`<!doctype html><html lang="vi"><head><meta charset="utf-8"><style>${css(u)}${KIEU === 'e' ? cssE(u) : ''}</style></head><body><div class="page" style="width:${tw}mm;height:${th}mm;background:${KIEU === 'e' ? WH : bg};--pc:${p.mau};--pcl:${B.tint(p.mau, 0.62)}">${body}</div></body></html>`);
       await page.evaluate(() => document.fonts.ready);
       const r = await fit(page, k, u);
-      const base = `${p.slug}-${k}-${side}`;
+      const base = `${p.slug}-${k}-${side}${KIEU === 'e' ? '' : '-d'}`;
       await page.pdf({ path: path.join(OUT, base + '.pdf'), width: `${tw}mm`, height: `${th}mm`, printBackground: true, pageRanges: '1' });
       await page.screenshot({ path: path.join(OUT, base + '.png'), clip: await page.locator('.face').boundingBox() });
       console.log(`${r.over ? 'LỖI TRÀN' : 'ok'}  ${base}  ${r.fs ? 'chữ ' + (r.fs / 0.3528).toFixed(1) + 'pt' : 'tên ' + r.name.toFixed(1) + 'mm'}`);

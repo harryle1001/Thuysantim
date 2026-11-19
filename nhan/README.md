@@ -13,3 +13,8 @@
 - Nhãn chai (quấn): `node nhan/build.js --chi <slug> --concept d`.
 - Túi đứng 130 × 210 mm và bao 450 × 728 mm (mặt trước + sau): `node nhan/bo.js --chi <slug>`.
 - Mockup 3D 4K (chai, túi, bao, cả bộ): `THREE_JS=<three@0.149 build/three.min.js> node nhan/mockup.js --chi <slug>`.
+
+## Concept E · Trắng φ (đang dùng)
+- Nền trắng chủ đạo, logo TIM (đúng logo web) góc trái trên, mỗi sản phẩm một màu riêng (`mau` trong `san-pham.json`), cung sóng φ nhiều màu ở góc phải dưới, dải 3 màu mép trên chia 61,8 / 23,6 / 14,6.
+- Nhãn chai: `node nhan/build.js --chi <slug> --concept e` · Túi, bao: `node nhan/bo.js --chi <slug>` (thêm `--kieu d` cho bản tím + nhũ vàng).
+- Video 4K: `node nhan/video.js --chi <slug> --loai motion` (21 s, 30 fps) và `--loai xoay` (xoay 360°, 12 s, 60 fps, lặp liền mạch). Cần ffmpeg và `THREE_JS`.

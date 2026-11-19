@@ -12,6 +12,7 @@ const OUT = path.join(__dirname, 'out');
 const args = process.argv.slice(2);
 const opt = (f, d) => { const i = args.indexOf(f); return i > -1 ? args[i + 1] : d; };
 const slug = opt('--chi', 'vh-glubenco-pro');
+const KIEU = opt('--concept', 'e'); // e: trắng φ · d: tím + nhũ vàng
 const W = +opt('--w', 3840), H = +opt('--h', 2160);
 const THREE_JS = process.env.THREE_JS || path.join(__dirname, '..', 'node_modules', 'three', 'build', 'three.min.js');
 
@@ -145,6 +146,7 @@ function scene() {
     return g;
   }
 
+  if (SHOT.k === 'api') { window.API = { s, r, bottle, pouch, sack, key, PURPLE }; return null; }
   const cam = new THREE.PerspectiveCamera(SHOT.fov, WW / HH, 1, 2000);
   if (SHOT.k === 'bo') {
     const sk = sack(); sk.position.set(-14, 0, -26); sk.rotation.y = 0.32; s.add(sk);
@@ -169,9 +171,10 @@ function scene() {
 
 async function main() {
   if (!fs.existsSync(THREE_JS)) { console.error('Không thấy three.min.js. Đặt THREE_JS=/đường/dẫn/three.min.js'); process.exit(2); }
+  const sfx = KIEU === 'e' ? '' : '-d';
   const TEX = {
-    chai: b64(`${slug}-concept-d.png`), tuiF: b64(`${slug}-tui-truoc.png`), tuiB: b64(`${slug}-tui-sau.png`),
-    baoF: b64(`${slug}-bao-truoc.png`), baoB: b64(`${slug}-bao-sau.png`),
+    chai: b64(`${slug}-concept-${KIEU}.png`), tuiF: b64(`${slug}-tui-truoc${sfx}.png`), tuiB: b64(`${slug}-tui-sau${sfx}.png`),
+    baoF: b64(`${slug}-bao-truoc${sfx}.png`), baoB: b64(`${slug}-bao-sau${sfx}.png`),
   };
   const { chromium } = require('playwright');
   const browser = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
@@ -193,4 +196,5 @@ async function main() {
   await browser.close();
 }
 
-main().catch((e) => { console.error(e); process.exit(1); });
+module.exports = { scene, b64 };
+if (require.main === module) main().catch((e) => { console.error(e); process.exit(1); });
