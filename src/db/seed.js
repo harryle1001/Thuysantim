@@ -115,6 +115,26 @@ async function syncContactV3() {
   console.log('[db] Đã cập nhật email, gỡ số liệu và bài viết mẫu không đúng thực tế.');
 }
 
+/**
+ * One-time article clean-up (settings key `post_fixes_v1`): delete the retired articles and apply the
+ * fact-check corrections (src/db/post-fixes.js) to stored posts. Later admin edits are not touched again.
+ */
+async function syncPostFixes() {
+  if (await one("SELECT `value` FROM settings WHERE `key` = 'post_fixes_v1'")) return;
+  const fx = require('./post-fixes');
+  const del = await query('DELETE FROM posts WHERE slug IN (?)', [fx.RETIRED]);
+  let fixed = 0;
+  for (const slug of Object.keys(fx.FIXES)) {
+    const row = await one('SELECT title, excerpt, body FROM posts WHERE slug = ?', [slug]);
+    if (!row) continue;
+    const o = fx.applyToRow(slug, row);
+    await query('UPDATE posts SET title = ?, excerpt = ?, body = ? WHERE slug = ?', [o.title, o.excerpt, o.body, slug]);
+    fixed += 1;
+  }
+  await query("INSERT INTO settings (`key`, `value`) VALUES ('post_fixes_v1', ?)", [J(new Date().toISOString())]);
+  console.log(`[db] Kiểm chứng bài viết: xóa ${del.affectedRows || 0} bài bịa, sửa ${fixed} bài.`);
+}
+
 async function seed({ force = false } = {}) {
   await seedSettings();
   const existingPosts = await one('SELECT COUNT(*) AS n FROM posts');
@@ -124,6 +144,7 @@ async function seed({ force = false } = {}) {
     await syncCatalogV2();
     await syncContactV2();
     await syncContactV3();
+    await syncPostFixes();
     return false;
   }
 
@@ -158,6 +179,7 @@ async function seed({ force = false } = {}) {
   await syncCatalogV2();
   await syncContactV2();
   await syncContactV3();
+  await syncPostFixes();
   console.log('[db] Đã nạp dữ liệu mẫu.');
   return true;
 }
