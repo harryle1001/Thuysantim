@@ -14,8 +14,8 @@ module.exports = [
     title: L('Quy trình nuôi tôm thẻ chân trắng từ A đến Z: hướng dẫn chi tiết cho vụ nuôi thắng lợi',
       'Whiteleg Shrimp Farming from A to Z: A Complete Step-by-Step Guide',
       '南美白对虾养殖全流程：从清塘到收获的完整指南'),
-    excerpt: L('Toàn bộ quy trình nuôi tôm thẻ chân trắng thâm canh: chuẩn bị ao, gây màu nước, chọn giống, cho ăn, quản lý môi trường, phòng bệnh và thu hoạch — kèm bảng thông số chuẩn kỹ sư Thủy Sản Tím áp dụng tại hơn 2.000 ao nuôi.',
-      'The complete intensive whiteleg shrimp protocol — pond preparation, water colour, seed selection, feeding, water management, disease prevention and harvest — with the target parameters our engineers use across 2,000+ ponds.',
+    excerpt: L('Toàn bộ quy trình nuôi tôm thẻ chân trắng thâm canh: chuẩn bị ao, gây màu nước, chọn giống, cho ăn, quản lý môi trường, phòng bệnh và thu hoạch — kèm bảng thông số chuẩn kỹ sư Thủy Sản Tím áp dụng trong quá trình tư vấn ao nuôi.',
+      'The complete intensive whiteleg shrimp protocol — pond preparation, water colour, seed selection, feeding, water management, disease prevention and harvest — with the target parameters our engineers use.',
       '南美白对虾集约化养殖全流程：清塘、肥水、选苗、投喂、水质管理、病害预防与收获，附我们工程师在2,000多口池塘使用的标准参数表。'),
     body: L(
 `Tôm thẻ chân trắng (*Litopenaeus vannamei*) là đối tượng nuôi chủ lực tại Việt Nam nhờ tốc độ lớn nhanh, chịu được mật độ cao và một vụ chỉ kéo dài 75–100 ngày. Nhưng cũng vì nuôi dày, chỉ một sai sót nhỏ về nước hay thức ăn có thể khiến cả vụ thất bại. Bài viết này tổng hợp **quy trình nuôi tôm thẻ chân trắng từ A đến Z** theo đúng trình tự, kèm những con số bạn cần theo dõi mỗi ngày.

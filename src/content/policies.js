@@ -13,9 +13,9 @@ const EFFECTIVE = '10/11/2026';
 
 // Legal details shown when the admin has not filled them in yet (sample data).
 const LEGAL_DEFAULTS = {
-  taxCode: '1801234567',
-  licenseDate: '15/03/2011',
-  licenseIssuer: 'Sở Kế hoạch và Đầu tư TP. Cần Thơ',
+  taxCode: '',
+  licenseDate: '',
+  licenseIssuer: '',
   representative: '',
 };
 
@@ -386,7 +386,7 @@ Các bên nhận dữ liệu phải bảo mật và chỉ sử dụng dữ liệ
 
 ## 6. Địa chỉ của đơn vị thu thập và quản lý thông tin
 - **Tên đơn vị:** ${co.legal}
-- **Mã số doanh nghiệp:** ${co.taxCode}, cấp ngày ${co.licenseDate} tại ${co.licenseIssuer}
+- **Mã số doanh nghiệp:** ${co.taxCode ? `${co.taxCode}${co.licenseDate ? `, cấp ngày ${co.licenseDate}` : ''}${co.licenseIssuer ? ` tại ${co.licenseIssuer}` : ''}` : '(đang cập nhật)'}
 - **Địa chỉ:** ${co.address}
 - **Điện thoại:** ${co.hotline}${co.phone ? ` – ${co.phone}` : ''}
 - **Email:** ${co.email}
@@ -430,7 +430,7 @@ Chào mừng bạn đến với website **${co.website}** của ${co.legal}. Khi
 
 ## 1. Thông tin doanh nghiệp
 - **Tên doanh nghiệp:** ${co.legal}
-- **Mã số doanh nghiệp:** ${co.taxCode}, cấp ngày ${co.licenseDate} tại ${co.licenseIssuer}${co.representative ? `
+- **Mã số doanh nghiệp:** ${co.taxCode ? `${co.taxCode}${co.licenseDate ? `, cấp ngày ${co.licenseDate}` : ''}${co.licenseIssuer ? ` tại ${co.licenseIssuer}` : ''}` : '(đang cập nhật)'}${co.representative ? `
 - **Người đại diện theo pháp luật:** ${co.representative}` : ''}
 - **Địa chỉ:** ${co.address}
 - **Hotline:** ${co.hotline} – **Email:** ${co.email}

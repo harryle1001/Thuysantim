@@ -403,8 +403,6 @@ router.post('/settings', csrfProtect, async (req, res) => {
     bctUrl: /^https?:\/\/(www\.)?online\.gov\.vn\//i.test(str(c.bctUrl, 500)) ? str(c.bctUrl, 500) : '',
     mapEmbed: /^https:\/\/(www\.)?google\.[a-z.]+\/maps/.test(str(c.mapEmbed, 1000)) ? str(c.mapEmbed, 1000) : '',
   });
-  const st = b.stats || {};
-  await M.saveSetting('stats', { years: H.clampInt(st.years, 0, 1e6, 0), dealers: H.clampInt(st.dealers, 0, 1e6, 0), provinces: H.clampInt(st.provinces, 0, 1e6, 0), ponds: H.clampInt(st.ponds, 0, 1e9, 0) });
   const bk = b.bank || {};
   await M.saveSetting('bank', { bin: str(bk.bin, 20), accountNo: str(bk.accountNo, 40).replace(/\s/g, ''), accountName: str(bk.accountName, 120).toUpperCase(), bankName: str(bk.bankName, 120) });
   const sh = b.shipping || {};

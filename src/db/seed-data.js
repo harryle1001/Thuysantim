@@ -221,7 +221,7 @@ const posts = [
   {
     slug: 'quy-trinh-chuan-bi-ao-nuoi-tom-the-7-buoc', topic: 'technique', read: 7, daysAgo: 3,
     title: P('Quy trình chuẩn bị ao nuôi tôm thẻ chân trắng: 7 bước nền tảng', 'Preparing a Whiteleg Shrimp Pond: 7 Essential Steps', '南美白对虾池塘准备：7个基础步骤'),
-    excerpt: P('80% thành công của vụ nuôi được quyết định trước khi thả giống. Đây là quy trình chuẩn bị ao mà đội ngũ kỹ thuật Thủy Sản Tím áp dụng tại hơn 2.000 ao nuôi.', '80% of a crop’s success is decided before stocking. This is the pond-preparation protocol our technical team applies across 2,000+ ponds.', '养殖成功的80%在放苗前就已决定。这是我们技术团队在2,000多口池塘中采用的准备流程。'),
+    excerpt: P('80% thành công của vụ nuôi được quyết định trước khi thả giống. Đây là quy trình chuẩn bị ao mà đội ngũ kỹ thuật Thủy Sản Tím áp dụng trong quá trình tư vấn ao nuôi.', '80% of a crop’s success is decided before stocking. This is the pond-preparation protocol our technical team applies.', '养殖成功的80%在放苗前就已决定。这是我们技术团队在2,000多口池塘中采用的准备流程。'),
     body: P(
 `## 1. Tháo cạn, nạo vét và phơi đáy
 Tháo cạn nước, nạo vét bùn đen. Phơi đáy 7–15 ngày đến khi nứt chân chim. Với ao bạt, vệ sinh và phơi khô bạt.
@@ -418,36 +418,6 @@ A healthy hepatopancreas is the foundation of shrimp immunity. Use **TÍM LIVER 
 健康的肝胰腺是虾免疫的基础。每周3天使用 **TÍM LIVER GUARD**。`),
   },
   {
-    slug: 'thuy-san-tim-khanh-thanh-phong-lab-vi-sinh', topic: 'news', read: 3, daysAgo: 33,
-    title: P('Thủy Sản Tím đưa vào hoạt động phòng Lab vi sinh và PCR mới', 'Thủy Sản Tím Opens New Microbiology & PCR Laboratory', 'Thủy Sản Tím 新微生物与PCR实验室投入使用'),
-    excerpt: P('Phòng Lab hỗ trợ bà con xét nghiệm nhanh mẫu nước, mẫu tôm và tư vấn phác đồ trong 24 giờ.', 'The lab offers farmers rapid water and shrimp testing with protocol advice within 24 hours.', '实验室为养殖户提供水样与虾样快速检测，并在24小时内提供方案建议。'),
-    body: P(
-`Phòng Lab mới được trang bị hệ thống PCR định lượng, tủ an toàn sinh học cấp II và khu nuôi cấy vi sinh.
-
-## Dịch vụ cho khách hàng
-- Đếm mật độ Vibrio tổng số, Vibrio xanh/vàng
-- Xét nghiệm PCR: WSSV, AHPND, EHP
-- Phân tích chỉ tiêu nước: NH₃, NO₂, kiềm, khoáng
-
-Khách hàng và đại lý của Thủy Sản Tím được **ưu đãi phí xét nghiệm** và nhận kết quả kèm tư vấn kỹ thuật trong 24 giờ.`,
-`The new lab is equipped with quantitative PCR, a class II biosafety cabinet and a microbial culture area.
-
-## Services
-- Total Vibrio and green/yellow colony counts
-- PCR testing: WSSV, AHPND, EHP
-- Water analysis: NH₃, NO₂, alkalinity, minerals
-
-Customers and dealers receive **preferential testing fees** and results with technical advice within 24 hours.`,
-`新实验室配备定量PCR系统、II级生物安全柜和微生物培养区。
-
-## 服务项目
-- 弧菌总数及绿/黄菌落计数
-- PCR检测：WSSV、AHPND、EHP
-- 水质分析：氨氮、亚硝酸盐、碱度、矿物质
-
-客户与经销商可享受 **优惠检测费**，24小时内获得结果及技术建议。`),
-  },
-  {
     slug: 'nuoi-ca-tra-mat-do-cao-kiem-soat-gan-than-mu', topic: 'disease', read: 6, daysAgo: 41,
     title: P('Nuôi cá tra mật độ cao: kiểm soát bệnh gan thận mủ', 'High-Density Pangasius Farming: Controlling BNP', '高密度巴沙鱼养殖：控制肝肾脓肿病'),
     excerpt: P('Chủ động tăng miễn dịch trước mùa lũ là chìa khóa giảm hao hụt do Edwardsiella ictaluri.', 'Boosting immunity before the flood season is key to reducing losses from Edwardsiella ictaluri.', '在洪水季节前主动增强免疫是减少鮰爱德华氏菌损失的关键。'),
@@ -492,19 +462,18 @@ const settings = {
     phone: '0934 246 420',
     zalo: '0934246420',
     messenger: 'thuysantim',
-    email: 'info@thuysantim.vn',
+    email: 'Thuysantim@gmail.com',
     hours: L('Thứ 2 – Thứ 7: 7:30 – 17:30', 'Mon – Sat: 7:30 – 17:30', '周一至周六：7:30 – 17:30'),
     facebook: 'https://facebook.com/',
     youtube: 'https://youtube.com/',
     tiktok: 'https://tiktok.com/',
     mapEmbed: 'https://www.google.com/maps?q=295%2F16C+T%C3%A2n+K%E1%BB%B3+T%C3%A2n+Qu%C3%BD,+T%C3%A2n+S%C6%A1n+Nh%C3%AC,+H%E1%BB%93+Ch%C3%AD+Minh&output=embed',
-    taxCode: '1801234567',
-    licenseDate: '15/03/2011',
-    licenseIssuer: 'Sở Kế hoạch và Đầu tư TP. Cần Thơ',
+    taxCode: '',
+    licenseDate: '',
+    licenseIssuer: '',
     representative: '',
     bctUrl: '',
   },
-  stats: { years: 15, dealers: 650, provinces: 28, ponds: 12000 },
   bank: { bin: 'VCB', accountNo: '0123456789', accountName: 'CONG TY TNHH THUY SAN TIM', bankName: 'Vietcombank — CN Cần Thơ' },
   shipping: { fee: 35000, freeFrom: 2000000 },
   payments: { cod: true, vietqr: true, vnpay: true, momo: true, callback: true },

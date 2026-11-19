@@ -70,7 +70,7 @@
     <div class="footer__legal">
       <div class="footer__legaltext">
         <b><%= tr(company.legal) || 'Công ty TNHH Thủy Sản Tím' %></b>
-        <span><%= t('footer.taxCode') %>: <%= legalInfo.taxCode %><% if (legalInfo.licenseDate) { %> · <%= t('footer.issued') %> <%= legalInfo.licenseDate %><% } %><% if (legalInfo.licenseIssuer) { %> · <%= t('footer.at') %> <%= legalInfo.licenseIssuer %><% } %></span>
+        <% if (legalInfo.taxCode) { %><span><%= t('footer.taxCode') %>: <%= legalInfo.taxCode %><% if (legalInfo.licenseDate) { %> · <%= t('footer.issued') %> <%= legalInfo.licenseDate %><% } %><% if (legalInfo.licenseIssuer) { %> · <%= t('footer.at') %> <%= legalInfo.licenseIssuer %><% } %></span><% } %>
         <% if (legalInfo.representative) { %><span><%= locale === 'vi' ? 'Người đại diện' : locale === 'zh' ? '法定代表人' : 'Legal representative' %>: <%= legalInfo.representative %></span><% } %>
       </div>
       <% if (company.bctUrl) { %><a class="footer__bct" href="<%= company.bctUrl %>" target="_blank" rel="noopener" title="<%= t('footer.notified') %>"><img src="https://online.gov.vn/Content/EndUser/LogoCCDVSaleNoti/logoSaleNoti.png" alt="<%= t('footer.notified') %>" width="150" height="57" loading="lazy"></a><% } %>

@@ -1,5 +1,5 @@
 <%- include('_head') %>
-<% const c = s.company || {}; const st = s.stats || {}; const bk = s.bank || {}; const sh = s.shipping || {}; const pm = s.payments || {}; const J = JSON.stringify; %>
+<% const c = s.company || {}; const bk = s.bank || {}; const sh = s.shipping || {}; const pm = s.payments || {}; const J = JSON.stringify; %>
 <form class="form" method="post" action="/admin/settings">
   <input type="hidden" name="_csrf" value="<%= csrfToken %>">
   <div class="form__main">
@@ -25,20 +25,11 @@
       <div class="row2">
         <div class="fld"><label>Mã số doanh nghiệp / MST</label><input name="company[taxCode]" value="<%= c.taxCode || '' %>" placeholder="VD: 1801234567"></div>
         <div class="fld"><label>Ngày cấp</label><input name="company[licenseDate]" value="<%= c.licenseDate || '' %>" placeholder="VD: 15/03/2011"></div>
-        <div class="fld"><label>Nơi cấp</label><input name="company[licenseIssuer]" value="<%= c.licenseIssuer || '' %>" placeholder="VD: Sở Kế hoạch và Đầu tư TP. Cần Thơ"></div>
+        <div class="fld"><label>Nơi cấp</label><input name="company[licenseIssuer]" value="<%= c.licenseIssuer || '' %>" placeholder="VD: Sở Tài chính TP. Hồ Chí Minh"></div>
         <div class="fld"><label>Người đại diện theo pháp luật</label><input name="company[representative]" value="<%= c.representative || '' %>"></div>
       </div>
       <div class="fld"><label>Link xác nhận Bộ Công Thương <small>(sau khi được duyệt trên online.gov.vn — hiện logo “Đã thông báo Bộ Công Thương” ở chân trang)</small></label><input name="company[bctUrl]" value="<%= c.bctUrl || '' %>" placeholder="http://online.gov.vn/Home/WebDetails/..."></div>
       <div class="fld"><label>Link nhúng Google Maps <small>(Google Maps → Chia sẻ → Nhúng bản đồ → copy giá trị src)</small></label><input name="company[mapEmbed]" value="<%= c.mapEmbed %>"></div>
-    </div>
-    <div class="panel pad">
-      <h2 class="h2">Số liệu trang chủ</h2>
-      <div class="row4">
-        <div class="fld"><label>Năm kinh nghiệm</label><input type="number" name="stats[years]" value="<%= st.years %>"></div>
-        <div class="fld"><label>Đại lý</label><input type="number" name="stats[dealers]" value="<%= st.dealers %>"></div>
-        <div class="fld"><label>Tỉnh thành</label><input type="number" name="stats[provinces]" value="<%= st.provinces %>"></div>
-        <div class="fld"><label>Ao nuôi</label><input type="number" name="stats[ponds]" value="<%= st.ponds %>"></div>
-      </div>
     </div>
   </div>
   <aside class="form__side">

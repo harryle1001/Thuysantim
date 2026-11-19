@@ -1,6 +1,5 @@
 <%
   const company = (settings && settings.company) || {};
-  const stats = (settings && settings.stats) || {};
   const tel = (company.hotline || '').replace(/\s/g, '');
   const zalo = company.zalo ? 'https://zalo.me/' + company.zalo : '';
   const canonical = config.baseUrl + '/' + locale + pathRest;
@@ -79,11 +78,6 @@
           <a class="lp-btn lp-btn--gold" href="#dang-ky"><%= lp.cta.button %> <%- icon('arrow', '', 18) %></a>
           <% if (zalo) { %><a class="lp-btn lp-btn--zalo" href="<%= zalo %>" target="_blank" rel="noopener" data-track="zalo"><span class="lp-zalo">Zalo</span> Nhắn kỹ sư</a><% } %>
         </div>
-        <dl class="lp-stats">
-          <div><dt><%= num(stats.ponds || 12000) %>+</dt><dd>ao nuôi tin dùng</dd></div>
-          <div><dt><%= stats.years || 15 %> năm</dt><dd>kinh nghiệm</dd></div>
-          <div><dt><%= stats.provinces || 28 %></dt><dd>tỉnh thành</dd></div>
-        </dl>
       </div>
 
       <div class="lp-card lp-form" id="dang-ky">
@@ -252,7 +246,7 @@
 
 <footer class="lp-foot">
   <div class="lp-wrap">
-    <p><b><%= tr(company.legal) || 'Công ty TNHH Thủy Sản Tím' %></b> · MST <%= legalInfo.taxCode %></p>
+    <p><b><%= tr(company.legal) || 'Công ty TNHH Thủy Sản Tím' %></b><% if (legalInfo.taxCode) { %> · MST <%= legalInfo.taxCode %><% } %></p>
     <p><%= tr(company.address) %> · <a href="tel:<%= tel %>"><%= company.hotline %></a> · <a href="mailto:<%= company.email %>"><%= company.email %></a></p>
     <p class="lp-foot__links"><a href="<%= url('') %>">Trang chủ</a><a href="<%= url('/products') %>">Sản phẩm</a><% (policyLinks || []).slice(0, 2).forEach(function (p) { %><a href="<%= url('/policies/' + p.slug) %>"><%= p.title %></a><% }) %></p>
     <p class="lp-foot__note">Sản phẩm dùng trong nuôi trồng thủy sản, đọc kỹ hướng dẫn trước khi dùng. <%= t('footer.sample') %></p>

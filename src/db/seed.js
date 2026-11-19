@@ -90,6 +90,31 @@ async function syncContactV2() {
   console.log('[db] Đã cập nhật hotline, Zalo, địa chỉ công ty.');
 }
 
+/**
+ * One-time clean-up (settings key `contact_v3`): the company is newly founded, so the sample scale/history claims go.
+ * Updates the contact email, drops the homepage stats, unpublishes the sample "new lab" news post and
+ * rewrites the "2,000 ponds" sentence in stored articles.
+ */
+async function syncContactV3() {
+  if (await one("SELECT `value` FROM settings WHERE `key` = 'contact_v3'")) return;
+  const row = await one("SELECT `value` FROM settings WHERE `key` = 'company'");
+  let company = {};
+  try { company = row ? JSON.parse(row.value) : {}; } catch (e) { company = {}; }
+  company.email = data.settings.company.email;
+  if (company.taxCode === '1801234567') { company.taxCode = ''; company.licenseDate = ''; company.licenseIssuer = ''; } // mã số thuế mẫu
+  await query("INSERT INTO settings (`key`, `value`) VALUES ('company', ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)", [J(company)]);
+  await query("DELETE FROM settings WHERE `key` = 'stats'");
+  await query("UPDATE posts SET is_published = 0 WHERE slug = 'thuy-san-tim-khanh-thanh-phong-lab-vi-sinh'");
+  const swaps = [
+    ['áp dụng tại hơn 2.000 ao nuôi', 'áp dụng trong quá trình tư vấn ao nuôi'],
+    ['our engineers use across 2,000+ ponds', 'our engineers use'],
+    ['applies across 2,000+ ponds', 'applies'],
+  ];
+  for (const [a, b] of swaps) await query('UPDATE posts SET excerpt = REPLACE(excerpt, ?, ?), body = REPLACE(body, ?, ?)', [a, b, a, b]);
+  await query("INSERT INTO settings (`key`, `value`) VALUES ('contact_v3', ?)", [J(new Date().toISOString())]);
+  console.log('[db] Đã cập nhật email, gỡ số liệu và bài viết mẫu không đúng thực tế.');
+}
+
 async function seed({ force = false } = {}) {
   await seedSettings();
   const existingPosts = await one('SELECT COUNT(*) AS n FROM posts');
@@ -98,6 +123,7 @@ async function seed({ force = false } = {}) {
     if (existingPosts.n > 0) await seedPosts();
     await syncCatalogV2();
     await syncContactV2();
+    await syncContactV3();
     return false;
   }
 
@@ -131,6 +157,7 @@ async function seed({ force = false } = {}) {
   await seedPosts();
   await syncCatalogV2();
   await syncContactV2();
+  await syncContactV3();
   console.log('[db] Đã nạp dữ liệu mẫu.');
   return true;
 }
