@@ -18,3 +18,8 @@
 - Nền trắng chủ đạo, logo TIM (đúng logo web) góc trái trên, mỗi sản phẩm một màu riêng (`mau` trong `san-pham.json`), cung sóng φ nhiều màu ở góc phải dưới, dải 3 màu mép trên chia 61,8 / 23,6 / 14,6.
 - Nhãn chai: `node nhan/build.js --chi <slug> --concept e` · Túi, bao: `node nhan/bo.js --chi <slug>` (thêm `--kieu d` cho bản tím + nhũ vàng).
 - Video 4K: `node nhan/video.js --chi <slug> --loai motion` (21 s, 30 fps) và `--loai xoay` (xoay 360°, 12 s, 60 fps, lặp liền mạch). Cần ffmpeg và `THREE_JS`.
+
+## Trọn bộ mỗi sản phẩm (concept E)
+- `THREE_JS=<three.min.js> node nhan/tat-ca.js --chi <slug,...>`: nhãn → mockup 4K → video motion 4K → video xoay 360° 4K. Chạy lại sẽ bỏ qua bước đã có file.
+- Nước (`dang: chai`) → nhãn chai; bột (`dang: goi`) → túi + bao.
+- Nhận biết trên nhãn: màu riêng (`mau`), huy hiệu loại + mã (`MT-04`, `TA-10`), họa tiết nhóm (cung tròn = xử lý môi trường, hình thoi = thức ăn bổ sung), biểu tượng dạng và cách dùng, dòng "Sản xuất tại Việt Nam".

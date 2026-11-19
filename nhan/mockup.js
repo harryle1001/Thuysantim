@@ -149,9 +149,8 @@ function scene() {
   if (SHOT.k === 'api') { window.API = { s, r, bottle, pouch, sack, key, PURPLE }; return null; }
   const cam = new THREE.PerspectiveCamera(SHOT.fov, WW / HH, 1, 2000);
   if (SHOT.k === 'bo') {
-    const sk = sack(); sk.position.set(-14, 0, -26); sk.rotation.y = 0.32; s.add(sk);
-    const po = pouch(); po.position.set(12, 0, 6); po.rotation.y = -0.38; s.add(po);
-    const bo = bottle(); bo.position.set(-2.5, 0, 14); bo.rotation.y = 0.12; s.add(bo);
+    const sk = sack(); sk.position.set(-12, 0, -24); sk.rotation.y = 0.32; s.add(sk);
+    const po = pouch(); po.position.set(15, 0, 8); po.rotation.y = -0.38; s.add(po);
     cam.position.set(8, 40, 176); cam.lookAt(-3, 31.5, 0);
   } else if (SHOT.k === 'chai') {
     const bo = bottle(); bo.rotation.y = 0.05; s.add(bo);
@@ -172,10 +171,8 @@ function scene() {
 async function main() {
   if (!fs.existsSync(THREE_JS)) { console.error('Không thấy three.min.js. Đặt THREE_JS=/đường/dẫn/three.min.js'); process.exit(2); }
   const sfx = KIEU === 'e' ? '' : '-d';
-  const TEX = {
-    chai: b64(`${slug}-concept-${KIEU}.png`), tuiF: b64(`${slug}-tui-truoc${sfx}.png`), tuiB: b64(`${slug}-tui-sau${sfx}.png`),
-    baoF: b64(`${slug}-bao-truoc${sfx}.png`), baoB: b64(`${slug}-bao-sau${sfx}.png`),
-  };
+  const TEX = texFor(slug, sfx);
+  const isChai = !TEX.tuiF;
   const { chromium } = require('playwright');
   const browser = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
   const page = await browser.newPage({ viewport: { width: 800, height: 600 } });
@@ -185,7 +182,7 @@ async function main() {
     window.TEX = {};
     await Promise.all(Object.entries(T).map(([k, src]) => new Promise((ok, no) => { const i = new Image(); i.onload = () => { window.TEX[k] = i; ok(); }; i.onerror = no; i.src = src; })));
   }, TEX);
-  const shots = (opt('--shot', 'bo,chai,tui,bao')).split(',');
+  const shots = (opt('--shot', isChai ? 'chai' : 'bo,tui,bao')).split(',');
   for (const k of shots) {
     const t0 = Date.now();
     const url = await page.evaluate(`(() => { window.WW = ${W}; window.WH = ${H}; window.HH = ${H}; window.SHOT = ${JSON.stringify({ k, fov: k === 'bo' ? 24 : 26 })}; document.body.innerHTML = ''; return (${scene.toString()})(); })()`);
@@ -196,5 +193,12 @@ async function main() {
   await browser.close();
 }
 
-module.exports = { scene, b64 };
+// Nước → chỉ có nhãn chai; bột → túi + bao (theo file bo.js đã sinh).
+function texFor(slug, sfx = '') {
+  const has = (f) => fs.existsSync(path.join(OUT, f));
+  const sp = JSON.parse(fs.readFileSync(path.join(__dirname, 'san-pham.json'), 'utf8')).san_pham.find((x) => x.slug === slug);
+  if (sp && sp.dang !== 'chai' && has(`${slug}-tui-truoc${sfx}.png`)) return { tuiF: b64(`${slug}-tui-truoc${sfx}.png`), tuiB: b64(`${slug}-tui-sau${sfx}.png`), baoF: b64(`${slug}-bao-truoc${sfx}.png`), baoB: b64(`${slug}-bao-sau${sfx}.png`) };
+  return { chai: b64(`${slug}-concept-${sfx ? 'd' : 'e'}.png`) };
+}
+module.exports = { scene, b64, texFor };
 if (require.main === module) main().catch((e) => { console.error(e); process.exit(1); });

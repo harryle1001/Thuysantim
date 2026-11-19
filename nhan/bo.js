@@ -96,19 +96,25 @@ function cssE(u) {
 .lockE{position:absolute;left:${m(10)};top:${m(13)};display:flex;align-items:center;gap:${m(3.6)}}
 .lockE .b{font-family:BVP;font-weight:700;font-size:${m(3.4)};letter-spacing:.3em;color:var(--P)}
 .lockE .m{font-family:Cormorant;font-style:italic;font-weight:600;font-size:${m(3.9)};color:var(--G);margin-top:${m(0.8)}}
-.noE{position:absolute;right:${m(10)};top:${m(15)};font-family:Cormorant;font-style:italic;font-weight:600;font-size:${m(4.4)};color:var(--pc);font-feature-settings:'lnum' 1}
+.typE{position:absolute;right:${m(10)};top:${m(12)};display:flex;flex-direction:column;align-items:center;gap:${m(1.6)}}
+.typE i{width:${m(20)};height:${m(20)};border-radius:50%;background:var(--pc);color:var(--W);display:grid;place-items:center}
+.typE svg{width:${m(12.4)};height:${m(12.4)}}
+.typE b{font-family:BVP;font-weight:700;font-size:${m(2.8)};letter-spacing:.14em;color:var(--pc)}
+.grpE{font-family:BVP;font-weight:600;font-size:${m(2.5)};letter-spacing:.26em;text-transform:uppercase;color:var(--P);margin-bottom:${m(2.2)}}
+.madeE{position:absolute;left:${m(10)};bottom:${m(13.4)};font-family:BVP;font-weight:700;font-size:${m(2.3)};letter-spacing:.22em;color:var(--pc)}
 .midE{position:absolute;left:${m(10)};right:${m(10)};top:calc(38.2% - ${m(16)})}
 .midE .cat{font-family:BVP;font-weight:700;font-size:${m(3)};letter-spacing:.28em;color:var(--pc);text-transform:uppercase}
+.midE .cat{padding-left:0}
 .midE .cat::after{content:'';display:block;width:${m(30)};height:${m(0.9)};background:var(--pc);margin-top:${m(2.6)}}
 .midE .name{font-family:BVP;font-weight:700;letter-spacing:-.015em;line-height:1;white-space:nowrap;margin:${m(5)} 0 ${m(3.4)};color:var(--P)}
 .midE .name span{display:table}
 .midE .tag{font-family:Cormorant;font-style:italic;font-weight:600;font-size:${m(6.2)};line-height:1.2;color:var(--pc);max-width:${m(105)}}
 .midE .pill{display:inline-block;margin-top:${m(6)};background:var(--pc);color:var(--W);border:0;border-radius:${m(9)};padding:${m(2)} ${m(6)};font-family:BVP;font-weight:500;font-size:${m(3.3)};letter-spacing:.05em}
 .midE .pill b{font-weight:700}
-.fe .icons{position:absolute;left:${m(10)};bottom:${m(36)};display:flex;gap:${m(8)};color:var(--pc)}
+.fe .icons{position:absolute;left:${m(10)};bottom:${m(41)};display:flex;gap:${m(5.5)};color:var(--pc)}
 .fe .icons div{display:flex;flex-direction:column;align-items:center;gap:${m(1.4)};font-family:BVP;font-weight:700;font-size:${m(2.4)};letter-spacing:.18em;color:var(--P)}
 .fe .icons svg{width:${m(10.5)};height:${m(10.5)};color:var(--pc)}
-.volE{position:absolute;left:${m(10)};bottom:${m(15)};display:flex;align-items:baseline;gap:${m(3.4)};font-family:BVP;font-weight:700;font-size:${m(2.4)};letter-spacing:.22em;text-transform:uppercase}
+.volE{position:absolute;left:${m(10)};bottom:${m(20)};display:flex;align-items:baseline;gap:${m(3.4)};font-family:BVP;font-weight:700;font-size:${m(2.4)};letter-spacing:.22em;text-transform:uppercase}
 .volE strong{font-family:Cormorant;font-weight:700;font-size:${m(11)};letter-spacing:0;text-transform:none;font-feature-settings:'lnum' 1}
 .onlyE{position:absolute;left:${m(10)};bottom:${m(8.5)};font-family:BVP;font-weight:700;font-size:${m(2.1)};letter-spacing:.2em}
 .arcE{position:absolute;right:0;bottom:0}
@@ -133,13 +139,14 @@ function frontE(p, k, u) {
   const vol = (/kg|g\b/i.test(p.quy_cach) ? 'Khối lượng tịnh' : 'Thể tích thực');
   const volV = x.vol.replace(/.*<strong>/, '').replace('</strong></div>', '');
   return `<div class="face fe" style="width:${w}mm;height:${h}mm">
-  <svg class="arcE" width="${Rr}mm" height="${Rr}mm" viewBox="0 0 ${Rr} ${Rr}">${B.arcs(p.mau, Rr, Rr, Rr)}</svg>
+  <svg class="arcE" width="${Rr}mm" height="${Rr}mm" viewBox="0 0 ${Rr} ${Rr}">${B.arcs(p.mau, Rr, Rr, Rr, p.nhom)}</svg>
   ${stripe(p)}<div class="bot"></div>
   <div class="lockE">${B.brandMark({ fill: P }, `width="${m(23)}" height="${m(23)}"`)}<div><div class="b">THỦY SẢN TÍM</div><div class="m">Tinh hoa sinh học · Vững vàng mùa vụ</div></div></div>
-  <div class="noE">${x.no}</div>
-  <div class="midE"><div class="cat">${x.cat}</div>${x.name.replace(/data-max="[^"]*"/, `data-max="${(w * 0.82).toFixed(1)}"`)}${x.tag}<br>${x.pill}</div>
+  <div class="typE"><i>${B.svgIcon(x.pl.loaiKey)}</i><b>${x.pl.ma}</b></div>
+  <div class="midE"><div class="grpE">${x.cat}</div><div class="cat">${esc(x.pl.loai)}</div>${x.name.replace(/data-max="[^"]*"/, `data-max="${(w * 0.82).toFixed(1)}"`)}${x.tag}<br>${x.pill}</div>
   ${x.icons}
   <div class="volE">${vol} <strong>${volV}</strong></div>
+  <div class="madeE">SẢN XUẤT TẠI VIỆT NAM · ${x.no}</div>
   <div class="onlyE">CHỈ DÙNG TRONG NUÔI TRỒNG THỦY SẢN</div>
 </div>`;
 }
@@ -179,6 +186,7 @@ function back(p, k, u) {
     <div class="col">
       <div class="sec"><div class="hd"><i></i>Thành phần</div>${p.thanh_phan.map(B.cpRow).join('')}</div>
       <div class="sec legal">
+        <p><strong>Phân loại:</strong> ${(() => { const f = B.phanLoai(p); return esc([f.ma, f.loai, f.dang, f.cach].join(' · ')); })()}</p>
         <p><strong>Mã số:</strong> ${esc(p.ma_so)}</p><p><strong>TCCS:</strong> ${esc(p.tccs)}</p>
         <p><strong>HSD:</strong> ${rich(p.hsd && !/In trên/.test(p.hsd) ? p.hsd : 'xem trên bao bì')}</p>
         <p><strong>Quy cách:</strong> ${rich(p.quy_cach || '')}</p>
@@ -187,7 +195,7 @@ function back(p, k, u) {
       <div class="bc">MÃ VẠCH<br>EAN-13</div>
     </div>
   </div>
-  <div class="ftr"><b>Sản xuất:</b> ${esc(sx.ten)} · ${esc(sx.dia_chi)} · ĐT ${esc(sx.dien_thoai)}<br>
+  <div class="ftr"><b>Sản xuất tại Việt Nam bởi:</b> ${esc(sx.ten)} · ${esc(sx.dia_chi)} · ĐT ${esc(sx.dien_thoai)}<br>
     <b>Phân phối:</b> ${esc(pp.ten)} · Hotline ${rich(pp.hotline)} · ${esc(pp.web)}
     <div class="w">CHỈ DÙNG TRONG NUÔI TRỒNG THỦY SẢN · ĐỂ XA TẦM TAY TRẺ EM</div></div>
 </div>`;
@@ -217,7 +225,7 @@ async function main() {
   fs.mkdirSync(OUT, { recursive: true });
   const { chromium } = require('playwright');
   const browser = await chromium.launch();
-  for (const p of list) for (const k of ['tui', 'bao']) {
+  for (const p of list.filter((q) => q.dang !== 'chai' || args.includes('--ep'))) for (const k of ['tui', 'bao']) {
     const { w, h } = KHO[k], u = w / 130;
     for (const side of ['truoc', 'sau']) {
       const tw = w + 2 * BLEED, th = h + 2 * BLEED;

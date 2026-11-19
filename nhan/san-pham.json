@@ -2,7 +2,8 @@
  "_ghi_chu": [
   "Nội dung 15 nhãn Thủy Sản Tím. Lấy từ DM 15 SP-NHƯỜNG.xlsx + hồ sơ TCCS. Sửa ở đây rồi chạy: node nhan/build.js",
   "Chỗ [ĐIỀN] phải bổ sung theo hồ sơ trước khi in.",
-  "mau: màu riêng của từng sản phẩm (concept E), dùng cho cung sóng φ, nhóm, nhấn mạnh."
+  "mau: màu riêng của từng sản phẩm (concept E), dùng cho cung sóng φ, nhóm, nhấn mạnh.",
+  "loai: loại sản phẩm (biểu tượng + tên trên nhãn, xem LOAI trong build.js). cach_dung: tat-ao | tron-an."
  ],
  "phan_phoi": {
   "ten": "THỦY SẢN TÍM",
@@ -53,7 +54,9 @@
    "the_tich": "227g",
    "hsd": "In trên bao bì",
    "ma_vach": "",
-   "mau": "#0e9f8e"
+   "mau": "#0e9f8e",
+   "loai": "vi-sinh",
+   "cach_dung": "tat-ao"
   },
   {
    "stt": 2,
@@ -89,7 +92,9 @@
    "the_tich": "227g",
    "hsd": "In trên bao bì",
    "ma_vach": "",
-   "mau": "#3e9b4f"
+   "mau": "#3e9b4f",
+   "loai": "vi-sinh",
+   "cach_dung": "tat-ao"
   },
   {
    "stt": 3,
@@ -120,7 +125,9 @@
    "the_tich": "In trên bao bì",
    "hsd": "In trên bao bì",
    "ma_vach": "",
-   "mau": "#1f6fd1"
+   "mau": "#1f6fd1",
+   "loai": "sat-trung",
+   "cach_dung": "tat-ao"
   },
   {
    "stt": 4,
@@ -155,7 +162,9 @@
    "the_tich": "1 lít",
    "hsd": "24 tháng kể từ NSX",
    "ma_vach": "",
-   "mau": "#0a8fb5"
+   "mau": "#0a8fb5",
+   "loai": "sat-trung",
+   "cach_dung": "tat-ao"
   },
   {
    "stt": 5,
@@ -190,7 +199,9 @@
    "the_tich": "In trên bao bì",
    "hsd": "In trên bao bì",
    "ma_vach": "",
-   "mau": "#7a9a1e"
+   "mau": "#7a9a1e",
+   "loai": "khi-doc",
+   "cach_dung": "tat-ao"
   },
   {
    "stt": 6,
@@ -225,7 +236,9 @@
    "the_tich": "5kg",
    "hsd": "In trên bao bì",
    "ma_vach": "",
-   "mau": "#4c5fd5"
+   "mau": "#4c5fd5",
+   "loai": "khoang",
+   "cach_dung": "tat-ao"
   },
   {
    "stt": 7,
@@ -257,7 +270,9 @@
    "the_tich": "1 lít",
    "hsd": "In trên bao bì",
    "ma_vach": "",
-   "mau": "#c2622d"
+   "mau": "#c2622d",
+   "loai": "xu-ly-tao",
+   "cach_dung": "tat-ao"
   },
   {
    "stt": 8,
@@ -288,7 +303,9 @@
    "the_tich": "In trên bao bì",
    "hsd": "In trên bao bì",
    "ma_vach": "",
-   "mau": "#13906b"
+   "mau": "#13906b",
+   "loai": "xu-ly-tao",
+   "cach_dung": "tat-ao"
   },
   {
    "stt": 9,
@@ -319,7 +336,9 @@
    "the_tich": "1 lít",
    "hsd": "In trên bao bì",
    "ma_vach": "",
-   "mau": "#c47a12"
+   "mau": "#c47a12",
+   "loai": "sat-trung",
+   "cach_dung": "tat-ao"
   },
   {
    "stt": 10,
@@ -354,7 +373,9 @@
    "the_tich": "In trên bao bì",
    "hsd": "In trên bao bì",
    "ma_vach": "",
-   "mau": "#e2574c"
+   "mau": "#e2574c",
+   "loai": "loi-khuan",
+   "cach_dung": "tron-an"
   },
   {
    "stt": 11,
@@ -389,7 +410,9 @@
    "the_tich": "1 lít",
    "hsd": "In trên bao bì",
    "ma_vach": "",
-   "mau": "#d63f8c"
+   "mau": "#d63f8c",
+   "loai": "loi-khuan",
+   "cach_dung": "tron-an"
   },
   {
    "stt": 12,
@@ -419,7 +442,9 @@
    "the_tich": "1 lít",
    "hsd": "In trên bao bì",
    "ma_vach": "",
-   "mau": "#e8862a"
+   "mau": "#e8862a",
+   "loai": "dinh-duong",
+   "cach_dung": "tron-an"
   },
   {
    "stt": 13,
@@ -456,7 +481,9 @@
    "the_tich": "1 lít",
    "hsd": "In trên bao bì",
    "ma_vach": "",
-   "mau": "#b42a4a"
+   "mau": "#b42a4a",
+   "loai": "gan",
+   "cach_dung": "tron-an"
   },
   {
    "stt": 14,
@@ -496,7 +523,9 @@
    "the_tich": "1 lít",
    "hsd": "In trên bao bì",
    "ma_vach": "",
-   "mau": "#c9333f"
+   "mau": "#c9333f",
+   "loai": "gan",
+   "cach_dung": "tron-an"
   },
   {
    "stt": 15,
@@ -528,7 +557,9 @@
    "the_tich": "1 lít",
    "hsd": "In trên bao bì",
    "ma_vach": "",
-   "mau": "#7b4fd1"
+   "mau": "#7b4fd1",
+   "loai": "khoang",
+   "cach_dung": "tron-an"
   }
  ]
 }
