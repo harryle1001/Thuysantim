@@ -1,9 +1,9 @@
-// Render background: node render.js [sang]  → out/*.mp4 (10s lặp liền mạch) + ảnh 4K PNG
+// Render background: node render.js [sang|hoang-hon]  → out/*.mp4 (10s lặp liền mạch) + ảnh 4K PNG
 //   không tham số: bản hoàng hôn tím (scene.html) · 'sang': bản nắng sau mưa có cầu vồng (scene-sang.html)
 const { chromium } = require('playwright');
 const { execFileSync } = require('child_process');
 const fs = require('fs'), path = require('path');
-const V = process.argv[2] === 'sang' ? '-sang' : '', SCENE = `scene${V}.html`;
+const V = ['sang', 'hoang-hon'].includes(process.argv[2]) ? '-' + process.argv[2] : '', SCENE = `scene${V}.html`;
 const FPS = 30, OUT = path.join(__dirname, 'out'), TMP = path.join(__dirname, '.frames');
 fs.mkdirSync(OUT, { recursive: true });
 (async () => {
