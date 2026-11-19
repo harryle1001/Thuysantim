@@ -24,3 +24,7 @@ Bố cục φ: chân trời 61.8% chiều cao, mặt trời ở 23.6% chiều ca
 | `thuysantim-bg-sang-3840x2160*.png` / `2160x3840*.png` | Ảnh tĩnh 4K |
 
 Render lại: `node render.js sang`. Bản web nhẹ cho landing page: `public/video/nang-cau-vong-1280.mp4` (+ ảnh `.webp`).
+
+## Bản hoàng hôn tối giản, sang trọng (`scene-toi-gian.html`) · đang chờ duyệt
+Chỉ giữ: trời tím mận chuyển vàng hồng, mặt trời sát chân trời, 12 tia nắng mảnh xoay rất chậm, một cung cầu vồng mờ, mặt nước phẳng lặng có cột phản chiếu, vài hạt sáng vàng bay lên. Logo trắng, chữ TÍM vàng đồng, giãn chữ rộng.
+Video 20 s lặp liền mạch; bản `-nhac.mp4` kèm nhạc `../audio/sang-trong.wav` (ambient piano + pad cung Rê trưởng, tự tạo bằng `sang-trong.py`, chuẩn -16 LUFS). Render lại: `node render.js toi-gian`.

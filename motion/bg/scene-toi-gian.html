@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Thủy Sản Tím — Background hoàng hôn tối giản</title>
+<style>
+  @font-face { font-family: MS; font-weight: 500; src: url(../logo/fonts/Montserrat-500.ttf); }
+  @font-face { font-family: MS; font-weight: 600; src: url(../logo/fonts/Montserrat-600.ttf); }
+  html, body { margin: 0; background: #000; overflow: hidden; }
+  canvas { display: block; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<script>
+/* Hoàng hôn tối giản, sang trọng: trời tím mận chuyển vàng hồng, mặt trời sát chân trời,
+   vài tia nắng mảnh xoay rất chậm, một cung cầu vồng mờ, mặt nước phẳng lặng với cột phản chiếu,
+   vài hạt sáng vàng bay lên. Không mưa, không chi tiết phụ.
+   Bố cục φ: chân trời 61.8% chiều cao, mặt trời 61.8% chiều ngang, tâm cầu vồng 38.2%.
+   Chuyển động chậm, LOOP 20 s lặp liền mạch. */
+const PHI = 1.618034, TAU = Math.PI * 2;
+const Q = new URLSearchParams(location.search);
+const O = Q.get('o') === 'v' ? 'v' : 'h';
+const W = O === 'h' ? 1920 : 1080, H = O === 'h' ? 1080 : 1920, isH = O === 'h';
+const LOOP = 20, SHOW_LOGO = Q.get('logo') !== '0';
+const cv = document.getElementById('c'); const ctx = cv.getContext('2d');
+const DPR = +(Q.get('dpr') || 1);
+cv.width = W * DPR; cv.height = H * DPR; cv.style.width = W + 'px'; cv.style.height = H + 'px';
+let seed = 1618; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+const HZ = H * .618;
+const SUN = { x: W * (isH ? .618 : .618), y: HZ - (isH ? 46 : 52), r: isH ? 64 : 72 };
+const BOW = { x: W * .382, y: HZ, R: isH ? W * .26 : W * .42 };
+const wrap = (v, m) => ((v % m) + m) % m;
+function sprite(w, h, draw) { const c = document.createElement('canvas'); c.width = Math.ceil(w * DPR); c.height = Math.ceil(h * DPR); const x = c.getContext('2d'); x.scale(DPR, DPR); draw(x); return c; }
+
+const motes = [];
+for (let i = 0; i < 22; i++) motes.push({ x: rnd() * W, y: rnd(), r: .8 + rnd() * 2.2, k: 1 + Math.floor(rnd() * 2), ph: rnd() * TAU, a: .25 + rnd() * .45 });
+const streaks = [];
+for (let i = 0; i < 40; i++) streaks.push({ d: rnd(), x: rnd() * 2 - 1, f: 1 + Math.floor(rnd() * 3), ph: rnd() * TAU });
+
+const RING = new Path2D('M4 100a96 96 0 1 0 192 0a96 96 0 1 0 -192 0Z M11.739 100a88.261 88.261 0 1 0 176.522 0a88.261 88.261 0 1 0 -176.522 0Z');
+const GLY = new Path2D('M102.391 112.877L97.609 112.877L97.609 87.123L102.391 87.123L102.391 112.877Z M73.156 112.877L68.373 112.877L68.373 91.170L59.837 91.170L59.837 87.123L81.692 87.123L81.692 91.170L73.156 91.170L73.156 112.877Z M122.871 112.877L118.308 112.877L118.308 87.123L122.245 87.123L133.503 105.923L131.443 105.923L142.517 87.123L146.454 87.123L146.491 112.877L141.966 112.877L141.929 94.224L142.885 94.224L133.467 109.934L131.333 109.934L121.767 94.224L122.871 94.224L122.871 112.877Z M102.391 71.206L97.609 71.206L97.609 49.499L89.073 49.499L89.073 45.452L110.927 45.452L110.927 49.499L102.391 49.499L102.391 71.206Z M90.471 154.548L85.909 154.548L85.909 128.794L89.845 128.794L101.104 147.595L99.043 147.595L110.118 128.794L114.054 128.794L114.091 154.548L109.566 154.548L109.529 135.895L110.486 135.895L101.067 151.605L98.933 151.605L89.367 135.895L90.471 135.895L90.471 154.548Z');
+
+let SKY, BOW_IMG, GLOW, RAYS, WATER;
+function build() {
+  SKY = sprite(W, HZ + 1, (x) => {
+    const g = x.createLinearGradient(0, 0, 0, HZ);
+    g.addColorStop(0, '#160a2a'); g.addColorStop(.38, '#3b1650'); g.addColorStop(.62, '#7a2f6e'); g.addColorStop(.82, '#c86a82'); g.addColorStop(.94, '#efa585'); g.addColorStop(1, '#f9cf9c');
+    x.fillStyle = g; x.fillRect(0, 0, W, HZ + 1);
+  });
+  BOW_IMG = sprite(W, HZ, (x) => {
+    const cols = ['#ff8a8a', '#ffc08a', '#ffe7a0', '#a8e6b4', '#9fd2ff', '#b6a6ff', '#e0a6ff'];
+    x.beginPath(); x.rect(0, 0, W, HZ); x.clip(); x.filter = 'blur(2px)';
+    cols.forEach((c, i) => { x.strokeStyle = c; x.lineWidth = 5; x.beginPath(); x.arc(BOW.x, BOW.y, BOW.R - i * 5, Math.PI, TAU); x.stroke(); });
+    x.filter = 'none'; x.globalCompositeOperation = 'destination-in';
+    const f = x.createLinearGradient(0, HZ - BOW.R, 0, HZ); f.addColorStop(0, 'rgba(0,0,0,1)'); f.addColorStop(.75, 'rgba(0,0,0,.55)'); f.addColorStop(1, 'rgba(0,0,0,0)');
+    x.fillStyle = f; x.fillRect(0, 0, W, HZ);
+  });
+  GLOW = sprite(W, H, (x) => {
+    const g = x.createRadialGradient(SUN.x, SUN.y, 0, SUN.x, SUN.y, H * .75);
+    g.addColorStop(0, 'rgba(255,236,200,.95)'); g.addColorStop(.07, 'rgba(255,200,150,.55)'); g.addColorStop(.25, 'rgba(240,140,130,.2)'); g.addColorStop(1, 'rgba(200,90,120,0)');
+    x.fillStyle = g; x.fillRect(0, 0, W, HZ);
+    x.shadowColor = 'rgba(255,210,150,1)'; x.shadowBlur = 70;
+    const d = x.createRadialGradient(SUN.x - SUN.r * .3, SUN.y - SUN.r * .3, 0, SUN.x, SUN.y, SUN.r);
+    d.addColorStop(0, '#fff8ea'); d.addColorStop(.7, '#ffe2b4'); d.addColorStop(1, '#f7c58f');
+    x.fillStyle = d; x.beginPath(); x.arc(SUN.x, SUN.y, SUN.r, 0, TAU); x.fill();
+  });
+  const L = H * .7;
+  RAYS = sprite(L * 2, L * 2, (x) => {
+    x.translate(L, L); x.filter = 'blur(3px)';
+    for (let i = 0; i < 12; i++) {
+      const a = i * TAU / 12, len = L * (.7 + .3 * ((i * 5) % 3) / 3), wd = .012 + .008 * (i % 2);
+      const rg = x.createRadialGradient(0, 0, SUN.r, 0, 0, len); rg.addColorStop(0, 'rgba(255,220,180,.16)'); rg.addColorStop(1, 'rgba(255,220,180,0)');
+      x.fillStyle = rg; x.beginPath(); x.moveTo(0, 0); x.arc(0, 0, len, a - wd, a + wd); x.closePath(); x.fill();
+    }
+  }); RAYS.L = L;
+  WATER = sprite(W, H - HZ, (x) => {
+    const g = x.createLinearGradient(0, 0, 0, H - HZ);
+    g.addColorStop(0, '#e9a089'); g.addColorStop(.12, '#9a4877'); g.addColorStop(.5, '#3e1a52'); g.addColorStop(1, '#12071f');
+    x.fillStyle = g; x.fillRect(0, 0, W, H - HZ);
+    // cột phản chiếu mặt trời, mềm
+    x.save(); x.translate(SUN.x, 0); x.scale(.32, 1);
+    const c = x.createRadialGradient(0, 0, 0, 0, 0, (H - HZ) * .95); c.addColorStop(0, 'rgba(255,214,170,.5)'); c.addColorStop(.35, 'rgba(240,150,150,.16)'); c.addColorStop(1, 'rgba(160,70,130,0)');
+    x.fillStyle = c; x.fillRect(-W * 2, 0, W * 4, H - HZ); x.restore();
+    // dải đất xa mảnh
+    x.fillStyle = '#2b1236'; x.fillRect(0, 0, W, 2);
+  });
+}
+function rays(p) {
+  const L = RAYS.L;
+  ctx.save(); ctx.beginPath(); ctx.rect(0, 0, W, HZ); ctx.clip(); ctx.globalCompositeOperation = 'lighter';
+  ctx.globalAlpha = .7 + .3 * Math.sin(TAU * p);
+  ctx.translate(SUN.x, SUN.y); ctx.rotate((TAU / 12) * p); ctx.drawImage(RAYS, -L, -L, L * 2, L * 2); ctx.restore();
+}
+function horizon() {
+  // đường chân trời: dải đất xa rất thấp, một nét
+  ctx.fillStyle = '#2b1236'; ctx.beginPath(); ctx.moveTo(0, HZ);
+  for (let x = 0; x <= W; x += 12) ctx.lineTo(x, HZ - 3 - 4 * Math.sin(x * .0031) - 3 * Math.sin(x * .011 + 2));
+  ctx.lineTo(W, HZ); ctx.closePath(); ctx.fill();
+}
+function water(p) {
+  ctx.drawImage(WATER, 0, HZ, W, H - HZ);
+  ctx.save(); ctx.globalCompositeOperation = 'lighter';
+  for (const s of streaks) {
+    const y = HZ + 6 + Math.pow(s.d, 1.6) * (H - HZ) * .9, spread = 10 + s.d * W * .09, x = SUN.x + s.x * spread;
+    const fl = .5 + .5 * Math.sin(TAU * s.f * p + s.ph), w = 10 + s.d * 70;
+    ctx.fillStyle = `rgba(255,220,170,${(.5 - s.d * .3) * fl})`; ctx.fillRect(x - w / 2, y, w, 1 + s.d * 1.6);
+  }
+  ctx.restore();
+  ctx.save();
+  for (let i = 0; i < 14; i++) {
+    const d = i / 14, y0 = HZ + 10 + Math.pow(d, 1.8) * (H - HZ);
+    ctx.strokeStyle = `rgba(255,200,190,${.035 + d * .05})`; ctx.lineWidth = .6 + d; ctx.beginPath();
+    for (let x = 0; x <= W; x += 16) { const y = y0 + Math.sin(x * (.008 / (.3 + d)) + TAU * p + i * 1.3) * (.6 + d * 3); x ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+function motesLayer(p) {
+  ctx.save(); ctx.globalCompositeOperation = 'lighter';
+  for (const m of motes) {
+    const y = wrap(m.y - m.k * p, 1) * H, x = m.x + Math.sin(TAU * p + m.ph) * 14, tw = .5 + .5 * Math.sin(TAU * p * 2 + m.ph);
+    const g = ctx.createRadialGradient(x, y, 0, x, y, m.r * 5); g.addColorStop(0, `rgba(255,226,170,${m.a * tw})`); g.addColorStop(1, 'rgba(255,226,170,0)');
+    ctx.fillStyle = g; ctx.fillRect(x - m.r * 5, y - m.r * 5, m.r * 10, m.r * 10);
+  }
+  ctx.restore();
+}
+function logo() {
+  const size = isH ? 128 : 210, fs = isH ? 58 : 76, tfs = isH ? 16 : 23;
+  const title = 'THỦY SẢN ', gold = 'TÍM', tag = 'TINH HOA SINH HỌC · VỮNG VÀNG MÙA VỤ';
+  ctx.font = `500 ${fs}px MS`; ctx.letterSpacing = '0.14em';
+  const tw = ctx.measureText(title + gold).width;
+  const cy = H * (isH ? .236 : .2);
+  let lx, ly, tx, ty;
+  if (isH) { const gap = 42, total = size + gap + tw; lx = (W - total) / 2; ly = cy - size / 2; tx = lx + size + gap; ty = cy + fs * .1; }
+  else { lx = (W - size) / 2; ly = cy - size / 2; tx = (W - tw) / 2; ty = ly + size + 56 + fs * .8; }
+  ctx.save(); ctx.shadowColor = 'rgba(20,4,30,.45)'; ctx.shadowBlur = 26;
+  ctx.translate(lx, ly); ctx.scale(size / 200, size / 200); ctx.fillStyle = '#fff'; ctx.fill(RING, 'evenodd'); ctx.fill(GLY); ctx.restore();
+  ctx.save(); ctx.shadowColor = 'rgba(20,4,30,.45)'; ctx.shadowBlur = 22; ctx.textBaseline = 'alphabetic';
+  ctx.fillStyle = '#fff'; ctx.fillText(title, tx, ty);
+  const gw = ctx.measureText(title).width, gg = ctx.createLinearGradient(tx + gw, ty - fs, tx + tw, ty);
+  gg.addColorStop(0, '#f8ecc8'); gg.addColorStop(.5, '#e4c584'); gg.addColorStop(1, '#c59b52');
+  ctx.fillStyle = gg; ctx.fillText(gold, tx + gw, ty);
+  ctx.shadowBlur = 0; ctx.font = `500 ${tfs}px MS`; ctx.letterSpacing = '0.382em'; ctx.fillStyle = 'rgba(255,240,236,.86)';
+  if (isH) ctx.fillText(tag, tx, ty + 22 + tfs * PHI);
+  else tag.split(' · ').forEach((s, i) => { const w = ctx.measureText(s).width; ctx.fillText(s, (W - w) / 2, ty + 36 + tfs * PHI * (i + 1.2)); });
+  const ry = ty + (isH ? 18 : 28), rw = isH ? tw * .618 : tw * .382, rx = isH ? tx : (W - rw) / 2;
+  const rg = ctx.createLinearGradient(rx, 0, rx + rw, 0); rg.addColorStop(0, 'rgba(228,197,132,0)'); rg.addColorStop(.5, '#f2deaa'); rg.addColorStop(1, 'rgba(228,197,132,0)');
+  ctx.fillStyle = rg; ctx.fillRect(rx, ry, rw, 1.5);
+  ctx.restore();
+}
+window.renderAt = function (t) {
+  const p = (t % LOOP) / LOOP;
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+  ctx.drawImage(SKY, 0, 0, W, HZ + 1);
+  ctx.save(); ctx.globalAlpha = .24 + .06 * Math.sin(TAU * p); ctx.drawImage(BOW_IMG, 0, 0, W, HZ); ctx.restore();
+  rays(p);
+  ctx.save(); ctx.globalAlpha = .92 + .08 * Math.sin(TAU * p * 2); ctx.drawImage(GLOW, 0, 0, W, H); ctx.restore();
+  horizon(); water(p); motesLayer(p);
+  const v = ctx.createRadialGradient(W / 2, H * .55, Math.min(W, H) * .4, W / 2, H * .55, Math.max(W, H) * .8);
+  v.addColorStop(0, 'rgba(10,2,18,0)'); v.addColorStop(1, 'rgba(10,2,18,.5)'); ctx.fillStyle = v; ctx.fillRect(0, 0, W, H);
+  if (SHOW_LOGO) logo();
+};
+window.ready = Promise.all([document.fonts.load('600 40px MS'), document.fonts.load('500 20px MS')]).then(() => { build(); renderAt(0); return { W, H, DUR: LOOP }; });
+if (Q.get('play') === '1') window.ready.then(() => { const t0 = performance.now(); (function f() { renderAt((performance.now() - t0) / 1000); requestAnimationFrame(f); })(); });
+</script>
+</body>
+</html>
