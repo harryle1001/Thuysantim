@@ -26,11 +26,14 @@ const T = { xs: 1.62, s: 1.85, b: 2.1, h: 3.4, l: 5.5, xl: 8.9, xxl: 14.4 };
 // In trực tiếp lên bao bì: CHỈ 2 MÀU ĐẶC — tím TIM và trắng. Không chuyển màu, không tram mờ, nét ≥ 0,2 mm.
 const P = '#4a044e'; // tím (màu giữa của logo TIM) — nhà in pha theo mã này
 const WH = '#ffffff';
+const G = '#b8914a'; // nhũ vàng champagne (concept D, mực nhũ / ép kim)
+const { emblemSvg } = require('./emblem.js');
 const LINE = 0.25; // mm, nét mảnh nhất
 const NHOM = { 'moi-truong': 'Xử lý môi trường nuôi', 'thuc-an': 'Thức ăn bổ sung' };
 const CONCEPTS = {
   a: 'Concept A · Ấn tím: mặt trước tím đặc, chữ trắng; hai mặt bên trắng, chữ tím',
   b: 'Concept B · Trắng dược phẩm: nền trắng, tên chữ đậm không chân, hàng biểu tượng, dải tím 23,6% đáy mặt trước',
+  d: 'Concept D · Hoàng gia: tím + nhũ vàng + trắng, biểu tượng vòng Tôm–Cá',
   c: 'Concept C · Vòng φ: nền tím toàn bộ, vòng tròn trắng lớn, tên chữ đậm không chân, thẻ trắng ở mặt bên',
 };
 
@@ -68,7 +71,7 @@ function fontFaces() {
 function css(c) {
   const dark = c === 'c';
   return `${fontFaces()}
-:root{--phi:1.61803;--P:${P};--W:${WH};--ln:${LINE}mm}
+:root{--phi:1.61803;--P:${P};--W:${WH};--G:${G};--ln:${LINE}mm}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:#fff}
 sup{font-size:.62em;vertical-align:.5em;line-height:0}sub{font-size:.62em;vertical-align:-.2em;line-height:0}
@@ -150,6 +153,20 @@ const CONCEPT_CSS = {
 .band{width:calc(100% + ${2 * (T.h + 3)}mm);height:${H * 0.236}mm;margin-top:${T.h}mm;background:var(--P);color:var(--W);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:${T.b * 0.8}mm}
 .band .pill{border-color:var(--W)}
 .band .meta{font-size:${T.xs * 0.95}mm}`,
+  // D — tím + nhũ vàng: mặt trước tím, biểu tượng Tôm–Cá vàng; mặt bên trắng, điểm nhấn vàng
+  d: `.side{--pt:${T.l + 1.3}mm;--px:${T.h + 0.8}mm;--pb:${T.l + 0.6}mm}
+.hd i,li::before{background:var(--G)}.hd::after{background:var(--G)}
+.chips span{border-color:var(--G)}
+.front{--fc:var(--W);padding:${T.h + 3.6}mm ${T.h + 3}mm ${T.h + 3.4}mm}
+.front .top{position:absolute;top:${T.h + 1}mm;left:${T.h + 1.6}mm;right:${T.h + 1.6}mm;display:flex;justify-content:space-between;align-items:baseline;color:var(--G)}
+.brand{margin:${T.b * 0.9}mm 0 .4mm;color:var(--G)}.motto{color:var(--W)}
+.rule{margin:${T.h * 0.7}mm 0;color:var(--G)}
+.cat{margin-top:auto;color:var(--G)}.name{margin:${T.b}mm 0}
+.hero{margin-top:auto;display:flex;flex-direction:column;align-items:center;gap:${T.b * 1.05}mm;margin-bottom:${T.b * 1.6}mm}
+.icons{color:var(--G);margin-top:${T.b}mm}.icons span{color:var(--W)}
+.pill{border-color:var(--G)}.pill b{color:var(--G)}
+.vol strong{color:var(--G)}
+.front .meta.bot{position:absolute;bottom:${T.h + 2.6}mm;left:0;right:0;color:var(--G)}`,
   // C — nền tím toàn bộ; vòng tròn trắng mặt trước; thẻ trắng bo góc ở mặt bên
   c: `.side{--pt:${T.l + 2.6}mm;--px:${T.h + 3.4}mm;--pb:${T.l + 2.6}mm}
 .side::before{content:'';position:absolute;inset:${T.h + 0.6}mm ${T.h - 0.6}mm;background:var(--W);border-radius:2.6mm}
@@ -197,10 +214,12 @@ function background(c) {
     return `<rect x="${L}" y="${Tp}" width="${R - L}" height="${Bt - Tp}" fill="none" stroke="${col}" stroke-width="${ln}"/>${corner(L - 1.3, Tp - 1.3, 1, 1, col)}${corner(R + 1.3, Tp - 1.3, -1, 1, col)}${corner(L - 1.3, Bt + 1.3, 1, -1, col)}${corner(R + 1.3, Bt + 1.3, -1, -1, col)}`;
   };
   let s = '';
-  if (c === 'a') {
+  if (c === 'a' || c === 'd') {
+    const acc = c === 'd' ? G : WH;
     s += `<rect x="0" y="0" width="${tot}" height="${B + 2.6}" fill="${P}"/><rect x="0" y="${B + H - 2.6}" width="${tot}" height="${2.6 + B}" fill="${P}"/>`;
     s += `<rect x="0" y="${B + 3.4}" width="${tot}" height="${ln}" fill="${P}"/><rect x="0" y="${B + H - 3.4 - ln}" width="${tot}" height="${ln}" fill="${P}"/>`;
-    s += `<rect x="${fx}" y="0" width="${fw}" height="${hh}" fill="${P}"/>${frame(3.6, WH)}`;
+    s += `<rect x="${fx}" y="0" width="${fw}" height="${hh}" fill="${P}"/>${frame(3.6, acc)}`;
+    if (c === 'd') s += `<rect x="0" y="${B + 2.6}" width="${tot}" height="${ln * 1.4}" fill="${G}"/><rect x="0" y="${B + H - 2.6 - ln * 1.4}" width="${tot}" height="${ln * 1.4}" fill="${G}"/>`;
   } else if (c === 'b') {
     s += `<rect x="0" y="${B + 2.2}" width="${tot}" height="${ln * 2}" fill="${P}"/><rect x="0" y="${B + 3.2}" width="${tot}" height="${ln}" fill="${P}"/>`;
     s += `<rect x="0" y="${B + H - 2.2 - ln * 2}" width="${tot}" height="${ln * 2}" fill="${P}"/><rect x="0" y="${B + H - 3.2 - ln}" width="${tot}" height="${ln}" fill="${P}"/>`;
@@ -256,6 +275,12 @@ function front(c, x) {
   if (c === 'a') return `<section class="front">
     <div class="top"><span class="meta">MS ${x.ms}</span><span class="no">${x.no}</span></div>
     ${logo(16.2, WH, WH)}${brand}<div class="rule"><i></i></div>
+    <div class="cat">${x.cat}</div>${x.name}${x.tag}
+    <div class="hero">${x.icons}${x.pill}${x.vol}</div>
+    <div class="meta bot">TCCS ${x.tccs}</div></section>`;
+  if (c === 'd') return `<section class="front">
+    <div class="top"><span class="meta">MS ${x.ms}</span><span class="no">${x.no}</span></div>
+    ${emblemSvg({ fill: G, bg: P }, 'width="21mm" height="21mm"')}${brand}<div class="rule"><i></i></div>
     <div class="cat">${x.cat}</div>${x.name}${x.tag}
     <div class="hero">${x.icons}${x.pill}${x.vol}</div>
     <div class="meta bot">TCCS ${x.tccs}</div></section>`;
@@ -336,7 +361,7 @@ async function fit(page) {
 
 async function main() {
   const only = opt('--chi') ? new Set(opt('--chi').split(',')) : null;
-  const concepts = (opt('--concept') || 'a,b,c').split(',');
+  const concepts = (opt('--concept') || 'a,b,c,d').split(',');
   const list = data.san_pham.filter((p) => !only || only.has(p.slug));
   fs.mkdirSync(OUT, { recursive: true });
   const { chromium } = require('playwright');
@@ -361,4 +386,5 @@ async function main() {
   process.exitCode = bad ? 1 : 0;
 }
 
-main().catch((e) => { console.error(e); process.exit(1); });
+module.exports = { fontFaces, rich, esc, data, parts, icons, T, P, G, WH, PHI, NHOM, splitName, cpRow };
+if (require.main === module) main().catch((e) => { console.error(e); process.exit(1); });
