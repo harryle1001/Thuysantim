@@ -120,6 +120,11 @@ li b{font-weight:700}
 .small{font-size:calc(var(--fs) * .9)}
 .legal{border-top:var(--ln) solid var(--P);padding-top:calc(var(--fs) * .8);font-size:calc(var(--fs) * .9)}
 .legal p{margin-bottom:calc(var(--fs) * .3)}
+.dist{border:var(--ln) solid var(--pc,var(--P));border-radius:1mm;padding:calc(var(--fs) * .5) calc(var(--fs) * .7);margin:calc(var(--fs) * .4) 0 calc(var(--fs) * .3)}
+.dist .t{font-weight:700;letter-spacing:.12em;color:var(--P)}.dist .t b{color:var(--pc,var(--P))}
+.dist .h{font-weight:700;font-size:1.12em;color:var(--P)}
+.mfr{color:#9a8fa3;font-size:.88em;line-height:1.35}
+
 .legal strong{font-weight:700}
 .boxes{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1mm;margin:calc(var(--fs) * .55) 0}
 .boxes div{border:var(--ln) solid var(--P);border-radius:.8mm;padding:.6mm 1mm;height:6.2mm;font-size:calc(var(--fs) * .8);font-weight:600;letter-spacing:.08em;text-transform:uppercase}
@@ -278,7 +283,7 @@ function logo(sizeMm, ring, letters, fill) {
 }
 
 function cpRow(t) {
-  const m = /^(.*?):\s*(.+)$/.exec(t);
+  const m = /^Gồm/.test(t) ? null : /^(.*?):\s*(.+)$/.exec(t);
   if (!m) return `<div class="cp note">${rich(t)}</div>`;
   return `<div class="cp"><span>${rich(m[1])}</span><b>${rich(m[2])}</b></div>`;
 }
@@ -343,8 +348,8 @@ function parts(p) {
       <p><strong>Mã số:</strong> ${esc(p.ma_so)} &nbsp;·&nbsp; <strong>TCCS:</strong> ${esc(p.tccs)}</p>
       <p><strong>HSD:</strong> ${rich(p.hsd && !/In trên/.test(p.hsd) ? p.hsd : 'xem trên bao bì')} &nbsp;·&nbsp; <strong>Quy cách:</strong> ${rich(p.quy_cach || '')}</p>
       <div class="boxes"><div>Số lô</div><div>NSX</div><div>HSD</div></div>
-      <p><strong>Sản xuất tại Việt Nam bởi:</strong> ${esc(sx.ten)} · ${esc(sx.dia_chi)} · ĐT ${esc(sx.dien_thoai)}</p>
-      <p><strong>Phân phối:</strong> ${esc(pp.ten)} · Hotline ${rich(pp.hotline)} · ${esc(pp.web)}</p>
+      <div class="dist"><div class="t">NHÀ PHÂN PHỐI · <b>${esc(pp.ten)}</b></div><div>${esc(pp.dia_chi)}</div><div class="h">Hotline ${rich(pp.hotline)} · ${esc(pp.web)}</div></div>
+      <p class="mfr">Sản xuất tại: ${esc(sx.ten)} · ${esc(sx.dia_chi)}</p>
       <div class="only">Chỉ dùng trong nuôi trồng thủy sản · Để xa tầm tay trẻ em</div>
     </div>`;
   return {

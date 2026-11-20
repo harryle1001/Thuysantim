@@ -9,12 +9,11 @@
   "ten": "THỦY SẢN TÍM",
   "hotline": "[ĐIỀN]",
   "web": "thuysantim.vn",
-  "dia_chi": "[ĐIỀN]"
+  "dia_chi": "295/32 Tân Kỳ Tân Quý, P. Tân Sơn Nhì, TP. Hồ Chí Minh"
  },
  "san_xuat": {
   "ten": "CÔNG TY TNHH NO BEN",
-  "dia_chi": "228/9 Nguyễn Thị Lắng, Ấp Phú Lợi A, Xã Củ Chi, TP. Hồ Chí Minh",
-  "dien_thoai": "0911 88 39 79",
+  "dia_chi": "228/9 Nguyễn Thị Lắng, Ấp Phú Lợi A, Xã Củ Chi, TP. Hồ Chí Minh, Việt Nam",
   "mst": "0304210513"
  },
  "san_pham": [
@@ -35,7 +34,7 @@
    ],
    "thanh_phan": [
     "Bacillus spp. (min): 1 × 10⁹ CFU/g",
-    "(Bacillus licheniformis, B. megaterium, B. subtilis)",
+    "Gồm 3 chủng: Bacillus subtilis · Bacillus licheniformis · Bacillus megaterium",
     "Chất đệm (Dextrose) vừa đủ: 1 kg"
    ],
    "huong_dan": [
@@ -74,8 +73,8 @@
     "Hỗ trợ làm giảm tảo độc, hỗ trợ cắt tảo Lablab ao nuôi."
    ],
    "thanh_phan": [
-    "Bacillus spp. (min): 10⁹ CFU/kg",
-    "(Bacillus licheniformis, B. megaterium, B. mesentericus)",
+    "Bacillus spp. (min): 1 × 10⁹ CFU/g",
+    "Gồm 3 chủng: Bacillus licheniformis · Bacillus megaterium · Bacillus mesentericus",
     "Chất đệm (Dextrose) vừa đủ: 1 kg"
    ],
    "huong_dan": [
@@ -355,8 +354,8 @@
     "Hỗ trợ tiêu hóa và hấp thụ thức ăn nhanh, giảm hệ số FCR."
    ],
    "thanh_phan": [
-    "Bacillus spp. (min): 1,7 × 10⁹ CFU/g",
-    "(Bacillus licheniformis, B. megaterium, B. subtilis)",
+    "Bacillus spp. (min): 1 × 10⁹ CFU/g",
+    "Gồm 3 chủng: Bacillus subtilis · Bacillus licheniformis · Bacillus megaterium",
     "Chất đệm (Dextrose) vừa đủ: 1 kg"
    ],
    "huong_dan": [
@@ -392,7 +391,7 @@
     "Hỗ trợ tiêu hóa và hấp thụ thức ăn nhanh, giảm hệ số FCR."
    ],
    "thanh_phan": [
-    "Bacillus spp. (min): 1,0 × 10⁹ CFU/lít",
+    "Bacillus spp. (min): 1 × 10⁹ CFU/lít",
     "Dung môi (nước) vừa đủ: 1 lít"
    ],
    "huong_dan": [

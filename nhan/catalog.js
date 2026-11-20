@@ -146,8 +146,13 @@ async function main() {
     <div class="sec">Bảng giá tổng hợp</div>
     <table><thead><tr><th>Mã</th><th>Sản phẩm</th><th>Quy cách</th><th>Thuế GTGT</th><th class="n">Đơn giá (đ)</th></tr></thead><tbody>${rows}</tbody></table>
     <div class="note"><b>Ghi chú:</b> Đơn giá theo danh sách hàng hóa trên phần mềm MISA; cột thuế GTGT ghi mức thuế áp dụng (KCT: không chịu thuế). Giá có thể thay đổi, vui lòng liên hệ để có báo giá đại lý và chiết khấu theo số lượng.<br>
-    <b>Đặt hàng:</b> Hotline ${rich(B.data.phan_phoi.hotline)} · ${esc(B.data.phan_phoi.web)}<br>
-    <b>Sản xuất tại Việt Nam bởi:</b> ${esc(B.data.san_xuat.ten)} · ${esc(B.data.san_xuat.dia_chi)}</div>${foot(n)}</section>`);
+</div>
+    <div style="margin-top:5mm;border:.4mm solid ${P};border-radius:2.4mm;padding:4mm 5mm;font-size:3.2mm;line-height:1.55">
+      <div style="font-weight:700;letter-spacing:.24em;font-size:2.6mm">NHÀ PHÂN PHỐI · ĐẶT HÀNG</div>
+      <div style="font-weight:700;font-size:5.2mm;margin:1mm 0">${esc(B.data.phan_phoi.ten)}</div>
+      <div>${esc(B.data.phan_phoi.dia_chi)}</div>
+      <div style="font-weight:700;font-size:4mm">Hotline ${rich(B.data.phan_phoi.hotline)} · ${esc(B.data.phan_phoi.web)}</div></div>
+    <div class="note" style="color:#9a8fa3;margin-top:3mm">Sản xuất tại: ${esc(B.data.san_xuat.ten)} · ${esc(B.data.san_xuat.dia_chi)}</div>${foot(n)}</section>`);
 
   const html = `<!doctype html><html lang="vi"><head><meta charset="utf-8"><title>Catalogue & Bảng giá – Thủy Sản Tím</title><style>${css()}</style></head><body>${pages.join('')}</body></html>`;
   const { chromium } = require('playwright');

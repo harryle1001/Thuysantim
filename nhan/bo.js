@@ -83,6 +83,8 @@ li b{font-weight:700}
 .bc{margin-top:auto;height:${m(17)};border:var(--ln) dashed var(--P);border-radius:${m(1)};display:grid;place-items:center;font-size:calc(var(--fs) * .8);letter-spacing:.1em;text-align:center}
 .bk .ftr{flex:none;background:var(--P);color:var(--W);padding:${m(4)} ${m(9)};font-size:${m(2.3)};line-height:1.5;border-top:${m(0.8)} solid var(--G)}
 .bk .ftr b{color:var(--G)}
+.bk .ftr .d{font-size:${m(3)};line-height:1.45}.bk .ftr .d .n{font-weight:700;letter-spacing:.16em}.bk .ftr .d .h{font-weight:700;font-size:${m(3.4)}}
+.bk .ftr .mf{opacity:.55;font-size:${m(2.1)};margin-top:${m(1.4)}}
 .bk .ftr .w{font-weight:700;letter-spacing:.18em;color:var(--G);margin-top:${m(1)}}
 `;
 }
@@ -195,8 +197,8 @@ function back(p, k, u) {
       <div class="bc">MÃ VẠCH<br>EAN-13</div>
     </div>
   </div>
-  <div class="ftr"><b>Sản xuất tại Việt Nam bởi:</b> ${esc(sx.ten)} · ${esc(sx.dia_chi)} · ĐT ${esc(sx.dien_thoai)}<br>
-    <b>Phân phối:</b> ${esc(pp.ten)} · Hotline ${rich(pp.hotline)} · ${esc(pp.web)}
+  <div class="ftr"><div class="d"><div class="n"><b>NHÀ PHÂN PHỐI</b> · ${esc(pp.ten)}</div><div>${esc(pp.dia_chi)}</div><div class="h">Hotline ${rich(pp.hotline)} · ${esc(pp.web)}</div></div>
+    <div class="mf">Sản xuất tại: ${esc(sx.ten)} · ${esc(sx.dia_chi)}</div>
     <div class="w">CHỈ DÙNG TRONG NUÔI TRỒNG THỦY SẢN · ĐỂ XA TẦM TAY TRẺ EM</div></div>
 </div>`;
 }
