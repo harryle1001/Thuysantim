@@ -3,7 +3,8 @@
   "Nội dung 15 nhãn Thủy Sản Tím. Lấy từ DM 15 SP-NHƯỜNG.xlsx + hồ sơ TCCS. Sửa ở đây rồi chạy: node nhan/build.js",
   "Chỗ [ĐIỀN] phải bổ sung theo hồ sơ trước khi in.",
   "mau: màu riêng của từng sản phẩm (concept E), dùng cho cung sóng φ, nhóm, nhấn mạnh.",
-  "loai: loại sản phẩm (biểu tượng + tên trên nhãn, xem LOAI trong build.js). cach_dung: tat-ao | tron-an."
+  "loai: loại sản phẩm (biểu tượng + tên trên nhãn, xem LOAI trong build.js). cach_dung: tat-ao | tron-an.",
+  "quy_cach_gia: quy cách ứng với giá. Giá NET nằm ở nhan/gia-noi-bo.json (chỉ trên máy, không đưa lên Git)."
  ],
  "phan_phoi": {
   "ten": "THỦY SẢN TÍM",
@@ -55,7 +56,9 @@
    "ma_vach": "",
    "mau": "#0e9f8e",
    "loai": "vi-sinh",
-   "cach_dung": "tat-ao"
+   "cach_dung": "tat-ao",
+   "quy_cach_gia": "Gói 227 g",
+   "quy_cach_can_xac_nhan": false
   },
   {
    "stt": 2,
@@ -93,7 +96,9 @@
    "ma_vach": "",
    "mau": "#3e9b4f",
    "loai": "vi-sinh",
-   "cach_dung": "tat-ao"
+   "cach_dung": "tat-ao",
+   "quy_cach_gia": "Gói 227 g",
+   "quy_cach_can_xac_nhan": false
   },
   {
    "stt": 3,
@@ -126,7 +131,9 @@
    "ma_vach": "",
    "mau": "#1f6fd1",
    "loai": "sat-trung",
-   "cach_dung": "tat-ao"
+   "cach_dung": "tat-ao",
+   "quy_cach_gia": "Chai 1 lít",
+   "quy_cach_can_xac_nhan": false
   },
   {
    "stt": 4,
@@ -163,7 +170,9 @@
    "ma_vach": "",
    "mau": "#0a8fb5",
    "loai": "sat-trung",
-   "cach_dung": "tat-ao"
+   "cach_dung": "tat-ao",
+   "quy_cach_gia": "Chai 1 lít",
+   "quy_cach_can_xac_nhan": false
   },
   {
    "stt": 5,
@@ -200,7 +209,9 @@
    "ma_vach": "",
    "mau": "#7a9a1e",
    "loai": "khi-doc",
-   "cach_dung": "tat-ao"
+   "cach_dung": "tat-ao",
+   "quy_cach_gia": "Chai 1 lít",
+   "quy_cach_can_xac_nhan": true
   },
   {
    "stt": 6,
@@ -237,7 +248,9 @@
    "ma_vach": "",
    "mau": "#4c5fd5",
    "loai": "khoang",
-   "cach_dung": "tat-ao"
+   "cach_dung": "tat-ao",
+   "quy_cach_gia": "Gói 5 kg",
+   "quy_cach_can_xac_nhan": false
   },
   {
    "stt": 7,
@@ -271,7 +284,9 @@
    "ma_vach": "",
    "mau": "#c2622d",
    "loai": "xu-ly-tao",
-   "cach_dung": "tat-ao"
+   "cach_dung": "tat-ao",
+   "quy_cach_gia": "Chai 1 lít",
+   "quy_cach_can_xac_nhan": true
   },
   {
    "stt": 8,
@@ -304,7 +319,9 @@
    "ma_vach": "",
    "mau": "#13906b",
    "loai": "xu-ly-tao",
-   "cach_dung": "tat-ao"
+   "cach_dung": "tat-ao",
+   "quy_cach_gia": "Gói 227 g",
+   "quy_cach_can_xac_nhan": true
   },
   {
    "stt": 9,
@@ -337,7 +354,9 @@
    "ma_vach": "",
    "mau": "#c47a12",
    "loai": "sat-trung",
-   "cach_dung": "tat-ao"
+   "cach_dung": "tat-ao",
+   "quy_cach_gia": "Chai 1 lít",
+   "quy_cach_can_xac_nhan": false
   },
   {
    "stt": 10,
@@ -374,7 +393,9 @@
    "ma_vach": "",
    "mau": "#e2574c",
    "loai": "loi-khuan",
-   "cach_dung": "tron-an"
+   "cach_dung": "tron-an",
+   "quy_cach_gia": "Gói 500 g",
+   "quy_cach_can_xac_nhan": false
   },
   {
    "stt": 11,
@@ -411,7 +432,9 @@
    "ma_vach": "",
    "mau": "#d63f8c",
    "loai": "loi-khuan",
-   "cach_dung": "tron-an"
+   "cach_dung": "tron-an",
+   "quy_cach_gia": "Chai 1 lít",
+   "quy_cach_can_xac_nhan": false
   },
   {
    "stt": 12,
@@ -443,7 +466,9 @@
    "ma_vach": "",
    "mau": "#e8862a",
    "loai": "dinh-duong",
-   "cach_dung": "tron-an"
+   "cach_dung": "tron-an",
+   "quy_cach_gia": "Chai 1 lít",
+   "quy_cach_can_xac_nhan": false
   },
   {
    "stt": 13,
@@ -482,7 +507,9 @@
    "ma_vach": "",
    "mau": "#b42a4a",
    "loai": "gan",
-   "cach_dung": "tron-an"
+   "cach_dung": "tron-an",
+   "quy_cach_gia": "Chai 1 lít",
+   "quy_cach_can_xac_nhan": false
   },
   {
    "stt": 14,
@@ -524,7 +551,9 @@
    "ma_vach": "",
    "mau": "#c9333f",
    "loai": "gan",
-   "cach_dung": "tron-an"
+   "cach_dung": "tron-an",
+   "quy_cach_gia": "Chai 1 lít",
+   "quy_cach_can_xac_nhan": false
   },
   {
    "stt": 15,
@@ -558,7 +587,9 @@
    "ma_vach": "",
    "mau": "#7b4fd1",
    "loai": "khoang",
-   "cach_dung": "tron-an"
+   "cach_dung": "tron-an",
+   "quy_cach_gia": "Chai 1 lít",
+   "quy_cach_can_xac_nhan": false
   }
  ]
 }

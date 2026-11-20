@@ -57,6 +57,15 @@ const CONCEPTS = {
 };
 
 const data = JSON.parse(fs.readFileSync(path.join(DIR, 'san-pham.json'), 'utf8'));
+// Giá nội bộ (không đưa lên Git): nhan/gia-noi-bo.json → gộp gia_net, he_so_gia_ban vào data.
+{
+  const f = path.join(DIR, 'gia-noi-bo.json');
+  if (fs.existsSync(f)) {
+    const g = JSON.parse(fs.readFileSync(f, 'utf8'));
+    data.he_so_gia_ban = g.he_so_gia_ban;
+    for (const p of data.san_pham) p.gia_net = g.gia_net[p.slug];
+  }
+}
 const logoSvg = fs.readFileSync(path.join(DIR, 'logo-tim.svg'), 'utf8');
 const ringPath = /<path d="([^"]+)" fill="#ffffff" fill-rule/.exec(logoSvg)[1];
 const letterPath = /<path d="([^"]+)" fill="#ffffff"\/>/.exec(logoSvg)[1];

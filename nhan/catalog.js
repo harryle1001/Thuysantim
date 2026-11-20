@@ -10,23 +10,9 @@ const B = require('./build.js');
 const OUT = path.join(__dirname, 'out');
 const { P, G, esc, rich } = B;
 // [quy cách, đơn giá (đ), thuế GTGT] — theo file MISA, ngày đọc 20/11/2026
-const GIA = {
-  'clear-12h': [['Gói 227 g', 85000, '8%']],
-  rovazyme: [['Gói 500 g', 160000, '8%'], ['Gói 1 kg', 280000, '8%']],
-  'ben-bkc': [['Chai 1 lít', 105000, '8%'], ['Can 2 lít', 190000, '8%']],
-  'vh-glubenco-pro': [['Chai 1 lít', 60000, '8%']],
-  'super-yucca': [['Chai 1 lít', 78703, '8%']],
-  'mix-79': [['Gói 5 kg', 55000, '8%'], ['Bao 10 kg', 90000, '8%'], ['Xô 12 kg', 150000, '8%']],
-  'ben-copper-500': [['Chai 250 ml', 45000, '8%'], ['Chai 500 ml', 85000, '8%']],
-  'super-cut-alga': [['Hũ 100 g', 35000, '8%'], ['Gói 227 g', 80000, '8%']],
-  'vh-dio-99': [['Chai 1 lít', 120000, 'KCT']],
-  'us-lacto': [['Gói 500 g', 105000, 'KCT']],
-  'biotic-99': [['Chai 1 lít', 80000, 'KCT']],
-  'amin-care': [['Chai 1 lít', 55000, 'KCT'], ['Xô 3 kg', 135000, 'KCT']],
-  'hepaliver-fs': [['Chai 1 lít', 70000, 'KCT']],
-  'liver-max': [['Chai 1 lít', 70000, 'KCT']],
-  'premix-ora': [['Chai 1 lít', 75000, 'KCT']],
-};
+// Giá bán = giá NET × hệ số (san-pham.json)
+const VATG = (p) => (p.nhom === 'thuc-an' ? 'KCT' : '8%');
+const GIA = Object.fromEntries(B.data.san_pham.map((p) => [p.slug, [[p.quy_cach_gia, p.gia_net * (B.data.he_so_gia_ban || 3), VATG(p)]]]));
 const vnd = (n) => n.toLocaleString('vi-VN');
 
 function img(slug, dang) {
@@ -145,7 +131,7 @@ async function main() {
   pages.push(`<section class="pg">${stripe(P)}${head('BẢNG GIÁ')}
     <div class="sec">Bảng giá tổng hợp</div>
     <table><thead><tr><th>Mã</th><th>Sản phẩm</th><th>Quy cách</th><th>Thuế GTGT</th><th class="n">Đơn giá (đ)</th></tr></thead><tbody>${rows}</tbody></table>
-    <div class="note"><b>Ghi chú:</b> Đơn giá theo danh sách hàng hóa trên phần mềm MISA; cột thuế GTGT ghi mức thuế áp dụng (KCT: không chịu thuế). Giá có thể thay đổi, vui lòng liên hệ để có báo giá đại lý và chiết khấu theo số lượng.<br>
+    <div class="note"><b>Ghi chú:</b> Đơn giá bán lẻ niêm yết; cột thuế GTGT ghi mức thuế áp dụng (KCT: không chịu thuế). Giá có thể thay đổi, vui lòng liên hệ để có báo giá đại lý và chiết khấu theo số lượng.<br>
 </div>
     <div style="margin-top:5mm;border:.4mm solid ${P};border-radius:2.4mm;padding:4mm 5mm;font-size:3.2mm;line-height:1.55">
       <div style="font-weight:700;letter-spacing:.24em;font-size:2.6mm">NHÀ PHÂN PHỐI · ĐẶT HÀNG</div>

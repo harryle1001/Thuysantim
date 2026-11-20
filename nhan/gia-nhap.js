@@ -10,14 +10,7 @@ const B = require('./build.js');
 
 const OUT = path.join(__dirname, 'out');
 const { P, G, esc, rich } = B;
-// slug: [quy cách, giá NET (đ), cần xác nhận quy cách?]
-const NET = {
-  'clear-12h': ['Gói 227 g', 95000], rovazyme: ['Gói 227 g', 95000], 'ben-bkc': ['Chai 1 lít', 120000],
-  'vh-glubenco-pro': ['Chai 1 lít', 85000], 'super-yucca': ['Chai 1 lít', 90000, 1], 'mix-79': ['Gói 5 kg', 45000],
-  'ben-copper-500': ['Chai 1 lít', 195000, 1], 'super-cut-alga': ['Gói 227 g', 110000, 1], 'vh-dio-99': ['Chai 1 lít', 120000],
-  'us-lacto': ['Gói 500 g', 65000], 'biotic-99': ['Chai 1 lít', 85000], 'amin-care': ['Chai 1 lít', 85000],
-  'hepaliver-fs': ['Chai 1 lít', 80000], 'liver-max': ['Chai 1 lít', 80000], 'premix-ora': ['Chai 1 lít', 75000],
-};
+const HS = B.data.he_so_gia_ban || 3;
 const VAT = { 'thuc-an': 'KCT', 'moi-truong': '8%' };
 const vnd = (n) => n.toLocaleString('vi-VN');
 const plainTp = (t) => t.replace(/ · /g, ', ');
@@ -34,8 +27,8 @@ function thumb(p) {
 async function main() {
   const list = B.data.san_pham;
   const rows = list.map((p) => {
-    const f = B.phanLoai(p), n = NET[p.slug], nhom = p.nhom === 'thuc-an' ? 'thuc-an' : 'moi-truong';
-    return { p, f, nhom, quy: n[0], gia: n[1], xn: !!n[2], vat: VAT[nhom] };
+    const f = B.phanLoai(p), nhom = p.nhom === 'thuc-an' ? 'thuc-an' : 'moi-truong';
+    return { p, f, nhom, quy: p.quy_cach_gia, gia: p.gia_net, ban: p.gia_net * HS, xn: p.quy_cach_can_xac_nhan, vat: VAT[nhom] };
   });
   const tr = (r, i) => `<tr style="--pc:${r.p.mau}">
     <td class="c">${i + 1}</td>
@@ -45,8 +38,8 @@ async function main() {
     <td class="tp">${r.p.thanh_phan.map((t) => `<div>${rich(t)}</div>`).join('')}</td>
     <td class="sm">${esc(r.quy)}${r.xn ? '<br><span class="xn">cần xác nhận</span>' : ''}</td>
     <td class="c sm">${r.vat}</td>
-    <td class="g">${vnd(r.gia)}</td></tr>`;
-  const grp = (k, t) => `<tr class="gr"><td colspan="8">${t}</td></tr>` + rows.filter((r) => r.nhom === k).map((r) => tr(r, rows.indexOf(r))).join('');
+    <td class="g n2">${vnd(r.gia)}</td><td class="g">${vnd(r.ban)}</td></tr>`;
+  const grp = (k, t) => `<tr class="gr"><td colspan="9">${t}</td></tr>` + rows.filter((r) => r.nhom === k).map((r) => tr(r, rows.indexOf(r))).join('');
   const html = `<!doctype html><html lang="vi"><head><meta charset="utf-8"><title>Bảng giá nhập – Thủy Sản Tím</title><style>${B.fontFaces()}
 @page{size:297mm 210mm;margin:12mm 12mm 13mm}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -65,14 +58,15 @@ tr{page-break-inside:avoid}
 .nm{font-weight:700;font-size:3.2mm}
 .cd{font-size:2.2mm;color:#7c6c86;margin-top:.6mm}.cd span{display:inline-block;background:var(--pc);color:#fff;font-weight:700;border-radius:.8mm;padding:.1mm 1mm;margin-right:1.2mm;letter-spacing:.06em}
 .tp{font-size:2.45mm;line-height:1.4}.tp div{padding-left:2.4mm;position:relative}.tp div::before{content:'';position:absolute;left:.2mm;top:1.2mm;width:1mm;height:1mm;transform:rotate(45deg);background:var(--pc)}
+.n2{color:#7c6c86;font-size:3mm!important}
 .g{text-align:right;font-weight:700;font-size:3.6mm;white-space:nowrap;font-feature-settings:'tnum' 1}
 .xn{display:inline-block;margin-top:.5mm;font-size:2mm;font-weight:700;color:#a35a00;background:#fff1d6;border-radius:.6mm;padding:0 .8mm}
 tr.gr td{background:${P};color:#fff;font-weight:700;font-size:2.3mm;letter-spacing:.24em;text-transform:uppercase;padding:1.6mm}
 .note{margin-top:3.4mm;font-size:2.4mm;line-height:1.5;color:#5b4a66}.note b{color:${P}}
 </style></head><body>
 <div class="top">${B.brandMark({ fill: P }, 'width="11mm" height="11mm"')}<div><div class="b">THỦY SẢN TÍM</div><div class="m">Tinh hoa sinh học · Vững vàng mùa vụ</div></div>
-<h1>Bảng giá nhập · 15 sản phẩm<small>GIÁ NET CÔNG TY TNHH NO BEN GIAO · CẬP NHẬT 20/11/2026</small></h1></div>
-<table><thead><tr><th class="c">STT</th><th></th><th>Sản phẩm</th><th>Mã số lưu hành</th><th>Thành phần (trong 1 kg / 1 lít)</th><th>Quy cách</th><th class="c">Thuế</th><th style="text-align:right">Giá NET (đ)</th></tr></thead>
+<h1>Bảng giá nhập &amp; giá bán · 15 sản phẩm<small>GIÁ NET CÔNG TY TNHH NO BEN GIAO · GIÁ BÁN = NET × ${HS} · CẬP NHẬT 20/11/2026</small></h1></div>
+<table><thead><tr><th class="c">STT</th><th></th><th>Sản phẩm</th><th>Mã số lưu hành</th><th>Thành phần (trong 1 kg / 1 lít)</th><th>Quy cách</th><th class="c">Thuế</th><th style="text-align:right">Giá nhập NET (đ)</th><th style="text-align:right">Giá bán (đ)</th></tr></thead>
 <tbody>${grp('moi-truong', 'Xử lý môi trường nuôi')}${grp('thuc-an', 'Thức ăn bổ sung')}</tbody></table>
 <div class="note"><b>Nguồn giá:</b> Phụ lục bảng kê "Danh mục 15SP – Noben – Nhượng", cột Giá NET công ty giao. <b>Thuế:</b> theo mức trong danh sách hàng hóa MISA (xử lý môi trường 8%, thức ăn bổ sung không chịu thuế) – chưa rõ giá NET đã gồm thuế hay chưa.
 <b>Quy cách</b> đánh dấu "cần xác nhận" là chỗ bảng kê không ghi quy cách và các nguồn khác ghi khác nhau.<br>
@@ -91,7 +85,7 @@ tr.gr td{background:${P};color:#fff;font-weight:700;font-size:2.3mm;letter-spaci
   // Excel: thành phần mỗi dòng một ô xuống dòng, cột giá dạng số để cộng trừ
   const data = rows.map((r, i) => ({
     stt: i + 1, ma: r.f.ma, nhom: r.nhom === 'thuc-an' ? 'Thức ăn bổ sung' : 'Xử lý môi trường nuôi', ten: r.p.ten, loai: r.f.loai,
-    msl: r.p.ma_so, tccs: r.p.tccs, tp: r.p.thanh_phan.map(plainTp).join('\n'), quy: r.quy + (r.xn ? ' (cần xác nhận)' : ''), vat: r.vat, gia: r.gia,
+    msl: r.p.ma_so, tccs: r.p.tccs, tp: r.p.thanh_phan.map(plainTp).join('\n'), quy: r.quy + (r.xn ? ' (cần xác nhận)' : ''), vat: r.vat, gia: r.gia, hs: HS,
   }));
   fs.writeFileSync(path.join(OUT, '.gn.json'), JSON.stringify(data));
   execFileSync('python3', ['-I', path.join(__dirname, 'gia-nhap-xlsx.py'), path.join(OUT, '.gn.json'), path.join(OUT, 'bang-gia-nhap.xlsx')], { stdio: 'inherit' });
