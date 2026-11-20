@@ -26,7 +26,8 @@ Cập nhật 20/11/2026. Dữ liệu máy đọc nằm ở `san-pham.json`; file
 - BEN BKC: chai 1 lít.
 - Giá nhập = "Giá NET công ty giao" trong phụ lục bảng kê Danh mục 15SP Noben nhượng (xem `gia-nhap.js`).
 - Giá áp dụng riêng cho THỦY SẢN TÍM, không áp dụng cho công ty / đơn vị khác. (ghi rõ trên bảng giá nhập).
-- Giá bán = giá NET × 3. Không dùng giá MISA cũ (nhiều mã thấp hơn giá NET).
+- Giá bán = giá NET × 3. Giá sỉ theo thùng = giá NET × 3 × số/thùng.
+- Số mỗi thùng (`so_moi_thung`): gói 227 g = 30 gói; gói 500 g = 30 gói; MIX 79 gói 5 kg = 5 gói; chai 1 lít = 20 chai (VH-GLUBENCO PRO chai nhựa 20). VH-DIO 99: chai nhựa 20 chai/thùng, chai sành 15 chai/thùng. Không dùng giá MISA cũ (nhiều mã thấp hơn giá NET).
 - Giá NET và hệ số nằm ở `nhan/gia-noi-bo.json` — chỉ để trên máy, KHÔNG commit (thông tin nội bộ). Quy cách ứng với giá: `quy_cach_gia` trong san-pham.json.
 
 ## Còn thiếu (chờ chủ dự án)

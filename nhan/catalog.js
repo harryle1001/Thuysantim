@@ -55,6 +55,7 @@ mark{background:#ffe08a;color:#5a3b00;padding:0 .4mm}
 .meta{font-size:2.4mm;color:#7c6c86;margin-top:1.6mm;letter-spacing:.04em}
 .pr{margin-top:auto;display:flex;flex-wrap:wrap;gap:2.4mm;align-items:flex-end}
 .pr div{background:var(--pc);color:#fff;border-radius:2.4mm;padding:1.8mm 4mm 2mm;min-width:36mm}
+.pr div.si{background:#fff;color:var(--pc);border:.4mm solid var(--pc)}.pr div.si b,.pr div.si small{color:var(--pc)}
 .pr span{display:block;font-size:2.2mm;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.9}
 .pr b{font-family:BVP;font-weight:700;font-size:6.6mm;line-height:1.1;font-feature-settings:'tnum' 1;color:#fff;letter-spacing:-.01em}
 .pr b small{font-size:3mm;font-weight:600;margin-left:1mm;opacity:.9}
@@ -98,7 +99,7 @@ function card(p, src) {
     <div class="tg">${rich(p.phu_de)}</div>
     <ul class="ul">${p.cong_dung.slice(0, 2).map((c) => `<li>${rich(c.length > 118 ? c.slice(0, c.lastIndexOf(' ', 115)) + '…' : c)}</li>`).join('')}</ul>
     <div class="meta">${tp.map((t) => rich(t.replace(/\s*\(min\)/i, ''))).join(' · ')} &nbsp;|&nbsp; MS ${esc(p.ma_so)}</div>
-    <div class="pr">${GIA[p.slug].map(([q, g, v]) => `<div><span>Giá bán · ${q}</span><b>${vnd(g)}<small>đ</small></b></div>`).join('')}</div>
+    <div class="pr">${GIA[p.slug].map(([q, g, v]) => `<div><span>Giá bán · ${q}</span><b>${vnd(g)}<small>đ</small></b></div>`).join('')}<div class="si"><span>Giá sỉ · thùng ${p.so_moi_thung} ${p.don_vi}</span><b>${vnd(GIA[p.slug][0][1] * p.so_moi_thung)}<small>đ</small></b></div></div>${p.ghi_chu_thung ? `<div class="meta">${esc(p.ghi_chu_thung)}</div>` : ''}
   </div></div>`;
 }
 
@@ -126,12 +127,12 @@ async function main() {
   }
   // bảng giá tổng hợp
   n++;
-  const rows = groups.map(([k, t]) => `<tr class="g"><td colspan="5">${t}</td></tr>` + list.filter((p) => (p.nhom === 'thuc-an' ? 'thuc-an' : 'moi-truong') === k)
-    .map((p) => GIA[p.slug].map(([q, g, v], j) => `<tr><td>${j ? '' : `<span class="dot" style="background:${p.mau}"></span><b>${B.phanLoai(p).ma}</b>`}</td><td>${j ? '' : `<b>${esc(p.ten)}</b>`}</td><td>${q}</td><td>${v}</td><td class="n">${vnd(g)}</td></tr>`).join('')).join('')).join('');
+  const rows = groups.map(([k, t]) => `<tr class="g"><td colspan="7">${t}</td></tr>` + list.filter((p) => (p.nhom === 'thuc-an' ? 'thuc-an' : 'moi-truong') === k)
+    .map((p) => GIA[p.slug].map(([q, g, v], j) => `<tr><td>${j ? '' : `<span class="dot" style="background:${p.mau}"></span><b>${B.phanLoai(p).ma}</b>`}</td><td>${j ? '' : `<b>${esc(p.ten)}</b>`}</td><td>${q}</td><td>${v}</td><td class="n">${vnd(g)}</td><td class="n" style="font-weight:500">${p.so_moi_thung} ${p.don_vi}</td><td class="n">${vnd(g * p.so_moi_thung)}</td></tr>`).join('')).join('')).join('');
   pages.push(`<section class="pg">${stripe(P)}${head('BẢNG GIÁ')}
     <div class="sec">Bảng giá tổng hợp</div>
-    <table><thead><tr><th>Mã</th><th>Sản phẩm</th><th>Quy cách</th><th>Thuế GTGT</th><th class="n">Đơn giá (đ)</th></tr></thead><tbody>${rows}</tbody></table>
-    <div class="note"><b>Ghi chú:</b> Đơn giá bán lẻ niêm yết; cột thuế GTGT ghi mức thuế áp dụng (KCT: không chịu thuế). Giá có thể thay đổi, vui lòng liên hệ để có báo giá đại lý và chiết khấu theo số lượng.<br>
+    <table><thead><tr><th>Mã</th><th>Sản phẩm</th><th>Quy cách</th><th>Thuế</th><th class="n">Giá bán (đ)</th><th class="n">Thùng</th><th class="n">Giá sỉ / thùng (đ)</th></tr></thead><tbody>${rows}</tbody></table>
+    <div class="note"><b>Ghi chú:</b> Giá sỉ áp dụng khi mua nguyên thùng. VH-DIO 99: thùng chai nhựa 20 chai, chai sành 15 chai. Cột thuế GTGT ghi mức thuế áp dụng (KCT: không chịu thuế). Giá có thể thay đổi, vui lòng liên hệ để có báo giá đại lý và chiết khấu theo số lượng.<br>
 </div>
     <div style="margin-top:5mm;border:.4mm solid ${P};border-radius:2.4mm;padding:4mm 5mm;font-size:3.2mm;line-height:1.55">
       <div style="font-weight:700;letter-spacing:.24em;font-size:2.6mm">NHÀ PHÂN PHỐI · ĐẶT HÀNG</div>

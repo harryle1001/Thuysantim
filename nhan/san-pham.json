@@ -4,7 +4,8 @@
   "Chỗ [ĐIỀN] phải bổ sung theo hồ sơ trước khi in.",
   "mau: màu riêng của từng sản phẩm (concept E), dùng cho cung sóng φ, nhóm, nhấn mạnh.",
   "loai: loại sản phẩm (biểu tượng + tên trên nhãn, xem LOAI trong build.js). cach_dung: tat-ao | tron-an.",
-  "quy_cach_gia: quy cách ứng với giá. Giá NET nằm ở nhan/gia-noi-bo.json (chỉ trên máy, không đưa lên Git)."
+  "quy_cach_gia: quy cách ứng với giá. Giá NET nằm ở nhan/gia-noi-bo.json (chỉ trên máy, không đưa lên Git).",
+  "so_moi_thung: số đơn vị mỗi thùng (giá sỉ theo thùng = giá NET × hệ số × so_moi_thung)."
  ],
  "phan_phoi": {
   "ten": "THỦY SẢN TÍM",
@@ -58,7 +59,9 @@
    "loai": "vi-sinh",
    "cach_dung": "tat-ao",
    "quy_cach_gia": "Gói 227 g",
-   "quy_cach_can_xac_nhan": false
+   "quy_cach_can_xac_nhan": false,
+   "so_moi_thung": 30,
+   "don_vi": "gói"
   },
   {
    "stt": 2,
@@ -98,7 +101,9 @@
    "loai": "vi-sinh",
    "cach_dung": "tat-ao",
    "quy_cach_gia": "Gói 227 g",
-   "quy_cach_can_xac_nhan": false
+   "quy_cach_can_xac_nhan": false,
+   "so_moi_thung": 30,
+   "don_vi": "gói"
   },
   {
    "stt": 3,
@@ -133,7 +138,9 @@
    "loai": "sat-trung",
    "cach_dung": "tat-ao",
    "quy_cach_gia": "Chai 1 lít",
-   "quy_cach_can_xac_nhan": false
+   "quy_cach_can_xac_nhan": false,
+   "so_moi_thung": 20,
+   "don_vi": "chai"
   },
   {
    "stt": 4,
@@ -172,7 +179,9 @@
    "loai": "sat-trung",
    "cach_dung": "tat-ao",
    "quy_cach_gia": "Chai 1 lít",
-   "quy_cach_can_xac_nhan": false
+   "quy_cach_can_xac_nhan": false,
+   "so_moi_thung": 20,
+   "don_vi": "chai"
   },
   {
    "stt": 5,
@@ -211,7 +220,9 @@
    "loai": "khi-doc",
    "cach_dung": "tat-ao",
    "quy_cach_gia": "Chai 1 lít",
-   "quy_cach_can_xac_nhan": true
+   "quy_cach_can_xac_nhan": true,
+   "so_moi_thung": 20,
+   "don_vi": "chai"
   },
   {
    "stt": 6,
@@ -250,7 +261,9 @@
    "loai": "khoang",
    "cach_dung": "tat-ao",
    "quy_cach_gia": "Gói 5 kg",
-   "quy_cach_can_xac_nhan": false
+   "quy_cach_can_xac_nhan": false,
+   "so_moi_thung": 5,
+   "don_vi": "gói"
   },
   {
    "stt": 7,
@@ -286,7 +299,9 @@
    "loai": "xu-ly-tao",
    "cach_dung": "tat-ao",
    "quy_cach_gia": "Chai 1 lít",
-   "quy_cach_can_xac_nhan": true
+   "quy_cach_can_xac_nhan": true,
+   "so_moi_thung": 20,
+   "don_vi": "chai"
   },
   {
    "stt": 8,
@@ -321,7 +336,9 @@
    "loai": "xu-ly-tao",
    "cach_dung": "tat-ao",
    "quy_cach_gia": "Gói 227 g",
-   "quy_cach_can_xac_nhan": true
+   "quy_cach_can_xac_nhan": true,
+   "so_moi_thung": 30,
+   "don_vi": "gói"
   },
   {
    "stt": 9,
@@ -356,7 +373,10 @@
    "loai": "sat-trung",
    "cach_dung": "tat-ao",
    "quy_cach_gia": "Chai 1 lít",
-   "quy_cach_can_xac_nhan": false
+   "quy_cach_can_xac_nhan": false,
+   "so_moi_thung": 20,
+   "don_vi": "chai",
+   "ghi_chu_thung": "Chai nhựa 20 chai/thùng · chai sành 15 chai/thùng"
   },
   {
    "stt": 10,
@@ -395,7 +415,9 @@
    "loai": "loi-khuan",
    "cach_dung": "tron-an",
    "quy_cach_gia": "Gói 500 g",
-   "quy_cach_can_xac_nhan": false
+   "quy_cach_can_xac_nhan": false,
+   "so_moi_thung": 30,
+   "don_vi": "gói"
   },
   {
    "stt": 11,
@@ -434,7 +456,9 @@
    "loai": "loi-khuan",
    "cach_dung": "tron-an",
    "quy_cach_gia": "Chai 1 lít",
-   "quy_cach_can_xac_nhan": false
+   "quy_cach_can_xac_nhan": false,
+   "so_moi_thung": 20,
+   "don_vi": "chai"
   },
   {
    "stt": 12,
@@ -468,7 +492,9 @@
    "loai": "dinh-duong",
    "cach_dung": "tron-an",
    "quy_cach_gia": "Chai 1 lít",
-   "quy_cach_can_xac_nhan": false
+   "quy_cach_can_xac_nhan": false,
+   "so_moi_thung": 20,
+   "don_vi": "chai"
   },
   {
    "stt": 13,
@@ -509,7 +535,9 @@
    "loai": "gan",
    "cach_dung": "tron-an",
    "quy_cach_gia": "Chai 1 lít",
-   "quy_cach_can_xac_nhan": false
+   "quy_cach_can_xac_nhan": false,
+   "so_moi_thung": 20,
+   "don_vi": "chai"
   },
   {
    "stt": 14,
@@ -553,7 +581,9 @@
    "loai": "gan",
    "cach_dung": "tron-an",
    "quy_cach_gia": "Chai 1 lít",
-   "quy_cach_can_xac_nhan": false
+   "quy_cach_can_xac_nhan": false,
+   "so_moi_thung": 20,
+   "don_vi": "chai"
   },
   {
    "stt": 15,
@@ -589,7 +619,9 @@
    "loai": "khoang",
    "cach_dung": "tron-an",
    "quy_cach_gia": "Chai 1 lít",
-   "quy_cach_can_xac_nhan": false
+   "quy_cach_can_xac_nhan": false,
+   "so_moi_thung": 20,
+   "don_vi": "chai"
   }
  ]
 }
