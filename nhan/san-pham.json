@@ -9,7 +9,7 @@
   "ten": "THỦY SẢN TÍM",
   "hotline": "",
   "web": "thuysantim.com",
-  "dia_chi": "295/32 Tân Kỳ Tân Quý, P. Tân Sơn Nhì, TP. Hồ Chí Minh"
+  "dia_chi": "295/32 Tân Kỳ Tân Quý, Tân Sơn Nhì, TP. Hồ Chí Minh, Việt Nam"
  },
  "san_xuat": {
   "ten": "CÔNG TY TNHH NO BEN",
@@ -115,13 +115,13 @@
    "huong_dan": [
     "[ĐIỀN liều dùng theo hồ sơ TCCS]"
    ],
-   "quy_cach": "",
+   "quy_cach": "Chai 1 lít",
    "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Để xa tầm tay trẻ em.",
    "tccs": "04:2016/NOBEN",
    "ma_so": "02-039607",
    "nhom": "moi-truong",
    "dang": "chai",
-   "the_tich": "In trên bao bì",
+   "the_tich": "1 lít",
    "hsd": "In trên bao bì",
    "ma_vach": "",
    "mau": "#1f6fd1",

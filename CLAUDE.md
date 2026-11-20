@@ -8,3 +8,6 @@
 - Game: kích thước UI, tỉ lệ màn chơi, đường cong độ khó/XP nhân φ mỗi cấp.
 - Nội dung: cấu trúc ý chính ~61.8%, phần phụ ~38.2%.
 Khai báo biến --phi: 1.61803 trong CSS/code để dùng thống nhất.
+
+# Nhãn sản phẩm
+Trước khi làm nhãn, bao bì, catalogue, bảng giá: đọc `nhan/THONG-TIN-DA-XAC-NHAN.md` (thông tin đã xác nhận, không hỏi lại).

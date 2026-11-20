@@ -12,7 +12,7 @@ const OUT = path.join(__dirname, 'out');
 const { P, G, esc, rich } = B;
 // slug: [quy cách, giá NET (đ), cần xác nhận quy cách?]
 const NET = {
-  'clear-12h': ['Gói 227 g', 95000], rovazyme: ['Gói 227 g', 95000], 'ben-bkc': ['Chai 1 lít', 120000, 1],
+  'clear-12h': ['Gói 227 g', 95000], rovazyme: ['Gói 227 g', 95000], 'ben-bkc': ['Chai 1 lít', 120000],
   'vh-glubenco-pro': ['Chai 1 lít', 85000], 'super-yucca': ['Chai 1 lít', 90000, 1], 'mix-79': ['Gói 5 kg', 45000],
   'ben-copper-500': ['Chai 1 lít', 195000, 1], 'super-cut-alga': ['Gói 227 g', 110000, 1], 'vh-dio-99': ['Chai 1 lít', 120000],
   'us-lacto': ['Gói 500 g', 65000], 'biotic-99': ['Chai 1 lít', 85000], 'amin-care': ['Chai 1 lít', 85000],
