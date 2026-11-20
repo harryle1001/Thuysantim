@@ -25,6 +25,7 @@ Cập nhật 20/11/2026. Dữ liệu máy đọc nằm ở `san-pham.json`; file
 ## Quy cách, giá
 - BEN BKC: chai 1 lít.
 - Giá nhập = "Giá NET công ty giao" trong phụ lục bảng kê Danh mục 15SP Noben nhượng (xem `gia-nhap.js`).
+- Giá áp dụng riêng cho THỦY SẢN TÍM, không áp dụng cho công ty / đơn vị khác. (ghi rõ trên bảng giá nhập).
 - Giá bán = giá NET × 3. Không dùng giá MISA cũ (nhiều mã thấp hơn giá NET).
 - Giá NET và hệ số nằm ở `nhan/gia-noi-bo.json` — chỉ để trên máy, KHÔNG commit (thông tin nội bộ). Quy cách ứng với giá: `quy_cach_gia` trong san-pham.json.
 

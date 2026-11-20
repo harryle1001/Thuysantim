@@ -65,10 +65,10 @@ tr.gr td{background:${P};color:#fff;font-weight:700;font-size:2.3mm;letter-spaci
 .note{margin-top:3.4mm;font-size:2.4mm;line-height:1.5;color:#5b4a66}.note b{color:${P}}
 </style></head><body>
 <div class="top">${B.brandMark({ fill: P }, 'width="11mm" height="11mm"')}<div><div class="b">THỦY SẢN TÍM</div><div class="m">Tinh hoa sinh học · Vững vàng mùa vụ</div></div>
-<h1>Bảng giá nhập &amp; giá bán · 15 sản phẩm<small>GIÁ NET CÔNG TY TNHH NO BEN GIAO · GIÁ BÁN = NET × ${HS} · CẬP NHẬT 20/11/2026</small></h1></div>
+<h1>Bảng giá nhập &amp; giá bán · 15 sản phẩm<small>GIÁ NET CÔNG TY TNHH NO BEN GIAO · GIÁ BÁN = NET × ${HS} · CHỈ ÁP DỤNG CHO THỦY SẢN TÍM · 20/11/2026</small></h1></div>
 <table><thead><tr><th class="c">STT</th><th></th><th>Sản phẩm</th><th>Mã số lưu hành</th><th>Thành phần (trong 1 kg / 1 lít)</th><th>Quy cách</th><th class="c">Thuế</th><th style="text-align:right">Giá nhập NET (đ)</th><th style="text-align:right">Giá bán (đ)</th></tr></thead>
 <tbody>${grp('moi-truong', 'Xử lý môi trường nuôi')}${grp('thuc-an', 'Thức ăn bổ sung')}</tbody></table>
-<div class="note"><b>Nguồn giá:</b> Phụ lục bảng kê "Danh mục 15SP – Noben – Nhượng", cột Giá NET công ty giao. <b>Thuế:</b> theo mức trong danh sách hàng hóa MISA (xử lý môi trường 8%, thức ăn bổ sung không chịu thuế) – chưa rõ giá NET đã gồm thuế hay chưa.
+<div class="note"><b style="color:#b4232c">Giá áp dụng riêng cho THỦY SẢN TÍM, không áp dụng cho công ty / đơn vị khác.</b><br><b>Nguồn giá:</b> Phụ lục bảng kê "Danh mục 15SP – Noben – Nhượng", cột Giá NET công ty giao. <b>Thuế:</b> theo mức trong danh sách hàng hóa MISA (xử lý môi trường 8%, thức ăn bổ sung không chịu thuế) – chưa rõ giá NET đã gồm thuế hay chưa.
 <b>Quy cách</b> đánh dấu "cần xác nhận" là chỗ bảng kê không ghi quy cách và các nguồn khác ghi khác nhau.<br>
 <b>Nhà sản xuất:</b> ${esc(B.data.san_xuat.ten)} · ${esc(B.data.san_xuat.dia_chi)} &nbsp; <b>Nhà phân phối:</b> ${esc(B.data.phan_phoi.ten)} · ${esc(B.data.phan_phoi.dia_chi)} · ${esc(B.data.phan_phoi.web)}</div>
 </body></html>`;

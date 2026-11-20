@@ -12,8 +12,8 @@ ws.title = 'Giá nhập - giá bán'
 P, PL = '4A044E', 'F4EFF6'
 ws['A1'] = 'BẢNG GIÁ NHẬP & GIÁ BÁN – 15 SẢN PHẨM (GIÁ NET NO BEN GIAO · GIÁ BÁN = NET × 3)'
 ws['A1'].font = Font(bold=True, size=14, color=P)
-ws['A2'] = 'Thủy Sản Tím · cập nhật 20/11/2026 · thành phần tính trong 1 kg / 1 lít'
-ws['A2'].font = Font(italic=True, color='7C6C86')
+ws['A2'] = 'Giá áp dụng riêng cho THỦY SẢN TÍM, không áp dụng cho công ty / đơn vị khác. Cập nhật 20/11/2026 · thành phần tính trong 1 kg / 1 lít'
+ws['A2'].font = Font(bold=True, color='B4232C')
 head = ['STT', 'Mã', 'Nhóm', 'Tên sản phẩm', 'Loại', 'Mã số lưu hành', 'TCCS', 'Thành phần', 'Quy cách', 'Thuế GTGT', 'Giá nhập NET (đ)', 'Hệ số', 'Giá bán (đ)', 'Lãi / đơn vị (đ)', 'Số lượng', 'Tiền nhập (đ)', 'Tiền bán (đ)', 'Lãi (đ)']
 thin = Side(style='thin', color='DDD3E2')
 for c, h in enumerate(head, 1):
