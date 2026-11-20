@@ -348,7 +348,7 @@ function parts(p) {
       <p><strong>Mã số:</strong> ${esc(p.ma_so)} &nbsp;·&nbsp; <strong>TCCS:</strong> ${esc(p.tccs)}</p>
       <p><strong>HSD:</strong> ${rich(p.hsd && !/In trên/.test(p.hsd) ? p.hsd : 'xem trên bao bì')} &nbsp;·&nbsp; <strong>Quy cách:</strong> ${rich(p.quy_cach || '')}</p>
       <div class="boxes"><div>Số lô</div><div>NSX</div><div>HSD</div></div>
-      <div class="dist"><div class="t">NHÀ PHÂN PHỐI · <b>${esc(pp.ten)}</b></div><div>${esc(pp.dia_chi)}</div><div class="h">Hotline ${rich(pp.hotline)} · ${esc(pp.web)}</div></div>
+      <div class="dist"><div class="t">NHÀ PHÂN PHỐI · <b>${esc(pp.ten)}</b></div><div>${esc(pp.dia_chi)}</div><div class="h">${pp.hotline ? `Hotline ${rich(pp.hotline)} · ` : ''}${esc(pp.web)}</div></div>
       <p class="mfr">Sản xuất tại: ${esc(sx.ten)} · ${esc(sx.dia_chi)}</p>
       <div class="only">Chỉ dùng trong nuôi trồng thủy sản · Để xa tầm tay trẻ em</div>
     </div>`;

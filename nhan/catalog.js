@@ -151,7 +151,7 @@ async function main() {
       <div style="font-weight:700;letter-spacing:.24em;font-size:2.6mm">NHÀ PHÂN PHỐI · ĐẶT HÀNG</div>
       <div style="font-weight:700;font-size:5.2mm;margin:1mm 0">${esc(B.data.phan_phoi.ten)}</div>
       <div>${esc(B.data.phan_phoi.dia_chi)}</div>
-      <div style="font-weight:700;font-size:4mm">Hotline ${rich(B.data.phan_phoi.hotline)} · ${esc(B.data.phan_phoi.web)}</div></div>
+      <div style="font-weight:700;font-size:4mm">${B.data.phan_phoi.hotline ? `Hotline ${rich(B.data.phan_phoi.hotline)} · ` : ''}${esc(B.data.phan_phoi.web)}</div></div>
     <div class="note" style="color:#9a8fa3;margin-top:3mm">Sản xuất tại: ${esc(B.data.san_xuat.ten)} · ${esc(B.data.san_xuat.dia_chi)}</div>${foot(n)}</section>`);
 
   const html = `<!doctype html><html lang="vi"><head><meta charset="utf-8"><title>Catalogue & Bảng giá – Thủy Sản Tím</title><style>${css()}</style></head><body>${pages.join('')}</body></html>`;

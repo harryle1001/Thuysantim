@@ -197,7 +197,7 @@ function back(p, k, u) {
       <div class="bc">MÃ VẠCH<br>EAN-13</div>
     </div>
   </div>
-  <div class="ftr"><div class="d"><div class="n"><b>NHÀ PHÂN PHỐI</b> · ${esc(pp.ten)}</div><div>${esc(pp.dia_chi)}</div><div class="h">Hotline ${rich(pp.hotline)} · ${esc(pp.web)}</div></div>
+  <div class="ftr"><div class="d"><div class="n"><b>NHÀ PHÂN PHỐI</b> · ${esc(pp.ten)}</div><div>${esc(pp.dia_chi)}</div><div class="h">${pp.hotline ? `Hotline ${rich(pp.hotline)} · ` : ''}${esc(pp.web)}</div></div>
     <div class="mf">Sản xuất tại: ${esc(sx.ten)} · ${esc(sx.dia_chi)}</div>
     <div class="w">CHỈ DÙNG TRONG NUÔI TRỒNG THỦY SẢN · ĐỂ XA TẦM TAY TRẺ EM</div></div>
 </div>`;
