@@ -53,11 +53,11 @@ mark{background:#ffe08a;color:#5a3b00;padding:0 .4mm}
 .ul li{position:relative;padding-left:3mm;margin-bottom:.6mm}
 .ul li::before{content:'';position:absolute;left:.2mm;top:1.3mm;width:1.3mm;height:1.3mm;transform:rotate(45deg);background:var(--pc)}
 .meta{font-size:2.4mm;color:#7c6c86;margin-top:1.6mm;letter-spacing:.04em}
-.pr{margin-top:auto;display:flex;flex-wrap:wrap;gap:2mm}
-.pr div{border:.3mm solid var(--pc);border-radius:2mm;padding:1.4mm 2.6mm;min-width:27mm}
-.pr span{display:block;font-size:2.2mm;font-weight:600;letter-spacing:.08em;color:#7c6c86;text-transform:uppercase}
-.pr b{font-family:Cormorant;font-weight:700;font-size:5.4mm;font-feature-settings:'lnum' 1;color:${P}}
-.pr b small{font-family:BVP;font-size:2.2mm;font-weight:600;color:#7c6c86;margin-left:.8mm}
+.pr{margin-top:auto;display:flex;flex-wrap:wrap;gap:2.4mm;align-items:flex-end}
+.pr div{background:var(--pc);color:#fff;border-radius:2.4mm;padding:1.8mm 4mm 2mm;min-width:36mm}
+.pr span{display:block;font-size:2.2mm;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.9}
+.pr b{font-family:BVP;font-weight:700;font-size:6.6mm;line-height:1.1;font-feature-settings:'tnum' 1;color:#fff;letter-spacing:-.01em}
+.pr b small{font-size:3mm;font-weight:600;margin-left:1mm;opacity:.9}
 /* bìa */
 .cover{padding:0}
 .cover .in{position:absolute;left:16mm;right:16mm;top:0;bottom:0}
@@ -98,7 +98,7 @@ function card(p, src) {
     <div class="tg">${rich(p.phu_de)}</div>
     <ul class="ul">${p.cong_dung.slice(0, 2).map((c) => `<li>${rich(c.length > 118 ? c.slice(0, c.lastIndexOf(' ', 115)) + '…' : c)}</li>`).join('')}</ul>
     <div class="meta">${tp.map((t) => rich(t.replace(/\s*\(min\)/i, ''))).join(' · ')} &nbsp;|&nbsp; MS ${esc(p.ma_so)}</div>
-    <div class="pr">${GIA[p.slug].map(([q, g, v]) => `<div><span>${q}</span><b>${vnd(g)}<small>đ</small></b></div>`).join('')}</div>
+    <div class="pr">${GIA[p.slug].map(([q, g, v]) => `<div><span>Giá bán · ${q}</span><b>${vnd(g)}<small>đ</small></b></div>`).join('')}</div>
   </div></div>`;
 }
 
