@@ -63,7 +63,7 @@ function scene() {
   const floor = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), new THREE.MeshStandardMaterial({ color: BG, roughness: 0.95 }));
   floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; s.add(floor);
   s.add(new THREE.HemisphereLight(0xffffff, 0xd9d0dc, 0.55));
-  const key = new THREE.DirectionalLight(0xfff6ee, 3.2); key.position.set(-60, 110, 90); key.castShadow = true;
+  const key = new THREE.DirectionalLight(0xfff6ee, 3.2); key.position.set(-95, 95, 55); key.castShadow = true;
   key.shadow.mapSize.set(4096, 4096); key.shadow.radius = 9; key.shadow.bias = -0.0004;
   Object.assign(key.shadow.camera, { left: -80, right: 80, top: 100, bottom: -20, near: 10, far: 400 });
   s.add(key);
@@ -91,56 +91,82 @@ function scene() {
     return g;
   }
   // Hàm dựng "gối" (túi, bao): mặt trước/sau phồng theo hàm d(u,v)
-  function pillow(w, h, depth, mapF, mapB, matOpts, prof, useFoil) {
+  // Túi/bao phồng tự nhiên: mép hàn phẳng, thân phồng dạng parabol mềm, mép hông kéo lõm vào khi phồng,
+  // nếp nhăn tỏa từ 4 góc, nếp nén theo chiều ngang. o: { seal, sealTop, sealBot, pull, belly, wrinkle, crimp }
+  function pillow(w, h, depth, mapF, mapB, matOpts, o, useFoil) {
     const g = new THREE.Group();
+    const cl = (x) => Math.min(1, Math.max(0, x));
+    const sm = (e0, e1, x) => { const t = cl((x - e0) / (e1 - e0)); return t * t * (3 - 2 * t); };
+    const hash = (x, y) => { const s = Math.sin(x * 127.1 + y * 311.7) * 43758.5453; return s - Math.floor(s); };
+    const noise = (x, y) => { // value noise mượt
+      const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi, u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf);
+      return (hash(xi, yi) * (1 - u) + hash(xi + 1, yi) * u) * (1 - v) + (hash(xi, yi + 1) * (1 - u) + hash(xi + 1, yi + 1) * u) * v - 0.5;
+    };
+    // độ phồng 0..1 tại (u, v)
+    const prof = (u, v) => {
+      const su = (u - o.seal) / (1 - 2 * o.seal), sv = (v - o.sealBot) / (1 - o.sealBot - o.sealTop);
+      if (su <= 0 || su >= 1 || sv <= 0 || sv >= 1) return 0;
+      const x = 2 * su - 1, y = 2 * sv - 1;
+      const fu = Math.pow(1 - x * x, 0.55), fv = Math.pow(1 - y * y, 0.5);
+      const belly = 1 + o.belly * (1 - sv) * (1 - sv); // phần dưới nặng, phồng hơn
+      return fu * fv * belly / (1 + o.belly);
+    };
     for (const side of [1, -1]) {
-      const geo = new THREE.PlaneGeometry(w, h, 120, 180);
+      const geo = new THREE.PlaneGeometry(w, h, 170, 260);
       const p = geo.attributes.position;
       for (let i = 0; i < p.count; i++) {
-        const u = p.getX(i) / w + 0.5, v = p.getY(i) / h + 0.5;
-        const d = prof(u, v) * depth + 0.025;
-        p.setZ(i, d);
-        // co mép hai bên khi phồng (vải/bao bị kéo vào)
-        p.setX(i, p.getX(i) * (1 - 0.035 * Math.sin(Math.PI * v) * (prof(0.5, v))));
+        const X = p.getX(i), Y = p.getY(i), u = X / w + 0.5, v = Y / h + 0.5;
+        const d = prof(u, v);
+        // nếp nhăn: tỏa từ 4 góc + nếp nén ngang, chỉ ở vùng phồng vừa phải
+        let wr = 0;
+        for (const [cu, cv] of [[0, 0], [1, 0], [0, 1], [1, 1]]) {
+          const du = (u - cu) * w, dv = (v - cv) * h, r = Math.hypot(du, dv), ang = Math.atan2(dv, du);
+          wr += Math.sin(ang * o.rays + noise(r * 0.3, ang * 3) * 2) * Math.exp(-r / (w * 0.22)) * sm(0, 0.12 * w, r);
+        }
+        wr += 0.35 * noise(u * 9, v * 5 + side * 7) * Math.sin(Math.PI * cl(v)) ;
+        const z = depth * d + depth * o.wrinkle * wr * d * (1 - d) * 4 + 0.02 + (v > 1 - o.sealTop ? o.crimp * Math.sin(Y * 40) : 0);
+        p.setZ(i, z);
+        // mép hông bị kéo vào giữa khi phồng (đường cong lõm đặc trưng của túi/bao đầy hàng)
+        const pull = o.pull * Math.sin(Math.PI * cl((v - o.sealBot) / (1 - o.sealBot - o.sealTop))) * Math.pow(Math.abs(2 * u - 1), 3);
+        p.setX(i, X * (1 - pull));
+        // mép trên/dưới cũng hơi võng vào ở giữa
+        const sag = o.pull * 0.5 * Math.sin(Math.PI * u) * Math.pow(Math.abs(2 * v - 1), 4) * (v > 0.5 ? 1 : 0.4);
+        p.setY(i, Y * (1 - sag));
       }
       geo.computeVertexNormals();
       const m = new THREE.Mesh(geo, new THREE.MeshPhysicalMaterial(Object.assign({ map: tex(side > 0 ? mapF : mapB) }, matOpts, useFoil ? foil(side > 0 ? mapF : mapB) : {})));
       if (side < 0) m.rotation.y = Math.PI;
       m.castShadow = true; m.receiveShadow = true; m.position.y = h / 2; g.add(m);
     }
+    g.userData.prof = prof;
     return g;
   }
-  // ---- TÚI ĐỨNG 130 × 210 mm, đáy có nếp gấp đứng được, miệng zip ----
+  // ---- TÚI ĐỨNG 130 × 210 mm: mép hàn 5 mm, đáy nở để đứng, miệng zip ----
   function pouch() {
-    const w = 13, h = 21.03;
-    const prof = (u, v) => {
-      const side = Math.pow(Math.sin(Math.PI * Math.min(Math.max(u, 0), 1)), 0.5);
-      const top = v > 0.9 ? 0 : v > 0.78 ? Math.pow((0.9 - v) / 0.12, 0.8) : 1;
-      const bot = 0.62 + 0.38 * Math.pow(1 - v, 2.2);
-      return side * top * bot;
-    };
-    const g = pillow(w, h, 1.75, TEX.tuiF, TEX.tuiB, { roughness: 0.58, clearcoat: 0.15, clearcoatRoughness: 0.6, side: THREE.DoubleSide }, prof, true);
-    // đáy kín (elip) + đường zip
-    const bot = new THREE.Mesh(new THREE.CircleGeometry(1, 64), new THREE.MeshStandardMaterial({ color: PURPLE, roughness: 0.6 }));
-    bot.scale.set(w / 2 * 0.97, 1.75 * 0.98, 1); bot.rotation.x = -Math.PI / 2; bot.position.y = 0.02; g.add(bot);
-    const zip = new THREE.Mesh(new THREE.BoxGeometry(w * 0.985, 0.14, 0.12), new THREE.MeshStandardMaterial({ color: 0x3a0340, roughness: 0.4 }));
-    zip.position.set(0, h * 0.86, 0.05); g.add(zip);
+    const w = 13, h = 21.03, D = 2.5;
+    const o = { seal: 0.04, sealTop: 0.075, sealBot: 0.0, pull: 0.075, belly: 0.55, wrinkle: 0.16, rays: 9, crimp: 0.006 };
+    const g = pillow(w, h, D, TEX.tuiF, TEX.tuiB, { roughness: 0.52, clearcoat: 0.25, clearcoatRoughness: 0.45, side: THREE.DoubleSide }, o, true);
+    // đáy elip (nếp gấp đứng)
+    const bot = new THREE.Mesh(new THREE.CircleGeometry(1, 96), new THREE.MeshStandardMaterial({ color: 0xf4f1f6, roughness: 0.55 }));
+    bot.scale.set(w / 2 * (1 - 2 * o.seal) * 0.98, D * 0.98, 1); bot.rotation.x = -Math.PI / 2; bot.position.y = 0.025; g.add(bot);
+    const zip = new THREE.Mesh(new THREE.BoxGeometry(w * 0.9, 0.12, 0.09), new THREE.MeshStandardMaterial({ color: 0xe9e4ee, roughness: 0.35 }));
+    zip.position.set(0, h * 0.86, D * g.userData.prof(0.5, 0.86) + 0.05); g.add(zip);
     return g;
   }
-  // ---- BAO dệt PP 450 × 728 mm: vân dệt, đường may miệng bao ----
+  // ---- BAO dệt PP 450 × 728 mm: đầy hàng, xệ đáy, nếp gấp miệng bao, đường may ----
   function sack() {
-    const w = 45, h = 72.81;
-    const prof = (u, v) => Math.pow(Math.sin(Math.PI * Math.min(Math.max(u, 0), 1)), 0.42) * Math.pow(Math.sin(Math.PI * Math.min(Math.max((v - 0.015) / 0.97, 0), 1)), 0.38);
-    // vân dệt: lưới sợi ngang dọc làm bump + roughness
+    const w = 45, h = 72.81, D = 8;
+    const o = { seal: 0.012, sealTop: 0.03, sealBot: 0.02, pull: 0.09, belly: 0.7, wrinkle: 0.2, rays: 7, crimp: 0 };
     const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d');
     x.fillStyle = '#808080'; x.fillRect(0, 0, 256, 256);
     for (let i = 0; i < 256; i += 8) { x.fillStyle = '#b8b8b8'; x.fillRect(0, i, 256, 4); x.fillStyle = '#5c5c5c'; x.fillRect(i, 0, 3, 256); }
     const weave = new THREE.CanvasTexture(c); weave.wrapS = weave.wrapT = THREE.RepeatWrapping; weave.repeat.set(90, 145);
-    const g = pillow(w, h, 5.2, TEX.baoF, TEX.baoB, { roughness: 0.78, bumpMap: weave, bumpScale: 0.06, sheen: 0.4, sheenRoughness: 0.8, side: THREE.DoubleSide }, prof);
-    for (const yy of [h - 1.2, 1.2]) { // đường may
+    const g = pillow(w, h, D, TEX.baoF, TEX.baoB, { roughness: 0.78, bumpMap: weave, bumpScale: 0.06, sheen: 0.4, sheenRoughness: 0.8, side: THREE.DoubleSide }, o);
+    for (const yy of [h * (1 - o.sealTop / 2), h * o.sealBot / 2 + 0.3]) { // đường may
       for (let i = 0; i < 70; i++) {
         const st = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.12, 0.08), new THREE.MeshStandardMaterial({ color: 0xf2eee4, roughness: 0.9 }));
-        st.position.set(-w / 2 + 0.8 + i * ((w - 1.6) / 69), yy, prof(0.5, yy / h) * 0.6 + 0.12); g.add(st);
+        const xx = -w / 2 + 1.2 + i * ((w - 2.4) / 69);
+        st.position.set(xx * (1 - o.pull * 0.2), yy, 0.12); g.add(st);
       }
     }
     return g;
