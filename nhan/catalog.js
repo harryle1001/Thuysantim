@@ -12,7 +12,8 @@ const { P, G, esc, rich } = B;
 // [quy cách, đơn giá (đ), thuế GTGT] — theo file MISA, ngày đọc 20/11/2026
 // Giá bán = giá NET × hệ số (san-pham.json)
 const VATG = (p) => (p.nhom === 'thuc-an' ? 'KCT' : '8%');
-const GIA = Object.fromEntries(B.data.san_pham.map((p) => [p.slug, [[p.quy_cach_gia, p.gia_net * (B.data.he_so_gia_ban || 3), VATG(p)]]]));
+const GIA = Object.fromEntries(B.data.san_pham.map((p) => [p.slug, [[p.quy_cach_gia, p.gia_net ? p.gia_net * (B.data.he_so_gia_ban || 3) : null, VATG(p)]]]));
+const money = (g) => (g ? `${g.toLocaleString('vi-VN')}<small>đ</small>` : '<span style="font-size:.62em">Liên hệ</span>');
 const vnd = (n) => n.toLocaleString('vi-VN');
 
 function img(slug, dang) {
@@ -99,7 +100,7 @@ function card(p, src) {
     <div class="tg">${rich(p.phu_de)}</div>
     <ul class="ul">${p.cong_dung.slice(0, 2).map((c) => `<li>${rich(c.length > 118 ? c.slice(0, c.lastIndexOf(' ', 115)) + '…' : c)}</li>`).join('')}</ul>
     <div class="meta">${tp.map((t) => rich(t.replace(/\s*\(min\)/i, ''))).join(' · ')} &nbsp;|&nbsp; MS ${esc(p.ma_so)}</div>
-    <div class="pr">${GIA[p.slug].map(([q, g, v]) => `<div><span>Giá bán · ${q}</span><b>${vnd(g)}<small>đ</small></b></div>`).join('')}<div class="si"><span>Giá sỉ · thùng ${p.so_moi_thung} ${p.don_vi}</span><b>${vnd(GIA[p.slug][0][1] * p.so_moi_thung)}<small>đ</small></b></div></div>${p.ghi_chu_thung ? `<div class="meta">${esc(p.ghi_chu_thung)}</div>` : ''}
+    <div class="pr">${GIA[p.slug].map(([q, g, v]) => `<div><span>Giá bán · ${q}</span><b>${money(g)}</b></div>`).join('')}<div class="si"><span>Giá sỉ · thùng ${p.so_moi_thung} ${p.don_vi}</span><b>${money(GIA[p.slug][0][1] && GIA[p.slug][0][1] * p.so_moi_thung)}</b></div></div>${p.ghi_chu_thung ? `<div class="meta">${esc(p.ghi_chu_thung)}</div>` : ''}
   </div></div>`;
 }
 
@@ -111,7 +112,7 @@ async function main() {
   // bìa
   pages.push(`<section class="pg cover">${stripe(B.data.san_pham[3].mau)}<div class="in">
     <div class="logo">${B.brandMark({ fill: P }, 'width="20mm" height="20mm"')}<div><div class="b">THỦY SẢN TÍM</div><div class="m">Tinh hoa sinh học · Vững vàng mùa vụ</div></div></div>
-    <h1>Catalogue<br>&amp; Bảng giá<em>15 sản phẩm · 2026</em></h1>
+    <h1>Catalogue<br>&amp; Bảng giá<em>${B.data.san_pham.length} sản phẩm · 2026</em></h1>
     <div class="sub">Sản phẩm xử lý môi trường và thức ăn bổ sung cho tôm, cá. Mỗi sản phẩm một màu, một mã nhận biết: <b>MT</b> – xử lý môi trường, <b>TA</b> – thức ăn bổ sung.</div>
     <div class="grid">${list.map((p) => `<div style="--pc:${p.mau};background-image:url(${IMG[p.slug]})"><b>${B.phanLoai(p).ma}</b></div>`).join('')}</div>
     <div class="made">SẢN XUẤT TẠI VIỆT NAM</div></div></section>`);
@@ -128,7 +129,7 @@ async function main() {
   // bảng giá tổng hợp
   n++;
   const rows = groups.map(([k, t]) => `<tr class="g"><td colspan="7">${t}</td></tr>` + list.filter((p) => (p.nhom === 'thuc-an' ? 'thuc-an' : 'moi-truong') === k)
-    .map((p) => GIA[p.slug].map(([q, g, v], j) => `<tr><td>${j ? '' : `<span class="dot" style="background:${p.mau}"></span><b>${B.phanLoai(p).ma}</b>`}</td><td>${j ? '' : `<b>${esc(p.ten)}</b>`}</td><td>${q}</td><td>${v}</td><td class="n">${vnd(g)}</td><td class="n" style="font-weight:500">${p.so_moi_thung} ${p.don_vi}</td><td class="n">${vnd(g * p.so_moi_thung)}</td></tr>`).join('')).join('')).join('');
+    .map((p) => GIA[p.slug].map(([q, g, v], j) => `<tr><td>${j ? '' : `<span class="dot" style="background:${p.mau}"></span><b>${B.phanLoai(p).ma}</b>`}</td><td>${j ? '' : `<b>${esc(p.ten)}</b>`}</td><td>${q}</td><td>${v}</td><td class="n">${g ? vnd(g) : "Liên hệ"}</td><td class="n" style="font-weight:500">${p.so_moi_thung} ${p.don_vi}</td><td class="n">${g ? vnd(g * p.so_moi_thung) : "Liên hệ"}</td></tr>`).join('')).join('')).join('');
   pages.push(`<section class="pg">${stripe(P)}${head('BẢNG GIÁ')}
     <div class="sec">Bảng giá tổng hợp</div>
     <table><thead><tr><th>Mã</th><th>Sản phẩm</th><th>Quy cách</th><th>Thuế</th><th class="n">Giá bán (đ)</th><th class="n">Thùng</th><th class="n">Giá sỉ / thùng (đ)</th></tr></thead><tbody>${rows}</tbody></table>

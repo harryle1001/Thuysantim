@@ -28,7 +28,7 @@ async function main() {
   const list = B.data.san_pham;
   const rows = list.map((p) => {
     const f = B.phanLoai(p), nhom = p.nhom === 'thuc-an' ? 'thuc-an' : 'moi-truong';
-    return { p, f, nhom, quy: p.quy_cach_gia, gia: p.gia_net, ban: p.gia_net * HS, xn: p.quy_cach_can_xac_nhan, vat: VAT[nhom] };
+    return { p, f, nhom, quy: p.quy_cach_gia, gia: p.gia_net || null, ban: p.gia_net ? p.gia_net * HS : null, xn: p.quy_cach_can_xac_nhan, vat: VAT[nhom] };
   });
   const tr = (r, i) => `<tr style="--pc:${r.p.mau}">
     <td class="c">${i + 1}</td>
@@ -38,7 +38,7 @@ async function main() {
     <td class="tp">${r.p.thanh_phan.map((t) => `<div>${rich(t)}</div>`).join('')}</td>
     <td class="sm">${esc(r.quy)}${r.xn ? '<br><span class="xn">cần xác nhận</span>' : ''}</td>
     <td class="c sm">${r.vat}</td>
-    <td class="g n2">${vnd(r.gia)}</td><td class="g">${vnd(r.ban)}</td><td class="g si">${vnd(r.ban * r.p.so_moi_thung)}<br><span class="mu" style="font-size:2.1mm;font-weight:500">${r.p.so_moi_thung} ${r.p.don_vi}/thùng</span></td></tr>`;
+    <td class="g n2">${r.gia ? vnd(r.gia) : '<span class="xn">chưa có</span>'}</td><td class="g">${r.ban ? vnd(r.ban) : '—'}</td><td class="g si">${r.ban ? vnd(r.ban * r.p.so_moi_thung) : '—'}<br><span class="mu" style="font-size:2.1mm;font-weight:500">${r.p.so_moi_thung} ${r.p.don_vi}/thùng</span></td></tr>`;
   const grp = (k, t) => `<tr class="gr"><td colspan="10">${t}</td></tr>` + rows.filter((r) => r.nhom === k).map((r) => tr(r, rows.indexOf(r))).join('');
   const html = `<!doctype html><html lang="vi"><head><meta charset="utf-8"><title>Bảng giá nhập – Thủy Sản Tím</title><style>${B.fontFaces()}
 @page{size:297mm 210mm;margin:12mm 12mm 13mm}
@@ -65,7 +65,7 @@ tr.gr td{background:${P};color:#fff;font-weight:700;font-size:2.3mm;letter-spaci
 .note{margin-top:3.4mm;font-size:2.4mm;line-height:1.5;color:#5b4a66}.note b{color:${P}}
 </style></head><body>
 <div class="top">${B.brandMark({ fill: P }, 'width="11mm" height="11mm"')}<div><div class="b">THỦY SẢN TÍM</div><div class="m">Tinh hoa sinh học · Vững vàng mùa vụ</div></div>
-<h1>Bảng giá nhập &amp; giá bán · 15 sản phẩm<small>GIÁ NET CÔNG TY TNHH NO BEN GIAO · GIÁ BÁN = NET × ${HS} · CHỈ ÁP DỤNG CHO THỦY SẢN TÍM · 20/11/2026</small></h1></div>
+<h1>Bảng giá nhập &amp; giá bán · ${list.length} sản phẩm<small>GIÁ NET CÔNG TY TNHH NO BEN GIAO · GIÁ BÁN = NET × ${HS} · CHỈ ÁP DỤNG CHO THỦY SẢN TÍM · 20/11/2026</small></h1></div>
 <table><thead><tr><th class="c">STT</th><th></th><th>Sản phẩm</th><th>Mã số lưu hành</th><th>Thành phần (trong 1 kg / 1 lít)</th><th>Quy cách</th><th class="c">Thuế</th><th style="text-align:right">Giá nhập NET (đ)</th><th style="text-align:right">Giá bán (đ)</th><th style="text-align:right">Giá sỉ / thùng (đ)</th></tr></thead>
 <tbody>${grp('moi-truong', 'Xử lý môi trường nuôi')}${grp('thuc-an', 'Thức ăn bổ sung')}</tbody></table>
 <div class="note"><b style="color:#b4232c">Giá áp dụng riêng cho THỦY SẢN TÍM, không áp dụng cho công ty / đơn vị khác.</b><br><b>Nguồn giá:</b> Phụ lục bảng kê "Danh mục 15SP – Noben – Nhượng", cột Giá NET công ty giao. <b>Thuế:</b> theo mức trong danh sách hàng hóa MISA (xử lý môi trường 8%, thức ăn bổ sung không chịu thuế) – chưa rõ giá NET đã gồm thuế hay chưa.

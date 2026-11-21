@@ -263,9 +263,11 @@ Object.assign(ICON, {
   bot: '<path d="M3.2 18.4h17.6"/><path d="M5.6 18.4c1.6-5.4 3.8-8.4 6.4-8.4s4.8 3 6.4 8.4"/><circle cx="12" cy="6.2" r=".7" fill="currentColor"/><circle cx="8.4" cy="8.4" r=".7" fill="currentColor"/><circle cx="15.6" cy="8.4" r=".7" fill="currentColor"/>',
   'tat-ao': '<path d="M2.8 9c1.6-1.8 3.2-1.8 4.6 0s3 1.8 4.6 0 3.2-1.8 4.6 0 3 1.8 4.6 0"/><path d="M2.8 15c1.6-1.8 3.2-1.8 4.6 0s3 1.8 4.6 0 3.2-1.8 4.6 0 3 1.8 4.6 0"/>',
 });
+Object.assign(ICON, { 'giai-doc': ICON.khoang, vitamin: ICON['dinh-duong'], enzyme: ICON['loi-khuan'], acid: ICON.nuoc });
 const LOAI = {
   'vi-sinh': 'Vi sinh xử lý nước', 'sat-trung': 'Sát trùng nước', 'khi-doc': 'Hấp thu khí độc', khoang: 'Khoáng chất',
   'xu-ly-tao': 'Xử lý tảo', 'loi-khuan': 'Lợi khuẩn tiêu hóa', 'dinh-duong': 'Đạm · acid amin', gan: 'Bổ gan',
+  'giai-doc': 'Giải độc nước', vitamin: 'Vitamin · chống sốc', enzyme: 'Enzyme tiêu hóa', acid: 'Acid hữu cơ',
 };
 const svgIcon = (k, extra = '') => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" ${extra}>${ICON[k]}</svg>`;
 // Phân loại: mã = nhóm (MT: xử lý môi trường · TA: thức ăn bổ sung) + số thứ tự; loại; dạng; cách dùng.

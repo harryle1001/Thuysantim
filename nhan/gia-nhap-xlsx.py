@@ -10,7 +10,7 @@ wb = Workbook()
 ws = wb.active
 ws.title = 'Giá nhập - giá bán'
 P, PL = '4A044E', 'F4EFF6'
-ws['A1'] = 'BẢNG GIÁ NHẬP & GIÁ BÁN – 15 SẢN PHẨM (GIÁ NET NO BEN GIAO · GIÁ BÁN = NET × 3)'
+ws['A1'] = f'BẢNG GIÁ NHẬP & GIÁ BÁN – {len(rows)} SẢN PHẨM (GIÁ NET NO BEN GIAO · GIÁ BÁN = NET × 3)'
 ws['A1'].font = Font(bold=True, size=14, color=P)
 ws['A2'] = 'Giá áp dụng riêng cho THỦY SẢN TÍM, không áp dụng cho công ty / đơn vị khác. Cập nhật 20/11/2026 · thành phần tính trong 1 kg / 1 lít'
 ws['A2'].font = Font(bold=True, color='B4232C')
