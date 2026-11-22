@@ -135,9 +135,15 @@ async function syncPostFixes() {
     if (to.includes(from)) continue; // already contains the new wording (substring pair); handled by the longer pairs above
     await query('UPDATE posts SET excerpt = REPLACE(excerpt, ?, ?), body = REPLACE(body, ?, ?)', [from, to, from, to]);
   }
-  await query("UPDATE posts SET author = 'Thủy Sản Tím' WHERE author LIKE 'Phòng Kỹ thuật%'");
   await query("INSERT INTO settings (`key`, `value`) VALUES ('post_fixes_v3', ?)", [J(new Date().toISOString())]);
   console.log(`[db] Kiểm chứng bài viết: xóa ${del.affectedRows || 0} bài bịa, sửa ${fixed} bài.`);
+}
+
+/** One-time (settings key `author_v2`): articles are written by the company's technical department. */
+async function syncAuthor() {
+  if (await one("SELECT `value` FROM settings WHERE `key` = 'author_v2'")) return;
+  await query("UPDATE posts SET author = 'Phòng Kỹ thuật Thủy Sản Tím' WHERE author = 'Thủy Sản Tím'");
+  await query("INSERT INTO settings (`key`, `value`) VALUES ('author_v2', ?)", [J(new Date().toISOString())]);
 }
 
 async function seed({ force = false } = {}) {
@@ -150,6 +156,7 @@ async function seed({ force = false } = {}) {
     await syncContactV2();
     await syncContactV3();
     await syncPostFixes();
+    await syncAuthor();
     return false;
   }
 
@@ -185,6 +192,7 @@ async function seed({ force = false } = {}) {
   await syncContactV2();
   await syncContactV3();
   await syncPostFixes();
+  await syncAuthor();
   console.log('[db] Đã nạp dữ liệu mẫu.');
   return true;
 }

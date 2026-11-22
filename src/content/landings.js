@@ -6,9 +6,9 @@
 const PROVINCES = ['Cà Mau', 'Bạc Liêu', 'Sóc Trăng', 'Kiên Giang', 'Trà Vinh', 'Bến Tre', 'Tiền Giang', 'Long An', 'Cần Thơ', 'An Giang', 'Đồng Tháp', 'Vĩnh Long', 'Hậu Giang', 'Ninh Thuận', 'Bình Thuận', 'Khánh Hòa', 'Phú Yên', 'Quảng Ninh', 'Tỉnh khác'];
 const FORM = {
   button: 'Gọi lại cho tôi',
-  note: 'Không spam · Bảo mật số điện thoại',
+  note: 'Miễn phí · Không spam · Bảo mật số điện thoại',
   done: 'Đã nhận thông tin!',
-  doneLead: 'Kỹ thuật viên Thủy Sản Tím sẽ liên hệ lại trong giờ làm việc. Cần gấp, bà con nhắn Zalo hoặc gọi hotline ngay.',
+  doneLead: 'Kỹ thuật viên sẽ gọi lại trong 15 phút (giờ làm việc). Cần gấp, bà con nhắn Zalo hoặc gọi hotline ngay.',
   provinces: PROVINCES,
 };
 const STICKY = { call: 'Gọi ngay', zalo: 'Zalo', form: 'Tư vấn' };
@@ -18,7 +18,7 @@ const pages = {
   'xu-ly-khi-doc-day-ao': {
     vi: {
       title: 'Xử lý khí độc NH₃, H₂S & đáy ao nuôi tôm | Thủy Sản Tím',
-      description: 'Tôm nổi đầu, đáy ao bùn đen, nước hôi? Bộ 3 SUPER YUCCA, CLEAR 12H, ROVAZYME hấp thu khí độc, phân hủy mùn bã đáy ao. Kỹ thuật viên tư vấn liều theo ao, giao tận ao.',
+      description: 'Tôm nổi đầu, đáy ao bùn đen, nước hôi? Bộ 3 SUPER YUCCA, CLEAR 12H, ROVAZYME hấp thu khí độc, phân hủy mùn bã đáy ao. Kỹ thuật viên tư vấn liều miễn phí, giao tận ao.',
       campaign: 'Khí độc & đáy ao',
       theme: 'hoang-hon',
       hero: {
@@ -26,9 +26,9 @@ const pages = {
         title: 'Đáy ao dơ, khí độc tăng —',
         titleEm: 'tôm nổi đầu, bỏ ăn?',
         lead: 'Bộ 3 xử lý khí độc & đáy ao của Thủy Sản Tím: hấp thu NH₃, phân hủy mùn bã hữu cơ, thức ăn thừa và xác tảo ở đáy ao, giảm mùi hôi, giữ nước ổn định.',
-        bullets: ['Kỹ thuật viên tư vấn liều theo ao qua hotline, Zalo', 'Giao tận ao · Kiểm hàng rồi trả tiền (COD)', 'Sản xuất tại Việt Nam, có số đăng ký trên nhãn'],
+        bullets: ['Kỹ thuật viên tư vấn liều theo ao, miễn phí, gọi lại trong 15 phút', 'Giao tận ao · Kiểm hàng rồi trả tiền (COD)', 'Sản xuất tại Việt Nam, có số đăng ký trên nhãn'],
       },
-      form: { ...FORM, title: 'Nhận tư vấn liều cho ao của bà con', lead: 'Để lại số điện thoại, kỹ thuật viên Thủy Sản Tím liên hệ lại tư vấn liều cho ao của bà con.', issues: ['Tôm nổi đầu sáng sớm', 'Đáy dơ, bùn đen, nước hôi', 'Nhớt bạt, nhớt nước', 'Muốn phòng định kỳ'] },
+      form: { ...FORM, title: 'Nhận tư vấn miễn phí', lead: 'Để lại số điện thoại, kỹ thuật viên gọi lại trong 15 phút tư vấn liều cho ao của bà con.', issues: ['Tôm nổi đầu sáng sớm', 'Đáy dơ, bùn đen, nước hôi', 'Nhớt bạt, nhớt nước', 'Muốn phòng định kỳ'] },
       signs: {
         kicker: 'Dấu hiệu cảnh báo',
         title: 'Ao đang nhiễm khí độc khi thấy',
@@ -84,7 +84,7 @@ const pages = {
         { q: 'Ao lót bạt và ao đất dùng liều giống nhau không?', a: 'Không. Theo nhãn CLEAR 12H, ao bạt dùng 15–20 lít dịch ủ/1.000 m³ mỗi 3 ngày, ao đất 10–15 lít/1.000 m³ mỗi 5 ngày.' },
         { q: 'Mua ở đâu, giao hàng thế nào?', a: 'Đặt qua hotline, Zalo hoặc để lại số điện thoại. Giao tận nơi toàn quốc, kiểm hàng rồi mới trả tiền (COD).' },
       ],
-      cta: { title: 'Đừng đợi tôm rớt đáy mới xử lý', lead: 'Mỗi giờ khí độc tích tụ là tôm yếu thêm. Gọi ngay để kỹ thuật viên tư vấn liều cho ao của bà con.', button: 'Nhận tư vấn kỹ thuật' },
+      cta: { title: 'Đừng đợi tôm rớt đáy mới xử lý', lead: 'Mỗi giờ khí độc tích tụ là tôm yếu thêm. Gọi ngay để kỹ thuật viên tư vấn liều cho ao của bà con.', button: 'Nhận tư vấn miễn phí' },
       sticky: STICKY,
     },
   },
@@ -92,7 +92,7 @@ const pages = {
   'gan-khoe-ruot-day-vo-cung': {
     vi: {
       title: 'Bổ gan, men tiêu hóa, khoáng cho tôm: gan khỏe, ruột đầy | Thủy Sản Tím',
-      description: 'Gan tụy nhạt màu, phân lỏng, tôm mềm vỏ? Bộ 3 HEPALIVER-FS, US LACTO, MIX 79 bồi bổ gan, bổ sung lợi khuẩn, khoáng tạt ao. Kỹ thuật viên tư vấn liều theo ao, giao tận ao.',
+      description: 'Gan tụy nhạt màu, phân lỏng, tôm mềm vỏ? Bộ 3 HEPALIVER-FS, US LACTO, MIX 79 bồi bổ gan, bổ sung lợi khuẩn, khoáng tạt ao. Kỹ thuật viên tư vấn liều miễn phí, giao tận ao.',
       campaign: 'Gan ruột & vỏ',
       theme: 'hoang-hon',
       hero: {
@@ -100,9 +100,9 @@ const pages = {
         title: 'Gan khỏe, ruột đầy, vỏ cứng —',
         titleEm: 'tôm ăn mạnh, lớn đều.',
         lead: 'Bộ 3 dinh dưỡng của Thủy Sản Tím: bồi bổ gan bằng sorbitol – methionine – betaine, bổ sung lợi khuẩn giúp tiêu hóa tốt, khoáng tạt ao giúp tôm lột xác đúng chu kỳ.',
-        bullets: ['Kỹ thuật viên tư vấn liều theo ao qua hotline, Zalo', 'Giao tận ao · Kiểm hàng rồi trả tiền (COD)', 'Liều dùng in rõ trên nhãn từng sản phẩm'],
+        bullets: ['Kỹ thuật viên tư vấn liều theo ao, miễn phí, gọi lại trong 15 phút', 'Giao tận ao · Kiểm hàng rồi trả tiền (COD)', 'Liều dùng in rõ trên nhãn từng sản phẩm'],
       },
-      form: { ...FORM, title: 'Nhận lịch bổ sung cho cả vụ', lead: 'Để lại số điện thoại, kỹ thuật viên Thủy Sản Tím liên hệ lại tư vấn lịch trộn ăn và tạt khoáng theo tuổi tôm của bà con.', issues: ['Gan tụy nhạt màu, teo gan', 'Phân lỏng, phân trắng, đứt khúc', 'Tôm mềm vỏ, lột xác kéo dài', 'Muốn bổ sung định kỳ cả vụ'] },
+      form: { ...FORM, title: 'Nhận lịch bổ sung cho cả vụ', lead: 'Để lại số điện thoại, kỹ thuật viên gọi lại trong 15 phút tư vấn lịch trộn ăn và tạt khoáng theo tuổi tôm của bà con.', issues: ['Gan tụy nhạt màu, teo gan', 'Phân lỏng, phân trắng, đứt khúc', 'Tôm mềm vỏ, lột xác kéo dài', 'Muốn bổ sung định kỳ cả vụ'] },
       signs: {
         kicker: 'Dấu hiệu cần chú ý',
         title: 'Tôm cần bồi bổ khi thấy',
@@ -158,7 +158,7 @@ const pages = {
         { q: 'Khoáng tạt ao khác khoáng trộn ăn thế nào?', a: 'Khoáng tạt ao như MIX 79 bổ sung khoáng vào nước, tôm hấp thu qua mang và vỏ khi lột xác; khoáng trộn ăn đi qua đường tiêu hóa. Ao độ mặn thấp thường cần cả hai.' },
         { q: 'Mua ở đâu, giao hàng thế nào?', a: 'Đặt qua hotline, Zalo hoặc để lại số điện thoại. Giao tận nơi toàn quốc, kiểm hàng rồi mới trả tiền (COD).' },
       ],
-      cta: { title: 'Tôm khỏe từ gan, lớn từ ruột', lead: 'Gọi ngay để kỹ thuật viên tư vấn lịch bổ sung cho cả vụ theo tuổi tôm và độ mặn ao của bà con.', button: 'Nhận tư vấn kỹ thuật' },
+      cta: { title: 'Tôm khỏe từ gan, lớn từ ruột', lead: 'Gọi ngay để kỹ thuật viên tư vấn lịch bổ sung cho cả vụ theo tuổi tôm và độ mặn ao của bà con.', button: 'Nhận tư vấn miễn phí' },
       sticky: STICKY,
     },
   },

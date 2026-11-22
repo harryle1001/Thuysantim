@@ -2,7 +2,7 @@ module.exports = {
   lang: { name: 'English', short: 'EN', html: 'en' },
   meta: {
     title: 'Premium Aquaculture Health Products & Shrimp Probiotics | Thủy Sản Tím',
-    description: 'Probiotics, minerals, herbal extracts and water treatment for whiteleg shrimp, tiger shrimp and pangasius. Farming guides, disease library and contact us for advice.',
+    description: 'Probiotics, minerals, herbal extracts and water treatment for whiteleg shrimp, tiger shrimp and pangasius. Farming guides, disease library and and free expert support.',
   },
   seo: {
     productsTitle: 'Shrimp & Fish Probiotics, Minerals and Water Treatment | Thủy Sản Tím',
@@ -20,8 +20,8 @@ module.exports = {
     title: 'Refined <em>bioscience</em>,<br/>assured <em>harvests</em>.',
     lead: 'From our lab to every pond: selected probiotics, minerals and botanicals that keep shrimp and fish healthy at the root, growing evenly, antibiotic-free and export-ready.',
     cta1: 'Explore products',
-    cta2: 'Technical advice',
-    trust: 'Technicians advise on every pond',
+    cta2: 'Free consultation',
+    trust: 'Free technician advice for every pond',
     card1: 'Microbial density',
     card2: 'Antibiotic residue-free',
     card3: '24/7 technical support',
@@ -36,7 +36,7 @@ module.exports = {
       { tag: 'Liver & gut care', title: 'Healthy liver, full gut, strong appetite', lead: 'Herbal extracts and digestive enzymes help prevent hepatopancreas and white-faeces problems.', cta: 'View products', cat: 'gan-ruot', pid: 'hepaliver-fs' },
     ],
     side: [
-      { t: 'Technical advice', d: 'Send shrimp photos and water data via Zalo', href: '#consult', i: 'headset' },
+      { t: 'Free technician advice', d: 'Send shrimp photos and water data via Zalo', href: '#consult', i: 'headset' },
       { t: 'Become a dealer', d: 'Good margins and on-farm technical support', href: '/contact?kind=dealer', i: 'badge' },
     ],
     bestTitle: 'Best sellers',
@@ -84,7 +84,7 @@ module.exports = {
     diseaseLead: 'Identify symptoms, causes and support protocols for common shrimp and fish diseases.',
     promise: [
       { i: 'shield', t: '100% biological', d: 'No antibiotics, no banned substances — export-safe shrimp.' },
-      { i: 'headset', t: 'Technical advice', d: 'Advice for your pond by hotline and Zalo.' },
+      { i: 'headset', t: '1:1 technician support', d: 'A protocol for your pond, free, with a reply within 15 minutes.' },
       { i: 'truck', t: 'Fast nationwide delivery', d: '24–72 hour delivery, free shipping on orders from 2 million VND.' },
       { i: 'badge', t: 'Genuine, lab-tested', d: 'Every batch ships with a certificate of analysis (COA).' },
     ],
@@ -96,7 +96,7 @@ module.exports = {
     faqTitle: 'Questions farmers often ask',
     faq: [
       { q: 'Do Thủy Sản Tím products contain antibiotics?', a: 'No. Every product is a probiotic, mineral, vitamin or herbal preparation with no antibiotics or banned substances, so shrimp and fish meet export residue standards.' },
-      { q: 'I am not sure which product suits my pond.', a: 'Call our hotline or message us on Zalo with shrimp photos and water readings (pH, alkalinity, salinity). A Thủy Sản Tím technician will suggest suitable products.' },
+      { q: 'I am not sure which product suits my pond.', a: 'Call our hotline or message us on Zalo with shrimp photos and water readings (pH, alkalinity, salinity). A Thủy Sản Tím technician will suggest suitable products for free within about 15 minutes.' },
       { q: 'How long does delivery take?', a: 'Orders arrive within 24–72 hours depending on the region. Shipping is free from 2,000,000 VND; smaller orders cost 35,000 VND.' },
       { q: 'Which payment methods are available?', a: 'Cash on delivery, VietQR bank transfer, MoMo, ATM cards via VNPay, or leave your phone number and we will call to confirm.' },
       { q: 'How can I become a dealer?', a: 'Submit the dealer form on our Contact page. Dealers receive volume discounts, local technical support and sales materials.' },
@@ -104,7 +104,7 @@ module.exports = {
     blogTitle: 'Aquaculture insights',
     blogLead: 'Techniques, disease prevention and news from our experts.',
     ctaTitle: 'Need a protocol for your pond?',
-    ctaLead: 'Leave your number — a Thủy Sản Tím technician will get back to you during business hours.',
+    ctaLead: 'Leave your number — a technician will call back within 15 minutes during business hours.',
     ctaBtn: 'Request consultation',
   },
   product: {
@@ -114,19 +114,19 @@ module.exports = {
     tabs: { description: 'Description', composition: 'Composition', usage: 'Indications', dosage: 'Dosage' },
     related: 'Related products', results: 'products', empty: 'No matching products found.', sku: 'SKU',
     badges: { bestseller: 'Bestseller', new: 'New', premium: 'Premium' },
-    perks: ['Technical advice', 'Nationwide delivery in 2–4 days', 'Genuine, lot-coded products', 'Wholesale pricing for dealers'],
+    perks: ['Free technical advice', 'Nationwide delivery in 2–4 days', 'Genuine, lot-coded products', 'Wholesale pricing for dealers'],
     disclaimer: 'Use according to the label or a Thủy Sản Tím technician’s advice. Dosage may be adjusted to pond conditions.',
     title: 'Products', lead: 'Probiotics, minerals, vitamins, herbal extracts and environmental solutions for shrimp and fish.',
     added: 'Added to cart', zalo: 'Chat on Zalo',
   },
   disease: {
-    title: 'Shrimp & Fish Disease Guide', lead: 'A practical guide to identifying and preventing common diseases — compiled from common technical references, for guidance only.',
+    title: 'Shrimp & Fish Disease Guide', lead: 'A practical guide to identifying and preventing common diseases — compiled by the Thủy Sản Tím technical team, for guidance only.',
     pathogen: 'Pathogen', symptoms: 'Symptoms', causes: 'Causes', prevention: 'Prevention', treatment: 'Management', products: 'Supporting products',
     severity: { high: 'Severe', medium: 'Moderate', low: 'Mild' }, species: { shrimp: 'Shrimp', fish: 'Fish', all: 'Shrimp & Fish' },
     note: 'For reference only. Bacterial diseases requiring medication must be diagnosed and prescribed by an aquatic veterinarian, in line with local regulations.',
     search: 'Type a symptom, e.g. white faeces, gasping…', readMore: 'View details', askExpert: 'Ask an expert',
   },
-  blog: { title: 'Insights & News', lead: 'Farming techniques, disease prevention and industry news from Thủy Sản Tím experts.', readMore: 'Read more', minutes: 'min read', topics: { all: 'All', technique: 'Techniques', disease: 'Disease prevention', news: 'News' }, related: 'More articles', share: 'Share', toc: 'Contents', faq: 'Frequently asked questions', updated: 'Updated', by: 'Written by', authorBio: 'Thủy Sản Tím’s aquaculture engineers, who write from established technical references and the guidance printed on our product labels.', reviewed: 'For reference', expertTitle: 'Problem in your pond?', expertText: 'Send shrimp photos and water readings to a Thủy Sản Tím technician on Zalo, or call the hotline for advice.', expertZalo: 'Ask a technician on Zalo', picksTitle: 'Solutions mentioned in this article', picksLead: 'Thủy Sản Tím biological products that make this protocol easier to apply.', copyLink: 'Copy link', copied: 'Link copied', featured: 'Featured', hubTitle: 'Shrimp farming handbook', hubLead: 'Start with the essentials', backToBlog: 'All articles', keyTakeaways: 'Key takeaways', searchPlaceholder: 'Search articles: water colour, alkalinity, toxic gas…', noResults: 'No matching articles yet. Try another keyword.' },
+  blog: { title: 'Insights & News', lead: 'Farming techniques, disease prevention and industry news from Thủy Sản Tím experts.', readMore: 'Read more', minutes: 'min read', topics: { all: 'All', technique: 'Techniques', disease: 'Disease prevention', news: 'News' }, related: 'More articles', share: 'Share', toc: 'Contents', faq: 'Frequently asked questions', updated: 'Updated', by: 'Written by', authorBio: 'Thủy Sản Tím’s aquaculture engineers, who write from established technical references and the guidance printed on our product labels.', reviewed: 'For reference', expertTitle: 'Problem in your pond?', expertText: 'Send shrimp photos and water readings to a Thủy Sản Tím technician. Free advice with a reply within 15 minutes.', expertZalo: 'Ask a technician on Zalo', picksTitle: 'Solutions mentioned in this article', picksLead: 'Thủy Sản Tím biological products that make this protocol easier to apply.', copyLink: 'Copy link', copied: 'Link copied', featured: 'Featured', hubTitle: 'Shrimp farming handbook', hubLead: 'Start with the essentials', backToBlog: 'All articles', keyTakeaways: 'Key takeaways', searchPlaceholder: 'Search articles: water colour, alkalinity, toxic gas…', noResults: 'No matching articles yet. Try another keyword.' },
   contact: {
     title: 'Contact', lead: 'Thủy Sản Tím technicians are ready to help.',
     formTitle: 'Send us a message', dealerTitle: 'Become a dealer',

@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS posts (
   body MEDIUMTEXT NULL,
   topic VARCHAR(40) NOT NULL DEFAULT 'technique',
   cover VARCHAR(255) NULL,
-  author VARCHAR(120) NOT NULL DEFAULT 'Thủy Sản Tím',
+  author VARCHAR(120) NOT NULL DEFAULT 'Phòng Kỹ thuật Thủy Sản Tím',
   read_minutes INT NOT NULL DEFAULT 5,
   is_published TINYINT(1) NOT NULL DEFAULT 1,
   published_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
