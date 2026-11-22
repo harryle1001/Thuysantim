@@ -16,7 +16,7 @@ const RETIRED = [
   'thuy-san-tim-khanh-thanh-phong-lab-vi-sinh',
 ];
 
-const CONTACT = 'liên hệ Thủy Sản Tím qua hotline 0934 246 420 để được tư vấn';
+const CONTACT = 'gọi hotline 0934 246 420 để kỹ thuật viên Thủy Sản Tím tư vấn';
 
 /** [from, to] pairs, applied to the Vietnamese title, excerpt and body. A pair whose `from` is absent is skipped. */
 const FIXES = {
@@ -113,7 +113,7 @@ const FIXES = {
     [`Có. Ao độ mặn thấp thường dễ nổi bọt, nhớt và khoáng thiếu.`, `Chưa có quy luật rõ ràng, nhưng ao độ mặn thấp thường thiếu khoáng, kiềm dễ dao động.`],
   ],
   'sat-trung-nuoc-ao-nuoi-bkc-iodine-glutaraldehyde': [
-    [`hoặc hỏi kỹ thuật viên Thủy Sản Tím để được hướng dẫn theo tình trạng ao`, `hoặc liên hệ Thủy Sản Tím để được tư vấn`],
+    [`hoặc hỏi kỹ thuật viên Thủy Sản Tím để được hướng dẫn theo tình trạng ao`, `hoặc liên hệ kỹ thuật viên Thủy Sản Tím để được tư vấn`],
   ],
   'quan-ly-day-ao-bat-nuoi-tom-the-xi-phong-quat-nuoc': [
     [`Thiết kế ao quyết định 50% việc quản lý đáy có dễ hay không:`, `Thiết kế ao ảnh hưởng rất lớn đến việc quản lý đáy:`],
@@ -123,12 +123,12 @@ const FIXES = {
     [`(nhiều trại, đại lý có dịch vụ đếm khuẩn)`, `(có thể nhờ phòng xét nghiệm)`],
   ],
   'axit-amin-va-dam-bo-sung-cho-tom-tac-dung-cach-tron': [
-    [`hỏi kỹ thuật viên của cửa hàng`, `liên hệ Thủy Sản Tím để được tư vấn`],
-    [`hỏi kỹ thuật viên Thủy Sản Tím để được tư vấn liều phù hợp giai đoạn nuôi`, `liên hệ Thủy Sản Tím để được tư vấn liều phù hợp giai đoạn nuôi`],
+    [`hỏi kỹ thuật viên của cửa hàng`, `liên hệ kỹ thuật viên Thủy Sản Tím để được tư vấn`],
+    [`hỏi kỹ thuật viên Thủy Sản Tím để được tư vấn liều phù hợp giai đoạn nuôi`, `liên hệ kỹ thuật viên Thủy Sản Tím để được tư vấn liều phù hợp giai đoạn nuôi`],
   ],
   'khoang-tron-thuc-an-va-khoang-tat-ao-khac-nhau-the-nao': [
-    [`hỏi kỹ thuật viên cửa hàng`, `liên hệ Thủy Sản Tím để được tư vấn`],
-    [`liên hệ kỹ thuật viên Thủy Sản Tím để được tư vấn theo giai đoạn nuôi`, `liên hệ Thủy Sản Tím để được tư vấn theo giai đoạn nuôi`],
+    [`hỏi kỹ thuật viên cửa hàng`, `liên hệ kỹ thuật viên Thủy Sản Tím để được tư vấn`],
+    [`liên hệ kỹ thuật viên Thủy Sản Tím để được tư vấn theo giai đoạn nuôi`, `liên hệ kỹ thuật viên Thủy Sản Tím để được tư vấn theo giai đoạn nuôi`],
   ],
   'bo-gan-cho-tom-khi-nao-can-dau-hieu-gan-tuy-yeu': [
     [`Hỏi mười hộ nuôi tôm thì có đến tám, chín hộ đang trộn "thuốc bổ gan" vào thức ăn.`, `Nhiều hộ nuôi tôm hiện nay trộn "thuốc bổ gan" vào thức ăn.`],
@@ -144,6 +144,16 @@ const FIXES = {
     [`Có thể tăng liều theo hướng dẫn nhãn trong những ngày thời tiết xấu.`, `Duy trì đều đặn theo nhãn; chỉ tăng liều khi có dấu hiệu phân lỏng, phân trắng theo hướng dẫn nhãn.`],
   ],
 };
+
+/** Wording updates for posts already fixed in an earlier release (the company confirmed it has real technical advisors). */
+const UPGRADES = [
+  ['liên hệ Thủy Sản Tím qua hotline 0934 246 420 để được tư vấn', 'gọi hotline 0934 246 420 để kỹ thuật viên Thủy Sản Tím tư vấn'],
+  ['Gọi hotline 0934 246 420 để được tư vấn.', 'Gọi hotline 0934 246 420 để kỹ thuật viên Thủy Sản Tím tư vấn.'],
+  ['hoặc liên hệ Thủy Sản Tím để được tư vấn', 'hoặc liên hệ kỹ thuật viên Thủy Sản Tím để được tư vấn'],
+  ['liên hệ Thủy Sản Tím để được tư vấn liều phù hợp giai đoạn nuôi', 'liên hệ kỹ thuật viên Thủy Sản Tím để được tư vấn liều phù hợp giai đoạn nuôi'],
+  ['liên hệ Thủy Sản Tím để được tư vấn theo giai đoạn nuôi', 'liên hệ kỹ thuật viên Thủy Sản Tím để được tư vấn theo giai đoạn nuôi'],
+  ['liên hệ Thủy Sản Tím để được tư vấn', 'liên hệ kỹ thuật viên Thủy Sản Tím để được tư vấn'],
+];
 
 const DROP_LOCALES = ['en', 'zh'];
 
@@ -175,4 +185,4 @@ function applyToRow(slug, row) {
   return out;
 }
 
-module.exports = { RETIRED, FIXES, applyToPost, applyToRow, fixText };
+module.exports = { RETIRED, FIXES, UPGRADES, applyToPost, applyToRow, fixText };
