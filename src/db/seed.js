@@ -115,6 +115,19 @@ async function syncContactV3() {
   console.log('[db] Đã cập nhật email, gỡ số liệu và bài viết mẫu không đúng thực tế.');
 }
 
+/** One-time company-info sync (key `company_v4`): data from the business registration certificate of 20/11/2026. */
+async function syncCompanyV4() {
+  if (await one("SELECT `value` FROM settings WHERE `key` = 'company_v4'")) return;
+  const row = await one("SELECT `value` FROM settings WHERE `key` = 'company'");
+  let company = {};
+  try { company = row ? JSON.parse(row.value) : {}; } catch (e) { company = {}; }
+  const src = data.settings.company;
+  for (const k of ['legal', 'address', 'mapEmbed', 'taxCode', 'licenseDate', 'licenseIssuer', 'representative']) company[k] = src[k];
+  await query("INSERT INTO settings (`key`, `value`) VALUES ('company', ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)", [J(company)]);
+  await query("INSERT INTO settings (`key`, `value`) VALUES ('company_v4', ?)", [J(new Date().toISOString())]);
+  console.log('[db] Đã cập nhật thông tin pháp lý và địa chỉ công ty.');
+}
+
 /**
  * One-time article clean-up (settings key `post_fixes_v3`): delete the retired articles and apply the
  * fact-check corrections (src/db/post-fixes.js) to stored posts. Later admin edits are not touched again.
@@ -157,6 +170,7 @@ async function seed({ force = false } = {}) {
     await syncContactV3();
     await syncPostFixes();
     await syncAuthor();
+    await syncCompanyV4();
     return false;
   }
 
@@ -193,6 +207,7 @@ async function seed({ force = false } = {}) {
   await syncContactV3();
   await syncPostFixes();
   await syncAuthor();
+  await syncCompanyV4();
   console.log('[db] Đã nạp dữ liệu mẫu.');
   return true;
 }
