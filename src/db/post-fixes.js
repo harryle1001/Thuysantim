@@ -16,14 +16,14 @@ const RETIRED = [
   'thuy-san-tim-khanh-thanh-phong-lab-vi-sinh',
 ];
 
-const CONTACT = 'gọi hotline 0934 246 420 để kỹ thuật viên Thủy Sản Tím tư vấn';
+const CONTACT = 'gọi hotline 0869 739 679 để kỹ thuật viên Thủy Sản Tím tư vấn';
 
 /** [from, to] pairs, applied to the Vietnamese title, excerpt and body. A pair whose `from` is absent is skipped. */
 const FIXES = {
   'quy-trinh-chuan-bi-ao-nuoi-tom-the-7-buoc': [
     [`80% thành công của vụ nuôi được quyết định trước khi thả giống. Đây là quy trình chuẩn bị ao mà đội ngũ kỹ thuật Thủy Sản Tím áp dụng trong quá trình tư vấn ao nuôi.`, `Chuẩn bị ao kỹ là nền tảng của cả vụ nuôi. Đây là quy trình chuẩn bị ao phổ biến trong nuôi tôm thẻ chân trắng.`],
     [`Ủ **TÍM PRO-BIO 9** với mật rỉ đường, tạt liên tục 3 ngày để tạo hệ vi sinh có lợi và màu nước xanh vỏ đỗ hoặc nâu nhạt.`, `Sau khi hết dư lượng hóa chất, gây màu bằng khoáng, mật rỉ đường và men vi sinh Bacillus (ủ và dùng theo hướng dẫn trên nhãn) đến khi nước có màu xanh vỏ đỗ hoặc nâu nhạt.`],
-    [`Gọi hotline để được kỹ thuật viên hỗ trợ miễn phí.`, `Gọi hotline 0934 246 420 để được tư vấn.`],
+    [`Gọi hotline để được kỹ thuật viên hỗ trợ miễn phí.`, `Gọi hotline 0869 739 679 để được tư vấn.`],
   ],
   'quan-ly-khi-doc-ao-nuoi-mua-mua': [
     [`mở toàn bộ quạt khí, rải **TÍM DO-OXY** tại khu vực tôm tập trung.`, `mở toàn bộ quạt khí, máy sục khí; giảm hoặc ngưng cho ăn.`],
@@ -147,8 +147,8 @@ const FIXES = {
 
 /** Wording updates for posts already fixed in an earlier release (the company confirmed it has real technical advisors). */
 const UPGRADES = [
-  ['liên hệ Thủy Sản Tím qua hotline 0934 246 420 để được tư vấn', 'gọi hotline 0934 246 420 để kỹ thuật viên Thủy Sản Tím tư vấn'],
-  ['Gọi hotline 0934 246 420 để được tư vấn.', 'Gọi hotline 0934 246 420 để kỹ thuật viên Thủy Sản Tím tư vấn.'],
+  ['liên hệ Thủy Sản Tím qua hotline 0869 739 679 để được tư vấn', 'gọi hotline 0869 739 679 để kỹ thuật viên Thủy Sản Tím tư vấn'],
+  ['Gọi hotline 0869 739 679 để được tư vấn.', 'Gọi hotline 0869 739 679 để kỹ thuật viên Thủy Sản Tím tư vấn.'],
   ['hoặc liên hệ Thủy Sản Tím để được tư vấn', 'hoặc liên hệ kỹ thuật viên Thủy Sản Tím để được tư vấn'],
   ['liên hệ Thủy Sản Tím để được tư vấn liều phù hợp giai đoạn nuôi', 'liên hệ kỹ thuật viên Thủy Sản Tím để được tư vấn liều phù hợp giai đoạn nuôi'],
   ['liên hệ Thủy Sản Tím để được tư vấn theo giai đoạn nuôi', 'liên hệ kỹ thuật viên Thủy Sản Tím để được tư vấn theo giai đoạn nuôi'],

@@ -458,9 +458,9 @@ const settings = {
     legal: L('Công ty TNHH Thuỷ Sản Tím', 'Purple Aquaculture Company Limited', 'Thuỷ Sản Tím 有限责任公司'),
     tagline: L('Tinh hoa sinh học · Vững vàng mùa vụ', 'Refined bioscience · Assured harvests', '生物科技精粹 · 稳赢每一季'),
     address: L('295/30 Tân Kỳ Tân Quý, P. Tân Sơn Nhì, TP. Hồ Chí Minh', '295/30 Tan Ky Tan Quy Street, Tan Son Nhi Ward, Ho Chi Minh City, Vietnam', '越南胡志明市新山一坊新奇新贵路295/30号'),
-    hotline: '0934 246 420',
-    phone: '0934 246 420',
-    zalo: '0934246420',
+    hotline: '0869 739 679',
+    phone: '0869 739 679',
+    zalo: '0869739679',
     messenger: 'thuysantim',
     email: 'Thuysantim@gmail.com',
     hours: L('Thứ 2 – Thứ 7: 7:30 – 17:30', 'Mon – Sat: 7:30 – 17:30', '周一至周六：7:30 – 17:30'),
@@ -474,9 +474,9 @@ const settings = {
     representative: 'Bùi Công Khương (Giám đốc)',
     bctUrl: '',
   },
-  bank: { bin: 'VCB', accountNo: '0123456789', accountName: 'CONG TY TNHH THUY SAN TIM', bankName: 'Vietcombank — CN Cần Thơ' },
+  bank: { bin: '', accountNo: '', accountName: '', bankName: '' }, // chưa có tài khoản công bố
   shipping: { fee: 35000, freeFrom: 2000000 },
-  payments: { cod: true, vietqr: true, vnpay: true, momo: true, callback: true },
+  payments: { cod: true, vietqr: false, vnpay: true, momo: true, callback: true },
 };
 
 const postFixes = require('./post-fixes');

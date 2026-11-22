@@ -98,7 +98,7 @@ module.exports = {
       { q: 'Do Thủy Sản Tím products contain antibiotics?', a: 'No. Every product is a probiotic, mineral, vitamin or herbal preparation with no antibiotics or banned substances, so shrimp and fish meet export residue standards.' },
       { q: 'I am not sure which product suits my pond.', a: 'Call our hotline or message us on Zalo with shrimp photos and water readings (pH, alkalinity, salinity). A Thủy Sản Tím technician will suggest suitable products for free within about 15 minutes.' },
       { q: 'How long does delivery take?', a: 'Orders arrive within 24–72 hours depending on the region. Shipping is free from 2,000,000 VND; smaller orders cost 35,000 VND.' },
-      { q: 'Which payment methods are available?', a: 'Cash on delivery, VietQR bank transfer, MoMo, ATM cards via VNPay, or leave your phone number and we will call to confirm.' },
+      { q: 'Which payment methods are available?', a: 'Cash on delivery, MoMo, ATM cards via VNPay, or leave your phone number and we will call to confirm.' },
       { q: 'How can I become a dealer?', a: 'Submit the dealer form on our Contact page. Dealers receive volume discounts, local technical support and sales materials.' },
     ],
     blogTitle: 'Aquaculture insights',

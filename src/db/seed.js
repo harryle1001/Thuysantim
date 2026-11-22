@@ -115,6 +115,23 @@ async function syncContactV3() {
   console.log('[db] Đã cập nhật email, gỡ số liệu và bài viết mẫu không đúng thực tế.');
 }
 
+/** One-time sync (key `contact_v5`): registration-certificate phone number, no bank account shown. */
+async function syncContactV5() {
+  if (await one("SELECT `value` FROM settings WHERE `key` = 'contact_v5'")) return;
+  const get = async (k) => { const r = await one('SELECT `value` FROM settings WHERE `key` = ?', [k]); try { return r ? JSON.parse(r.value) : {}; } catch (e) { return {}; } };
+  const put = (k, v) => query('INSERT INTO settings (`key`, `value`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)', [k, J(v)]);
+  const company = await get('company');
+  Object.assign(company, { hotline: data.settings.company.hotline, phone: data.settings.company.phone, zalo: data.settings.company.zalo });
+  await put('company', company);
+  await put('bank', data.settings.bank);
+  const payments = await get('payments');
+  payments.vietqr = false;
+  await put('payments', payments);
+  for (const col of ['excerpt', 'body']) await query(`UPDATE posts SET ${col} = REPLACE(${col}, '0934 246 420', '0869 739 679')`);
+  await query("INSERT INTO settings (`key`, `value`) VALUES ('contact_v5', ?)", [J(new Date().toISOString())]);
+  console.log('[db] Đã đổi số điện thoại theo giấy đăng ký và bỏ tài khoản ngân hàng.');
+}
+
 /** One-time company-info sync (key `company_v4`): data from the business registration certificate of 20/11/2026. */
 async function syncCompanyV4() {
   if (await one("SELECT `value` FROM settings WHERE `key` = 'company_v4'")) return;
@@ -171,6 +188,7 @@ async function seed({ force = false } = {}) {
     await syncPostFixes();
     await syncAuthor();
     await syncCompanyV4();
+    await syncContactV5();
     return false;
   }
 
@@ -208,6 +226,7 @@ async function seed({ force = false } = {}) {
   await syncPostFixes();
   await syncAuthor();
   await syncCompanyV4();
+  await syncContactV5();
   console.log('[db] Đã nạp dữ liệu mẫu.');
   return true;
 }

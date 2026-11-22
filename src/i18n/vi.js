@@ -98,7 +98,7 @@ module.exports = {
       { q: 'Sản phẩm Thủy Sản Tím có chứa kháng sinh không?', a: 'Không. Toàn bộ sản phẩm là chế phẩm sinh học, khoáng, vitamin và thảo dược, không chứa kháng sinh hay chất cấm, giúp tôm cá đạt chuẩn dư lượng khi xuất khẩu.' },
       { q: 'Tôi chưa biết dùng sản phẩm nào cho ao của mình?', a: 'Gọi hotline hoặc nhắn Zalo, gửi ảnh tôm và chỉ số nước (pH, kiềm, độ mặn). Kỹ thuật viên Thủy Sản Tím sẽ tư vấn sản phẩm phù hợp miễn phí trong khoảng 15 phút.' },
       { q: 'Giao hàng mất bao lâu và phí vận chuyển thế nào?', a: 'Đơn hàng được giao trong 24–72 giờ tùy khu vực. Miễn phí vận chuyển cho đơn từ 2.000.000 đ; đơn nhỏ hơn phí 35.000 đ.' },
-      { q: 'Có những hình thức thanh toán nào?', a: 'Bạn có thể thanh toán khi nhận hàng (COD), chuyển khoản qua mã VietQR, ví MoMo, thẻ ATM/VNPay hoặc để lại số điện thoại để nhân viên gọi xác nhận.' },
+      { q: 'Có những hình thức thanh toán nào?', a: 'Bạn có thể thanh toán khi nhận hàng (COD), ví MoMo, thẻ ATM/VNPay hoặc để lại số điện thoại để nhân viên gọi xác nhận.' },
       { q: 'Làm sao để trở thành đại lý của Thủy Sản Tím?', a: 'Gửi thông tin tại trang Liên hệ, mục Đăng ký làm đại lý. Đại lý được hưởng chiết khấu theo sản lượng, hỗ trợ kỹ thuật tại vùng và tài liệu bán hàng.' },
     ],
     blogTitle: 'Kiến thức nuôi trồng',
