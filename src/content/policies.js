@@ -9,7 +9,7 @@
  */
 const H = require('../utils/helpers');
 
-const EFFECTIVE = '10/11/2026';
+const EFFECTIVE = '22/11/2026';
 
 // Legal details shown when the admin has not filled them in yet (sample data).
 const LEGAL_DEFAULTS = {
@@ -213,8 +213,8 @@ Chúng tôi **chỉ nhận chuyển khoản vào tài khoản đứng tên công
 ` : ''}
 ## ${bank && bank.accountNo ? 3 : 2}. Xác nhận thanh toán
 ${online ? `- Với thanh toán qua ${online}, hệ thống tự động ghi nhận ngay khi giao dịch thành công.
-` : ''}- Với chuyển khoản ngân hàng, đơn hàng được xác nhận đã thanh toán trong vòng 2 giờ làm việc kể từ khi tiền về tài khoản.
-- Nếu đã trừ tiền nhưng đơn chưa được ghi nhận, vui lòng gửi ảnh chụp giao dịch kèm mã đơn qua Zalo hoặc email để được kiểm tra.
+` : ''}${bank && bank.accountNo ? `- Với chuyển khoản ngân hàng, đơn hàng được xác nhận đã thanh toán trong vòng 2 giờ làm việc kể từ khi tiền về tài khoản.
+` : ''}${online || (bank && bank.accountNo) ? '- Nếu đã trừ tiền nhưng đơn chưa được ghi nhận, vui lòng gửi ảnh chụp giao dịch kèm mã đơn qua Zalo hoặc email để được kiểm tra.' : '- Với đơn thanh toán khi nhận hàng (COD), bạn thanh toán sau khi nhận và kiểm tra hàng; đơn được ghi nhận đã thanh toán khi giao hàng thành công.'}
 
 ## ${bank && bank.accountNo ? 4 : 3}. An toàn thanh toán
 ${online ? `- Thanh toán trực tuyến được thực hiện trên cổng của **${online}**, tổ chức trung gian thanh toán được Ngân hàng Nhà nước Việt Nam cấp phép.
@@ -378,7 +378,7 @@ Hết thời hạn trên, hoặc khi bạn yêu cầu xóa và pháp luật khô
 ## 5. Những người hoặc tổ chức có thể được tiếp cận thông tin
 Chúng tôi **không bán, không trao đổi, không cho thuê** dữ liệu cá nhân của bạn. Dữ liệu chỉ được chia sẻ trong phạm vi cần thiết với:
 - **Đơn vị vận chuyển** (Viettel Post, Giao Hàng Nhanh, Giao Hàng Tiết Kiệm, J&T Express…): họ tên, số điện thoại, địa chỉ nhận hàng, số tiền thu hộ;
-- **Đơn vị trung gian thanh toán và ngân hàng** (VNPay, MoMo, ngân hàng nhận chuyển khoản): mã đơn hàng và số tiền giao dịch;
+- **Đơn vị trung gian thanh toán và ngân hàng** (khi website mở thêm cổng thanh toán trực tuyến): mã đơn hàng và số tiền giao dịch;
 - **Nhà cung cấp hạ tầng** (máy chủ, email, hóa đơn điện tử) xử lý dữ liệu thay mặt chúng tôi theo hợp đồng có điều khoản bảo mật;
 - **Cơ quan nhà nước có thẩm quyền** khi có yêu cầu theo quy định của pháp luật.
 
@@ -487,7 +487,7 @@ function paymentMethods(settings, gateways, bank, money, link) {
   if (on.vietqr !== false && bank && bank.accountNo) list.push({ t: 'Chuyển khoản ngân hàng (VietQR)', d: 'quét mã QR hiển thị sau khi đặt hàng, số tiền và nội dung được điền sẵn.', long: 'Sau khi đặt hàng, website hiển thị **mã QR** chứa sẵn số tài khoản, số tiền và nội dung chuyển khoản (mã đơn hàng). Bạn mở ứng dụng ngân hàng, quét mã và xác nhận. Đơn hàng được xử lý sau khi tiền về tài khoản công ty.' });
   if (on.vnpay !== false && gateways.vnpay) list.push({ t: 'Cổng thanh toán VNPay', d: 'thẻ ATM nội địa, thẻ Visa/Mastercard/JCB hoặc QR VNPay.', long: 'Bạn được chuyển đến cổng thanh toán **VNPay** để thanh toán bằng thẻ ATM nội địa (có đăng ký thanh toán trực tuyến), thẻ quốc tế Visa, Mastercard, JCB hoặc quét QR VNPay. Kết quả giao dịch được cập nhật vào đơn hàng ngay lập tức.' });
   if (on.momo !== false && gateways.momo) list.push({ t: 'Ví điện tử MoMo', d: 'thanh toán nhanh qua ứng dụng MoMo.', long: 'Bạn được chuyển đến trang thanh toán của **MoMo**, quét mã hoặc xác nhận trên ứng dụng MoMo. Kết quả giao dịch được cập nhật vào đơn hàng ngay lập tức.' });
-  if (on.callback !== false) list.push({ t: 'Đặt hàng, nhân viên gọi lại', d: 'chúng tôi gọi xác nhận, tư vấn và thống nhất cách thanh toán trước khi giao.', long: 'Bạn chỉ cần để lại đơn hàng. Nhân viên sẽ gọi để xác nhận, tư vấn kỹ thuật và thống nhất phương thức thanh toán (COD hoặc chuyển khoản) trước khi giao hàng.' });
+  if (on.callback !== false) list.push({ t: 'Đặt hàng, nhân viên gọi lại', d: 'chúng tôi gọi xác nhận, tư vấn và thống nhất cách thanh toán trước khi giao.', long: 'Bạn chỉ cần để lại đơn hàng. Nhân viên sẽ gọi để xác nhận, tư vấn kỹ thuật và thống nhất phương thức thanh toán trước khi giao hàng.' });
   return list;
 }
 
