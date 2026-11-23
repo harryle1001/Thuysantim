@@ -6,15 +6,16 @@ Cập nhật 20/11/2026. Dữ liệu máy đọc nằm ở `san-pham.json`; file
 - Tên: THỦY SẢN TÍM
 - Địa chỉ: 295/32 Tân Kỳ Tân Quý, Tân Sơn Nhì, TP. Hồ Chí Minh, Việt Nam
 - Website: thuysantim.com
-- Hotline: CHƯA CÓ → nhãn hiện "ĐT: [ĐIỀN]" trong khung nhà phân phối. Có số thì điền `phan_phoi.hotline`.
+- Hotline: 0869 739 679 (lấy từ website thuysantim.com).
 
 ## Nhà sản xuất — ghi "Sản phẩm của:" ở mặt phải
-- CÔNG TY TNHH NO BEN · 228/9 Nguyễn Thị Lắng, Ấp Phú Lợi A, Xã Củ Chi, TP. Hồ Chí Minh, Việt Nam · ĐT: 0911 88 39 79 (xuống dòng).
+- CÔNG TY TNHH NO BEN · 228/9 Nguyễn Thị Lắng, Ấp Phú Lợi A, Xã Củ Chi, TP. Hồ Chí Minh, Việt Nam · ĐT: 0934 246 420 (xuống dòng).
 
 ## Bố cục nhãn chai (chốt 23/11/2026)
-- Mặt trái: công dụng, thành phần, bảo quản, mã vạch; cuối cùng là "Chỉ dùng trong nuôi trồng thủy sản · Để xa tầm tay trẻ em".
-- Mặt giữa: KHÔNG ghi dòng "MS … · N° x/19". Dưới cùng là khung NHÀ PHÂN PHỐI (tên, địa chỉ, ĐT, website).
-- Mặt phải: hướng dẫn sử dụng; "Mã số tiếp nhận"; TCCS; "Sản phẩm của" + ĐT Noben; KHÔNG ghi quy cách; cuối cùng Số lô / NSX / HSD mỗi mục một dòng.
+- KHÔNG có khung mã vạch.
+- Mặt trái: công dụng, thành phần, bảo quản; cuối cùng là "Chỉ dùng trong nuôi trồng thủy sản · Để xa tầm tay trẻ em".
+- Mặt giữa: KHÔNG ghi dòng "MS … · N° x/19"; dưới cùng là "Sản xuất tại Việt Nam".
+- Mặt phải: hướng dẫn sử dụng; "Mã số tiếp nhận" và TCCS nằm TRÊN vạch kẻ; dưới vạch: khung NHÀ PHÂN PHỐI (tên, địa chỉ, ĐT, website) → "Sản phẩm của" + ĐT Noben → Số lô / NSX / HSD mỗi mục một dòng. KHÔNG ghi quy cách.
 - Đơn vị vi sinh viết thường: cfu (không viết CFU).
 - Túi/bao áp dụng tương tự (mặt sau).
 
@@ -44,7 +45,6 @@ Nguồn: file DM-NHUONG.xlsx (21/11/2026), 19 sản phẩm — đã thay danh m�
 - Giá NET và hệ số nằm ở `nhan/gia-noi-bo.json` — chỉ để trên máy, KHÔNG commit (thông tin nội bộ). Quy cách ứng với giá: `quy_cach_gia` trong san-pham.json.
 
 ## Còn thiếu (chờ chủ dự án)
-- Hotline Thủy Sản Tím.
 - Giá NET của 9 sản phẩm mới (AQUA SQUICK, EDTA 99, VH-YUCCA C, VITA C TAT NEW, NB BIOBEST, PROZYM, VH-LIVER PRO, VH-CANCI MILK, DAVI CID LIQUID) — catalogue đang ghi "Liên hệ".
 - Liều dùng: BEN BKC, VH-DIO 99, AMIN CARE, VH-YUCCA C, VH-CANCI MILK.
 - Số/thùng của sản phẩm mới đang lấy theo website cũ, cần xác nhận.

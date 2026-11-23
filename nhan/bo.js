@@ -190,13 +190,14 @@ function back(p, k, u) {
       <div class="sec legal">
         <p><strong>Phân loại:</strong> ${(() => { const f = B.phanLoai(p); return esc([f.ma, f.loai, f.dang, f.cach].join(' · ')); })()}</p>
         <p><strong>Mã số tiếp nhận:</strong> ${esc(p.ma_so)}</p><p><strong>TCCS:</strong> ${esc(p.tccs)}</p>
-        <p style="margin-top:calc(var(--fs) * .5)"><strong>Sản phẩm của:</strong> ${esc(sx.ten)}<br>${esc(sx.dia_chi)}<br><strong>ĐT:</strong> ${esc(sx.dien_thoai)}</p>
+        <div style="border-top:var(--ln) solid var(--pcl,var(--P));margin-top:calc(var(--fs) * .5);padding-top:calc(var(--fs) * .5)">
+        <div style="border:var(--ln) solid var(--pc);border-radius:${m(1.2)};padding:calc(var(--fs) * .45) calc(var(--fs) * .6);margin-bottom:calc(var(--fs) * .5)"><div style="font-weight:700;letter-spacing:.1em;color:var(--pc)">NHÀ PHÂN PHỐI · ${esc(pp.ten)}</div><div>${esc(pp.dia_chi)}</div><div style="font-weight:700">ĐT: ${rich(pp.hotline || '[ĐIỀN]')} · ${esc(pp.web)}</div></div>
+        <p><strong>Sản phẩm của:</strong> ${esc(sx.ten)}<br>${esc(sx.dia_chi)}<br><strong>ĐT:</strong> ${esc(sx.dien_thoai)}</p></div>
         <div style="border-top:var(--ln) solid var(--pcl,var(--P));margin-top:calc(var(--fs) * .5);padding-top:calc(var(--fs) * .4)"><p><strong>Số lô:</strong></p><p><strong>NSX:</strong></p><p><strong>HSD:</strong></p></div>
       </div>
-      <div class="bc">MÃ VẠCH<br>EAN-13</div>
     </div>
   </div>
-  <div class="ftr"><div class="d"><div class="n"><b>NHÀ PHÂN PHỐI</b> · ${esc(pp.ten)}</div><div>${esc(pp.dia_chi)}</div><div class="h">ĐT: ${rich(pp.hotline || '[ĐIỀN]')} · ${esc(pp.web)}</div></div>
+  <div class="ftr">
     <div class="w">CHỈ DÙNG TRONG NUÔI TRỒNG THỦY SẢN · ĐỂ XA TẦM TAY TRẺ EM</div></div>
 </div>`;
 }
