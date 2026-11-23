@@ -43,7 +43,7 @@
     "[ĐIỀN liều dùng theo hồ sơ TCCS]"
    ],
    "quy_cach": "Chai 1 lít",
-   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Để xa tầm tay trẻ em.",
+   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp.",
    "tccs": "04:2016/NOBEN",
    "ma_so": "02-039607",
    "nhom": "moi-truong",
@@ -57,14 +57,15 @@
    "quy_cach_gia": "Chai 1 lít",
    "so_moi_thung": 20,
    "don_vi": "chai",
-   "che_bien": "san chiết"
+   "che_bien": "san chiết",
+   "canh_bao": "Đậy kín sản phẩm sau khi sử dụng."
   },
   {
    "slug": "aqua-squick",
    "ten": "AQUA SQUICK",
    "phu_de": "Sát trùng nguồn nước, hỗ trợ quản lý tảo",
    "nhan_phu": [],
-   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Để xa tầm tay trẻ em.",
+   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp.",
    "luu_y": "Chỉ dùng trong nuôi trồng thủy sản. Đọc kỹ hướng dẫn trước khi dùng.",
    "hsd": "In trên bao bì",
    "ma_vach": "",
@@ -96,7 +97,8 @@
    "the_tich": "1 lít",
    "don_vi": "chai",
    "so_moi_thung": 20,
-   "che_bien": "san chiết"
+   "che_bien": "san chiết",
+   "canh_bao": "Đậy kín sản phẩm sau khi sử dụng."
   },
   {
    "stt": 3,
@@ -120,7 +122,7 @@
     "[ĐIỀN liều dùng theo hồ sơ TCCS]"
    ],
    "quy_cach": "Chai 1 lít",
-   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Để xa tầm tay trẻ em.",
+   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp.",
    "tccs": "03:2026/NOBEN",
    "ma_so": "02-063196",
    "nhom": "moi-truong",
@@ -135,7 +137,8 @@
    "so_moi_thung": 20,
    "don_vi": "chai",
    "ghi_chu_thung": "Chai nhựa 20 chai/thùng · chai sành 15 chai/thùng",
-   "che_bien": "san chiết"
+   "che_bien": "san chiết",
+   "canh_bao": "Đậy kín sản phẩm sau khi sử dụng."
   },
   {
    "stt": 4,
@@ -159,7 +162,7 @@
     "Lưu ý: Tùy theo tình trạng sức khỏe tôm để tăng hoặc giàm liều lượng cho thích hợp"
    ],
    "quy_cach": "Chai 1 lít",
-   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Để xa tầm tay trẻ em.",
+   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp.",
    "tccs": "63:2018/NOBEN",
    "ma_so": "02-001532",
    "nhom": "moi-truong",
@@ -173,7 +176,8 @@
    "quy_cach_gia": "Chai 1 lít",
    "so_moi_thung": 20,
    "don_vi": "chai",
-   "che_bien": "san chiết"
+   "che_bien": "san chiết",
+   "canh_bao": "Đậy kín sản phẩm sau khi sử dụng."
   },
   {
    "stt": 5,
@@ -196,7 +200,7 @@
     "Dùng diệt rong rêu, rong nhớt, rong đuôi chồn... khi trong ao không có tôm, cá: Dùng 200g/ 1.000m³ nước, dùng vào lúc nắng gắt, không có mưa."
    ],
    "quy_cach": "Gói 250 g",
-   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Để xa tầm tay trẻ em.",
+   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp.",
    "tccs": "23:2020/NOBEN",
    "ma_so": "02-000889",
    "nhom": "moi-truong",
@@ -210,14 +214,15 @@
    "quy_cach_gia": "Gói 250 g",
    "so_moi_thung": 30,
    "don_vi": "gói",
-   "che_bien": "phối trộn"
+   "che_bien": "phối trộn",
+   "canh_bao": "Đậy kín sản phẩm sau khi sử dụng."
   },
   {
    "slug": "edta-99",
    "ten": "EDTA 99",
    "phu_de": "Giải độc phèn, kim loại nặng, làm mềm nước",
    "nhan_phu": [],
-   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Để xa tầm tay trẻ em.",
+   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp.",
    "luu_y": "Chỉ dùng trong nuôi trồng thủy sản. Đọc kỹ hướng dẫn trước khi dùng.",
    "hsd": "In trên bao bì",
    "ma_vach": "",
@@ -249,7 +254,8 @@
    "the_tich": "3kg",
    "don_vi": "gói",
    "so_moi_thung": 10,
-   "che_bien": "phối trộn"
+   "che_bien": "phối trộn",
+   "canh_bao": "Đậy kín sản phẩm sau khi sử dụng."
   },
   {
    "stt": 7,
@@ -279,7 +285,7 @@
     "Sử dụng sản phẩm khi có nắng, không sử dụng khi trời mưa."
    ],
    "quy_cach": "Gói 227 g",
-   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Để xa tầm tay trẻ em.",
+   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp.",
    "tccs": "01:2020/NOBEN",
    "ma_so": "02-014385",
    "nhom": "moi-truong",
@@ -293,7 +299,8 @@
    "quy_cach_gia": "Gói 227 g",
    "so_moi_thung": 30,
    "don_vi": "gói",
-   "che_bien": "phối trộn"
+   "che_bien": "phối trộn",
+   "canh_bao": "Đậy kín sản phẩm sau khi sử dụng."
   },
   {
    "stt": 8,
@@ -321,7 +328,7 @@
     "Hòa với nước một lượng vừa đủ rồi tạt đều khắp ao, mở máy sục khí để tăng hiệu quả sản phầm."
    ],
    "quy_cach": "Gói 227 g",
-   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Để xa tầm tay trẻ em.",
+   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp.",
    "tccs": "04:2020/NOBEN",
    "ma_so": "02-020758",
    "nhom": "moi-truong",
@@ -335,14 +342,15 @@
    "quy_cach_gia": "Gói 227 g",
    "so_moi_thung": 30,
    "don_vi": "gói",
-   "che_bien": "phối trộn"
+   "che_bien": "phối trộn",
+   "canh_bao": "Đậy kín sản phẩm sau khi sử dụng."
   },
   {
    "slug": "vh-yucca-c",
    "ten": "VH-YUCCA C",
    "phu_de": "Hấp thu khí độc NH3, cải thiện chất lượng nước",
    "nhan_phu": [],
-   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Để xa tầm tay trẻ em.",
+   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp.",
    "luu_y": "Chỉ dùng trong nuôi trồng thủy sản. Đọc kỹ hướng dẫn trước khi dùng.",
    "hsd": "In trên bao bì",
    "ma_vach": "",
@@ -370,7 +378,8 @@
    "the_tich": "1 lít",
    "don_vi": "chai",
    "so_moi_thung": 20,
-   "che_bien": "san chiết"
+   "che_bien": "san chiết",
+   "canh_bao": "Đậy kín sản phẩm sau khi sử dụng."
   },
   {
    "stt": 10,
@@ -397,7 +406,7 @@
     "Hòa với nước 1 lượng vừa đủ rồi tạt đều khắp ao, nên dùng vào lúc chiều tối."
    ],
    "quy_cach": "Gói 5 kg",
-   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Để xa tầm tay trẻ em.",
+   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp.",
    "tccs": "13:2017/NOBEN",
    "ma_so": "02-002245",
    "nhom": "moi-truong",
@@ -411,14 +420,15 @@
    "quy_cach_gia": "Gói 5 kg",
    "so_moi_thung": 5,
    "don_vi": "gói",
-   "che_bien": "phối trộn"
+   "che_bien": "phối trộn",
+   "canh_bao": "Đậy kín sản phẩm sau khi sử dụng."
   },
   {
    "slug": "vita-c-tat-new",
    "ten": "VITA C TAT NEW",
    "phu_de": "Vitamin C tạt ao, chống sốc, giảm stress cho tôm",
    "nhan_phu": [],
-   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Để xa tầm tay trẻ em.",
+   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp.",
    "luu_y": "Chỉ dùng trong nuôi trồng thủy sản. Đọc kỹ hướng dẫn trước khi dùng.",
    "hsd": "In trên bao bì",
    "ma_vach": "",
@@ -449,14 +459,15 @@
    "the_tich": "5kg",
    "don_vi": "gói",
    "so_moi_thung": 5,
-   "che_bien": "phối trộn"
+   "che_bien": "phối trộn",
+   "canh_bao": "Đậy kín sản phẩm sau khi sử dụng."
   },
   {
    "slug": "nb-biobest",
    "ten": "NB BIOBEST",
    "phu_de": "Lợi khuẩn 4 chủng trộn thức ăn, hỗ trợ tiêu hóa",
    "nhan_phu": [],
-   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Để xa tầm tay trẻ em.",
+   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp.",
    "luu_y": "Chỉ dùng trong nuôi trồng thủy sản. Đọc kỹ hướng dẫn trước khi dùng.",
    "hsd": "In trên bao bì",
    "ma_vach": "",
@@ -488,14 +499,15 @@
    "the_tich": "500g",
    "don_vi": "gói",
    "so_moi_thung": 30,
-   "che_bien": "phối trộn"
+   "che_bien": "phối trộn",
+   "canh_bao": "Đậy kín sản phẩm sau khi sử dụng."
   },
   {
    "slug": "prozym",
    "ten": "PROZYM",
    "phu_de": "Enzyme tiêu hóa, hỗ trợ hấp thu thức ăn",
    "nhan_phu": [],
-   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Để xa tầm tay trẻ em.",
+   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp.",
    "luu_y": "Chỉ dùng trong nuôi trồng thủy sản. Đọc kỹ hướng dẫn trước khi dùng.",
    "hsd": "In trên bao bì",
    "ma_vach": "",
@@ -527,7 +539,8 @@
    "the_tich": "500g",
    "don_vi": "gói",
    "so_moi_thung": 30,
-   "che_bien": "phối trộn"
+   "che_bien": "phối trộn",
+   "canh_bao": "Đậy kín sản phẩm sau khi sử dụng."
   },
   {
    "stt": 14,
@@ -554,7 +567,7 @@
     "Hòa với nước sạch một lượng vừa đủ rồi trộn đều lên thức ăn, để yên 15 phút rồi cho tôm ăn."
    ],
    "quy_cach": "Chai 1 lít",
-   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Để xa tầm tay trẻ em.",
+   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp.",
    "tccs": "41:2020/NOBEN",
    "ma_so": "01-023341",
    "nhom": "thuc-an",
@@ -568,7 +581,8 @@
    "quy_cach_gia": "Chai 1 lít",
    "so_moi_thung": 20,
    "don_vi": "chai",
-   "che_bien": "san chiết"
+   "che_bien": "san chiết",
+   "canh_bao": "Đậy kín sản phẩm sau khi sử dụng."
   },
   {
    "stt": 15,
@@ -590,7 +604,7 @@
     "[ĐIỀN liều dùng theo hồ sơ TCCS]"
    ],
    "quy_cach": "Chai 1 lít",
-   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Để xa tầm tay trẻ em.",
+   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp.",
    "tccs": "52:2020/NOBEN",
    "ma_so": "01-001525",
    "nhom": "thuc-an",
@@ -604,7 +618,8 @@
    "quy_cach_gia": "Chai 1 lít",
    "so_moi_thung": 20,
    "don_vi": "chai",
-   "che_bien": "san chiết"
+   "che_bien": "san chiết",
+   "canh_bao": "Đậy kín sản phẩm sau khi sử dụng."
   },
   {
    "stt": 16,
@@ -636,7 +651,7 @@
     "Nên tạt sản phẩm vào lúc trời mát."
    ],
    "quy_cach": "Chai 1 lít",
-   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Để xa tầm tay trẻ em.",
+   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp.",
    "tccs": "54:2020/NOBEN",
    "ma_so": "01-001528",
    "nhom": "thuc-an",
@@ -650,14 +665,15 @@
    "quy_cach_gia": "Chai 1 lít",
    "so_moi_thung": 20,
    "don_vi": "chai",
-   "che_bien": "san chiết"
+   "che_bien": "san chiết",
+   "canh_bao": "Đậy kín sản phẩm sau khi sử dụng."
   },
   {
    "slug": "vh-liver-pro",
    "ten": "VH-LIVER PRO",
    "phu_de": "Hỗ trợ bồi bổ gan, trộn ăn hoặc tạt ao",
    "nhan_phu": [],
-   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Để xa tầm tay trẻ em.",
+   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp.",
    "luu_y": "Chỉ dùng trong nuôi trồng thủy sản. Đọc kỹ hướng dẫn trước khi dùng.",
    "hsd": "In trên bao bì",
    "ma_vach": "",
@@ -695,14 +711,15 @@
    "the_tich": "1 lít",
    "don_vi": "chai",
    "so_moi_thung": 20,
-   "che_bien": "san chiết"
+   "che_bien": "san chiết",
+   "canh_bao": "Đậy kín sản phẩm sau khi sử dụng."
   },
   {
    "slug": "vh-canci-milk",
    "ten": "VH-CANCI MILK",
    "phu_de": "Bổ sung canxi, kali cho tôm",
    "nhan_phu": [],
-   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Để xa tầm tay trẻ em.",
+   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp.",
    "luu_y": "Chỉ dùng trong nuôi trồng thủy sản. Đọc kỹ hướng dẫn trước khi dùng.",
    "hsd": "In trên bao bì",
    "ma_vach": "",
@@ -731,14 +748,15 @@
    "the_tich": "1 lít",
    "don_vi": "chai",
    "so_moi_thung": 20,
-   "che_bien": "san chiết"
+   "che_bien": "san chiết",
+   "canh_bao": "Đậy kín sản phẩm sau khi sử dụng."
   },
   {
    "slug": "davi-cid-liquid",
    "ten": "DAVI CID LIQUID",
    "phu_de": "Acid hữu cơ, ổn định pH đường ruột tôm",
    "nhan_phu": [],
-   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Để xa tầm tay trẻ em.",
+   "bao_quan": "Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp.",
    "luu_y": "Chỉ dùng trong nuôi trồng thủy sản. Đọc kỹ hướng dẫn trước khi dùng.",
    "hsd": "In trên bao bì",
    "ma_vach": "",
@@ -770,7 +788,8 @@
    "the_tich": "500 ml",
    "don_vi": "chai",
    "so_moi_thung": 30,
-   "che_bien": "san chiết"
+   "che_bien": "san chiết",
+   "canh_bao": "Đậy kín sản phẩm sau khi sử dụng."
   }
  ]
 }

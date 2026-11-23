@@ -9,14 +9,15 @@ Cập nhật 20/11/2026. Dữ liệu máy đọc nằm ở `san-pham.json`; file
 - Hotline: 0869 739 679 (lấy từ website thuysantim.com).
 
 ## Nhà sản xuất — ghi "Sản phẩm của:" ở mặt phải
-- "Sản phẩm của: CÔNG TY TNHH NO BEN" → "ĐT: 0934 246 420 · Website: thuysannoben.com" → "Sản xuất tại: 228/9 Nguyễn Thị Lắng, Ấp Phú Lợi A, Xã Củ Chi, TP. Hồ Chí Minh, Việt Nam".
+- "Sản phẩm của: CÔNG TY TNHH NO BEN" → địa chỉ đầy đủ 228/9 … Việt Nam → "ĐT: 0934 246 420 · Website: thuysannoben.com" → "Sản xuất tại: 228/9 Nguyễn Thị Lắng, Ấp Phú Lợi A, Xã Củ Chi, TP. Hồ Chí Minh, Việt Nam".
 - Trong khung nhà phân phối, ngay dưới dòng ĐT 0869 739 679: "Sản phẩm được phối trộn và đóng gói tại: 228/9 …" (dạng bột) hoặc "san chiết và đóng gói tại" (dạng nước) — trường `che_bien` trong san-pham.json.
 
 ## Bố cục nhãn chai (chốt 23/11/2026)
 - KHÔNG có khung mã vạch.
-- Mặt trái: công dụng, thành phần, bảo quản; cuối cùng là "Chỉ dùng trong nuôi trồng thủy sản · Để xa tầm tay trẻ em".
+- Nhãn chai 161,8 × 100 mm chia 3 mặt theo φ: trái 38,2 · trước 61,8 · phải 61,8 mm (mặt phải rộng vì nhiều thông tin pháp lý).
+- Mặt trái: công dụng, thành phần; cuối cùng là "Chỉ dùng trong nuôi trồng thủy sản · Để xa tầm tay trẻ em".
 - Mặt giữa: KHÔNG ghi dòng "MS … · N° x/19"; dưới cùng là "Sản xuất tại Việt Nam".
-- Mặt phải: hướng dẫn sử dụng; "Mã số tiếp nhận" và TCCS nằm TRÊN vạch kẻ; dưới vạch: khung NHÀ PHÂN PHỐI (tên, địa chỉ, ĐT, website) → "Sản phẩm của" + ĐT Noben → Số lô / NSX / HSD mỗi mục một dòng. KHÔNG ghi quy cách.
+- Mặt phải: hướng dẫn sử dụng; "Bảo quản: Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp." (không có "Để xa tầm tay trẻ em"); "Cảnh báo: Đậy kín sản phẩm sau khi sử dụng."; "Mã số tiếp nhận" và TCCS nằm TRÊN vạch kẻ; dưới vạch: khung NHÀ PHÂN PHỐI (tên, địa chỉ, ĐT, website) → "Sản phẩm của" + ĐT Noben → Số lô / NSX / HSD mỗi mục một dòng. KHÔNG ghi quy cách.
 - Đơn vị vi sinh viết thường: cfu (không viết CFU).
 - Túi/bao áp dụng tương tự (mặt sau).
 

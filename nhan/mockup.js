@@ -87,7 +87,7 @@ function scene() {
     const len = 16.18 / (R + 0.02); // góc phủ của nhãn (rad)
     const lg = new THREE.CylinderGeometry(R + 0.02, R + 0.02, 10, 200, 1, true, -len / 2, len);
     const lbl = new THREE.Mesh(lg, new THREE.MeshPhysicalMaterial(Object.assign({ map: tex(TEX.chai), clearcoat: 0.45, clearcoatRoughness: 0.3 }, foil(TEX.chai))));
-    lbl.position.y = 8.1; lbl.castShadow = true; g.add(lbl);
+    lbl.position.y = 8.1; lbl.rotation.y = -((38.2 + 61.8 / 2) / 161.8 - 0.5) * len; lbl.castShadow = true; g.add(lbl);
     return g;
   }
   // Hàm dựng "gối" (túi, bao): mặt trước/sau phồng theo hàm d(u,v)

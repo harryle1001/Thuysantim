@@ -18,6 +18,8 @@ const PHI = 1.61803;
 // Khổ (mm): rộng = φ × cao. Ba mặt: hai mặt bên mỗi mặt 38,2%/2 · φ… cụ thể 50 | 61,8 | 50.
 const W = 161.8, H = 100, BLEED = 3, MARK = 6;
 const SIDE = 50, FRONT = W - 2 * SIDE; // 61,8 mm = 38,2% tổng
+// Hai mặt bên chia φ: trái 38,2 mm, phải 61,8 mm (mặt phải chứa nhiều thông tin pháp lý)
+const SIDE_L = 38.2, SIDE_R = 2 * SIDE - SIDE_L;
 const MIN_BODY = 1.6; // mm ≈ 4,5 pt
 
 // Thang chữ φ (mm), gốc 2,1 mm ≈ 6 pt.
@@ -107,7 +109,7 @@ sup{font-size:.62em;vertical-align:.5em;line-height:0}sub{font-size:.62em;vertic
 mark{background:#ffe08a;color:#5a3b00;padding:0 .3mm}
 .sheet{position:relative;width:${W + 2 * (BLEED + MARK)}mm;height:${H + 2 * (BLEED + MARK)}mm;background:#fff}
 .bleed{position:absolute;left:${MARK}mm;top:${MARK}mm;width:${W + 2 * BLEED}mm;height:${H + 2 * BLEED}mm;overflow:hidden;background:${dark ? P : WH}}
-.trim{position:absolute;left:${BLEED}mm;top:${BLEED}mm;width:${W}mm;height:${H}mm;display:grid;grid-template-columns:${SIDE}mm ${FRONT}mm ${SIDE}mm}
+.trim{position:absolute;left:${BLEED}mm;top:${BLEED}mm;width:${W}mm;height:${H}mm;display:grid;grid-template-columns:${SIDE_L}mm ${FRONT}mm ${SIDE_R}mm}
 .bg{position:absolute;inset:0}
 .marks{position:absolute;inset:0;pointer-events:none}
 /* ---- mặt bên ---- */
@@ -315,8 +317,8 @@ function cpRow(t) {
 
 // Nét trang trí (SVG, màu đặc) cho từng concept: khung, góc, nếp gấp.
 function background(c, pc = '#0a8fb5', nhom = 'moi-truong') {
-  const ARCS = arcs(pc, BLEED + SIDE + FRONT, BLEED + H - 1.2, FRONT / Math.pow(PHI, c === 'f' ? 2.1 : 1.5), nhom, c === 'f');
-  const B = BLEED, tot = W + 2 * B, hh = H + 2 * B, fx = B + SIDE, fw = FRONT;
+  const ARCS = arcs(pc, BLEED + SIDE_L + FRONT, BLEED + H - 1.2, FRONT / Math.pow(PHI, c === 'f' ? 2.1 : 1.5), nhom, c === 'f');
+  const B = BLEED, tot = W + 2 * B, hh = H + 2 * B, fx = B + SIDE_L, fw = FRONT;
   const ln = LINE;
   const corner = (x, y, sx, sy, col) => `<path d="M${x} ${y + sy * 5.5} L${x} ${y} L${x + sx * 5.5} ${y}" fill="none" stroke="${col}" stroke-width="${ln * 1.4}"/><rect x="${x + sx * 1.4 - 0.65}" y="${y + sy * 1.4 - 0.65}" width="1.3" height="1.3" transform="rotate(45 ${x + sx * 1.4} ${y + sy * 1.4})" fill="${col}"/>`;
   const frame = (inset, col) => {
@@ -362,19 +364,19 @@ function parts(p) {
   const pl = phanLoai(p);
   const left = `
     <div class="sec"><div class="hd"><i></i>Công dụng</div><ul>${p.cong_dung.map((c) => `<li>${rich(c)}</li>`).join('')}</ul></div>
-    <div class="sec"><div class="hd"><i></i>Thành phần <span style="letter-spacing:.06em;text-transform:none;font-weight:500">${p.dang === 'chai' ? '(trong 1 lít)' : '(trong 1 kg)'}</span></div>${p.thanh_phan.map(cpRow).join('')}
+    <div class="sec"><div class="hd"><i></i>Thành phần</div><div style="margin:calc(var(--fs) * -.4) 0 calc(var(--fs) * .35);font-size:.9em">${p.dang === 'chai' ? 'Trong 1 lít:' : 'Trong 1 kg:'}</div>${p.thanh_phan.map(cpRow).join('')}
       <div class="chips">${[pl.ma, pl.loai, pl.dang, pl.cach].map((c) => `<span>${esc(c)}</span>`).join('')}</div></div>
     <div class="fill"></div>
-    <div class="foot"><div class="who small"><b>Bảo quản:</b> ${rich(p.bao_quan)}</div></div>
     <div class="only">Chỉ dùng trong nuôi trồng thủy sản · Để xa tầm tay trẻ em</div>`;
   const right = `
     <div class="sec"><div class="hd"><i></i>Hướng dẫn sử dụng</div><ul>${p.huong_dan.map((c) => `<li>${rich(c).replace(/^([^:]{3,48}):/, '<b>$1:</b>')}</li>`).join('')}</ul></div>
+    <div class="sec small"><p><b>Bảo quản:</b> ${rich(p.bao_quan)}</p><p><b>Cảnh báo:</b> ${rich(p.canh_bao)}</p></div>
     <div class="fill"></div>
     <p class="ms"><strong>Mã số tiếp nhận:</strong> ${esc(p.ma_so)}</p>
     <p class="ms"><strong>TCCS:</strong> ${esc(p.tccs)}</p>
     <div class="legal">
       <div class="dist"><div class="t">NHÀ PHÂN PHỐI · <b>${esc(pp.ten)}</b></div><div>${esc(pp.dia_chi)}</div><div class="h">ĐT: ${rich(pp.hotline || '[ĐIỀN]')} · ${esc(pp.web)}</div><div class="pk">Sản phẩm được ${esc(p.che_bien)} và đóng gói tại: ${esc(sx.dia_chi)}</div></div>
-      <p class="mfr"><strong>Sản phẩm của:</strong> ${esc(sx.ten)}<br><strong>ĐT:</strong> ${esc(sx.dien_thoai)} · <strong>Website:</strong> ${esc(sx.web)}<br><strong>Sản xuất tại:</strong> ${esc(sx.dia_chi)}</p>
+      <p class="mfr"><strong>Sản phẩm của:</strong> ${esc(sx.ten)}<br>${esc(sx.dia_chi)}<br><strong>ĐT:</strong> ${esc(sx.dien_thoai)} · <strong>Website:</strong> ${esc(sx.web)}<br><strong>Sản xuất tại:</strong> ${esc(sx.dia_chi)}</p>
       <div class="lot"><p><strong>Số lô:</strong></p><p><strong>NSX:</strong></p><p><strong>HSD:</strong></p></div>
     </div>`;
   return {
@@ -451,9 +453,9 @@ function cropMarks(c) {
   const m = [];
   for (const x of [x0, x1]) { m.push(ln(x, 0, x, L), ln(x, th - L, x, th)); }
   for (const y of [y0, y1]) { m.push(ln(0, y, L, y), ln(tw - L, y, tw, y)); }
-  for (const x of [x0 + SIDE, x0 + SIDE + FRONT]) { m.push(ln(x, 0, x, L * 0.6), ln(x, th - L * 0.6, x, th)); }
+  for (const x of [x0 + SIDE_L, x0 + SIDE_L + FRONT]) { m.push(ln(x, 0, x, L * 0.6), ln(x, th - L * 0.6, x, th)); }
   return `<svg class="marks" viewBox="0 0 ${tw} ${th}" width="${tw}mm" height="${th}mm">${m.join('')}
-<text x="${x0}" y="${th - 1.6}" font-family="BVP" font-size="1.6" fill="#555">Thủy Sản Tím · nhãn quấn ${W} × ${H} mm (φ : 1) · tràn lề ${BLEED} mm · gấp: ${SIDE} | ${FRONT} | ${SIDE} mm · ${CONCEPTS[c]} · 2 màu đặc: tím ${P} + trắng</text></svg>`;
+<text x="${x0}" y="${th - 1.6}" font-family="BVP" font-size="1.6" fill="#555">Thủy Sản Tím · nhãn quấn ${W} × ${H} mm (φ : 1) · tràn lề ${BLEED} mm · gấp: ${SIDE_L} | ${FRONT} | ${SIDE_R} mm · ${CONCEPTS[c]} · 2 màu đặc: tím ${P} + trắng</text></svg>`;
 }
 
 // Co chữ cho vừa: mặt bên giảm --fs, tên sản phẩm co theo chiều rộng.
@@ -518,5 +520,5 @@ async function main() {
   process.exitCode = bad ? 1 : 0;
 }
 
-module.exports = { brandMark, phanLoai, svgIcon, LOAI, tint, arcs, fontFaces, rich, esc, data, parts, icons, T, P, G, WH, PHI, NHOM, splitName, cpRow };
+module.exports = { SIDE_L, SIDE_R, W, FRONT, brandMark, phanLoai, svgIcon, LOAI, tint, arcs, fontFaces, rich, esc, data, parts, icons, T, P, G, WH, PHI, NHOM, splitName, cpRow };
 if (require.main === module) main().catch((e) => { console.error(e); process.exit(1); });

@@ -37,7 +37,7 @@ for p in ps:
     name = asc(p['ten'])
     if p['dang'] == 'chai':
         items = [('concept-e', 'Nhãn quấn chai', '161,8 × 100', '179,8 × 118 (tràn lề 3 mm + dấu xén)', '161.8x100',
-                  'Decal giấy/nhựa (PP) dán chai, cán màng; 3 mặt gấp 50 | 61,8 | 50 mm')]
+                  'Decal giấy/nhựa (PP) dán chai, cán màng; 3 mặt gấp 38,2 | 61,8 | 61,8 mm (trái | trước | phải)')]
     else:
         items = [('tui-truoc', 'Túi đứng – mặt trước', '130 × 210', '136 × 216 (tràn lề 3 mm)', '130x210', 'Màng ghép in ống đồng; zip miệng; đáy gấp theo khuôn nhà in'),
                  ('tui-sau', 'Túi đứng – mặt sau', '130 × 210', '136 × 216 (tràn lề 3 mm)', '130x210', ''),

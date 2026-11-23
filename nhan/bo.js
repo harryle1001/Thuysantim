@@ -183,7 +183,7 @@ function back(p, k, u) {
     <div class="col">
       <div class="sec"><div class="hd"><i></i>Công dụng</div><ul>${p.cong_dung.map((c) => `<li>${rich(c)}</li>`).join('')}</ul></div>
       <div class="sec"><div class="hd"><i></i>Hướng dẫn sử dụng</div><ul>${p.huong_dan.map((c) => `<li>${rich(c).replace(/^([^:]{3,48}):/, '<b>$1:</b>')}</li>`).join('')}</ul></div>
-      <div class="sec"><b>Bảo quản:</b> ${rich(p.bao_quan)}</div>
+      <div class="sec"><p><b>Bảo quản:</b> ${rich(p.bao_quan)}</p><p><b>Cảnh báo:</b> ${rich(p.canh_bao)}</p></div>
     </div>
     <div class="col">
       <div class="sec"><div class="hd"><i></i>Thành phần</div>${p.thanh_phan.map(B.cpRow).join('')}</div>
@@ -192,7 +192,7 @@ function back(p, k, u) {
         <p><strong>Mã số tiếp nhận:</strong> ${esc(p.ma_so)}</p><p><strong>TCCS:</strong> ${esc(p.tccs)}</p>
         <div style="border-top:var(--ln) solid var(--pcl,var(--P));margin-top:calc(var(--fs) * .5);padding-top:calc(var(--fs) * .5)">
         <div style="border:var(--ln) solid var(--pc);border-radius:${m(1.2)};padding:calc(var(--fs) * .45) calc(var(--fs) * .6);margin-bottom:calc(var(--fs) * .5)"><div style="font-weight:700;letter-spacing:.1em;color:var(--pc)">NHÀ PHÂN PHỐI · ${esc(pp.ten)}</div><div>${esc(pp.dia_chi)}</div><div style="font-weight:700">ĐT: ${rich(pp.hotline || '[ĐIỀN]')} · ${esc(pp.web)}</div><div style="margin-top:calc(var(--fs) * .25)">Sản phẩm được ${esc(p.che_bien)} và đóng gói tại: ${esc(sx.dia_chi)}</div></div>
-        <p><strong>Sản phẩm của:</strong> ${esc(sx.ten)}<br><strong>ĐT:</strong> ${esc(sx.dien_thoai)} · <strong>Website:</strong> ${esc(sx.web)}<br><strong>Sản xuất tại:</strong> ${esc(sx.dia_chi)}</p></div>
+        <p><strong>Sản phẩm của:</strong> ${esc(sx.ten)}<br>${esc(sx.dia_chi)}<br><strong>ĐT:</strong> ${esc(sx.dien_thoai)} · <strong>Website:</strong> ${esc(sx.web)}<br><strong>Sản xuất tại:</strong> ${esc(sx.dia_chi)}</p></div>
         <div style="border-top:var(--ln) solid var(--pcl,var(--P));margin-top:calc(var(--fs) * .5);padding-top:calc(var(--fs) * .4)"><p><strong>Số lô:</strong></p><p><strong>NSX:</strong></p><p><strong>HSD:</strong></p></div>
       </div>
     </div>
