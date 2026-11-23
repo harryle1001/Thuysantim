@@ -34,8 +34,8 @@ function tint(hex, t) {
   return '#' + c.map((v) => v.toString(16).padStart(2, '0')).join('');
 }
 // Cung sóng φ (concept E): các phần tư hình tròn đồng tâm ở góc (cx, cy), bán kính chia φ, nhiều lớp màu.
-function arcs(pc, cx, cy, Rmax, nhom) {
-  const cols = [tint(pc, 0.82), tint(pc, 0.55), G, pc, P, WH];
+function arcs(pc, cx, cy, Rmax, nhom, inv) {
+  const cols = inv ? [tint(pc, 0.82), tint(pc, 0.55), G, pc, WH, P] : [tint(pc, 0.82), tint(pc, 0.55), G, pc, P, WH];
   let s = '';
   // nhận biết nhóm: xử lý môi trường = cung tròn (sóng nước) · thức ăn bổ sung = hình thoi (hạt thức ăn)
   cols.forEach((col, k) => {
@@ -51,6 +51,7 @@ const NHOM = { 'moi-truong': 'Xử lý môi trường nuôi', 'thuc-an': 'Thức
 const CONCEPTS = {
   a: 'Concept A · Ấn tím: mặt trước tím đặc, chữ trắng; hai mặt bên trắng, chữ tím',
   b: 'Concept B · Trắng dược phẩm: nền trắng, tên chữ đậm không chân, hàng biểu tượng, dải tím 23,6% đáy mặt trước',
+  f: 'Concept F · Đảo màu E: nền tím, chữ trắng',
   e: 'Concept E · Trắng φ: nền trắng chủ đạo, logo góc trái trên, màu riêng từng sản phẩm, cung sóng φ nhiều màu',
   d: 'Concept D · Hoàng gia: tím + nhũ vàng + trắng, biểu tượng vòng Tôm–Cá',
   c: 'Concept C · Vòng φ: nền tím toàn bộ, vòng tròn trắng lớn, tên chữ đậm không chân, thẻ trắng ở mặt bên',
@@ -97,7 +98,7 @@ function fontFaces() {
 
 
 function css(c) {
-  const dark = c === 'c';
+  const dark = c === 'c' || c === 'f';
   return `${fontFaces()}
 :root{--phi:1.61803;--P:${P};--W:${WH};--G:${G};--ln:${LINE}mm}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -162,9 +163,16 @@ li b{font-weight:700}
 .icons svg{width:${T.l + 0.6}mm;height:${T.l + 0.6}mm}
 .meta{font-family:BVP;font-weight:600;font-size:${T.xs}mm;letter-spacing:.2em}
 .no{font-feature-settings:'lnum' 1;font-family:Cormorant;font-style:italic;font-weight:600;font-size:${T.b * 1.1}mm;letter-spacing:.06em}
-${CONCEPT_CSS[c]}`;
+${c === 'f' ? CONCEPT_CSS.e + INV_CSS : CONCEPT_CSS[c]}`;
 }
 
+// Concept F = bố cục E, đảo màu: nền tím, chữ trắng (đổi chỗ biến --P / --W).
+const INV_CSS = `
+.bleed{--P:#ffffff;--W:${P};--ink:#ffffff;--ink-2:#efe6f4;--mute:#d9c9e3}
+.side,.front{color:#fff}
+.pill{color:#fff!important}.typ i{color:#fff}
+.mfr{color:#e6daee!important}.lock .motto{color:${G}}
+.cp{border-color:rgba(255,255,255,.45)!important}.hd::after{background:rgba(255,255,255,.5)}`;
 const CONCEPT_CSS = {
   // A — mặt trước tím đặc, chữ trắng; mặt bên trắng
   a: `.side{--pt:${T.l + 1.3}mm;--px:${T.h + 0.8}mm;--pb:${T.l + 0.6}mm}
@@ -306,7 +314,7 @@ function cpRow(t) {
 
 // Nét trang trí (SVG, màu đặc) cho từng concept: khung, góc, nếp gấp.
 function background(c, pc = '#0a8fb5', nhom = 'moi-truong') {
-  const ARCS = arcs(pc, BLEED + SIDE + FRONT, BLEED + H - 1.2, FRONT / Math.pow(PHI, 1.5), nhom);
+  const ARCS = arcs(pc, BLEED + SIDE + FRONT, BLEED + H - 1.2, FRONT / Math.pow(PHI, c === 'f' ? 2.1 : 1.5), nhom, c === 'f');
   const B = BLEED, tot = W + 2 * B, hh = H + 2 * B, fx = B + SIDE, fw = FRONT;
   const ln = LINE;
   const corner = (x, y, sx, sy, col) => `<path d="M${x} ${y + sy * 5.5} L${x} ${y} L${x + sx * 5.5} ${y}" fill="none" stroke="${col}" stroke-width="${ln * 1.4}"/><rect x="${x + sx * 1.4 - 0.65}" y="${y + sy * 1.4 - 0.65}" width="1.3" height="1.3" transform="rotate(45 ${x + sx * 1.4} ${y + sy * 1.4})" fill="${col}"/>`;
@@ -321,7 +329,7 @@ function background(c, pc = '#0a8fb5', nhom = 'moi-truong') {
     s += `<rect x="0" y="${B + 3.4}" width="${tot}" height="${ln}" fill="${P}"/><rect x="0" y="${B + H - 3.4 - ln}" width="${tot}" height="${ln}" fill="${P}"/>`;
     s += `<rect x="${fx}" y="0" width="${fw}" height="${hh}" fill="${P}"/>${frame(3.6, acc)}`;
     if (c === 'd') s += `<rect x="0" y="${B + 2.6}" width="${tot}" height="${ln * 1.4}" fill="${G}"/><rect x="0" y="${B + H - 2.6 - ln * 1.4}" width="${tot}" height="${ln * 1.4}" fill="${G}"/>`;
-  } else if (c === 'e') {
+  } else if (c === 'e' || c === 'f') {
     // dải 3 màu mép trên chia φ (61,8 / 23,6 / 14,6) và vạch mảnh mép dưới; cung sóng φ góc phải dưới mặt trước
     const a1 = tot * 0.618, a2 = tot * 0.236;
     s += `<rect x="0" y="0" width="${a1}" height="${B + 2.2}" fill="var(--pc)"/><rect x="${a1}" y="0" width="${a2}" height="${B + 2.2}" fill="${P}"/><rect x="${a1 + a2}" y="0" width="${tot - a1 - a2}" height="${B + 2.2}" fill="${G}"/>`;
@@ -387,8 +395,8 @@ function front(c, x) {
     <div class="cat">${x.cat}</div>${x.name}${x.tag}
     <div class="hero">${x.icons}${x.pill}${x.vol}</div>
     <div class="meta bot">TCCS ${x.tccs}</div></section>`;
-  if (c === 'e') return `<section class="front">
-    <div class="lock">${brandMark({ fill: P }, 'width="11.5mm" height="11.5mm"')}<div class="w"><div class="brand">THỦY SẢN TÍM</div><div class="motto">Tinh hoa sinh học</div></div></div>
+  if (c === 'e' || c === 'f') return `<section class="front">
+    <div class="lock">${brandMark({ fill: c === 'f' ? WH : P }, 'width="11.5mm" height="11.5mm"')}<div class="w"><div class="brand">THỦY SẢN TÍM</div><div class="motto">Tinh hoa sinh học</div></div></div>
     <div class="typ"><i>${svgIcon(x.pl.loaiKey)}</i><b>${x.pl.ma}</b></div>
     <div class="mid"><div class="grp">${x.cat}</div><div class="cat">${esc(x.pl.loai)}</div>${x.name}${x.tag}${x.pill}</div>
     ${x.icons}${x.vol}<div class="made">SẢN XUẤT TẠI VIỆT NAM</div></section>`;
