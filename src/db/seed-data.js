@@ -471,7 +471,7 @@ const settings = {
     taxCode: '0319805584',
     licenseDate: '20/11/2026',
     licenseIssuer: 'Phòng Đăng ký kinh doanh – Sở Tài chính TP. Hồ Chí Minh',
-    representative: 'Bùi Công Khương (Giám đốc)',
+    representative: '',
     bctUrl: '',
   },
   bank: { bin: '', accountNo: '', accountName: '', bankName: '' }, // chưa có tài khoản công bố

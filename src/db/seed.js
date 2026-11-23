@@ -115,6 +115,19 @@ async function syncContactV3() {
   console.log('[db] Đã cập nhật email, gỡ số liệu và bài viết mẫu không đúng thực tế.');
 }
 
+/** One-time sync (key `label_v3`): new packaging images (new address/hotline on the labels) + no representative shown. */
+async function syncLabelV3() {
+  if (await one("SELECT `value` FROM settings WHERE `key` = 'label_v3'")) return;
+  await query("UPDATE products SET image = CONCAT(SUBSTRING_INDEX(image, '?', 1), '?v=3') WHERE image LIKE '/img/products/%'");
+  const row = await one("SELECT `value` FROM settings WHERE `key` = 'company'");
+  let company = {};
+  try { company = row ? JSON.parse(row.value) : {}; } catch (e) { company = {}; }
+  company.representative = '';
+  await query("INSERT INTO settings (`key`, `value`) VALUES ('company', ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)", [J(company)]);
+  await query("INSERT INTO settings (`key`, `value`) VALUES ('label_v3', ?)", [J(new Date().toISOString())]);
+  console.log('[db] Đã cập nhật ảnh nhãn sản phẩm và bỏ dòng người đại diện.');
+}
+
 /** One-time sync (key `contact_v5`): registration-certificate phone number, no bank account shown. */
 async function syncContactV5() {
   if (await one("SELECT `value` FROM settings WHERE `key` = 'contact_v5'")) return;
@@ -189,6 +202,7 @@ async function seed({ force = false } = {}) {
     await syncAuthor();
     await syncCompanyV4();
     await syncContactV5();
+    await syncLabelV3();
     return false;
   }
 
@@ -227,6 +241,7 @@ async function seed({ force = false } = {}) {
   await syncAuthor();
   await syncCompanyV4();
   await syncContactV5();
+  await syncLabelV3();
   console.log('[db] Đã nạp dữ liệu mẫu.');
   return true;
 }
