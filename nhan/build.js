@@ -222,6 +222,7 @@ const CONCEPT_CSS = {
 .vol{position:absolute;left:4.6mm;bottom:11.4mm;color:var(--P)}
 .fdist{position:absolute;left:4.6mm;right:4.6mm;bottom:3.4mm;background:#fff;border:.3mm solid var(--pc);border-radius:1.2mm;padding:1.1mm 2mm 1.2mm;font-family:BVP;font-size:1.72mm;line-height:1.38;color:var(--P);text-align:left}
 .fdist .t{font-weight:700;letter-spacing:.12em;font-size:1.66mm;color:var(--pc)}.fdist .h{font-weight:700;font-size:1.9mm}
+.dist .pk{margin-top:calc(var(--fs) * .25);font-size:.92em}
 .lot{border-top:var(--ln) solid var(--pcl,var(--P));margin-top:calc(var(--fs) * .5);padding-top:calc(var(--fs) * .4)}
 .lot p{margin-bottom:calc(var(--fs) * .5) !important}
 .vol strong{color:var(--P)}
@@ -372,8 +373,8 @@ function parts(p) {
     <p class="ms"><strong>Mã số tiếp nhận:</strong> ${esc(p.ma_so)}</p>
     <p class="ms"><strong>TCCS:</strong> ${esc(p.tccs)}</p>
     <div class="legal">
-      <div class="dist"><div class="t">NHÀ PHÂN PHỐI · <b>${esc(pp.ten)}</b></div><div>${esc(pp.dia_chi)}</div><div class="h">ĐT: ${rich(pp.hotline || '[ĐIỀN]')} · ${esc(pp.web)}</div></div>
-      <p class="mfr"><strong>Sản phẩm của:</strong> ${esc(sx.ten)}<br>${esc(sx.dia_chi)}<br><strong>ĐT:</strong> ${esc(sx.dien_thoai)}</p>
+      <div class="dist"><div class="t">NHÀ PHÂN PHỐI · <b>${esc(pp.ten)}</b></div><div>${esc(pp.dia_chi)}</div><div class="h">ĐT: ${rich(pp.hotline || '[ĐIỀN]')} · ${esc(pp.web)}</div><div class="pk">Sản phẩm được ${esc(p.che_bien)} và đóng gói tại: ${esc(sx.dia_chi)}</div></div>
+      <p class="mfr"><strong>Sản phẩm của:</strong> ${esc(sx.ten)}<br><strong>ĐT:</strong> ${esc(sx.dien_thoai)} · <strong>Website:</strong> ${esc(sx.web)}<br><strong>Sản xuất tại:</strong> ${esc(sx.dia_chi)}</p>
       <div class="lot"><p><strong>Số lô:</strong></p><p><strong>NSX:</strong></p><p><strong>HSD:</strong></p></div>
     </div>`;
   return {

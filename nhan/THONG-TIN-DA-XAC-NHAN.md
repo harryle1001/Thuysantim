@@ -9,7 +9,8 @@ Cập nhật 20/11/2026. Dữ liệu máy đọc nằm ở `san-pham.json`; file
 - Hotline: 0869 739 679 (lấy từ website thuysantim.com).
 
 ## Nhà sản xuất — ghi "Sản phẩm của:" ở mặt phải
-- CÔNG TY TNHH NO BEN · 228/9 Nguyễn Thị Lắng, Ấp Phú Lợi A, Xã Củ Chi, TP. Hồ Chí Minh, Việt Nam · ĐT: 0934 246 420 (xuống dòng).
+- "Sản phẩm của: CÔNG TY TNHH NO BEN" → "ĐT: 0934 246 420 · Website: thuysannoben.com" → "Sản xuất tại: 228/9 Nguyễn Thị Lắng, Ấp Phú Lợi A, Xã Củ Chi, TP. Hồ Chí Minh, Việt Nam".
+- Trong khung nhà phân phối, ngay dưới dòng ĐT 0869 739 679: "Sản phẩm được phối trộn và đóng gói tại: 228/9 …" (dạng bột) hoặc "san chiết và đóng gói tại" (dạng nước) — trường `che_bien` trong san-pham.json.
 
 ## Bố cục nhãn chai (chốt 23/11/2026)
 - KHÔNG có khung mã vạch.
