@@ -16,7 +16,8 @@
  "san_xuat": {
   "ten": "CÔNG TY TNHH NO BEN",
   "dia_chi": "228/9 Nguyễn Thị Lắng, Ấp Phú Lợi A, Xã Củ Chi, TP. Hồ Chí Minh, Việt Nam",
-  "mst": "0304210513"
+  "mst": "0304210513",
+  "dien_thoai": "0911 88 39 79"
  },
  "san_pham": [
   {
@@ -258,7 +259,7 @@
     "Hỗ trợ làm giảm tảo độc, hỗ trợ cắt tảo Lablab ao nuôi."
    ],
    "thanh_phan": [
-    "Bacillus spp. (min): 1 × 10⁹ CFU/g",
+    "Bacillus spp. (min): 1 × 10⁹ cfu/g",
     "Gồm 3 chủng: Bacillus licheniformis · Bacillus megaterium · Bacillus mesentericus",
     "Chất đệm (Dextrose) vừa đủ: 1 kg"
    ],
@@ -301,7 +302,7 @@
     "Hỗ trợ làm giảm tảo độc, hỗ trợ cắt tảo Lablab ao nuôi."
    ],
    "thanh_phan": [
-    "Bacillus spp. (min): 1 × 10⁹ CFU/g",
+    "Bacillus spp. (min): 1 × 10⁹ cfu/g",
     "Gồm 3 chủng: Bacillus licheniformis · Bacillus megaterium · Bacillus mesentericus",
     "Chất đệm (Dextrose) vừa đủ: 1 kg"
    ],
@@ -463,7 +464,7 @@
    "tccs": "64:2020/NOBEN",
    "quy_cach_gia": "Gói 500 g",
    "thanh_phan": [
-    "Bacillus spp. (min): 1 × 10⁹ CFU/g",
+    "Bacillus spp. (min): 1 × 10⁹ cfu/g",
     "Gồm 4 chủng: Bacillus subtilis · Bacillus licheniformis · Bacillus megaterium · Bacillus mesentericus",
     "Chất đệm (Dextrose) vừa đủ: 1 kg"
    ],
@@ -528,7 +529,7 @@
     "Hỗ trợ tiêu hóa và hấp thụ thức ăn nhanh, giảm hệ số FCR."
    ],
    "thanh_phan": [
-    "Bacillus spp. (min): 1 × 10⁹ CFU/lít",
+    "Bacillus spp. (min): 1 × 10⁹ cfu/lít",
     "Dung môi (nước) vừa đủ: 1 lít"
    ],
    "huong_dan": [

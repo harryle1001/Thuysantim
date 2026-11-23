@@ -6,11 +6,17 @@ Cập nhật 20/11/2026. Dữ liệu máy đọc nằm ở `san-pham.json`; file
 - Tên: THỦY SẢN TÍM
 - Địa chỉ: 295/32 Tân Kỳ Tân Quý, Tân Sơn Nhì, TP. Hồ Chí Minh, Việt Nam
 - Website: thuysantim.com
-- Hotline: CHƯA CÓ → để trống `phan_phoi.hotline`, dòng hotline tự ẩn. Có số thì điền vào là hiện.
+- Hotline: CHƯA CÓ → nhãn hiện "ĐT: [ĐIỀN]" trong khung nhà phân phối. Có số thì điền `phan_phoi.hotline`.
 
-## Nhà sản xuất (làm mờ, chữ nhỏ)
-- CÔNG TY TNHH NO BEN · 228/9 Nguyễn Thị Lắng, Ấp Phú Lợi A, Xã Củ Chi, TP. Hồ Chí Minh, Việt Nam
-- KHÔNG in số điện thoại Noben.
+## Nhà sản xuất — ghi "Sản phẩm của:" ở mặt phải
+- CÔNG TY TNHH NO BEN · 228/9 Nguyễn Thị Lắng, Ấp Phú Lợi A, Xã Củ Chi, TP. Hồ Chí Minh, Việt Nam · ĐT: 0911 88 39 79 (xuống dòng).
+
+## Bố cục nhãn chai (chốt 23/11/2026)
+- Mặt trái: công dụng, thành phần, bảo quản, mã vạch; cuối cùng là "Chỉ dùng trong nuôi trồng thủy sản · Để xa tầm tay trẻ em".
+- Mặt giữa: KHÔNG ghi dòng "MS … · N° x/19". Dưới cùng là khung NHÀ PHÂN PHỐI (tên, địa chỉ, ĐT, website).
+- Mặt phải: hướng dẫn sử dụng; "Mã số tiếp nhận"; TCCS; "Sản phẩm của" + ĐT Noben; KHÔNG ghi quy cách; cuối cùng Số lô / NSX / HSD mỗi mục một dòng.
+- Đơn vị vi sinh viết thường: cfu (không viết CFU).
+- Túi/bao áp dụng tương tự (mặt sau).
 
 ## Danh mục sản phẩm (CHỈ làm nhãn cho các sản phẩm này)
 Nguồn: file DM-NHUONG.xlsx (21/11/2026), 19 sản phẩm — đã thay danh mục 15 sản phẩm cũ.

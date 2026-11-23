@@ -132,7 +132,7 @@ li b{font-weight:700}
 .dist{border:var(--ln) solid var(--pc,var(--P));border-radius:1mm;padding:calc(var(--fs) * .5) calc(var(--fs) * .7);margin:calc(var(--fs) * .4) 0 calc(var(--fs) * .3)}
 .dist .t{font-weight:700;letter-spacing:.12em;color:var(--P)}.dist .t b{color:var(--pc,var(--P))}
 .dist .h{font-weight:700;font-size:1.12em;color:var(--P)}
-.mfr{color:#9a8fa3;font-size:.88em;line-height:1.35}
+.mfr{color:var(--ink-2,#4b3a58);font-size:.92em;line-height:1.4;margin-top:calc(var(--fs) * .4)}
 
 .legal strong{font-weight:700}
 .boxes{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1mm;margin:calc(var(--fs) * .55) 0}
@@ -201,19 +201,23 @@ const CONCEPT_CSS = {
 .typ svg{width:6.3mm;height:6.3mm}
 .typ b{font-family:BVP;font-weight:700;font-size:${T.xs}mm;letter-spacing:.14em;color:var(--pc)}
 .grp{font-family:BVP;font-weight:600;font-size:${T.xs}mm;letter-spacing:.24em;text-transform:uppercase;color:var(--P);margin-bottom:1.3mm}
-.mid{position:absolute;left:4.6mm;right:4.6mm;top:${H * 0.382 - 6.5}mm}
+.mid{position:absolute;left:4.6mm;right:4.6mm;top:${H * 0.382 - 9.6}mm}
 .cat{padding-left:0;color:var(--pc);letter-spacing:.26em}
 .cat::after{content:'';display:block;width:${FRONT * 0.236}mm;height:.5mm;background:var(--pc);margin-top:1.6mm}
 .name{font-family:BVP;font-weight:700;letter-spacing:-.015em;line-height:1;margin:${T.b * 1.2}mm 0 ${T.b * 0.9}mm;color:var(--P)}
 .tag{color:var(--pc);font-size:${T.h * 1.02}mm}
 .pill{display:inline-block;margin-top:${T.b * 1.4}mm;background:var(--pc);border-color:var(--pc);color:var(--W)}
-.icons{position:absolute;left:4.6mm;bottom:${T.xl + 11.6}mm;justify-content:flex-start;gap:${T.b * 1.25}mm;color:var(--pc)}
+.icons{position:absolute;left:4.6mm;bottom:30.6mm;justify-content:flex-start;gap:${T.b * 1.25}mm;color:var(--pc)}
 .icons div{letter-spacing:.1em;font-size:${T.xs * 0.92}mm}
 .icons span{color:var(--P)}
-.vol{position:absolute;left:4.6mm;bottom:11.4mm;color:var(--P)}
+.vol{position:absolute;left:4.6mm;bottom:21.4mm;color:var(--P)}
+.fdist{position:absolute;left:4.6mm;right:4.6mm;bottom:3.4mm;background:#fff;border:.3mm solid var(--pc);border-radius:1.2mm;padding:1.1mm 2mm 1.2mm;font-family:BVP;font-size:1.72mm;line-height:1.38;color:var(--P);text-align:left}
+.fdist .t{font-weight:700;letter-spacing:.12em;font-size:1.66mm;color:var(--pc)}.fdist .h{font-weight:700;font-size:1.9mm}
+.lot{border-top:var(--ln) solid var(--pcl,var(--P));margin-top:calc(var(--fs) * .5);padding-top:calc(var(--fs) * .4)}
+.lot p{margin-bottom:calc(var(--fs) * .5) !important}
 .vol strong{color:var(--P)}
 .front .meta.bot{position:absolute;left:4.6mm;bottom:7.6mm;color:var(--P);opacity:1;font-size:${T.xs * 0.95}mm}
-.made{position:absolute;left:4.6mm;bottom:4mm;font-family:BVP;font-weight:700;font-size:${T.xs * 0.95}mm;letter-spacing:.2em;color:var(--pc)}`,
+.made{position:absolute;left:4.6mm;bottom:17.6mm;font-family:BVP;font-weight:700;font-size:${T.xs * 0.95}mm;letter-spacing:.2em;color:var(--pc)}`,
   // D — tím + nhũ vàng: mặt trước tím, biểu tượng Tôm–Cá vàng; mặt bên trắng, điểm nhấn vàng
   d: `.side{--pt:${T.l + 1.3}mm;--px:${T.h + 0.8}mm;--pb:${T.l + 0.6}mm}
 .hd i,li::before{background:var(--G)}.hd::after{background:var(--G)}
@@ -351,17 +355,16 @@ function parts(p) {
     <div class="sec"><div class="hd"><i></i>Thành phần <span style="letter-spacing:.06em;text-transform:none;font-weight:500">${p.dang === 'chai' ? '(trong 1 lít)' : '(trong 1 kg)'}</span></div>${p.thanh_phan.map(cpRow).join('')}
       <div class="chips">${[pl.ma, pl.loai, pl.dang, pl.cach].map((c) => `<span>${esc(c)}</span>`).join('')}</div></div>
     <div class="fill"></div>
-    <div class="foot"><div class="who small"><b>Bảo quản:</b> ${rich(p.bao_quan)}</div><div class="bc">MÃ VẠCH<br>EAN-13</div></div>`;
+    <div class="foot"><div class="who small"><b>Bảo quản:</b> ${rich(p.bao_quan)}</div><div class="bc">MÃ VẠCH<br>EAN-13</div></div>
+    <div class="only">Chỉ dùng trong nuôi trồng thủy sản · Để xa tầm tay trẻ em</div>`;
   const right = `
     <div class="sec"><div class="hd"><i></i>Hướng dẫn sử dụng</div><ul>${p.huong_dan.map((c) => `<li>${rich(c).replace(/^([^:]{3,48}):/, '<b>$1:</b>')}</li>`).join('')}</ul></div>
     <div class="fill"></div>
     <div class="legal">
-      <p><strong>Mã số:</strong> ${esc(p.ma_so)} &nbsp;·&nbsp; <strong>TCCS:</strong> ${esc(p.tccs)}</p>
-      <p><strong>HSD:</strong> ${rich(p.hsd && !/In trên/.test(p.hsd) ? p.hsd : 'xem trên bao bì')} &nbsp;·&nbsp; <strong>Quy cách:</strong> ${rich(p.quy_cach || '')}</p>
-      <div class="boxes"><div>Số lô</div><div>NSX</div><div>HSD</div></div>
-      <div class="dist"><div class="t">NHÀ PHÂN PHỐI · <b>${esc(pp.ten)}</b></div><div>${esc(pp.dia_chi)}</div><div class="h">${pp.hotline ? `Hotline ${rich(pp.hotline)} · ` : ''}${esc(pp.web)}</div></div>
-      <p class="mfr">Sản xuất tại: ${esc(sx.ten)} · ${esc(sx.dia_chi)}</p>
-      <div class="only">Chỉ dùng trong nuôi trồng thủy sản · Để xa tầm tay trẻ em</div>
+      <p><strong>Mã số tiếp nhận:</strong> ${esc(p.ma_so)}</p>
+      <p><strong>TCCS:</strong> ${esc(p.tccs)}</p>
+      <p class="mfr"><strong>Sản phẩm của:</strong> ${esc(sx.ten)}<br>${esc(sx.dia_chi)}<br><strong>ĐT:</strong> ${esc(sx.dien_thoai)}</p>
+      <div class="lot"><p><strong>Số lô:</strong></p><p><strong>NSX:</strong></p><p><strong>HSD:</strong></p></div>
     </div>`;
   return {
     no, left, right, cat: esc(NHOM[p.nhom] || NHOM['moi-truong']),
@@ -386,7 +389,8 @@ function front(c, x) {
     <div class="lock">${brandMark({ fill: P }, 'width="11.5mm" height="11.5mm"')}<div class="w"><div class="brand">THỦY SẢN TÍM</div><div class="motto">Tinh hoa sinh học</div></div></div>
     <div class="typ"><i>${svgIcon(x.pl.loaiKey)}</i><b>${x.pl.ma}</b></div>
     <div class="mid"><div class="grp">${x.cat}</div><div class="cat">${esc(x.pl.loai)}</div>${x.name}${x.tag}${x.pill}</div>
-    ${x.icons}${x.vol}<div class="meta bot">MS ${x.ms} · ${x.no}</div><div class="made">SẢN XUẤT TẠI VIỆT NAM</div></section>`;
+    ${x.icons}${x.vol}<div class="made">SẢN XUẤT TẠI VIỆT NAM</div>
+    <div class="fdist"><div class="t">NHÀ PHÂN PHỐI · ${esc(data.phan_phoi.ten)}</div><div>${esc(data.phan_phoi.dia_chi)}</div><div class="h">ĐT: ${rich(data.phan_phoi.hotline || '[ĐIỀN]')} · ${esc(data.phan_phoi.web)}</div></div></section>`;
   if (c === 'd') return `<section class="front">
     <div class="top"><span class="meta">MS ${x.ms}</span><span class="no">${x.no}</span></div>
     ${emblemSvg({ fill: G, bg: P }, 'width="21mm" height="21mm"')}${brand}<div class="rule"><i></i></div>
@@ -461,6 +465,15 @@ async function fit(page) {
     n.style.fontSize = size + 'mm';
     const max = (+n.dataset.max || FRONT - 13) * mm;
     while ([...n.children].some((c) => c.getBoundingClientRect().width > max) && size > 5) { size -= 0.1; n.style.fontSize = size + 'mm'; }
+    // concept E: khối tên không được chồng hàng biểu tượng → đẩy lên (không cao hơn đáy logo), rồi co chữ tên nếu vẫn chồng
+    const mid = document.querySelector('.front .mid'), ic = document.querySelector('.front .icons'), lk = document.querySelector('.front .lock');
+    if (mid && ic && lk && document.querySelector('.front .fdist')) {
+      const gap = 1.2 * mm, over = () => mid.getBoundingClientRect().bottom + gap - ic.getBoundingClientRect().top;
+      const minTop = lk.getBoundingClientRect().bottom - mid.offsetParent.getBoundingClientRect().top + 2.5 * mm;
+      let d = over();
+      if (d > 0) mid.style.top = Math.max(minTop, mid.offsetTop - d) + 'px';
+      while (over() > 0 && size > 5) { size -= 0.1; n.style.fontSize = size + 'mm'; }
+    }
     const f = document.querySelector('.front');
     const fb = f.getBoundingClientRect().bottom;
     const overFront = [...f.querySelectorAll('.name,.tag,.hero,.band,.disc')].some((e) => e.getBoundingClientRect().bottom > fb);
