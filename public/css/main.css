@@ -2067,3 +2067,8 @@ h1, h2, h3, h4 { line-height: var(--lh-head); }
 .sd__item:hover img { transform: translateY(-4px); box-shadow: 0 18px 34px -18px var(--c, #6b1a75); }
 @media (max-width: 960px) { .sd__grid { grid-template-columns: 1fr; gap: var(--sp-4); } .sd__rail { grid-auto-columns: calc((100% - 2 * var(--sp-3)) / 3); } }
 @media (max-width: 560px) { .sd__rail { grid-auto-columns: 62%; } }
+
+/* Ảnh minh họa trong thân bài */
+.apost__fig { margin: 2em 0; }
+.apost__fig img { width: 100%; height: auto; border-radius: var(--radius-lg, 16px); aspect-ratio: 16 / 9; object-fit: cover; display: block; }
+.apost__fig figcaption { margin-top: .6em; font-size: 13px; color: var(--muted, #6b5a70); text-align: center; }

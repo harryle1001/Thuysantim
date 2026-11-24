@@ -25,8 +25,8 @@ async function seedPosts() {
   for (const p of data.posts) {
     const published = new Date(Date.now() - p.daysAgo * 86400000);
     const r = await query(
-      `INSERT IGNORE INTO posts (slug, title, excerpt, body, topic, read_minutes, published_at) VALUES (?, ?, ?, ?, ?, ?, ?)`,
-      [p.slug, J(p.title), J(p.excerpt), J(p.body), p.topic, readMinutes(p), published]
+      `INSERT IGNORE INTO posts (slug, title, excerpt, body, topic, cover, read_minutes, published_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      [p.slug, J(p.title), J(p.excerpt), J(p.body), p.topic, `/img/blog/${p.slug}.webp`, readMinutes(p), published]
     );
     added += r.affectedRows || 0;
   }
@@ -113,6 +113,16 @@ async function syncContactV3() {
   for (const [a, b] of swaps) await query('UPDATE posts SET excerpt = REPLACE(excerpt, ?, ?), body = REPLACE(body, ?, ?)', [a, b, a, b]);
   await query("INSERT INTO settings (`key`, `value`) VALUES ('contact_v3', ?)", [J(new Date().toISOString())]);
   console.log('[db] Đã cập nhật email, gỡ số liệu và bài viết mẫu không đúng thực tế.');
+}
+
+/** One-time sync (key `covers_v1`): every seeded post gets its own 4K cover (public/img/blog/<slug>.webp). */
+async function syncCovers() {
+  if (await one("SELECT `value` FROM settings WHERE `key` = 'covers_v1'")) return;
+  for (const p of data.posts) {
+    await query("UPDATE posts SET cover = ? WHERE slug = ? AND (cover IS NULL OR cover = '')", [`/img/blog/${p.slug}.webp`, p.slug]);
+  }
+  await query("INSERT INTO settings (`key`, `value`) VALUES ('covers_v1', ?)", [J(new Date().toISOString())]);
+  console.log('[db] Đã gán ảnh bìa 4K cho các bài viết.');
 }
 
 /** One-time sync (key `label_v3`): new packaging images (new address/hotline on the labels) + no representative shown. */
@@ -203,6 +213,7 @@ async function seed({ force = false } = {}) {
     await syncCompanyV4();
     await syncContactV5();
     await syncLabelV3();
+    await syncCovers();
     return false;
   }
 
@@ -242,6 +253,7 @@ async function seed({ force = false } = {}) {
   await syncCompanyV4();
   await syncContactV5();
   await syncLabelV3();
+  await syncCovers();
   console.log('[db] Đã nạp dữ liệu mẫu.');
   return true;
 }

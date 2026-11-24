@@ -7,6 +7,7 @@ const { query } = require('../config/db');
 const { notifyInquiry } = require('../services/mailer');
 const { analyzeArticle } = require('../services/article');
 const policies = require('../content/policies');
+const { insertFigures } = require('../services/illustrations');
 const { parseDosage } = require('../utils/dosage');
 
 const router = express.Router({ mergeParams: true });
@@ -159,6 +160,7 @@ router.get('/blog/:slug', async (req, res, next) => {
     products: products.map((p) => ({ slug: p.slug, shortName: p.title.split('—')[0].trim() })),
     productUrl: (slug) => res.locals.url(`/products/${slug}`),
   });
+  article.html = insertFigures(article.html, post.slug, require('../../scripts/covers/map').pick(post.slug, 0).id);
   // Related reading: same topic first, then the newest, never the article itself.
   const seen = new Set([row.id]);
   const others = [...sameTopic, ...latest].filter((p) => !seen.has(p.id) && seen.add(p.id)).slice(0, 3);
@@ -167,7 +169,7 @@ router.get('/blog/:slug', async (req, res, next) => {
   if (!picks.length) picks = products.filter((p) => p.is_featured);
   seo(res, `${post.titleText} | Thủy Sản Tím`, post.excerptText, {
     type: 'article',
-    image: `${res.locals.config.baseUrl}/img/og-cover.png?v=2`,
+    image: /^\/img\/blog\//.test(post.coverHero || '') ? `${res.locals.config.baseUrl}${post.coverHero}` : `${res.locals.config.baseUrl}/img/og-cover.png?v=2`,
     published: row.published_at,
     modified: row.updated_at,
   });

@@ -1,7 +1,7 @@
 <%
   const company = (settings && settings.company) || {};
   const postUrl = config.baseUrl + url('/blog/' + post.slug);
-  const coverAbs = /^https?:/.test(post.coverSrc) ? post.coverSrc : config.baseUrl + post.coverSrc;
+  const coverAbs = /^https?:/.test(post.coverHero) ? post.coverHero : config.baseUrl + post.coverHero;
   const graph = [{
     '@type': 'BlogPosting', '@id': postUrl + '#article', headline: post.titleText, description: post.excerptText,
     image: [coverAbs, config.baseUrl + '/img/og-cover.png?v=2'], inLanguage: L.lang.html, articleSection: t('blog.topics.' + post.topic),
@@ -41,7 +41,7 @@
 </section>
 
 <div class="container">
-  <figure class="apost__cover"><img src="<%= post.coverSrc %>" alt="<%= post.titleText %>" width="1200" height="675" fetchpriority="high"></figure>
+  <figure class="apost__cover"><img src="<%= post.coverHero %>"<% if (post.coverSrcset) { %> srcset="<%= post.coverSrcset %>" sizes="(min-width: 1240px) 1200px, 100vw"<% } %> alt="<%= post.titleText %>" width="1920" height="1080" fetchpriority="high"></figure>
 </div>
 
 <section class="section section--tight apost">

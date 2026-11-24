@@ -23,7 +23,7 @@
 
     <% if (lead) { %>
       <a class="guide__main bfeature reveal" href="<%= url('/blog/' + lead.slug) %>" data-post-item>
-        <span class="guide__cover"><img src="<%= lead.coverSrc %>" alt="<%= lead.titleText %>" width="1200" height="675" fetchpriority="high"></span>
+        <span class="guide__cover"><img src="<%= lead.coverHero %>"<% if (lead.coverSrcset) { %> srcset="<%= lead.coverSrcset %>" sizes="(min-width: 1100px) 760px, 100vw"<% } %> alt="<%= lead.titleText %>" width="1920" height="1080" fetchpriority="high"></span>
         <span class="guide__body">
           <span class="pill pill--new"><%= t('blog.featured') %></span>
           <h2 class="guide__title"><%= lead.titleText %></h2>

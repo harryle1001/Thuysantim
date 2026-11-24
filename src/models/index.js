@@ -59,9 +59,23 @@ function localizeProduct(row, locale) {
   };
 }
 
+/** Cover images made by scripts/covers (3840/1920/1280 px); older posts keep their own cover or the SVG fallback. */
+function coverSet(row) {
+  const c = row.cover || '';
+  const m = /^(\/img\/blog\/[a-z0-9-]+)\.webp$/.exec(c);
+  if (m) {
+    return {
+      coverSrc: `${m[1]}-1280.webp`, coverHero: `${m[1]}-1920.webp`, coverFull: c,
+      coverSrcset: `${m[1]}-1280.webp 1280w, ${m[1]}-1920.webp 1920w, ${c} 3840w`,
+    };
+  }
+  const src = imageUrl(c, `/cover/${row.slug}.svg${ver(row)}`);
+  return { coverSrc: src, coverHero: src, coverFull: src, coverSrcset: '' };
+}
+
 function localizePost(row, locale) {
   if (!row) return null;
-  return { ...row, titleText: tr(row.title, locale), excerptText: tr(row.excerpt, locale), bodyText: tr(row.body, locale), coverSrc: imageUrl(row.cover, `/cover/${row.slug}.svg${ver(row)}`) };
+  return { ...row, titleText: tr(row.title, locale), excerptText: tr(row.excerpt, locale), bodyText: tr(row.body, locale), ...coverSet(row) };
 }
 
 function localizeDisease(row, locale) {
