@@ -98,7 +98,7 @@ Tại Việt Nam, Cục Thú y đã cấp phép vắc-xin tiêm cho cá tra phò
 | Mỗi tuần | Mổ khám vài cá yếu nếu đàn có dấu hiệu lạ; đo pH, oxy, khí độc |
 | Khi nhiệt độ nước giảm, mưa kéo dài | Giảm ăn, tăng theo dõi, chuẩn bị lấy mẫu xét nghiệm sớm |
 
-Cần tư vấn cho ao của mình? Gọi hotline 0869 739 679 để kỹ thuật viên Thủy Sản Tím tư vấn.
+Cần tư vấn cho ao của mình? Gọi hotline 1900 252 667 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
 
 ## Nguồn tham khảo
 - Từ Thanh Dung và cộng sự (2008), *Common diseases of pangasius catfish farmed in Vietnam*, Global Aquaculture Advocate (Global Seafood Alliance).
@@ -190,7 +190,7 @@ Chế phẩm dinh dưỡng chỉ hỗ trợ, không chữa được bệnh do vi
 4. **Điều trị theo chỉ định của cán bộ thú y thủy sản**, chỉ dùng thuốc được phép, đúng liều, đủ liệu trình, tuân thủ thời gian ngưng thuốc trước thu hoạch. Cá bỏ ăn sẽ không ăn được thuốc trộn, vì vậy phát hiện sớm rất quan trọng.
 5. **Không dùng chung dụng cụ, lưới** giữa ao bệnh và ao khỏe; sát trùng dụng cụ sau khi dùng.
 
-Cần tư vấn cho ao của mình? Gọi hotline 0869 739 679 để kỹ thuật viên Thủy Sản Tím tư vấn.
+Cần tư vấn cho ao của mình? Gọi hotline 1900 252 667 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
 
 ## Nguồn tham khảo
 - Sheehan B. và cộng sự (2009), *Streptococcosis in tilapia*, Global Aquaculture Advocate (Global Seafood Alliance).
@@ -292,7 +292,7 @@ Các bệnh hay gặp trên cá rô phi gồm bệnh liên cầu khuẩn, bệnh
 - Thu vào sáng sớm, thao tác nhanh, giữ cá trong nước có sục khí.
 - Ngưng mọi thuốc, hóa chất theo đúng thời gian cách ly ghi trên nhãn hoặc theo chỉ định.
 
-Cần tư vấn cho ao của mình? Gọi hotline 0869 739 679 để kỹ thuật viên Thủy Sản Tím tư vấn.
+Cần tư vấn cho ao của mình? Gọi hotline 1900 252 667 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
 
 ## Nguồn tham khảo
 - FAO (2009), *Cultured aquatic species fact sheets: Oreochromis niloticus* (Rakocy J.E.).
@@ -389,7 +389,7 @@ Cá lóc nuôi dày dễ gặp bệnh xuất huyết do vi khuẩn, bệnh ký s
 - Thu vào sáng sớm, giữ cá trong bể nước sạch có sục khí trước khi vận chuyển.
 - Tuân thủ thời gian ngưng thuốc trước thu hoạch nếu đã dùng thuốc trong vụ.
 
-Cần tư vấn cho ao của mình? Gọi hotline 0869 739 679 để kỹ thuật viên Thủy Sản Tím tư vấn.
+Cần tư vấn cho ao của mình? Gọi hotline 1900 252 667 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
 
 ## Nguồn tham khảo
 - Lê Xuân Sinh, Đỗ Minh Chung (Đại học Cần Thơ), *Khảo sát các mô hình nuôi cá lóc (Channa micropeltes và Channa striatus) ở Đồng bằng sông Cửu Long*.
@@ -484,7 +484,7 @@ Khi khí độc NH3 cao đi kèm, sau khi đã đảm bảo sục khí, có th�
 
 Nhiều nguyên tắc về oxy cho ao tôm cũng áp dụng cho ao cá, xem thêm [oxy hòa tan trong ao nuôi bao nhiêu là đủ](/vi/blog/oxy-hoa-tan-ao-nuoi-tom-bao-nhieu-la-du).
 
-Cần tư vấn cho ao của mình? Gọi hotline 0869 739 679 để kỹ thuật viên Thủy Sản Tím tư vấn.
+Cần tư vấn cho ao của mình? Gọi hotline 1900 252 667 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
 
 ## Nguồn tham khảo
 - Francis-Floyd R., UF/IFAS Extension (Đại học Florida), *Dissolved Oxygen for Fish Production* (FA002).
@@ -571,7 +571,7 @@ Ký sinh trùng ở da và mang có nhiều cách xử lý, nhưng mỗi cách �
 
 Cách so sánh các nhóm chất sát trùng (BKC, iodine, glutaraldehyde) xem bài [sát trùng nước ao nuôi](/vi/blog/sat-trung-nuoc-ao-nuoi-bkc-iodine-glutaraldehyde).
 
-Cần tư vấn cho ao của mình? Gọi hotline 0869 739 679 để kỹ thuật viên Thủy Sản Tím tư vấn.
+Cần tư vấn cho ao của mình? Gọi hotline 1900 252 667 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
 
 ## Nguồn tham khảo
 - Global Seafood Alliance, *Common diseases of pangasius catfish farmed in Vietnam*.
@@ -673,7 +673,7 @@ Cách trộn chế phẩm vào thức ăn viên (hòa nước, trộn đều, đ
 
 Cuối mỗi tuần cộng tổng lượng ăn; mỗi 1–2 tuần cân mẫu, tính lại khối lượng đàn và khẩu phần.
 
-Cần tư vấn cho ao của mình? Gọi hotline 0869 739 679 để kỹ thuật viên Thủy Sản Tím tư vấn.
+Cần tư vấn cho ao của mình? Gọi hotline 1900 252 667 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
 
 ## Nguồn tham khảo
 - FAO AFFRIS, *Nile tilapia*, bảng 26 và bảng 28 (bảng cho ăn theo cỡ cá).
@@ -766,7 +766,7 @@ Tại Việt Nam, Cục Thú y đã cấp phép vắc-xin tiêm cho cá tra phò
 4. **Gửi mẫu xét nghiệm** để xác định vi khuẩn và làm kháng sinh đồ.
 5. **Điều trị theo kê đơn của cán bộ thú y thủy sản**: chỉ dùng thuốc trong danh mục được phép, đúng liều, đủ liệu trình, tuân thủ thời gian ngưng thuốc trước thu hoạch.
 
-Cần tư vấn cho ao của mình? Gọi hotline 0869 739 679 để kỹ thuật viên Thủy Sản Tím tư vấn.
+Cần tư vấn cho ao của mình? Gọi hotline 1900 252 667 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
 
 ## Nguồn tham khảo
 - Từ Thanh Dung và cộng sự (2008), *Common diseases of pangasius catfish farmed in Vietnam*, Global Aquaculture Advocate (mục bệnh đốm đỏ do *Aeromonas*).
@@ -864,7 +864,7 @@ Tôm đực lớn chiếm chỗ, kìm hãm tôm khác. Vì vậy nhiều mô hì
 - **Theo dõi dấu hiệu bất thường:** tôm đục cơ, đen mang, đốm nâu đen trên vỏ, lột xác không thoát vỏ. FAO liệt kê nhiều vấn đề trên tôm càng xanh như hoại tử cơ, bệnh đốm đen vỏ, chết do lột xác không thoát.
 - **Khi tôm chết bất thường**, gửi mẫu xét nghiệm và làm theo hướng dẫn của cán bộ thú y thủy sản, không tự ý dùng kháng sinh.
 
-Cần tư vấn cho ao của mình? Gọi hotline 0869 739 679 để kỹ thuật viên Thủy Sản Tím tư vấn.
+Cần tư vấn cho ao của mình? Gọi hotline 1900 252 667 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
 
 ## Nguồn tham khảo
 - FAO (2009), *Cultured aquatic species fact sheets: Macrobrachium rosenbergii* (New M.B.).
@@ -982,7 +982,7 @@ Xả thải cẩn thận cũng là bảo vệ chính ao mình, vì nước kênh
 - **Khi NH3 cao đột ngột:** giảm ăn, tăng sục khí; **SUPER YUCCA** (hấp thu khí độc NH3 theo nhãn) dùng 1 lít/3.000 m³ nước trong lúc tìm nguyên nhân.
 - **Nạo vét bùn đáy** giữa các vụ nuôi.
 
-Cần tư vấn cho ao của mình? Gọi hotline 0869 739 679 để kỹ thuật viên Thủy Sản Tím tư vấn.
+Cần tư vấn cho ao của mình? Gọi hotline 1900 252 667 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
 
 ## Nguồn tham khảo
 - Hargreaves J.A., Tucker C.S. (2004), *Managing Ammonia in Fish Ponds*, SRAC Publication No. 4603, Southern Regional Aquaculture Center.
