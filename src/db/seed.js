@@ -1,4 +1,6 @@
 'use strict';
+const fs = require('fs');
+const path = require('path');
 const { query, one } = require('../config/db');
 const data = require('./seed-data');
 
@@ -16,21 +18,35 @@ function readMinutes(post) {
   return post.read || Math.max(2, Math.round(words / 200));
 }
 
+/** 4K cover made by scripts/covers/build.js, if it has been built and shipped (public/img/blog/<slug>.webp). */
+const BLOG_IMG = path.join(__dirname, '..', '..', 'public', 'img', 'blog');
+const hasCover = (slug) => fs.existsSync(path.join(BLOG_IMG, `${slug}.webp`));
+
 /**
  * Articles are added by slug, never overwritten: new guides shipped in a release
  * reach existing databases, and posts edited in the admin are left alone.
+ * A post with a fixed `date` keeps that publication date; older posts use `daysAgo` (relative to the insert).
+ * A post whose cover file is not built yet gets no cover (the SVG fallback is shown) until syncNewCovers runs.
  */
 async function seedPosts() {
   let added = 0;
   for (const p of data.posts) {
-    const published = new Date(Date.now() - p.daysAgo * 86400000);
+    const published = p.date ? new Date(p.date) : new Date(Date.now() - p.daysAgo * 86400000);
     const r = await query(
       `INSERT IGNORE INTO posts (slug, title, excerpt, body, topic, cover, read_minutes, published_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [p.slug, J(p.title), J(p.excerpt), J(p.body), p.topic, `/img/blog/${p.slug}.webp`, readMinutes(p), published]
+      [p.slug, J(p.title), J(p.excerpt), J(p.body), p.topic, hasCover(p.slug) ? `/img/blog/${p.slug}.webp` : '', readMinutes(p), published]
     );
     added += r.affectedRows || 0;
   }
   if (added) console.log(`[db] Đã thêm ${added} bài viết mới.`);
+}
+
+/** Every start: dated seed posts (batch E on) still without a cover get theirs once the file ships. Covers set in the admin are never touched. */
+async function syncNewCovers() {
+  const slugs = data.posts.filter((p) => p.date).map((p) => p.slug).filter(hasCover); // batches from E on (older ones: covers_v1)
+  if (!slugs.length) return;
+  const r = await query("UPDATE posts SET cover = CONCAT('/img/blog/', slug, '.webp') WHERE slug IN (?) AND (cover IS NULL OR cover = '')", [slugs]);
+  if (r.affectedRows) console.log(`[db] Đã gán ảnh bìa cho ${r.affectedRows} bài viết.`);
 }
 
 /**
@@ -214,6 +230,7 @@ async function seed({ force = false } = {}) {
     await syncContactV5();
     await syncLabelV3();
     await syncCovers();
+    await syncNewCovers();
     return false;
   }
 
@@ -254,6 +271,7 @@ async function seed({ force = false } = {}) {
   await syncContactV5();
   await syncLabelV3();
   await syncCovers();
+  await syncNewCovers();
   console.log('[db] Đã nạp dữ liệu mẫu.');
   return true;
 }

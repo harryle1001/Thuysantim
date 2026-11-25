@@ -19,7 +19,39 @@ const RULES = [
   [/den-mang|vang-mang/, 'hand', 40, 55], [/noi-dau/, 'pondB', 70, 50], [/duong-ruot|gan-tuy|6-benh/, 'pile', 60, 55],
   [/de-khang/, 'small', 55, 50],
 ];
+// Bài từ lô E (25/11/2026): ảnh nền là ảnh AI tạo bằng ComfyUI (Z-Image Turbo), 3840×2373 PNG, lưu cục bộ
+// <AI_DIR>/<slug>/cover.png (danh sách prompt: cache/blog4k/tim.json). Không phải ảnh Pexels, xem CREDITS.md.
+// x, y: điểm lấy nét khi cắt 3840×2373 về 3840×2160 (chủ thể nằm bên phải, tấm chữ tím phủ bên trái).
+const AI_DIR = process.env.BLOG4K_DIR || 'D:/CLAUDE CODE/cache/blog4k/tim';
+const AI = {
+  'benh-gan-than-mu-ca-tra-dau-hieu-cach-phong': [70, 50],
+  'benh-lien-cau-khuan-ca-ro-phi-nhan-biet-phong-benh': [70, 50],
+  'nuoi-ca-ro-phi-ao-dat-mat-do-thuc-an-quan-ly-nuoc': [70, 50],
+  'nuoi-ca-loc-ao-dat-be-bat-mat-do-thuc-an': [70, 50],
+  'ca-noi-dau-thieu-oxy-nguyen-nhan-cach-xu-ly': [70, 50],
+  'ky-sinh-trung-tren-ca-trung-banh-xe-san-la-mang': [70, 50],
+  'cach-tinh-luong-thuc-an-cho-ca-nuoi-ao': [70, 50],
+  'benh-xuat-huyet-dom-do-tren-ca-nguyen-nhan-cach-phong': [70, 50],
+  'ky-thuat-nuoi-tom-cang-xanh-ao-dat': [70, 50],
+  'thay-nuoc-ao-nuoi-ca-khi-nao-bao-nhieu': [70, 50],
+};
+const aiFile = (slug, key) => `${AI_DIR}/${slug}/${key}.png`;
+// ảnh minh họa AI trong thân bài: public/img/blog/photos/ai/<slug>-<key>.webp (build.js chuyển từ <AI_DIR>/<slug>/<key>.png).
+// Khi chưa có file, bài dùng nhóm ảnh Pexels `fallback` hoặc không chèn ảnh (fallback: null), để chú thích không nói sai (vd "tôm thẻ" trong bài về cá).
+const AI_INLINE = {
+  'benh-gan-than-mu-ca-tra-dau-hieu-cach-phong': { a1: 'Ao nuôi cá tra ở Đồng bằng sông Cửu Long (ảnh minh họa AI)', a2: 'Dụng cụ xét nghiệm trong phòng thí nghiệm thủy sản (ảnh minh họa AI)', fallback: null },
+  'benh-lien-cau-khuan-ca-ro-phi-nhan-biet-phong-benh': { a1: 'Ao nuôi cá rô phi có máy sục khí (ảnh minh họa AI)', a2: 'Cá rô phi trong khay nước tại trại (ảnh minh họa AI)', fallback: null },
+  'nuoi-ca-ro-phi-ao-dat-mat-do-thuc-an-quan-ly-nuoc': { a1: 'Cho cá rô phi ăn thức ăn viên nổi (ảnh minh họa AI)', a2: 'Ao đất nuôi cá rô phi nhìn từ bờ (ảnh minh họa AI)', fallback: null },
+  'nuoi-ca-loc-ao-dat-be-bat-mat-do-thuc-an': { a1: 'Bể lót bạt nuôi cá lóc có lưới che (ảnh minh họa AI)', a2: 'Ao đất nuôi cá lóc có lưới chắn quanh bờ (ảnh minh họa AI)', fallback: null },
+  'ca-noi-dau-thieu-oxy-nguyen-nhan-cach-xu-ly': { a1: 'Quạt nước chạy lúc rạng sáng trên ao cá (ảnh minh họa AI)', a2: 'Đo oxy hòa tan bằng máy đo cầm tay (ảnh minh họa AI)', fallback: null },
+  'ky-sinh-trung-tren-ca-trung-banh-xe-san-la-mang': { a1: 'Kính hiển vi trong phòng xét nghiệm thủy sản (ảnh minh họa AI)', a2: 'Cá giống trong thau nước chờ kiểm tra (ảnh minh họa AI)', fallback: null },
+  'cach-tinh-luong-thuc-an-cho-ca-nuoi-ao': { a1: 'Cân mẫu cá để tính lượng thức ăn (ảnh minh họa AI)', a2: 'Bao thức ăn viên xếp trong kho khô ráo (ảnh minh họa AI)', fallback: null },
+  'benh-xuat-huyet-dom-do-tren-ca-nguyen-nhan-cach-phong': { a1: 'Kéo lưới thu cá tại ao đất (ảnh minh họa AI)', a2: 'Ao nuôi cá đầu mùa mưa (ảnh minh họa AI)', fallback: null },
+  'ky-thuat-nuoi-tom-cang-xanh-ao-dat': { a1: 'Tôm càng xanh trong khay nước (ảnh minh họa AI)', a2: 'Ao đất nuôi tôm càng xanh có giá thể (ảnh minh họa AI)', fallback: 'pond' },
+  'thay-nuoc-ao-nuoi-ca-khi-nao-bao-nhieu': { fallback: 'pond' },
+};
 function pick(slug, i) {
+  if (AI[slug]) return { id: null, local: aiFile(slug, 'cover'), x: AI[slug][0], y: AI[slug][1] };
   for (const [re, key, x, y] of RULES) if (re.test(slug)) return { id: PHOTO[key], x, y };
   const keys = ['pondA', 'pondB', 'pondC', 'dike', 'farm', 'farm2'];
   return { id: PHOTO[keys[i % keys.length]], x: 50, y: 50 };
@@ -30,4 +62,4 @@ const INLINE = {
   shrimp: [16521533, 11784965, 5273798, 8351657],
   lab: [38409888, 36515391, 38093935, 39926423, 7722793],
 };
-module.exports = { PHOTO, pick, INLINE };
+module.exports = { PHOTO, pick, INLINE, AI, AI_DIR, AI_INLINE, aiFile };

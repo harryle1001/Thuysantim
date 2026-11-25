@@ -480,7 +480,7 @@ const settings = {
 };
 
 const postFixes = require('./post-fixes');
-const allPosts = posts.concat(require('./seed-posts'), require('./seed-posts-a'), require('./seed-posts-b'), require('./seed-posts-c'), require('./seed-posts-d'))
+const allPosts = posts.concat(require('./seed-posts'), require('./seed-posts-a'), require('./seed-posts-b'), require('./seed-posts-c'), require('./seed-posts-d'), require('./seed-posts-e'))
   .filter((p) => !postFixes.RETIRED.includes(p.slug));
 allPosts.forEach(postFixes.applyToPost);
 

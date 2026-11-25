@@ -21,19 +21,44 @@ function group(slug) {
 }
 function hash(s) { let h = 0; for (const c of s) h = (h * 31 + c.charCodeAt(0)) >>> 0; return h; }
 
+// Posts from batch E: own AI illustrations (scripts/covers/map.js AI_INLINE), used once the files are built.
+const fs = require('fs');
+const path = require('path');
+const { AI_INLINE } = require('../../scripts/covers/map');
+const AI_PHOTOS = path.join(__dirname, '..', '..', 'public', 'img', 'blog', 'photos', 'ai');
+const aiCache = new Map();
+function aiFigures(slug) {
+  if (aiCache.has(slug)) return aiCache.get(slug);
+  const spec = AI_INLINE[slug];
+  const keys = Object.keys(spec).filter((k) => /^a\d+$/.test(k));
+  const ok = keys.length > 0 && keys.every((k) => fs.existsSync(path.join(AI_PHOTOS, `${slug}-${k}.webp`)));
+  const out = ok ? keys.map((k) => ({ src: `/img/blog/photos/ai/${slug}-${k}.webp`, caption: spec[k] })) : null;
+  aiCache.set(slug, out);
+  return out;
+}
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+
 function insertFigures(html, slug, coverPhotoId) {
-  const g = group(slug);
+  let g = group(slug);
+  let figs = null;
+  if (AI_INLINE[slug]) {
+    figs = aiFigures(slug);
+    if (!figs) {
+      if (!AI_INLINE[slug].fallback) return html; // no fitting stock photo: no pictures rather than a wrong caption
+      g = AI_INLINE[slug].fallback;
+    }
+  }
   const pool = POOL[g].filter((id) => id !== coverPhotoId);
   const start = hash(slug) % pool.length;
-  const picks = [pool[start], pool[(start + 1) % pool.length]];
+  const picks = figs || [pool[start], pool[(start + 1) % pool.length]].map((id) => ({ src: `/img/blog/photos/${id}.webp`, caption: CAPTION[g] }));
   const parts = html.split(/(?=<h2[\s>])/);
   if (parts.length < 4) return html; // short article: no extra pictures
-  const fig = (id, n) => `<figure class="apost__fig"><img src="/img/blog/photos/${id}.webp" alt="${CAPTION[g]}" width="1600" height="900" loading="lazy"><figcaption>${CAPTION[g]}${n ? '' : ''}</figcaption></figure>`;
+  const fig = (f) => `<figure class="apost__fig"><img src="${f.src}" alt="${esc(f.caption)}" width="1600" height="900" loading="lazy"><figcaption>${esc(f.caption)}</figcaption></figure>`;
   const at = [2, Math.min(4, parts.length - 1)];
   const out = [];
   parts.forEach((p, i) => {
     if (i === at[0]) out.push(fig(picks[0]));
-    else if (i === at[1] && at[1] !== at[0]) out.push(fig(picks[1], 1));
+    else if (i === at[1] && at[1] !== at[0] && picks[1]) out.push(fig(picks[1]));
     out.push(p);
   });
   return out.join('');

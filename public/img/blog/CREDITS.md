@@ -24,3 +24,20 @@
 | 9210283 | Kênh nước nhìn từ trên cao | https://www.pexels.com/photo/9210283/ |
 | 7722652 | Bình thí nghiệm | https://www.pexels.com/photo/7722652/ |
 | 32230041 | Tôm thu tại ao | https://www.pexels.com/photo/32230041/ |
+
+## Ảnh AI (bài viết từ 25/11/2026)
+
+Ảnh nền bìa và ảnh minh họa trong bài của 10 bài dưới đây **không phải ảnh Pexels**: là ảnh do AI tạo bằng ComfyUI (mô hình Z-Image Turbo), không chụp ao nuôi, trại hay sản phẩm thật của Thủy Sản Tím. Prompt lưu ở `cache/blog4k/tim.json` (máy biên soạn); ảnh gốc PNG 3840×2373, `scripts/covers/build.js --ai` dựng bìa 4K và ảnh minh họa `photos/ai/<slug>-a1.webp`, `-a2.webp`. Chú thích ảnh trong bài ghi "(ảnh minh họa AI)".
+
+| Bài viết | Ảnh bìa | Ảnh trong bài |
+|---|---|---|
+| benh-gan-than-mu-ca-tra-dau-hieu-cach-phong | AI (ComfyUI Z-Image Turbo) | AI: a1, a2 |
+| benh-lien-cau-khuan-ca-ro-phi-nhan-biet-phong-benh | AI (ComfyUI Z-Image Turbo) | AI: a1, a2 |
+| nuoi-ca-ro-phi-ao-dat-mat-do-thuc-an-quan-ly-nuoc | AI (ComfyUI Z-Image Turbo) | AI: a1, a2 |
+| nuoi-ca-loc-ao-dat-be-bat-mat-do-thuc-an | AI (ComfyUI Z-Image Turbo) | AI: a1, a2 |
+| ca-noi-dau-thieu-oxy-nguyen-nhan-cach-xu-ly | AI (ComfyUI Z-Image Turbo) | AI: a1, a2 |
+| ky-sinh-trung-tren-ca-trung-banh-xe-san-la-mang | AI (ComfyUI Z-Image Turbo) | AI: a1, a2 |
+| cach-tinh-luong-thuc-an-cho-ca-nuoi-ao | AI (ComfyUI Z-Image Turbo) | AI: a1, a2 |
+| benh-xuat-huyet-dom-do-tren-ca-nguyen-nhan-cach-phong | AI (ComfyUI Z-Image Turbo) | AI: a1, a2 |
+| ky-thuat-nuoi-tom-cang-xanh-ao-dat | AI (ComfyUI Z-Image Turbo) | AI: a1, a2 (khi chưa có: ảnh Pexels nhóm ao nuôi ở trên) |
+| thay-nuoc-ao-nuoi-ca-khi-nao-bao-nhieu | AI (ComfyUI Z-Image Turbo) | Ảnh Pexels nhóm ao nuôi ở trên |
