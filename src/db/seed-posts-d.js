@@ -96,7 +96,7 @@ Bà con nên tìm nguyên nhân trước khi dùng sản phẩm. Một số hư�
 - **NO2 cao:** hạn chế cho ăn, giữ oxy tốt, ổn định hệ vi sinh và xem bài [dùng men vi sinh đúng cách](/vi/blog/dung-men-vi-sinh-dung-cach). Cân nhắc hỏi kỹ thuật viên trước khi thay nước lớn.
 - **Mùi trứng thối ở đáy, tôm nổi đầu:** xem bài [khí độc H2S đáy ao](/vi/blog/khi-doc-h2s-day-ao-nuoi-tom-nhan-biet-xu-ly).
 
-Cần tư vấn cho ao của mình? Gọi hotline 0869 739 679 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
+Cần tư vấn cho ao của mình? Gọi hotline 1900 252 667 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
 
 ## Câu hỏi thường gặp
 
@@ -193,7 +193,7 @@ Với gan, **HEPALIVER-FS** theo nhãn hỗ trợ bồi bổ gan, tiêu hóa t�
 - Bảo quản thức ăn nơi khô ráo, dùng theo thứ tự nhập trước dùng trước.
 - Tăng sức đề kháng trước các giai đoạn giao mùa, xem [tăng sức đề kháng cho tôm thời điểm giao mùa](/vi/blog/tang-suc-de-khang-cho-tom-thoi-diem-giao-mua).
 
-Cần tư vấn cho ao của mình? Gọi hotline 0869 739 679 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
+Cần tư vấn cho ao của mình? Gọi hotline 1900 252 667 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
 
 ## Câu hỏi thường gặp
 
@@ -291,7 +291,7 @@ Lưu ý: các sản phẩm sát trùng chỉ hỗ trợ, không thể thay thế
 - Cho ăn theo nhá, không để dư thức ăn.
 - Kiểm tra mang tôm mỗi tuần, nhất là khi trời mưa hoặc giao mùa.
 
-Cần tư vấn cho ao của mình? Gọi hotline 0869 739 679 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
+Cần tư vấn cho ao của mình? Gọi hotline 1900 252 667 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
 
 ## Câu hỏi thường gặp
 
@@ -413,7 +413,7 @@ Gặp các dấu hiệu này, bà con không nên dùng. Nếu sản phẩm mớ
 - Chuyển sang chai nước ngọt không ghi nhãn.
 - Không ghi ngày mở bao, không nhớ lần dùng.
 
-Cần tư vấn cho ao của mình? Gọi hotline 0869 739 679 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
+Cần tư vấn cho ao của mình? Gọi hotline 1900 252 667 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
 
 ## Câu hỏi thường gặp
 
@@ -531,7 +531,7 @@ Các dấu hiệu này chỉ mang tính gợi ý. Khi nghi có bệnh, hãy lấ
 6. Ghi sổ lượng ăn, chỉ tiêu nước, việc đã làm.
 7. Soi vài con xem gan, ruột.
 
-Cần tư vấn cho ao của mình? Gọi hotline 0869 739 679 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
+Cần tư vấn cho ao của mình? Gọi hotline 1900 252 667 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
 
 ## Câu hỏi thường gặp
 

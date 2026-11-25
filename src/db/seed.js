@@ -138,6 +138,19 @@ async function syncLabelV3() {
   console.log('[db] Đã cập nhật ảnh nhãn sản phẩm và bỏ dòng người đại diện.');
 }
 
+/** One-time sync (key `contact_v6`): hotline 1900 252 667 (Zalo stays on the mobile number: 1900 numbers cannot use Zalo). */
+async function syncContactV6() {
+  if (await one("SELECT `value` FROM settings WHERE `key` = 'contact_v6'")) return;
+  const row = await one("SELECT `value` FROM settings WHERE `key` = 'company'");
+  let company = {};
+  try { company = row ? JSON.parse(row.value) : {}; } catch (e) { company = {}; }
+  Object.assign(company, { hotline: data.settings.company.hotline, phone: data.settings.company.phone });
+  await query("INSERT INTO settings (`key`, `value`) VALUES ('company', ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)", [J(company)]);
+  for (const col of ['excerpt', 'body']) await query(`UPDATE posts SET ${col} = REPLACE(${col}, '0869 739 679', '1900 252 667')`);
+  await query("INSERT INTO settings (`key`, `value`) VALUES ('contact_v6', ?)", [J(new Date().toISOString())]);
+  console.log('[db] Đã đổi hotline sang 1900 252 667.');
+}
+
 /** One-time sync (key `contact_v5`): registration-certificate phone number, no bank account shown. */
 async function syncContactV5() {
   if (await one("SELECT `value` FROM settings WHERE `key` = 'contact_v5'")) return;
@@ -214,6 +227,7 @@ async function seed({ force = false } = {}) {
     await syncContactV5();
     await syncLabelV3();
     await syncCovers();
+    await syncContactV6();
     return false;
   }
 
@@ -254,6 +268,7 @@ async function seed({ force = false } = {}) {
   await syncContactV5();
   await syncLabelV3();
   await syncCovers();
+  await syncContactV6();
   console.log('[db] Đã nạp dữ liệu mẫu.');
   return true;
 }

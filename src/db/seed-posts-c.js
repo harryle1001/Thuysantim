@@ -98,7 +98,7 @@ Chuẩn bị từ 7 đến 15 ngày trước thu sẽ giúp ngày thu suôn sẻ
 ## Sau khi thu hoạch cần làm gì?
 Ngay sau thu, bà con nên ghi lại cỡ tôm, tỷ lệ sống, tổng thức ăn, thời gian nuôi và những sự cố đã gặp. Số liệu này giúp bà con điều chỉnh mật độ, con giống và lịch quản lý cho vụ sau. Ao sau thu cần được vệ sinh, xử lý đáy và chuẩn bị đúng quy trình, xem [quy trình chuẩn bị ao nuôi tôm thẻ 7 bước](/vi/blog/quy-trinh-chuan-bi-ao-nuoi-tom-the-7-buoc). Tổng quan cả vụ có trong bài [quy trình nuôi tôm thẻ chân trắng từ A đến Z](/vi/blog/quy-trinh-nuoi-tom-the-chan-trang-tu-a-den-z).
 
-Cần tư vấn cho ao của mình? Gọi hotline 0869 739 679 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
+Cần tư vấn cho ao của mình? Gọi hotline 1900 252 667 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
 
 ## Câu hỏi thường gặp
 ### Tôm thẻ 60 ngày thu được chưa?
@@ -217,7 +217,7 @@ Một số hộ chọn hướng trung gian: lót bạt bờ, hoặc nuôi ao đ�
 
 Tổng thể chi phí và cách tối ưu từng khâu, bà con xem thêm bài [chi phí nuôi tôm thẻ 1 hecta và cách giảm giá thành](/vi/blog/chi-phi-nuoi-tom-the-1-hecta-va-cach-giam-gia-thanh). Phần chuẩn bị ao dùng được cho cả hai mô hình có trong [quy trình chuẩn bị ao nuôi tôm thẻ 7 bước](/vi/blog/quy-trinh-chuan-bi-ao-nuoi-tom-the-7-buoc).
 
-Cần tư vấn cho ao của mình? Gọi hotline 0869 739 679 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
+Cần tư vấn cho ao của mình? Gọi hotline 1900 252 667 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
 
 ## Câu hỏi thường gặp
 ### Nuôi tôm ao bạt hay ao đất lãi hơn?
@@ -314,7 +314,7 @@ Một lưu ý quan trọng: con số CFU cao hơn không tự động đồng ng
 4. **Chỉ nhìn con số CFU**, bỏ qua đơn vị tính, chủng và liều dùng.
 5. **Dùng chung với sản phẩm không tương thích.** Ví dụ nhãn **BIOTIC 99** nêu không dùng chung với acid hữu cơ và kháng sinh. Mỗi sản phẩm có lưu ý riêng, hãy đọc nhãn.
 
-Cần tư vấn cho ao của mình? Gọi hotline 0869 739 679 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
+Cần tư vấn cho ao của mình? Gọi hotline 1900 252 667 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
 
 ## Câu hỏi thường gặp
 ### Vi sinh tạt ao và vi sinh trộn ăn khác nhau thế nào?
@@ -430,7 +430,7 @@ Nếu nhãn không ghi liều hoặc ghi mờ, bà con không nên tự đoán. 
 6. **Bỏ qua thời gian ngưng trước thu hoạch** ghi trên nhãn.
 7. **Quên ghi chép:** không nhớ đã dùng gì, bao nhiêu, ngày nào. Nên ghi vào sổ cùng số lô.
 
-Cần tư vấn cho ao của mình? Gọi hotline 0869 739 679 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
+Cần tư vấn cho ao của mình? Gọi hotline 1900 252 667 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
 
 ## Câu hỏi thường gặp
 ### "1 lít/3.000 m³" nghĩa là gì?
@@ -556,7 +556,7 @@ Trong thực tế, không thể tính chính xác tuyệt đối vì đáy ao kh
 
 Tính thể tích xong, bà con có thể áp dụng vào liều vi sinh, khoáng, xử lý nước theo lịch trong [quy trình nuôi tôm thẻ chân trắng từ A đến Z](/vi/blog/quy-trinh-nuoi-tom-the-chan-trang-tu-a-den-z). Nếu cần thông tin khi thả giống, xem [xử lý nước trước khi thả giống tôm](/vi/blog/xu-ly-nuoc-truoc-khi-tha-giong-tom).
 
-Cần tư vấn cho ao của mình? Gọi hotline 0869 739 679 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
+Cần tư vấn cho ao của mình? Gọi hotline 1900 252 667 để kỹ thuật viên Thủy Sản Tím tư vấn miễn phí.
 
 ## Câu hỏi thường gặp
 ### Công thức tính thể tích nước ao là gì?
