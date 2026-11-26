@@ -41,20 +41,18 @@
   </div>
 </section>
 
-<section class="showcase-design" aria-labelledby="sd-title">
+<section class="showcase-design" aria-label="<%= X.eyebrow %>">
   <div class="container">
     <div class="sd__grid">
       <div class="sd__head">
         <p class="eyebrow"><%= X.eyebrow %></p>
-        <h2 id="sd-title" class="section__title"><%= X.dTitle %></h2>
-        <p class="section__lead"><%= X.dLead %></p>
       </div>
       <figure class="sd__film">
         <video data-film controls preload="none" playsinline poster="/video/gioi-thieu-1280.webp" aria-label="<%= X.film %>"><source src="/video/gioi-thieu-1280.mp4" type="video/mp4"></video>
         <figcaption><b><%= X.film %></b><span><%= X.filmLead %></span></figcaption>
       </figure>
     </div>
-    <div class="sd__rail" data-rail tabindex="0" aria-label="<%= X.dTitle %>">
+    <div class="sd__rail" data-rail tabindex="0" aria-label="<%= X.eyebrow %>">
       <% products.forEach(function (p) { if (!/^\/img\/products\//.test(p.imageSrc || '')) return; %>
       <a class="sd__item" href="<%= url('/products/' + p.slug) %>" style="--c: <%= p.color %>">
         <img src="<%= p.imageSrc %>" alt="<%= p.title %>" width="400" height="400" loading="lazy" decoding="async">
