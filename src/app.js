@@ -95,7 +95,7 @@ function createApp() {
 
   app.get('/pack/:file', async (req, res, next) => {
     const slug = String(req.params.file).replace(/\.svg$/, '');
-    const row = await one('SELECT id, slug, sku, name, variants, color FROM products WHERE slug = ?', [slug]);
+    const row = await one('SELECT id, slug, sku, name, variants, color FROM products WHERE slug = ? AND is_active = 1', [slug]);
     if (!row) return next();
     res.set('Cache-Control', svgCache(req, 'public, max-age=86400, stale-while-revalidate=604800'));
     res.type('image/svg+xml').send(packshotSvg(row, { transparent: req.query.bg === '0' }));

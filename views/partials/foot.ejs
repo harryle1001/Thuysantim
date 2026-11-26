@@ -11,10 +11,10 @@
           <span class="brand__text"><span class="brand__name">THỦY SẢN <b>TÍM</b></span><span class="brand__tag"><%= tr(company.tagline) %></span></span>
         </a>
         <p class="footer__about"><%= t('footer.about') %></p>
-        <div class="socials">
-          <% if (company.facebook) { %><a href="<%= company.facebook %>" target="_blank" rel="noopener" aria-label="Facebook"><%- icon('facebook', '', 18) %></a><% } %>
-          <% if (company.youtube) { %><a href="<%= company.youtube %>" target="_blank" rel="noopener" aria-label="YouTube"><%- icon('youtube', '', 18) %></a><% } %>
-          <% if (company.tiktok) { %><a href="<%= company.tiktok %>" target="_blank" rel="noopener" aria-label="TikTok"><%- icon('tiktok', '', 18) %></a><% } %>
+        <div class="socials"><% var realUrl = function (u) { return u && !/^https?:\/\/[^/]+\/?$/.test(u); }; %>
+          <% if (realUrl(company.facebook)) { %><a href="<%= company.facebook %>" target="_blank" rel="noopener" aria-label="Facebook"><%- icon('facebook', '', 18) %></a><% } %>
+          <% if (realUrl(company.youtube)) { %><a href="<%= company.youtube %>" target="_blank" rel="noopener" aria-label="YouTube"><%- icon('youtube', '', 18) %></a><% } %>
+          <% if (realUrl(company.tiktok)) { %><a href="<%= company.tiktok %>" target="_blank" rel="noopener" aria-label="TikTok"><%- icon('tiktok', '', 18) %></a><% } %>
           <% if (company.zalo) { %><a href="https://zalo.me/<%= company.zalo %>" target="_blank" rel="noopener" aria-label="Zalo"><%- icon('zalo', '', 18) %></a><% } %>
         </div>
       </div>
