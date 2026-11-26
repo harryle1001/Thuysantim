@@ -89,7 +89,7 @@
             <input type="hidden" name="product" value="<%= leadTag %>">
             <input type="text" name="website" class="lp-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
             <div class="lp-field"><label for="lp-name">Họ tên *</label><input id="lp-name" name="name" required maxlength="160" autocomplete="name" placeholder="VD: Nguyễn Văn Tư"></div>
-            <div class="lp-field"><label for="lp-phone">Số điện thoại / Zalo *</label><input id="lp-phone" name="phone" type="tel" required maxlength="20" inputmode="tel" autocomplete="tel" pattern="[+0-9][0-9 .\-]{7,16}" placeholder="VD: 0909 123 456"></div>
+            <div class="lp-field"><label for="lp-phone">Số điện thoại / Zalo *</label><input id="lp-phone" name="phone" type="tel" required maxlength="20" inputmode="tel" autocomplete="tel" pattern="[+0-9][0-9 .\-]{7,16}" placeholder="VD: 09xx xxx xxx"></div>
             <div class="lp-field"><label for="lp-prov">Tỉnh nuôi</label>
               <select id="lp-prov" name="province"><option value="">— Chọn tỉnh —</option><% lp.form.provinces.forEach(function (p) { %><option><%= p %></option><% }) %></select>
             </div>
