@@ -2072,3 +2072,7 @@ h1, h2, h3, h4 { line-height: var(--lh-head); }
 .apost__fig { margin: 2em 0; }
 .apost__fig img { width: 100%; height: auto; border-radius: var(--radius-lg, 16px); aspect-ratio: 16 / 9; object-fit: cover; display: block; }
 .apost__fig figcaption { margin-top: .6em; font-size: 13px; color: var(--muted, #6b5a70); text-align: center; }
+
+/* Thanh báo giá dính (sản phẩm liên hệ báo giá) — φ: 10/16/26 */
+.buybar--quote .buybar__price span { font-size: 16px; color: var(--fg-800); }
+.buybar--quote .btn { white-space: nowrap; }

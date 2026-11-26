@@ -5,7 +5,6 @@
   const jsonld = {
     '@context': 'https://schema.org', '@type': 'Product', name: product.title, sku: product.sku, image: config.baseUrl + product.imageSrc,
     description: product.summaryText, brand: { '@type': 'Brand', name: 'Thủy Sản Tím' }, category: product.categoryTitle,
-    aggregateRating: { '@type': 'AggregateRating', ratingValue: String(product.rating), reviewCount: '24' },
     offers: product.variantList.filter(function (v) { return v.price > 0; }).map(function (v) {
       return { '@type': 'Offer', priceCurrency: 'VND', price: String(v.price), name: v.label, availability: 'https://schema.org/InStock', url: config.baseUrl + url('/products/' + product.slug) };
     })
@@ -40,7 +39,6 @@
         <% if (product.categoryTitle) { %><a class="pd__cat" href="<%= url('/products?category=' + product.category_slug) %>"><%- icon('tag', '', 16) %> <%= product.categoryTitle %></a><% } %>
         <h1 class="pd__title"><%= product.title %></h1>
         <div class="pd__rating">
-          <span class="stars"><%- icon('star', '', 16) %><%- icon('star', '', 16) %><%- icon('star', '', 16) %><%- icon('star', '', 16) %><%- icon('star', '', 16) %> <b><%= product.rating %></b></span>
           <span><%= t('product.sku') %>: <b><%= product.sku %></b></span>
           <span><%- icon(product.species === 'fish' ? 'fish' : 'shrimp', '', 16) %> <%= t('disease.species.' + product.species) %></span>
         </div>
@@ -54,7 +52,7 @@
             <% product.variantList.forEach(function (v, i) { %>
               <label class="variant">
                 <input type="radio" name="vi" value="<%= i %>" <%= i === 0 ? 'checked' : '' %> data-price-label="<%= v.price ? money(v.price) : t('product.requestQuote') %>">
-                <span><b><%= v.label %></b><small><%= v.price ? money(v.price) : '—' %></small></span>
+                <span><b><%= v.label %></b><% if (v.price) { %><small><%= money(v.price) %></small><% } %></span>
               </label>
             <% }) %>
           </div>
@@ -165,7 +163,12 @@
 </section>
 <% } %>
 
-<% if (product.minPrice) { %>
+<% if (!product.minPrice) { %>
+<div class="buybar buybar--quote" data-buybar>
+  <div class="buybar__price"><small><%= product.title.split('—')[0].trim() %></small><span><%= t('store.contact') %></span></div>
+  <a class="btn btn--primary" href="<%= url('/quote?product=' + encodeURIComponent(product.title.split('—')[0].trim())) %>"><%- icon('tag', '', 18) %> <%= t('nav.quote') %></a>
+</div>
+<% } else { %>
 <div class="buybar" data-buybar>
   <div class="buybar__price"><small><%= product.title.split('—')[0].trim() %></small><span data-bar-price><%= first.price ? money(first.price) : '' %></span></div>
   <button class="btn btn--primary" type="button" data-add-to-cart data-pid="<%= product.id %>" data-vi="0"><%- icon('cart', '', 18) %> <%= t('product.addToCart') %></button>
