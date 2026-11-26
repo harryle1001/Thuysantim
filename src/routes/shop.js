@@ -46,6 +46,8 @@ router.post('/cart/add', async (req, res) => {
   const p = pid && (await M.products.byId(pid));
   const variants = p ? H.parseJSON(p.variants, []) : [];
   if (!p || !p.is_active || !variants[vi]) return res.status(404).json({ ok: false });
+  // Chưa niêm yết giá ("Liên hệ báo giá") → không cho đặt hàng trực tiếp, tránh đơn 0 đ
+  if (!(Number(variants[vi].price) > 0)) return res.status(422).json({ ok: false, error: 'quote-only' });
   cart.add(req, pid, vi, qty);
   const summary = await cart.resolve(req, req.locale, res.locals.settings);
   if (req.body.redirect) return res.redirect(`/${req.locale}/${req.body.redirect === 'checkout' ? 'checkout' : 'cart'}`);
