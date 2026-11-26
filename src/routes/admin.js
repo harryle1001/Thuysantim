@@ -114,7 +114,7 @@ router.get('/products', async (req, res) => {
 });
 
 router.get('/products/new', async (req, res) => {
-  res.render('admin/product-form', { title: 'Thêm sản phẩm', item: { variants: '[{"label":"1 kg","price":0}]', color: '#6d28d9', is_active: 1, species: 'all', rating: 5 }, categories: await M.categories.all() });
+  res.render('admin/product-form', { title: 'Thêm sản phẩm', item: { variants: '[{"label":"1 kg","price":0}]', color: '#6d28d9', is_active: 1, species: 'all', rating: 0 }, categories: await M.categories.all() });
 });
 
 router.get('/products/:id', async (req, res, next) => {
@@ -150,7 +150,7 @@ router.post('/products/:id', upload.single('image_file'), csrfProtect, async (re
     image,
     color: /^#[0-9a-f]{6}$/i.test(b.color) ? b.color : '#6d28d9',
     badge: ['bestseller', 'new', 'premium'].includes(b.badge) ? b.badge : null,
-    rating: Math.min(5, Math.max(0, parseFloat(b.rating) || 5)),
+    rating: 0,
     is_featured: chk(b.is_featured),
     is_active: chk(b.is_active),
     sort_order: parseInt(b.sort_order, 10) || 0,
