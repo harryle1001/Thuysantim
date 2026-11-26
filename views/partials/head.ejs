@@ -6,7 +6,7 @@
   // Self-referencing canonical that keeps the parameters that really change the page
   const canonQs = (typeof canonicalQuery !== 'undefined' && canonicalQuery) || '';
   const canonical = config.baseUrl + '/' + locale + pathRest + canonQs;
-  const ogImage = seoData.image || (config.baseUrl + '/img/og-cover.png?v=2');
+  const ogImage = seoData.image || (config.baseUrl + '/img/og-cover.jpg?v=2');
   const navItems = [
     { k: 'products', href: url('/products') },
     { k: 'diseases', href: url('/diseases') },
@@ -46,19 +46,21 @@
   <meta name="theme-color" content="#fbfcfd" data-theme-color>
   <script nonce="<%= nonce %>">(function(){var d=document.documentElement,t;try{t=localStorage.getItem('tst-theme')}catch(e){}if(t!=='light'&&t!=='dark')t=window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';d.setAttribute('data-theme',t);var m=document.querySelector('[data-theme-color]');if(m)m.content=t==='dark'?'#06111c':'#fbfcfd'})();</script>
   <meta name="csrf-token" content="<%= csrfToken %>">
-  <link rel="icon" href="/img/favicon.svg?v=3.10.0" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png?v=3.10.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="icon" href="<%= asset('/img/favicon.svg') %>" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="<%= asset('/img/apple-touch-icon.png') %>">
+  <link rel="preload" href="/fonts/be-vietnam-pro-400-vietnamese.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/be-vietnam-pro-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <% if (locale === 'zh') { %><link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap<% if (locale === 'zh') { %>&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@500;600;700<% } %>">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@500;600;700&display=swap"><% } %>
   <link rel="stylesheet" href="/vendor/lenis/lenis.css?v=1.3.27">
-  <link rel="stylesheet" href="/css/main.css?v=3.10.0">
+  <link rel="stylesheet" href="<%= asset('/css/main.css') %>">
   <script type="application/ld+json" nonce="<%= nonce %>"><%- JSON.stringify({
     '@context': 'https://schema.org',
     '@graph': [
       {
         '@type': ['Organization', 'Store'], '@id': config.baseUrl + '/#org', name: 'Thủy Sản Tím', alternateName: 'THUY SAN TIM',
-        legalName: tr(company.legal), url: config.baseUrl, logo: config.baseUrl + '/img/icon-512.png', image: config.baseUrl + '/img/og-cover.png?v=2',
+        legalName: tr(company.legal), url: config.baseUrl, logo: config.baseUrl + '/img/icon-512.png', image: config.baseUrl + '/img/og-cover.jpg?v=2',
         description: t('meta.description'), slogan: tr(company.tagline), email: company.email, telephone: company.hotline, priceRange: '₫₫',
         address: { '@type': 'PostalAddress', streetAddress: tr(company.address), addressLocality: 'Tân Sơn Nhì, Hồ Chí Minh', addressRegion: 'Hồ Chí Minh', addressCountry: 'VN' },
         geo: { '@type': 'GeoCoordinates', latitude: 10.0299, longitude: 105.7681 },

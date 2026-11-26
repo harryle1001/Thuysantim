@@ -3,7 +3,7 @@
 // Tạo thumbnail 4K (3840×2160) cho từng bài: ảnh nền + tấm chữ tím theo tỷ lệ φ.
 //   node scripts/covers/build.js <thư-mục-ảnh-Pexels> [--chi slug1,slug2]   (45 bài cũ: ảnh Pexels <id>.jpg)
 //   node scripts/covers/build.js --ai                                        (bài lô E: ảnh AI cục bộ, xem map.js AI)
-// Xuất public/img/blog/<slug>.webp (3840), <slug>-1920.webp, <slug>-1280.webp.
+// Xuất public/img/blog/<slug>.webp (3840), <slug>-1920.webp, <slug>-1280.webp, <slug>-640.webp.
 // Bài có ảnh AI: thêm ảnh minh họa trong bài public/img/blog/photos/ai/<slug>-a1.webp… (1600×900) nếu có <slug>/a1.png….
 // Cần: Playwright + Chromium (npx playwright install chromium) và Python có Pillow; đặt COVER_PY nếu không phải python3,
 //   ví dụ COVER_PY="uv run --with pillow python".
@@ -75,7 +75,7 @@ h1{margin-top:60px;font:700 ${fs0}px/1.06 'C',serif;letter-spacing:.005em;color:
     await pg.waitForTimeout(400);
     const png = path.join(tmp, p.slug + '.png');
     await pg.screenshot({ path: png, type: 'png' });
-    for (const [w, name, q] of [[3840, '', 80], [1920, '-1920', 80], [1280, '-1280', 78]]) {
+    for (const [w, name, q] of [[3840, '', 80], [1920, '-1920', 80], [1280, '-1280', 78], [640, '-640', 76]]) {
       py(`from PIL import Image;im=Image.open(r'${png}').convert('RGB');w=${w};im=im.resize((w,w*9//16),Image.LANCZOS) if w!=3840 else im;im.save(r'${path.join(OUT, p.slug + name)}.webp','WEBP',quality=${q},method=6)`);
     }
     // ảnh minh họa AI trong bài: cắt giữa về 16:9, 1600×900

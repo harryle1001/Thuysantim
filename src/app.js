@@ -1,5 +1,6 @@
 'use strict';
 const path = require('path');
+const fs = require('fs');
 const crypto = require('crypto');
 const express = require('express');
 const session = require('express-session');
@@ -51,6 +52,19 @@ function createApp() {
   });
   app.use(compression());
 
+  // Địa chỉ tài nguyên tĩnh kèm ?v=<băm nội dung> → đổi file là trình duyệt tự tải bản mới (cache 1 năm an toàn)
+  const assetHash = new Map();
+  app.locals.asset = (p) => {
+    const file = path.join(__dirname, '../public', p);
+    let st;
+    try { st = fs.statSync(file); } catch { return p; }
+    const hit = assetHash.get(p);
+    if (hit && hit.m === st.mtimeMs) return `${p}?v=${hit.h}`;
+    const h = crypto.createHash('md5').update(fs.readFileSync(file)).digest('hex').slice(0, 8);
+    assetHash.set(p, { m: st.mtimeMs, h });
+    return `${p}?v=${h}`;
+  };
+
   /* ---------- Static & generated assets ---------- */
   // Versioned (?v=…) and version-named vendor files never change → cache for a year; the rest 7 days
   const YEAR = 'public, max-age=31536000, immutable';
@@ -60,7 +74,8 @@ function createApp() {
       etag: true,
       setHeaders(res, file) {
         if (!config.isProd) return;
-        if (res.req.query.v || file.includes(`${path.sep}vendor${path.sep}`)) res.set('Cache-Control', YEAR);
+        if (res.req.query.v || file.includes(`${path.sep}vendor${path.sep}`) || file.includes(`${path.sep}fonts${path.sep}`)) res.set('Cache-Control', YEAR);
+        else if (/\.(webp|png|jpe?g|svg|mp4|ico)$/i.test(file)) res.set('Cache-Control', 'public, max-age=2592000, stale-while-revalidate=604800');
       },
     })
   );

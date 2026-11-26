@@ -169,7 +169,7 @@ router.get('/blog/:slug', async (req, res, next) => {
   if (!picks.length) picks = products.filter((p) => p.is_featured);
   seo(res, `${post.titleText} | Thủy Sản Tím`, post.excerptText, {
     type: 'article',
-    image: /^\/img\/blog\//.test(post.coverHero || '') ? `${res.locals.config.baseUrl}${post.coverHero}` : `${res.locals.config.baseUrl}/img/og-cover.png?v=2`,
+    image: /^\/img\/blog\//.test(post.coverHero || '') ? `${res.locals.config.baseUrl}${post.coverHero}` : `${res.locals.config.baseUrl}/img/og-cover.jpg?v=2`,
     published: row.published_at,
     modified: row.updated_at,
   });

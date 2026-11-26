@@ -3,7 +3,7 @@
   const tel = (company.hotline || '').replace(/\s/g, '');
   const zalo = company.zalo ? 'https://zalo.me/' + company.zalo : '';
   const canonical = config.baseUrl + '/' + locale + pathRest;
-  const ogImage = config.baseUrl + '/img/og-cover.png';
+  const ogImage = config.baseUrl + '/img/og-cover.jpg';
   const num = (n) => Number(n || 0).toLocaleString('vi-VN');
   const dec = (n) => String(n).replace('.', ',');
   const byRole = lp.products.roles;
@@ -28,11 +28,10 @@
   <meta name="color-scheme" content="dark">
   <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&display=swap">
-  <link rel="stylesheet" href="/css/lp.css?v=1.1.0">
-  <% if (lp.theme === 'hoang-hon') { %><link rel="stylesheet" href="/css/lp-hoang-hon.css?v=1.1.0"><% } %>
+  <link rel="preload" href="/fonts/be-vietnam-pro-400-vietnamese.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/be-vietnam-pro-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="<%= asset('/css/lp.css') %>">
+  <% if (lp.theme === 'hoang-hon') { %><link rel="stylesheet" href="<%= asset('/css/lp-hoang-hon.css') %>"><% } %>
   <script type="application/ld+json" nonce="<%= nonce %>"><%- JSON.stringify({
     '@context': 'https://schema.org',
     '@graph': [
@@ -260,6 +259,6 @@
   <a class="lp-dock__form" href="#dang-ky"><%- icon('headset', '', 20) %><span><%= lp.sticky.form %></span></a>
 </nav>
 
-<script src="/js/lp.js?v=1.0.0" defer nonce="<%= nonce %>"></script>
+<script src="<%= asset('/js/lp.js') %>" defer nonce="<%= nonce %>"></script>
 </body>
 </html>

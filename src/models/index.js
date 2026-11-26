@@ -59,18 +59,29 @@ function localizeProduct(row, locale) {
   };
 }
 
-/** Cover images made by scripts/covers (3840/1920/1280 px); older posts keep their own cover or the SVG fallback. */
+/** Cover images made by scripts/covers (3840/1920/1280/640 px); older posts keep their own cover or the SVG fallback. */
+const PUBLIC_DIR = require('path').join(__dirname, '../../public');
+const has640 = new Map();
+function cover640Exists(base) {
+  if (!has640.has(base)) has640.set(base, require('fs').existsSync(`${PUBLIC_DIR}${base}-640.webp`));
+  return has640.get(base);
+}
 function coverSet(row) {
   const c = row.cover || '';
   const m = /^(\/img\/blog\/[a-z0-9-]+)\.webp$/.exec(c);
   if (m) {
+    const small = cover640Exists(m[1]);
     return {
       coverSrc: `${m[1]}-1280.webp`, coverHero: `${m[1]}-1920.webp`, coverFull: c,
-      coverSrcset: `${m[1]}-1280.webp 1280w, ${m[1]}-1920.webp 1920w, ${c} 3840w`,
+      // Ảnh gốc 3840px (>1MB) không đưa vào srcset: 1920px đã đủ nét cho màn 4K
+      coverSrcset: `${m[1]}-1280.webp 1280w, ${m[1]}-1920.webp 1920w`,
+      // Thẻ bài (thumbnail): 640px cho màn thường, 1280px cho màn mật độ cao
+      coverThumb: small ? `${m[1]}-640.webp` : `${m[1]}-1280.webp`,
+      coverThumbSet: small ? `${m[1]}-640.webp 640w, ${m[1]}-1280.webp 1280w` : '',
     };
   }
   const src = imageUrl(c, `/cover/${row.slug}.svg${ver(row)}`);
-  return { coverSrc: src, coverHero: src, coverFull: src, coverSrcset: '' };
+  return { coverSrc: src, coverHero: src, coverFull: src, coverSrcset: '', coverThumb: src, coverThumbSet: '' };
 }
 
 function localizePost(row, locale) {
