@@ -26,6 +26,14 @@
         </div>
       </div>
       <div>
+        <h2><%= t('product.form') %></h2>
+        <div class="seg">
+          <a href="<%= qs({ form: '' }) %>" class="<%= !filters.form ? 'is-active' : '' %>" aria-current="<%= !filters.form ? 'true' : 'false' %>"><%= t('product.all') %></a>
+          <a href="<%= qs({ form: 'liquid' }) %>" class="<%= filters.form === 'liquid' ? 'is-active' : '' %>" aria-current="<%= filters.form === 'liquid' ? 'true' : 'false' %>"><%= t('product.liquid') %></a>
+          <a href="<%= qs({ form: 'powder' }) %>" class="<%= filters.form === 'powder' ? 'is-active' : '' %>" aria-current="<%= filters.form === 'powder' ? 'true' : 'false' %>"><%= t('product.powder') %></a>
+        </div>
+      </div>
+      <div>
         <h2><%= t('nav.products') %></h2>
         <nav class="filters__list">
           <a href="<%= qs({ category: '' }) %>" class="<%= !filters.category ? 'is-active' : '' %>"><%- icon('sparkle', '', 18) %> <%= t('product.all') %> <span class="count"><%= total %></span></a>
@@ -49,16 +57,15 @@
 
       <div class="toolbar">
         <div class="toolbar__count"><b><%= items.length %></b> <%= t('product.results') %><% if (filters.q) { %> · “<%= filters.q %>”<% } %></div>
-        <form method="get" action="<%= url('/products') %>">
+        <form method="get" action="<%= url('/products') %>" role="search" data-suggest="<%= url('/search/suggest') %>" data-s-title="<%= t('ux.search.suggest') %>" data-s-all="<%= t('ux.search.all') %>" data-s-none="<%= t('ux.search.none') %>">
+          <% if (filters.form) { %><input type="hidden" name="form" value="<%= filters.form %>"><% } %>
           <% if (filters.category) { %><input type="hidden" name="category" value="<%= filters.category %>"><% } %>
           <% if (filters.species) { %><input type="hidden" name="species" value="<%= filters.species %>"><% } %>
           <label class="sr-only" for="pq"><%= t('nav.search') %></label>
-          <input id="pq" type="search" name="q" value="<%= filters.q %>" placeholder="<%= t('nav.search') %>">
+          <input id="pq" type="search" name="q" value="<%= filters.q %>" placeholder="<%= t('nav.search') %>" autocomplete="off">
           <label class="sr-only" for="ps"><%= t('product.sort') %></label>
           <select id="ps" name="sort" data-autosubmit>
             <option value=""><%= t('product.sortFeatured') %></option>
-            <option value="price-asc" <%= filters.sort === 'price-asc' ? 'selected' : '' %>><%= t('product.sortPriceAsc') %></option>
-            <option value="price-desc" <%= filters.sort === 'price-desc' ? 'selected' : '' %>><%= t('product.sortPriceDesc') %></option>
             <option value="name" <%= filters.sort === 'name' ? 'selected' : '' %>><%= t('product.sortName') %></option>
           </select>
         </form>

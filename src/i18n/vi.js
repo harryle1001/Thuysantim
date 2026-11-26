@@ -109,7 +109,7 @@ module.exports = {
   },
   product: {
     guidesTitle: 'Hướng dẫn sử dụng trong thực tế',
-    all: 'Tất cả', species: 'Đối tượng', shrimp: 'Tôm', fish: 'Cá', allSpecies: 'Tôm & Cá', sort: 'Sắp xếp', sortFeatured: 'Nổi bật', sortPriceAsc: 'Giá tăng dần', sortPriceDesc: 'Giá giảm dần', sortName: 'Tên A–Z',
+    all: 'Tất cả', form: 'Dạng sản phẩm', liquid: 'Dạng nước', powder: 'Dạng bột', species: 'Đối tượng', shrimp: 'Tôm', fish: 'Cá', allSpecies: 'Tôm & Cá', sort: 'Sắp xếp', sortFeatured: 'Nổi bật', sortPriceAsc: 'Giá tăng dần', sortPriceDesc: 'Giá giảm dần', sortName: 'Tên A–Z',
     from: 'Từ', addToCart: 'Thêm vào giỏ', buyNow: 'Mua ngay', requestQuote: 'Yêu cầu báo giá', packing: 'Quy cách', qty: 'Số lượng',
     tabs: { description: 'Mô tả', composition: 'Thành phần', usage: 'Công dụng', dosage: 'Liều dùng' },
     related: 'Sản phẩm liên quan', results: 'sản phẩm', empty: 'Không tìm thấy sản phẩm phù hợp.', sku: 'Mã SP',

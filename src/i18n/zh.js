@@ -109,7 +109,7 @@ module.exports = {
   },
   product: {
     guidesTitle: '实际应用指南',
-    all: '全部', species: '适用对象', shrimp: '虾', fish: '鱼', allSpecies: '虾与鱼', sort: '排序', sortFeatured: '推荐', sortPriceAsc: '价格从低到高', sortPriceDesc: '价格从高到低', sortName: '名称 A–Z',
+    all: '全部', form: '剂型', liquid: '液体', powder: '粉剂', species: '适用对象', shrimp: '虾', fish: '鱼', allSpecies: '虾与鱼', sort: '排序', sortFeatured: '推荐', sortPriceAsc: '价格从低到高', sortPriceDesc: '价格从高到低', sortName: '名称 A–Z',
     from: '起', addToCart: '加入购物车', buyNow: '立即购买', requestQuote: '询价', packing: '规格', qty: '数量',
     tabs: { description: '产品介绍', composition: '成分', usage: '功能', dosage: '用法用量' },
     related: '相关产品', results: '个产品', empty: '未找到匹配的产品。', sku: '编号',

@@ -54,10 +54,11 @@ router.get('/products', async (req, res) => {
   const L = req.locale;
   const category = typeof req.query.category === 'string' ? req.query.category : '';
   const species = ['shrimp', 'fish'].includes(req.query.species) ? req.query.species : '';
+  const form = ['liquid', 'powder'].includes(req.query.form) ? req.query.form : '';
   const q = typeof req.query.q === 'string' ? req.query.q.trim().slice(0, 80) : '';
   const sort = ['price-asc', 'price-desc', 'name'].includes(req.query.sort) ? req.query.sort : '';
   const [cats, rows] = await Promise.all([M.categories.all(), M.products.list({ category, species, q })]);
-  let items = rows.map((p) => M.localizeProduct(p, L));
+  let items = rows.map((p) => M.localizeProduct(p, L)).filter((p) => !form || p.form === form);
   if (sort === 'price-asc') items.sort((a, b) => a.minPrice - b.minPrice);
   if (sort === 'price-desc') items.sort((a, b) => b.minPrice - a.minPrice);
   if (sort === 'name') items.sort((a, b) => a.title.localeCompare(b.title, L));
@@ -66,8 +67,8 @@ router.get('/products', async (req, res) => {
   const t = res.locals.t;
   const catTitle = catLoc && (L === 'vi' ? `${catLoc.title} cho tôm, cá | Thủy Sản Tím` : `${catLoc.title} | Thủy Sản Tím`);
   seo(res, catTitle || t('seo.productsTitle'),
-    catLoc ? catLoc.desc : t('seo.productsDesc'), { noindex: Boolean(q || sort) });
-  res.render('pages/products', { page: 'products', categories: cats.map((c) => M.localizeCategory(c, L)), items, filters: { category, species, q, sort }, currentCategory: catLoc });
+    catLoc ? catLoc.desc : t('seo.productsDesc'), { noindex: Boolean(q || sort || form) });
+  res.render('pages/products', { page: 'products', categories: cats.map((c) => M.localizeCategory(c, L)), items, filters: { category, species, form, q, sort }, currentCategory: catLoc });
 });
 
 // Instant search suggestions (accent-insensitive: "tom" finds "tôm")

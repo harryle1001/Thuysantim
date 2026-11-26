@@ -2107,3 +2107,8 @@ h1, h2, h3, h4 { line-height: var(--lh-head); }
 /* Thanh báo giá dính (sản phẩm liên hệ báo giá) — φ: 10/16/26 */
 .buybar--quote .buybar__price span { font-size: 16px; color: var(--fg-800); }
 .buybar--quote .btn { white-space: nowrap; }
+
+/* Danh sách sản phẩm: gợi ý tìm kiếm neo theo form; tiêu đề lọc */
+.toolbar form { position: relative; }
+.toolbar form .ssug { left: 0; right: auto; width: min(420px, 92vw); }
+.seg a[aria-current='true'] { font-weight: 700; }

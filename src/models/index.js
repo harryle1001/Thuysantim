@@ -53,6 +53,7 @@ function localizeProduct(row, locale) {
     dosageText: tr(row.dosage, locale),
     categoryTitle: row.category_name ? tr(row.category_name, locale) : '',
     variantList: variants,
+    form: variants.some((v) => /chai|l[ií]t|\bml\b|\bl\b/i.test(v.label)) ? 'liquid' : 'powder',
     minPrice: prices.length ? Math.min(...prices) : 0,
     imageSrc: imageUrl(row.image, `/pack/${row.slug}.svg${ver(row)}`),
     galleryList: parseJSON(row.gallery, []).map((g) => imageUrl(g)),
