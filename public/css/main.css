@@ -1363,7 +1363,7 @@ html[data-theme='dark'] { --price: #ff8a7a; --violet: #b49cf0; }
 
 .pgrid--5 { grid-template-columns: repeat(5, 1fr); gap: 16px; }
 .pgrid__cell { display: flex; min-width: 0; }
-.pgrid__cell > .pcard { flex: 1; }
+.pgrid__cell > .pcard { flex: 1; min-width: 0; }
 .pgrid__cell[hidden] { display: none; }
 
 /* ---------- Store product card ---------- */
@@ -1641,6 +1641,7 @@ html[data-theme='dark'] .pcard__buy { border-color: var(--line-strong); }
   .prow__nav { display: none; }
   .pcard__body { padding: 10px 0 2px; }
   .pcard__title { font-size: 13.5px; }
+  .pcard__price { white-space: normal; min-width: 0; }
   .pcard__price strong { font-size: 15px; }
   .pcard__buy { width: 32px; height: 32px; }
   .pcard__buy svg { width: 16px; height: 16px; }
@@ -1656,7 +1657,8 @@ html[data-theme='dark'] .pcard__buy { border-color: var(--line-strong); }
 .duo__cap { z-index: 1; max-width: 50%; }
 @media (max-width: 640px) {
   .shead { flex-wrap: nowrap; }
-  .shead__title { white-space: nowrap; }
+  .shead__title { white-space: normal; min-width: 0; }
+  .shead__more { flex-shrink: 0; }
   .shead__more { font-size: 0; gap: 0; padding-bottom: 8px; }
   .shead__more svg { width: 22px; height: 22px; }
 }
