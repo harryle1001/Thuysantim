@@ -162,23 +162,6 @@
   </div>
 </section>
 
-<!-- ============ NEW ARRIVALS (row carousel) ============ -->
-<section class="shop-block">
-  <div class="container">
-    <div class="shead">
-      <h2 class="shead__title"><%- icon('badge', '', 20) %> <%= t('store.newTitle') %></h2>
-      <a class="shead__more" href="<%= url('/products') %>"><%= t('home.viewAll') %> <%- icon('chevron', '', 16) %></a>
-    </div>
-    <div class="prow" data-prow>
-      <button class="prow__nav prow__nav--prev" type="button" data-prow-prev aria-label="<%= t('store.prev') %>"><%- icon('chevronLeft', '', 22) %></button>
-      <div class="prow__track">
-        <% newest.forEach(function (p) { %><%- include('../partials/product-card', { p }) %><% }) %>
-      </div>
-      <button class="prow__nav prow__nav--next" type="button" data-prow-next aria-label="<%= t('store.next') %>"><%- icon('chevron', '', 22) %></button>
-    </div>
-  </div>
-</section>
-
 <!-- ============ BY CATEGORY (tabs) ============ -->
 <section class="shop-block" data-cat-tabs>
   <div class="container">

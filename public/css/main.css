@@ -2127,3 +2127,9 @@ h1, h2, h3, h4 { line-height: var(--lh-head); }
 .lightbox__close { position: absolute; top: 16px; right: 16px; width: 44px; height: 44px; border-radius: 50%; border: 0; background: #fff; color: var(--ink); display: grid; place-items: center; cursor: pointer; }
 @keyframes lbIn { from { opacity: 0; } to { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .lightbox { animation: none; } }
+
+/* Báo lỗi tại ô nhập — tương phản ≥ 4.5:1 */
+.field__err { display: block; margin-top: 6px; font-size: 14px; line-height: 1.618; color: #b42318; font-weight: 600; }
+.field input[aria-invalid='true'], .field textarea[aria-invalid='true'] { border-color: #b42318; }
+html[data-theme='dark'] .field__err { color: #ff8a80; }
+html[data-theme='dark'] .field input[aria-invalid='true'], html[data-theme='dark'] .field textarea[aria-invalid='true'] { border-color: #ff8a80; }

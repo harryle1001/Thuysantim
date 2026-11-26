@@ -17,7 +17,7 @@
         <a href="<%= url('/contact') %>" class="<%= !isDealer ? 'is-active' : '' %>"><%= t('contact.formTitle') %></a>
         <a href="<%= url('/contact?kind=dealer') %>" class="<%= isDealer ? 'is-active' : '' %>"><%= t('contact.dealerTitle') %></a>
       </div>
-      <form action="<%= url('/inquiry') %>" method="post" data-once>
+      <form action="<%= url('/inquiry') %>" method="post" data-once novalidate data-validate data-e-required="<%= t('form.errors.required') %>" data-e-phone="<%= t('form.errors.phone') %>" data-e-email="<%= t('form.errors.email') %>">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <input type="hidden" name="kind" value="<%= isDealer ? 'dealer' : 'contact' %>">
         <input type="hidden" name="back" value="<%= url('/contact' + (isDealer ? '?kind=dealer' : '')) %>">

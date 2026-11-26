@@ -320,9 +320,37 @@
     });
   });
 
+  /* ---------- Inline form validation (báo lỗi tại ô, đọc được bằng trình đọc màn hình) ---------- */
+  function validateForm(f) {
+    var first = null;
+    $$('.field', f).forEach(function (fd) {
+      var inp = $('input, textarea', fd);
+      if (!inp) return;
+      var v = inp.value.trim(), msg = '';
+      if (inp.required && !v) msg = f.getAttribute('data-e-required');
+      else if (v && inp.type === 'tel' && !/^[+0-9][0-9 .-]{7,16}$/.test(v)) msg = f.getAttribute('data-e-phone');
+      else if (v && inp.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) msg = f.getAttribute('data-e-email');
+      var err = $('.field__err', fd);
+      if (msg) {
+        if (!err) { err = doc.createElement('small'); err.className = 'field__err'; err.id = inp.id + '-err'; fd.appendChild(err); }
+        err.textContent = msg;
+        inp.setAttribute('aria-invalid', 'true');
+        inp.setAttribute('aria-describedby', err.id);
+        if (!first) first = inp;
+      } else {
+        if (err) fd.removeChild(err);
+        inp.removeAttribute('aria-invalid');
+        inp.removeAttribute('aria-describedby');
+      }
+    });
+    if (first) first.focus();
+    return !first;
+  }
+
   /* ---------- Prevent double submit on regular forms ---------- */
   $$('form[data-once]').forEach(function (f) {
-    f.addEventListener('submit', function () {
+    f.addEventListener('submit', function (e) {
+      if (f.hasAttribute('data-validate') && !validateForm(f)) { e.preventDefault(); return; }
       var b = $('button[type="submit"]', f);
       if (b) { b.classList.add('is-loading'); b.setAttribute('aria-busy', 'true'); }
     });

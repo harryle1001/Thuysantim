@@ -18,7 +18,7 @@
     <div class="form-card">
       <h2><%= t('quote.title') %></h2>
       <p><%= t('quote.lead') %></p>
-      <form action="<%= url('/inquiry') %>" method="post" data-once>
+      <form action="<%= url('/inquiry') %>" method="post" data-once novalidate data-validate data-e-required="<%= t('form.errors.required') %>" data-e-phone="<%= t('form.errors.phone') %>" data-e-email="<%= t('form.errors.email') %>">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <input type="hidden" name="kind" value="quote">
         <input type="hidden" name="back" value="<%= url('/quote') %>">
