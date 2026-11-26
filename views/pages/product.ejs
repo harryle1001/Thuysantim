@@ -28,7 +28,7 @@
     <div class="pd" data-product>
       <div class="pd__gallery">
         <div class="pd__main">
-          <img data-gallery-main src="<%= product.imageSrc %>" alt="<%= product.title %>" width="600" height="600" fetchpriority="high">
+          <button type="button" class="pd__zoom" data-zoom aria-label="<%= t('product.zoom') %>"><img data-gallery-main src="<%= product.imageSrc %>" alt="<%= product.title %>" width="600" height="600" fetchpriority="high"></button>
           <% if (product.badge) { %><span class="pill pill--<%= product.badge %>"><%= t('product.badges.' + product.badge) %></span><% } %>
         </div>
         <% if (images.length > 1) { %>
@@ -41,10 +41,6 @@
       <div class="pd__info">
         <% if (product.categoryTitle) { %><a class="pd__cat" href="<%= url('/products?category=' + product.category_slug) %>"><%- icon('tag', '', 16) %> <%= product.categoryTitle %></a><% } %>
         <h1 class="pd__title"><%= product.title %></h1>
-        <div class="pd__rating">
-          <span><%= t('product.sku') %>: <b><%= product.sku %></b></span>
-          <span><%- icon(product.species === 'fish' ? 'fish' : 'shrimp', '', 16) %> <%= t('disease.species.' + product.species) %></span>
-        </div>
         <p class="pd__summary"><%= product.summaryText %></p>
 
         <form action="<%= url('/cart/add') %>" method="post" data-buybox>
@@ -78,6 +74,14 @@
           <% } %>
           <% if (company.zalo) { %><a class="btn btn--block" style="margin-top:12px;background:#0068ff;color:#fff" href="https://zalo.me/<%= company.zalo %>" target="_blank" rel="noopener"><%- icon('zalo', '', 18) %> <%= t('product.zalo') %></a><% } %>
         </form>
+
+        <dl class="pd__spec" aria-label="<%= t('product.specTitle') %>">
+          <% if (product.categoryTitle) { %><div><dt><%= t('product.category') %></dt><dd><%= product.categoryTitle %></dd></div><% } %>
+          <div><dt><%= t('product.form') %></dt><dd><%= t('product.' + product.form) %></dd></div>
+          <div><dt><%= t('product.species2') %></dt><dd><%= t('disease.species.' + product.species) %></dd></div>
+          <div><dt><%= t('product.packing') %></dt><dd><%= product.variantList.map(function (v) { return v.label; }).join(' · ') %></dd></div>
+          <div><dt><%= t('product.sku') %></dt><dd><%= product.sku %></dd></div>
+        </dl>
 
         <ul class="perks">
           <% L.product.perks.forEach(function (pk, i) { %><li><%- icon(['headset', 'truck', 'badge', 'tag'][i], '', 18) %> <%= pk %></li><% }) %>
@@ -177,5 +181,10 @@
   <button class="btn btn--primary" type="button" data-add-to-cart data-pid="<%= product.id %>" data-vi="0"><%- icon('cart', '', 18) %> <%= t('product.addToCart') %></button>
 </div>
 <% } %>
+
+<div class="lightbox" data-lightbox hidden role="dialog" aria-modal="true" aria-label="<%= product.title %>">
+  <button type="button" class="lightbox__close" data-lightbox-close aria-label="<%= t('product.close') %>"><%- icon('close', '', 22) %></button>
+  <img alt="<%= product.title %>">
+</div>
 
 <%- include('../partials/foot') %>

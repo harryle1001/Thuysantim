@@ -111,6 +111,7 @@ module.exports = {
     guidesTitle: 'Field guides using this product',
     all: 'All', form: 'Form', liquid: 'Liquid', powder: 'Powder', species: 'Species', shrimp: 'Shrimp', fish: 'Fish', allSpecies: 'Shrimp & Fish', sort: 'Sort', sortFeatured: 'Featured', sortPriceAsc: 'Price: low to high', sortPriceDesc: 'Price: high to low', sortName: 'Name A–Z',
     from: 'From', addToCart: 'Add to cart', buyNow: 'Buy now', requestQuote: 'Request a quote', packing: 'Pack size', qty: 'Quantity',
+    zoom: 'Zoom product image', close: 'Close', specTitle: 'At a glance', category: 'Group', species2: 'Species',
     tabs: { description: 'Description', composition: 'Composition', usage: 'Indications', dosage: 'Dosage' },
     related: 'Related products', results: 'products', empty: 'No matching products found.', sku: 'SKU',
     badges: { bestseller: 'Bestseller', new: 'New', premium: 'Premium' },

@@ -257,6 +257,16 @@
         $$('[data-thumb]').forEach(function (x) { x.classList.toggle('is-active', x === t); });
       });
     });
+    // zoom (lightbox) — Esc / nhấn nền để đóng, trả focus về nút phóng to
+    var zoomBtn = $('[data-zoom]', pd), lb = $('[data-lightbox]');
+    if (zoomBtn && lb) {
+      var lbImg = $('img', lb), lbClose = $('[data-lightbox-close]', lb);
+      var closeLb = function () { lb.hidden = true; lock(false); zoomBtn.focus(); };
+      zoomBtn.addEventListener('click', function () { lbImg.src = $('[data-gallery-main]', pd).src; lb.hidden = false; lock(true); lbClose.focus(); });
+      lbClose.addEventListener('click', closeLb);
+      lb.addEventListener('click', function (e) { if (e.target === lb) closeLb(); });
+      doc.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !lb.hidden) closeLb(); });
+    }
     // sticky buy bar on mobile
     var bar = $('[data-buybar]');
     var buyBox = $('[data-buybox]');
