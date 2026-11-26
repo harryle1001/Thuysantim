@@ -7,6 +7,10 @@ const PHOTO = {
   cyl: 38409888, beaker: 36515391, tube: 38093935, pipette: 39926423, rack: 7722793, flask: 7722652,
 };
 const RULES = [
+  // lô F, G (26/11/2026)
+  [/mat-do-tha/, 'farm2', 40, 50], [/do-man/, 'cyl', 60, 50], [/dung-voi/, 'pondC', 55, 50], [/nhat-ky/, 'dike', 40, 50],
+  [/chet-rai-rac/, 'pile', 50, 50], [/do-than-do-duoi/, 'shrimpwater', 60, 50], [/cai-tao-ao-sau/, 'farmland', 50, 50],
+  [/mua-lanh/, 'canal', 40, 50], [/fcr/, 'shrimpwater', 35, 45], [/uoc-luong/, 'pondA', 50, 55],
   [/thu-hoach/, 'hand', 50, 50], [/tom-30-ngay/, 'small', 40, 40], [/chon-tom-giong/, 'shrimpwater', 50, 50],
   [/test-kit/, 'cyl', 50, 50], [/doc-nhan/, 'pipette', 50, 55], [/bao-quan/, 'rack', 50, 55], [/chon-men-vi-sinh/, 'beaker', 50, 40],
   [/tinh-the-tich/, 'pondA', 50, 50], [/chi-phi/, 'farm', 50, 50], [/ao-bat-hay-ao-dat/, 'farm2', 50, 55],
