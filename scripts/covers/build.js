@@ -75,7 +75,7 @@ h1{margin-top:60px;font:700 ${fs0}px/1.06 'C',serif;letter-spacing:.005em;color:
     await pg.waitForTimeout(400);
     const png = path.join(tmp, p.slug + '.png');
     await pg.screenshot({ path: png, type: 'png' });
-    for (const [w, name, q] of [[3840, '', 80], [1920, '-1920', 80], [1280, '-1280', 78], [640, '-640', 76]]) {
+    for (const [w, name, q] of [[3840, '', 80], [1920, '-1920', 66], [1280, '-1280', 64], [640, '-640', 68]]) {
       py(`from PIL import Image;im=Image.open(r'${png}').convert('RGB');w=${w};im=im.resize((w,w*9//16),Image.LANCZOS) if w!=3840 else im;im.save(r'${path.join(OUT, p.slug + name)}.webp','WEBP',quality=${q},method=6)`);
     }
     // ảnh minh họa AI trong bài: cắt giữa về 16:9, 1600×900
