@@ -118,6 +118,12 @@ function createApp() {
     }
   });
 
+  // Trình duyệt/bot tự hỏi /favicon.ico → trả biểu tượng thay vì 404
+  app.get('/favicon.ico', (req, res) => {
+    res.set('Cache-Control', 'public, max-age=2592000');
+    res.type('png').sendFile(path.join(__dirname, '../public/img/apple-touch-icon.png'));
+  });
+
   app.get('/robots.txt', (req, res) => {
     res.type('text/plain').send(`User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /*/cart\nDisallow: /*/checkout\nDisallow: /*/order/\n\nSitemap: ${config.baseUrl}/sitemap.xml\n`);
   });

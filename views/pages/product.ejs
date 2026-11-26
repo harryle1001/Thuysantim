@@ -4,11 +4,14 @@
   const images = [product.imageSrc].concat(product.galleryList || []);
   const jsonld = {
     '@context': 'https://schema.org', '@type': 'Product', name: product.title, sku: product.sku, image: config.baseUrl + product.imageSrc,
-    description: product.summaryText, brand: { '@type': 'Brand', name: 'Thủy Sản Tím' }, category: product.categoryTitle,
-    offers: product.variantList.filter(function (v) { return v.price > 0; }).map(function (v) {
-      return { '@type': 'Offer', priceCurrency: 'VND', price: String(v.price), name: v.label, availability: 'https://schema.org/InStock', url: config.baseUrl + url('/products/' + product.slug) };
-    })
+    url: config.baseUrl + url('/products/' + product.slug),
+    description: product.summaryText, brand: { '@type': 'Brand', name: 'Thủy Sản Tím' }, category: product.categoryTitle
   };
+  // Sản phẩm "Liên hệ báo giá" không có giá → không khai báo offers (mảng rỗng làm schema không hợp lệ)
+  const offers = product.variantList.filter(function (v) { return v.price > 0; }).map(function (v) {
+    return { '@type': 'Offer', priceCurrency: 'VND', price: String(v.price), name: v.label, availability: 'https://schema.org/InStock', url: config.baseUrl + url('/products/' + product.slug) };
+  });
+  if (offers.length) jsonld.offers = offers;
 %>
 <%- include('../partials/head', { jsonld }) %>
 

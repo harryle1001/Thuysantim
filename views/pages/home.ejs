@@ -22,9 +22,10 @@
 <!-- ============ BRAND STAGE: sunset video, logo, music · packaging gallery · brand film ============ -->
 <section class="stage" aria-label="<%= X.eyebrow %>">
   <div class="stage__media" aria-hidden="true">
-    <video class="stage__video" data-stage-video autoplay muted loop playsinline preload="metadata" poster="/video/hoang-hon-1280.webp">
-      <source src="/video/hoang-hon-720v.mp4" type="video/mp4" media="(max-width: 700px)">
-      <source src="/video/hoang-hon-1280.mp4" type="video/mp4">
+    <%# Video nạp sau khi trang tải xong (stage.js) để không tranh băng thông với CSS/chữ; trước đó hiện ảnh poster %>
+    <video class="stage__video" data-stage-video muted loop playsinline preload="none" poster="/video/hoang-hon-1280.webp" width="1280" height="720">
+      <source data-src="/video/hoang-hon-720v.mp4" type="video/mp4" media="(max-width: 700px)">
+      <source data-src="/video/hoang-hon-1280.mp4" type="video/mp4">
     </video>
   </div>
   <div class="container stage__inner">
@@ -48,7 +49,7 @@
         <p class="eyebrow"><%= X.eyebrow %></p>
       </div>
       <figure class="sd__film">
-        <video data-film controls preload="none" playsinline poster="/video/gioi-thieu-1280.webp" aria-label="<%= X.film %>"><source src="/video/gioi-thieu-1280.mp4" type="video/mp4"></video>
+        <video data-film controls preload="none" playsinline data-poster="/video/gioi-thieu-1280.webp" width="1280" height="720" aria-label="<%= X.film %>"><source src="/video/gioi-thieu-1280.mp4" type="video/mp4"></video>
         <figcaption><b><%= X.film %></b><span><%= X.filmLead %></span></figcaption>
       </figure>
     </div>
