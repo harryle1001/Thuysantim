@@ -142,3 +142,22 @@ test('batch E articles: SEO lengths, real products, internal links resolve, AI i
     assert.ok(map.pick(p.slug, 0).local, `${p.slug}: no AI cover mapped`);
   }
 });
+
+test('no fabricated ratings or unverified claims in templates and dictionaries', () => {
+  const fs = require('node:fs');
+  const path = require('node:path');
+  const product = fs.readFileSync(path.join(__dirname, '../views/pages/product.ejs'), 'utf8');
+  assert.ok(!/aggregateRating|reviewCount/.test(product), 'product page must not emit made-up ratings');
+  assert.ok(!/product\.rating/.test(product), 'product page must not show a star rating');
+  for (const loc of ['vi', 'en', 'zh']) {
+    const s = JSON.stringify(dict[loc].store);
+    assert.ok(!/COA|100% sinh học|100% biological|100%生物/.test(s), `${loc}: unverified claim in store block`);
+  }
+});
+
+test('footer social links hide bare site roots', () => {
+  const fs = require('node:fs');
+  const path = require('node:path');
+  const foot = fs.readFileSync(path.join(__dirname, '../views/partials/foot.ejs'), 'utf8');
+  assert.ok(/realUrl\(company\.facebook\)/.test(foot) && /realUrl\(company\.tiktok\)/.test(foot));
+});
