@@ -95,10 +95,11 @@ function scene() {
       for (const y of [0.45, 0.8]) prof.push([R, y], [3.56, y + 0.12], [R, y + 0.26]);
       prof.push([R, 1.25], [R, 6.15]);
       for (const y of [6.2, 6.55, 6.9]) prof.push([3.56, y + 0.12], [R, y + 0.26]);
-      prof.push([R, 7.3], [3.62, 7.4]);
-      for (let i = 1; i <= 12; i++) { const t = i / 12; prof.push([3.62 - 1.12 * Math.pow(t, 1.25), 7.4 + 2.9 * t]); }
-      prof.push([2.5, 10.3], [2.62, 10.4], [2.5, 10.55], [2.62, 10.7], [2.5, 10.85], [2.66, 10.95], [2.66, 11.2], [2.45, 11.3]);
-      capY = 11.3; capH = 2.35; capR = 2.55; ribs = 110; lblH = 4.85; lblY = 1.28 + lblH / 2;
+      // trên gờ: thân trên hình chuông thon dần (Ø69 → cổ Ø44), cao gần bằng vùng nhãn
+      prof.push([R, 7.3], [3.55, 7.38], [3.45, 7.45]);
+      for (let i = 1; i <= 18; i++) { const t = i / 18; prof.push([3.45 - 1.25 * (1 - Math.pow(1 - t, 1.8)), 7.45 + 4.1 * t]); }
+      prof.push([2.2, 11.6], [2.34, 11.66], [2.34, 11.9], [2.2, 11.96], [2.2, 12.08], [2.36, 12.14], [2.36, 12.4], [2.25, 12.5]);
+      capY = 12.5; capH = 2.0; capR = 2.45; ribs = 110; lblH = 4.85; lblY = 1.28 + lblH / 2;
     }
     const body = new THREE.Mesh(new THREE.LatheGeometry(prof.map(([x, y]) => new THREE.Vector2(x, y)), 180), white);
     body.castShadow = true; body.receiveShadow = true; g.add(body);
