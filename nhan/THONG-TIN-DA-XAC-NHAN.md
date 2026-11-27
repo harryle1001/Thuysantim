@@ -3,7 +3,7 @@
 Cập nhật 20/11/2026. Dữ liệu máy đọc nằm ở `san-pham.json`; file này ghi lại các quyết định để khỏi hỏi lại.
 
 ## Nhà phân phối (nổi bật trên nhãn)
-- Tên: THỦY SẢN TÍM
+- Tên trên nhãn (khung nhà phân phối): CÔNG TY TNHH THỦY SẢN TÍM (logo/thương hiệu vẫn ghi THỦY SẢN TÍM)
 - Địa chỉ: 295/32 Tân Kỳ Tân Quý, Tân Sơn Nhì, TP. Hồ Chí Minh, Việt Nam
 - Website: thuysantim.com
 - Hotline: 0869 739 679 (lấy từ website thuysantim.com).
@@ -27,6 +27,9 @@ Nguồn: file DM-NHUONG.xlsx (21/11/2026), 19 sản phẩm — đã thay danh m�
 - Thức ăn bổ sung (TA-12…19): NB BIOBEST (gói 500 g), PROZYM (gói 500 g), BIOTIC 99, AMIN CARE, LIVER - MAX, VH-LIVER PRO, VH-CANCI MILK, DAVI CID LIQUID (chai 500 ml).
 - ĐÃ BỎ, không làm nhãn: VH-GLUBENCO PRO, SUPER YUCCA, US LACTO, HEPALIVER-FS, PREMIX ORA.
 - Công dụng/liều dùng sản phẩm mới lấy từ dữ liệu web Noben; VH-LIVER PRO dùng chung LIVER - MAX (cùng công thức).
+
+## Bao bì thật (ảnh 27/11/2026)
+- Chai 1 lít HDPE trắng, nắp trắng cao có khía + vòng niêm phong; chai 500 ml (DAVI CID) lùn, có gờ ngang trên/dưới vùng nhãn. Mockup dựng theo 2 dáng này.
 
 ## Thiết kế
 - Dùng concept E (nền trắng, logo TIM của web ở góc trái trên, màu riêng từng sản phẩm, tỷ lệ vàng). Ghi "Sản xuất tại Việt Nam".

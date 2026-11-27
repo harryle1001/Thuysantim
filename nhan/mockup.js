@@ -72,22 +72,46 @@ function scene() {
 
   const PURPLE = 0x4a044e;
   // ---- CHAI 1 lít: thân HDPE trắng, nắp tím, nhãn quấn 161,8 × 100 mm ----
+  // Chai HDPE trắng theo chai thật (ảnh 27/11/2026). BOT = '500' (DAVI CID: lùn, gờ ngang) hoặc '1000' (chai 1 lít).
+  // Đơn vị 1 = 10 mm. Nhãn phủ vùng thân thẳng, giữ đúng tỷ lệ file nhãn 161,8 : 100.
   function bottle() {
     const g = new THREE.Group();
-    const R = 4.5, prof = [[0, 0], [4.15, 0], [4.45, 0.18], [R, 0.6], [R, 15.2], [4.42, 16.4], [3.9, 18.2], [2.9, 20], [2.1, 21], [1.72, 21.5], [1.72, 22.6]];
-    const lathe = new THREE.LatheGeometry(prof.map(([x, y]) => new THREE.Vector2(x, y)), 160);
-    const body = new THREE.Mesh(lathe, new THREE.MeshPhysicalMaterial({ color: 0xfbfafc, roughness: 0.32, clearcoat: 0.35, clearcoatRoughness: 0.25, side: THREE.DoubleSide }));
-    body.castShadow = true; body.receiveShadow = true; g.add(body);
-    const cap = new THREE.Mesh(new THREE.CylinderGeometry(1.98, 2.02, 2.7, 96), new THREE.MeshPhysicalMaterial({ color: PURPLE, roughness: 0.38, clearcoat: 0.5 }));
-    cap.position.y = 23.75; cap.castShadow = true; g.add(cap);
-    for (let i = 0; i < 48; i++) { // khía nắp
-      const rib = new THREE.Mesh(new THREE.BoxGeometry(0.09, 2.3, 0.12), cap.material); const a = (i / 48) * Math.PI * 2;
-      rib.position.set(Math.sin(a) * 2.01, 23.75, Math.cos(a) * 2.01); rib.rotation.y = a; g.add(rib);
+    const small = typeof BOT !== 'undefined' && BOT === '500';
+    const white = new THREE.MeshPhysicalMaterial({ color: 0xf7f6f4, roughness: 0.48, clearcoat: 0.12, clearcoatRoughness: 0.6, side: THREE.DoubleSide });
+    const capMat = new THREE.MeshPhysicalMaterial({ color: 0xfbfbfa, roughness: 0.36, clearcoat: 0.3 });
+    let R, prof, capY, capH, capR, ribs, lblY, lblH;
+    if (!small) {
+      R = 4.5;
+      prof = [[0, 0], [4.1, 0], [4.4, 0.15], [R, 0.5], [R, 16.8]];
+      for (let i = 1; i <= 14; i++) { const t = (i / 14) * Math.PI / 2; prof.push([2.75 + (R - 2.75) * Math.cos(t), 16.8 + 3.0 * Math.sin(t)]); }
+      prof.push([2.75, 19.85], [2.98, 19.92], [2.98, 20.32], [2.62, 20.4], [2.5, 20.45]);
+      capY = 20.45; capH = 2.55; capR = 2.55; ribs = 36; lblH = 14.6; lblY = 1.2 + lblH / 2;
+    } else {
+      R = 3.72;
+      prof = [[0, 0], [3.45, 0], [3.68, 0.12], [R, 0.35]];
+      for (const y of [0.5, 0.8, 1.1]) prof.push([R, y], [3.6, y + 0.12], [R, y + 0.25]);
+      prof.push([R, 1.45], [R, 6.25]);
+      for (const y of [6.3, 6.6, 6.9, 7.2]) prof.push([3.6, y + 0.1], [R, y + 0.22]);
+      prof.push([R, 7.6], [3.05, 7.78], [3.05, 8.0], [2.95, 8.12], [3.05, 8.25], [3.05, 11.0], [2.9, 11.5], [2.65, 11.95], [2.42, 12.35], [2.38, 12.6], [2.6, 12.65], [2.6, 12.85], [2.3, 12.9]);
+      capY = 12.9; capH = 1.9; capR = 2.18; ribs = 90; lblH = 4.6; lblY = 1.55 + lblH / 2;
     }
-    const len = 16.18 / (R + 0.02); // góc phủ của nhãn (rad)
-    const lg = new THREE.CylinderGeometry(R + 0.02, R + 0.02, 10, 200, 1, true, -len / 2, len);
-    const lbl = new THREE.Mesh(lg, new THREE.MeshPhysicalMaterial(Object.assign({ map: tex(TEX.chai), clearcoat: 0.45, clearcoatRoughness: 0.3 }, foil(TEX.chai))));
-    lbl.position.y = 8.1; lbl.rotation.y = -((38.2 + 61.8 / 2) / 161.8 - 0.5) * len; lbl.castShadow = true; g.add(lbl);
+    const body = new THREE.Mesh(new THREE.LatheGeometry(prof.map(([x, y]) => new THREE.Vector2(x, y)), 180), white);
+    body.castShadow = true; body.receiveShadow = true; g.add(body);
+    // nắp trắng: thân trụ + khía dọc + mặt trên lõm nhẹ
+    const cap = new THREE.Mesh(new THREE.CylinderGeometry(capR * 0.97, capR, capH, 120), capMat);
+    cap.position.y = capY + capH / 2; cap.castShadow = true; g.add(cap);
+    const top = new THREE.Mesh(new THREE.CylinderGeometry(capR * 0.7, capR * 0.7, 0.04, 96), new THREE.MeshPhysicalMaterial({ color: 0xf1f0ee, roughness: 0.3 }));
+    top.position.y = capY + capH + 0.01; g.add(top);
+    const ribH = small ? capH * 0.9 : capH * 0.62, ribY = small ? capY + capH / 2 : capY + capH * 0.36;
+    for (let i = 0; i < ribs; i++) {
+      const rib = new THREE.Mesh(new THREE.BoxGeometry(small ? 0.05 : 0.16, ribH, small ? 0.06 : 0.12), capMat); const a = (i / ribs) * Math.PI * 2;
+      rib.position.set(Math.sin(a) * capR, ribY, Math.cos(a) * capR); rib.rotation.y = a; g.add(rib);
+    }
+    const W = lblH * 1.618, len = W / (R + 0.02); // góc phủ nhãn (rad), tối đa gần trọn vòng
+    const lg = new THREE.CylinderGeometry(R + 0.02, R + 0.02, lblH, 220, 1, true, -len / 2, len);
+    const lbl = new THREE.Mesh(lg, new THREE.MeshPhysicalMaterial(Object.assign({ map: tex(TEX.chai), clearcoat: 0.25, clearcoatRoughness: 0.45 }, foil(TEX.chai))));
+    lbl.position.y = lblY; lbl.rotation.y = -((38.2 + 61.8 / 2) / 161.8 - 0.5) * len; lbl.castShadow = true; g.add(lbl);
+    g.userData.h = capY + capH;
     return g;
   }
   // Hàm dựng "gối" (túi, bao): mặt trước/sau phồng theo hàm d(u,v)
@@ -180,8 +204,8 @@ function scene() {
     cam.position.set(8, 40, 176); cam.lookAt(-3, 31.5, 0);
   } else if (SHOT.k === 'chai') {
     const bo = bottle(); bo.rotation.y = 0.05; s.add(bo);
-    const b2 = bottle(); b2.position.set(10.5, 0, -7); b2.rotation.y = -1.25; s.add(b2);
-    cam.position.set(-4, 17, 70); cam.lookAt(3.5, 12.5, 0);
+    const b2 = bottle(); b2.position.set(10.5 * bo.userData.h / 25.7 * (BOT === '500' ? 1.15 : 1), 0, -7); b2.rotation.y = -1.25; s.add(b2);
+    const hh = bo.userData.h, k = hh / 25.7; cam.position.set(-4 * k, 17 * k, 70 * k); cam.lookAt(3.5 * k, hh * 0.49, 0);
   } else if (SHOT.k === 'tui') {
     const a = pouch(); a.rotation.y = -0.12; s.add(a);
     const b = pouch(); b.position.set(13, 0, -9); b.rotation.y = Math.PI - 0.5; s.add(b);
@@ -197,6 +221,8 @@ function scene() {
 async function main() {
   if (!fs.existsSync(THREE_JS)) { console.error('Không thấy three.min.js. Đặt THREE_JS=/đường/dẫn/three.min.js'); process.exit(2); }
   const sfx = KIEU === 'e' ? '' : '-d';
+  const sp = JSON.parse(fs.readFileSync(path.join(__dirname, 'san-pham.json'), 'utf8')).san_pham.find((x) => x.slug === slug) || {};
+  const BOT = /500\s*ml/i.test(sp.quy_cach_gia || '') ? '500' : '1000';
   const TEX = texFor(slug, sfx);
   const isChai = !TEX.tuiF;
   const { chromium } = require('playwright');
@@ -211,7 +237,7 @@ async function main() {
   const shots = (opt('--shot', isChai ? 'chai' : 'bo,tui,bao')).split(',');
   for (const k of shots) {
     const t0 = Date.now();
-    const url = await page.evaluate(`(() => { window.WW = ${W}; window.WH = ${H}; window.HH = ${H}; window.SHOT = ${JSON.stringify({ k, fov: k === 'bo' ? 24 : 26 })}; document.body.innerHTML = ''; return (${scene.toString()})(); })()`);
+    const url = await page.evaluate(`(() => { window.WW = ${W}; window.WH = ${H}; window.HH = ${H}; window.SHOT = ${JSON.stringify({ k, fov: k === 'bo' ? 24 : 26 })}; window.BOT = ${JSON.stringify(BOT)}; document.body.innerHTML = ''; return (${scene.toString()})(); })()`);
     const f = path.join(OUT, `${slug}-mockup-${k}.png`);
     fs.writeFileSync(f, Buffer.from(url.split(',')[1], 'base64'));
     console.log(`${path.relative(process.cwd(), f)}  ${W}×${H}  ${((Date.now() - t0) / 1000).toFixed(1)} s`);
