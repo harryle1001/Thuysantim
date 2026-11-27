@@ -191,8 +191,8 @@ function back(p, k, u) {
         <p><strong>Phân loại:</strong> ${(() => { const f = B.phanLoai(p); return esc([f.ma, f.loai, f.dang, f.cach].join(' · ')); })()}</p>
         <p><strong>Mã số tiếp nhận:</strong> ${esc(p.ma_so)}</p><p><strong>TCCS:</strong> ${esc(p.tccs)}</p>
         <div style="border-top:var(--ln) solid var(--pcl,var(--P));margin-top:calc(var(--fs) * .5);padding-top:calc(var(--fs) * .5)">
-        <div style="border:var(--ln) solid var(--pc);border-radius:${m(1.2)};padding:calc(var(--fs) * .45) calc(var(--fs) * .6);margin-bottom:calc(var(--fs) * .5)"><div style="font-weight:700;letter-spacing:.1em;color:var(--pc)">NHÀ PHÂN PHỐI · ${esc(pp.ten)}</div><div>${esc(pp.dia_chi)}</div><div style="font-weight:700">ĐT: ${rich(pp.hotline || '[ĐIỀN]')} · ${esc(pp.web)}</div><div style="margin-top:calc(var(--fs) * .25)">Sản phẩm được ${esc(p.che_bien)} và đóng gói tại: ${esc(sx.dia_chi)}</div></div>
-        <p><strong>Sản phẩm của:</strong> ${esc(sx.ten)}<br>${esc(sx.dia_chi)}<br><strong>ĐT:</strong> ${esc(sx.dien_thoai)} · <strong>Website:</strong> ${esc(sx.web)}<br><strong>Sản xuất tại:</strong> ${esc(sx.dia_chi)}</p></div>
+        <div style="border:var(--ln) solid var(--pc);border-radius:${m(1.2)};padding:calc(var(--fs) * .45) calc(var(--fs) * .6);margin-bottom:calc(var(--fs) * .5)"><div style="font-weight:700;letter-spacing:.1em;color:var(--pc)">NHÀ PHÂN PHỐI · ${esc(pp.ten)}</div><div>${esc(pp.dia_chi)}</div><div style="font-weight:700"><span class="lh">ĐT: ${rich(pp.hotline || '[ĐIỀN]')} · ${esc(pp.web)}</span></div><div style="margin-top:calc(var(--fs) * .25)">Sản phẩm được ${esc(p.che_bien)} và đóng gói tại: ${esc(sx.dia_chi)}</div></div>
+        <p><strong>Sản phẩm của:</strong> ${esc(sx.ten)}<br>${esc(sx.dia_chi)}<br><span class="lh"><strong>ĐT:</strong> ${esc(sx.dien_thoai)} · <strong>Website:</strong> ${esc(sx.web)}</span><br><strong>Sản xuất tại:</strong> ${esc(sx.dia_chi)}</p></div>
         <div style="border-top:var(--ln) solid var(--pcl,var(--P));margin-top:calc(var(--fs) * .5);padding-top:calc(var(--fs) * .4)"><p><strong>Số lô:</strong></p><p><strong>NSX:</strong></p><p><strong>HSD:</strong></p></div>
       </div>
     </div>
@@ -235,7 +235,7 @@ async function main() {
       const page = await browser.newPage({ deviceScaleFactor: dsf, viewport: { width: Math.ceil(tw * 96 / 25.4), height: Math.ceil(th * 96 / 25.4) } });
       const body = side === 'truoc' ? front(p, k, u) : back(p, k, u);
       const bg = side === 'truoc' ? P : WH;
-      await page.setContent(`<!doctype html><html lang="vi"><head><meta charset="utf-8"><style>${css(u)}${KIEU === 'e' ? cssE(u) : ''}</style></head><body><div class="page" style="width:${tw}mm;height:${th}mm;background:${KIEU === 'e' ? WH : bg};--pc:${p.mau};--pcl:${B.tint(p.mau, 0.62)}">${body}</div></body></html>`);
+      await page.setContent(`<!doctype html><html lang="vi"><head><meta charset="utf-8"><style>${css(u)}${KIEU === 'e' ? cssE(u) : ''}${process.env.AN_LIEN_HE ? '.lh{filter:blur(0.55mm);}' : ''}</style></head><body><div class="page" style="width:${tw}mm;height:${th}mm;background:${KIEU === 'e' ? WH : bg};--pc:${p.mau};--pcl:${B.tint(p.mau, 0.62)}">${body}</div></body></html>`);
       await page.evaluate(() => document.fonts.ready);
       const r = await fit(page, k, u);
       const base = `${p.slug}-${k}-${side}${KIEU === 'e' ? '' : '-d'}`;

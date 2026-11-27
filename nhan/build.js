@@ -375,8 +375,8 @@ function parts(p) {
     <p class="ms"><strong>Mã số tiếp nhận:</strong> ${esc(p.ma_so)}</p>
     <p class="ms"><strong>TCCS:</strong> ${esc(p.tccs)}</p>
     <div class="legal">
-      <div class="dist"><div class="t">NHÀ PHÂN PHỐI · <b>${esc(pp.ten)}</b></div><div>${esc(pp.dia_chi)}</div><div class="h">ĐT: ${rich(pp.hotline || '[ĐIỀN]')} · ${esc(pp.web)}</div><div class="pk">Sản phẩm được ${esc(p.che_bien)} và đóng gói tại: ${esc(sx.dia_chi)}</div></div>
-      <p class="mfr"><strong>Sản phẩm của:</strong> ${esc(sx.ten)}<br>${esc(sx.dia_chi)}<br><strong>ĐT:</strong> ${esc(sx.dien_thoai)} · <strong>Website:</strong> ${esc(sx.web)}<br><strong>Sản xuất tại:</strong> ${esc(sx.dia_chi)}</p>
+      <div class="dist"><div class="t">NHÀ PHÂN PHỐI · <b>${esc(pp.ten)}</b></div><div>${esc(pp.dia_chi)}</div><div class="h"><span class="lh">ĐT: ${rich(pp.hotline || '[ĐIỀN]')} · ${esc(pp.web)}</span></div><div class="pk">Sản phẩm được ${esc(p.che_bien)} và đóng gói tại: ${esc(sx.dia_chi)}</div></div>
+      <p class="mfr"><strong>Sản phẩm của:</strong> ${esc(sx.ten)}<br>${esc(sx.dia_chi)}<br><span class="lh"><strong>ĐT:</strong> ${esc(sx.dien_thoai)} · <strong>Website:</strong> ${esc(sx.web)}</span><br><strong>Sản xuất tại:</strong> ${esc(sx.dia_chi)}</p>
       <div class="lot"><p><strong>Số lô:</strong></p><p><strong>NSX:</strong></p><p><strong>HSD:</strong></p></div>
     </div>`;
   return {
@@ -424,7 +424,7 @@ function front(c, x) {
 function html(p, c) {
   const x = parts(p);
   return `<!doctype html><html lang="vi"><head><meta charset="utf-8"><title>Nhãn ${esc(p.ten)} – ${CONCEPTS[c]}</title>
-<style>${css(c)}</style></head><body>
+<style>${css(c)}${process.env.AN_LIEN_HE ? '.lh{filter:blur(0.55mm);}' : ''}</style></head><body>
 <div class="sheet"><div class="bleed" style="--pc:${p.mau || '#0a8fb5'};--pcl:${tint(p.mau || '#0a8fb5', 0.62)}">${background(c, p.mau || '#0a8fb5', p.nhom)}
 <div class="trim">
   <section class="side" data-fit>${x.left}</section>
