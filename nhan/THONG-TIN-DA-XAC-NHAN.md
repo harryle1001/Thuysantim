@@ -53,3 +53,10 @@ Nguồn: file DM-NHUONG.xlsx (21/11/2026), 19 sản phẩm — đã thay danh m�
 - Giá NET của 9 sản phẩm mới (AQUA SQUICK, EDTA 99, VH-YUCCA C, VITA C TAT NEW, NB BIOBEST, PROZYM, VH-LIVER PRO, VH-CANCI MILK, DAVI CID LIQUID) — catalogue đang ghi "Liên hệ".
 - Liều dùng: BEN BKC, VH-DIO 99, AMIN CARE, VH-YUCCA C, VH-CANCI MILK.
 - Số/thùng của sản phẩm mới đang lấy theo website cũ, cần xác nhận.
+
+## Liều dùng lấy từ sản phẩm Noben cùng công thức (anh duyệt 27/11/2026)
+- BEN BKC ← SUPER AQUA 80 (Benzalkonium chloride 50%)
+- VH-DIO 99 ← IODINE 99 (Iodine 1%)
+- VH-YUCCA C ← SUPER YUCCA (Saponin Yucca; bản gốc 2%, VH-YUCCA C 3% — giữ liều gốc)
+- AMIN CARE ← AMIN CARE trên web Noben (đạm cá 25%)
+- VH-CANCI MILK ← CALCIPHO (Ca dạng CaCl₂)
