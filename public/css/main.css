@@ -2175,3 +2175,15 @@ html[data-theme='dark'] .pcard__price strong { color: #fff; }
   .pcard__row { gap: 4px; }
   .pcard__row .pcard__buy { padding: 0 6px; font-size: 10.5px; }
 }
+/* Giá luôn hiện đủ số, không cắt "…" */
+.pcard__price strong { overflow: visible; text-overflow: clip; white-space: nowrap; font-size: 15px; letter-spacing: -.01em; }
+.pcard__price { flex: 0 1 auto; }
+@media (max-width: 1100px) { .pcard__price strong { font-size: 13.5px; } .pcard__row .pcard__buy { padding: 0 8px; font-size: 11.5px; } }
+@media (max-width: 400px) { .pcard__price strong { font-size: 12px; } .pcard__row .pcard__buy { padding: 0 6px; font-size: 10.5px; } .pcard__row .pcard__buy svg { display: none; } }
+/* Cỡ chữ giá & nút co theo độ rộng thẻ (container query) để luôn hiện đủ số */
+.pcard__body { container-type: inline-size; }
+.pcard__price strong { font-size: clamp(11px, 8cqi, 16px) !important; letter-spacing: -.02em; }
+.pcard__row .pcard__buy { font-size: clamp(10px, 6cqi, 12.5px) !important; padding: 0 clamp(5px, 3.5cqi, 10px) !important; height: clamp(24px, 15cqi, 30px) !important; }
+@container (max-width: 200px) { .pcard__row .pcard__buy svg { display: none; } }
+@container (max-width: 140px) { .pcard__row { flex-wrap: wrap !important; } .pcard__row .pcard__buy { margin-left: auto; } }
+@media (max-width: 340px) { .pcard__row { flex-wrap: wrap !important; } .pcard__price { flex: 1 0 100%; } .pcard__row .pcard__buy { margin-left: auto; } }
