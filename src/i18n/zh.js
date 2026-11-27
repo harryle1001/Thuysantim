@@ -43,7 +43,7 @@ module.exports = {
     byCat: '按分类选购',
     all: '全部',
     add: '加入购物车',
-    choose: '选购',
+    choose: 'Chọn mua',
     contact: '询价',
     diseaseTitle: '虾、鱼出现异常？',
     diseaseLead: '30秒查询症状，或通过Zalo发送照片获取咨询。',

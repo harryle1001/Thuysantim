@@ -2150,3 +2150,28 @@ html[data-theme='dark'] .field input[aria-invalid='true'], html[data-theme='dark
   .pcard__buy { width: auto; height: 32px; padding: 0 10px; font-size: 12px; }
   .pcard__price strong { font-size: 15px; }
 }
+/* Giá + nút Chọn mua cùng một hàng: giá đen, nút đỏ chữ trắng, gọn */
+.pcard__row { flex-wrap: nowrap; justify-content: space-between; align-items: center; gap: 6px; }
+.pcard__price { flex: 1 1 auto; min-width: 0; white-space: nowrap; }
+.pcard__price strong { color: #111; font-size: 16px; font-weight: 800; }
+html[data-theme='dark'] .pcard__price strong { color: #fff; }
+.pcard__row .pcard__buy { margin-left: 0; flex: 0 0 auto; height: 30px; padding: 0 10px; gap: 4px; border-radius: 6px; background: #e11d2e; border: 0; color: #fff; font-size: 12.5px; font-weight: 700; box-shadow: 0 4px 10px -4px rgba(225, 29, 46, .6); }
+.pcard__row .pcard__buy:hover { background: #b9111f; color: #fff; }
+.pcard__row .pcard__buy svg { width: 14px; height: 14px; }
+@media (max-width: 640px) {
+  .pcard__price strong { font-size: 14px; }
+  .pcard__row .pcard__buy { height: 28px; padding: 0 8px; font-size: 11.5px; }
+  .pcard__row .pcard__buy svg { display: none; }
+}
+.pcard, .pcard__body, .pcard__row { min-width: 0; }
+.pcard__price strong { overflow: hidden; text-overflow: ellipsis; display: block; }
+@media (max-width: 640px) {
+  .pcard__body { padding: 12px 10px; }
+  .pcard__price strong { font-size: 13px; overflow: visible; letter-spacing: -.01em; }
+  .pcard__row .pcard__buy { height: 26px; padding: 0 7px; font-size: 11px; border-radius: 5px; }
+}
+@media (max-width: 400px) {
+  .pcard__price strong { font-size: 12px; letter-spacing: -.02em; }
+  .pcard__row { gap: 4px; }
+  .pcard__row .pcard__buy { padding: 0 6px; font-size: 10.5px; }
+}

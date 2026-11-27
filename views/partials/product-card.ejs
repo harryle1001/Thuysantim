@@ -8,7 +8,7 @@
     <% if (p.summaryText) { %><p class="pcard__desc"><%= p.summaryText %></p><% } %>
     <div class="pcard__row">
       <div class="pcard__price">
-        <% if (p.minPrice) { %><small><%= t('product.from') %></small> <strong><%= money(p.minPrice) %></strong><% } else { %><strong><%= t('store.contact') %></strong><% } %>
+        <% if (p.minPrice) { %><strong><%= money(p.minPrice) %></strong><% } else { %><strong><%= t('store.contact') %></strong><% } %>
       </div>
       <% if (p.minPrice) { %>
         <button class="pcard__buy" type="button" data-add-to-cart data-pid="<%= p.id %>" data-vi="0" aria-label="<%= t('store.add') %>: <%= p.title %>" title="<%= t('store.add') %>"><%- icon('cart', '', 16) %><span><%= t('store.choose') %></span></button>

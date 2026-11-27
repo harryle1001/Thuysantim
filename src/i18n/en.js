@@ -43,7 +43,7 @@ module.exports = {
     byCat: 'Shop by category',
     all: 'All',
     add: 'Add to cart',
-    choose: 'Buy now',
+    choose: 'Chọn mua',
     contact: 'Request a quote',
     diseaseTitle: 'Shrimp or fish acting strangely?',
     diseaseLead: 'Look up symptoms in 30 seconds, or send photos on Zalo to get advice.',
