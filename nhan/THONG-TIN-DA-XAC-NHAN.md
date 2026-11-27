@@ -60,3 +60,8 @@ Nguồn: file DM-NHUONG.xlsx (21/11/2026), 19 sản phẩm — đã thay danh m�
 - VH-YUCCA C ← SUPER YUCCA (Saponin Yucca; bản gốc 2%, VH-YUCCA C 3% — giữ liều gốc)
 - AMIN CARE ← AMIN CARE trên web Noben (đạm cá 25%)
 - VH-CANCI MILK ← CALCIPHO (Ca dạng CaCl₂)
+
+## Chốt 27/11/2026
+- Nhãn NỀN TRẮNG (concept E) là bản cuối; bỏ concept F (nền tím) và các concept khác.
+- Chỉ làm đúng các sản phẩm có trong tờ báo giá "DANH MỤC 18 SP – NHƯỢNG" (19 dòng có giá, gồm cả VH-LIVER PRO); sản phẩm khác không làm.
+- Liều dùng: lấy từ sản phẩm Noben cùng công thức, nguyên liệu (xem mục trên).
