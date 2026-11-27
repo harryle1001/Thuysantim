@@ -33,7 +33,7 @@ module.exports = {
     slides: [
       { tag: 'Next-generation probiotics', title: 'Clean bottoms, clear water, fast growth', lead: 'Breaks down sludge, cuts NH3, NO2 and H2S, and keeps water colour stable all crop long.', cta: 'Shop now', cat: 'men-vi-sinh', pid: 'clear-12h' },
       { tag: 'Minerals & vitamins', title: 'Hard shells, even moulting', lead: 'Macro- and trace minerals plus vitamin C help shrimp ride out sudden weather changes.', cta: 'View products', cat: 'khoang-vitamin', pid: 'mix-79' },
-      { tag: 'Liver & gut care', title: 'Healthy liver, full gut, strong appetite', lead: 'Herbal extracts and digestive enzymes help prevent hepatopancreas and white-faeces problems.', cta: 'View products', cat: 'gan-ruot', pid: 'hepaliver-fs' },
+      { tag: 'Liver & gut care', title: 'Healthy liver, full gut, strong appetite', lead: 'Herbal extracts and digestive enzymes help prevent hepatopancreas and white-faeces problems.', cta: 'View products', cat: 'gan-ruot', pid: 'liver-max' },
     ],
     side: [
       { t: 'Free technician advice', d: 'Send shrimp photos and water data via Zalo', href: '#consult', i: 'headset' },
@@ -43,6 +43,7 @@ module.exports = {
     byCat: 'Shop by category',
     all: 'All',
     add: 'Add to cart',
+    choose: 'Buy now',
     contact: 'Request a quote',
     diseaseTitle: 'Shrimp or fish acting strangely?',
     diseaseLead: 'Look up symptoms in 30 seconds, or send photos on Zalo to get advice.',

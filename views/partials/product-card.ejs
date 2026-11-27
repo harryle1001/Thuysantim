@@ -4,13 +4,14 @@
     <% if (p.badge) { %><span class="pill pill--<%= p.badge %>"><%= t('product.badges.' + p.badge) %></span><% } %>
   </a>
   <div class="pcard__body">
-    <h3 class="pcard__title"><a href="<%= url('/products/' + p.slug) %>"><%= p.title %></a></h3>
+    <h3 class="pcard__title"><a href="<%= url('/products/' + p.slug) %>"><%= p.title.split('—')[0].trim() %></a></h3>
+    <% if (p.summaryText) { %><p class="pcard__desc"><%= p.summaryText %></p><% } %>
     <div class="pcard__row">
       <div class="pcard__price">
         <% if (p.minPrice) { %><small><%= t('product.from') %></small> <strong><%= money(p.minPrice) %></strong><% } else { %><strong><%= t('store.contact') %></strong><% } %>
       </div>
       <% if (p.minPrice) { %>
-        <button class="pcard__buy" type="button" data-add-to-cart data-pid="<%= p.id %>" data-vi="0" aria-label="<%= t('store.add') %>: <%= p.title %>" title="<%= t('store.add') %>"><%- icon('cart', '', 18) %></button>
+        <button class="pcard__buy" type="button" data-add-to-cart data-pid="<%= p.id %>" data-vi="0" aria-label="<%= t('store.add') %>: <%= p.title %>" title="<%= t('store.add') %>"><%- icon('cart', '', 16) %><span><%= t('store.choose') %></span></button>
       <% } else { %>
         <a class="pcard__buy" href="<%= url('/quote?product=' + encodeURIComponent(p.title.split('—')[0].trim())) %>" aria-label="<%= t('store.contact') %>: <%= p.title %>" title="<%= t('store.contact') %>"><%- icon('tag', '', 18) %></a>
       <% } %>

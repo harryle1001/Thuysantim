@@ -18,6 +18,8 @@ const PHI = 1.61803;
 // Khổ (mm): rộng = φ × cao. Ba mặt: hai mặt bên mỗi mặt 38,2%/2 · φ… cụ thể 50 | 61,8 | 50.
 const W = 161.8, H = 100, BLEED = 3, MARK = 6;
 const SIDE = 50, FRONT = W - 2 * SIDE; // 61,8 mm = 38,2% tổng
+// Hai mặt bên chia φ: trái 38,2 mm, phải 61,8 mm (mặt phải chứa nhiều thông tin pháp lý)
+const SIDE_L = 38.2, SIDE_R = 2 * SIDE - SIDE_L;
 const MIN_BODY = 1.6; // mm ≈ 4,5 pt
 
 // Thang chữ φ (mm), gốc 2,1 mm ≈ 6 pt.
@@ -34,8 +36,8 @@ function tint(hex, t) {
   return '#' + c.map((v) => v.toString(16).padStart(2, '0')).join('');
 }
 // Cung sóng φ (concept E): các phần tư hình tròn đồng tâm ở góc (cx, cy), bán kính chia φ, nhiều lớp màu.
-function arcs(pc, cx, cy, Rmax, nhom) {
-  const cols = [tint(pc, 0.82), tint(pc, 0.55), G, pc, P, WH];
+function arcs(pc, cx, cy, Rmax, nhom, inv) {
+  const cols = inv ? [tint(pc, 0.82), tint(pc, 0.55), G, pc, WH, P] : [tint(pc, 0.82), tint(pc, 0.55), G, pc, P, WH];
   let s = '';
   // nhận biết nhóm: xử lý môi trường = cung tròn (sóng nước) · thức ăn bổ sung = hình thoi (hạt thức ăn)
   cols.forEach((col, k) => {
@@ -51,12 +53,22 @@ const NHOM = { 'moi-truong': 'Xử lý môi trường nuôi', 'thuc-an': 'Thức
 const CONCEPTS = {
   a: 'Concept A · Ấn tím: mặt trước tím đặc, chữ trắng; hai mặt bên trắng, chữ tím',
   b: 'Concept B · Trắng dược phẩm: nền trắng, tên chữ đậm không chân, hàng biểu tượng, dải tím 23,6% đáy mặt trước',
+  f: 'Concept F · Đảo màu E: nền tím, chữ trắng',
   e: 'Concept E · Trắng φ: nền trắng chủ đạo, logo góc trái trên, màu riêng từng sản phẩm, cung sóng φ nhiều màu',
   d: 'Concept D · Hoàng gia: tím + nhũ vàng + trắng, biểu tượng vòng Tôm–Cá',
   c: 'Concept C · Vòng φ: nền tím toàn bộ, vòng tròn trắng lớn, tên chữ đậm không chân, thẻ trắng ở mặt bên',
 };
 
 const data = JSON.parse(fs.readFileSync(path.join(DIR, 'san-pham.json'), 'utf8'));
+// Giá nội bộ (không đưa lên Git): nhan/gia-noi-bo.json → gộp gia_net, he_so_gia_ban vào data.
+{
+  const f = path.join(DIR, 'gia-noi-bo.json');
+  if (fs.existsSync(f)) {
+    const g = JSON.parse(fs.readFileSync(f, 'utf8'));
+    data.he_so_gia_ban = g.he_so_gia_ban;
+    for (const p of data.san_pham) p.gia_net = g.gia_net[p.slug];
+  }
+}
 const logoSvg = fs.readFileSync(path.join(DIR, 'logo-tim.svg'), 'utf8');
 const ringPath = /<path d="([^"]+)" fill="#ffffff" fill-rule/.exec(logoSvg)[1];
 const letterPath = /<path d="([^"]+)" fill="#ffffff"\/>/.exec(logoSvg)[1];
@@ -88,7 +100,7 @@ function fontFaces() {
 
 
 function css(c) {
-  const dark = c === 'c';
+  const dark = c === 'c' || c === 'f';
   return `${fontFaces()}
 :root{--phi:1.61803;--P:${P};--W:${WH};--G:${G};--ln:${LINE}mm}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -97,7 +109,7 @@ sup{font-size:.62em;vertical-align:.5em;line-height:0}sub{font-size:.62em;vertic
 mark{background:#ffe08a;color:#5a3b00;padding:0 .3mm}
 .sheet{position:relative;width:${W + 2 * (BLEED + MARK)}mm;height:${H + 2 * (BLEED + MARK)}mm;background:#fff}
 .bleed{position:absolute;left:${MARK}mm;top:${MARK}mm;width:${W + 2 * BLEED}mm;height:${H + 2 * BLEED}mm;overflow:hidden;background:${dark ? P : WH}}
-.trim{position:absolute;left:${BLEED}mm;top:${BLEED}mm;width:${W}mm;height:${H}mm;display:grid;grid-template-columns:${SIDE}mm ${FRONT}mm ${SIDE}mm}
+.trim{position:absolute;left:${BLEED}mm;top:${BLEED}mm;width:${W}mm;height:${H}mm;display:grid;grid-template-columns:${SIDE_L}mm ${FRONT}mm ${SIDE_R}mm}
 .bg{position:absolute;inset:0}
 .marks{position:absolute;inset:0;pointer-events:none}
 /* ---- mặt bên ---- */
@@ -120,6 +132,12 @@ li b{font-weight:700}
 .small{font-size:calc(var(--fs) * .9)}
 .legal{border-top:var(--ln) solid var(--P);padding-top:calc(var(--fs) * .8);font-size:calc(var(--fs) * .9)}
 .legal p{margin-bottom:calc(var(--fs) * .3)}
+.side .ms{margin-bottom:calc(var(--fs) * .3);font-size:calc(var(--fs) * .95)}
+.dist{border:var(--ln) solid var(--pc,var(--P));border-radius:1mm;padding:calc(var(--fs) * .5) calc(var(--fs) * .7);margin:calc(var(--fs) * .4) 0 calc(var(--fs) * .3)}
+.dist .t{font-weight:700;letter-spacing:.12em;color:var(--P)}.dist .t b{color:var(--pc,var(--P))}
+.dist .h{font-weight:700;font-size:1.12em;color:var(--P)}
+.mfr{color:var(--ink-2,#4b3a58);font-size:.92em;line-height:1.4;margin-top:calc(var(--fs) * .4)}
+
 .legal strong{font-weight:700}
 .boxes{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1mm;margin:calc(var(--fs) * .55) 0}
 .boxes div{border:var(--ln) solid var(--P);border-radius:.8mm;padding:.6mm 1mm;height:6.2mm;font-size:calc(var(--fs) * .8);font-weight:600;letter-spacing:.08em;text-transform:uppercase}
@@ -147,9 +165,16 @@ li b{font-weight:700}
 .icons svg{width:${T.l + 0.6}mm;height:${T.l + 0.6}mm}
 .meta{font-family:BVP;font-weight:600;font-size:${T.xs}mm;letter-spacing:.2em}
 .no{font-feature-settings:'lnum' 1;font-family:Cormorant;font-style:italic;font-weight:600;font-size:${T.b * 1.1}mm;letter-spacing:.06em}
-${CONCEPT_CSS[c]}`;
+${c === 'f' ? CONCEPT_CSS.e + INV_CSS : CONCEPT_CSS[c]}`;
 }
 
+// Concept F = bố cục E, đảo màu: nền tím, chữ trắng (đổi chỗ biến --P / --W).
+const INV_CSS = `
+.bleed{--P:#ffffff;--W:${P};--ink:#ffffff;--ink-2:#efe6f4;--mute:#d9c9e3}
+.side,.front{color:#fff}
+.pill{color:#fff!important}.typ i{color:#fff}
+.mfr{color:#e6daee!important}.lock .motto{color:${G}}
+.cp{border-color:rgba(255,255,255,.45)!important}.hd::after{background:rgba(255,255,255,.5)}`;
 const CONCEPT_CSS = {
   // A — mặt trước tím đặc, chữ trắng; mặt bên trắng
   a: `.side{--pt:${T.l + 1.3}mm;--px:${T.h + 0.8}mm;--pb:${T.l + 0.6}mm}
@@ -197,9 +222,14 @@ const CONCEPT_CSS = {
 .icons div{letter-spacing:.1em;font-size:${T.xs * 0.92}mm}
 .icons span{color:var(--P)}
 .vol{position:absolute;left:4.6mm;bottom:11.4mm;color:var(--P)}
+.fdist{position:absolute;left:4.6mm;right:4.6mm;bottom:3.4mm;background:#fff;border:.3mm solid var(--pc);border-radius:1.2mm;padding:1.1mm 2mm 1.2mm;font-family:BVP;font-size:1.72mm;line-height:1.38;color:var(--P);text-align:left}
+.fdist .t{font-weight:700;letter-spacing:.12em;font-size:1.66mm;color:var(--pc)}.fdist .h{font-weight:700;font-size:1.9mm}
+.dist .pk{margin-top:calc(var(--fs) * .25);font-size:.92em}
+.lot{border-top:var(--ln) solid var(--pcl,var(--P));margin-top:calc(var(--fs) * .5);padding-top:calc(var(--fs) * .4)}
+.lot p{margin-bottom:calc(var(--fs) * .5) !important}
 .vol strong{color:var(--P)}
 .front .meta.bot{position:absolute;left:4.6mm;bottom:7.6mm;color:var(--P);opacity:1;font-size:${T.xs * 0.95}mm}
-.made{position:absolute;left:4.6mm;bottom:4mm;font-family:BVP;font-weight:700;font-size:${T.xs * 0.95}mm;letter-spacing:.2em;color:var(--pc)}`,
+.made{position:absolute;left:4.6mm;bottom:5mm;font-family:BVP;font-weight:700;font-size:${T.xs * 0.95}mm;letter-spacing:.2em;color:var(--pc)}`,
   // D — tím + nhũ vàng: mặt trước tím, biểu tượng Tôm–Cá vàng; mặt bên trắng, điểm nhấn vàng
   d: `.side{--pt:${T.l + 1.3}mm;--px:${T.h + 0.8}mm;--pb:${T.l + 0.6}mm}
 .hd i,li::before{background:var(--G)}.hd::after{background:var(--G)}
@@ -249,9 +279,11 @@ Object.assign(ICON, {
   bot: '<path d="M3.2 18.4h17.6"/><path d="M5.6 18.4c1.6-5.4 3.8-8.4 6.4-8.4s4.8 3 6.4 8.4"/><circle cx="12" cy="6.2" r=".7" fill="currentColor"/><circle cx="8.4" cy="8.4" r=".7" fill="currentColor"/><circle cx="15.6" cy="8.4" r=".7" fill="currentColor"/>',
   'tat-ao': '<path d="M2.8 9c1.6-1.8 3.2-1.8 4.6 0s3 1.8 4.6 0 3.2-1.8 4.6 0 3 1.8 4.6 0"/><path d="M2.8 15c1.6-1.8 3.2-1.8 4.6 0s3 1.8 4.6 0 3.2-1.8 4.6 0 3 1.8 4.6 0"/>',
 });
+Object.assign(ICON, { 'giai-doc': ICON.khoang, vitamin: ICON['dinh-duong'], enzyme: ICON['loi-khuan'], acid: ICON.nuoc });
 const LOAI = {
   'vi-sinh': 'Vi sinh xử lý nước', 'sat-trung': 'Sát trùng nước', 'khi-doc': 'Hấp thu khí độc', khoang: 'Khoáng chất',
   'xu-ly-tao': 'Xử lý tảo', 'loi-khuan': 'Lợi khuẩn tiêu hóa', 'dinh-duong': 'Đạm · acid amin', gan: 'Bổ gan',
+  'giai-doc': 'Giải độc nước', vitamin: 'Vitamin · chống sốc', enzyme: 'Enzyme tiêu hóa', acid: 'Acid hữu cơ',
 };
 const svgIcon = (k, extra = '') => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" ${extra}>${ICON[k]}</svg>`;
 // Phân loại: mã = nhóm (MT: xử lý môi trường · TA: thức ăn bổ sung) + số thứ tự; loại; dạng; cách dùng.
@@ -278,15 +310,15 @@ function logo(sizeMm, ring, letters, fill) {
 }
 
 function cpRow(t) {
-  const m = /^(.*?):\s*(.+)$/.exec(t);
+  const m = /^Gồm/.test(t) ? null : /^(.*?):\s*(.+)$/.exec(t);
   if (!m) return `<div class="cp note">${rich(t)}</div>`;
   return `<div class="cp"><span>${rich(m[1])}</span><b>${rich(m[2])}</b></div>`;
 }
 
 // Nét trang trí (SVG, màu đặc) cho từng concept: khung, góc, nếp gấp.
 function background(c, pc = '#0a8fb5', nhom = 'moi-truong') {
-  const ARCS = arcs(pc, BLEED + SIDE + FRONT, BLEED + H - 1.2, FRONT / Math.pow(PHI, 1.5), nhom);
-  const B = BLEED, tot = W + 2 * B, hh = H + 2 * B, fx = B + SIDE, fw = FRONT;
+  const ARCS = arcs(pc, BLEED + SIDE_L + FRONT, BLEED + H - 1.2, FRONT / Math.pow(PHI, c === 'f' ? 2.1 : 1.5), nhom, c === 'f');
+  const B = BLEED, tot = W + 2 * B, hh = H + 2 * B, fx = B + SIDE_L, fw = FRONT;
   const ln = LINE;
   const corner = (x, y, sx, sy, col) => `<path d="M${x} ${y + sy * 5.5} L${x} ${y} L${x + sx * 5.5} ${y}" fill="none" stroke="${col}" stroke-width="${ln * 1.4}"/><rect x="${x + sx * 1.4 - 0.65}" y="${y + sy * 1.4 - 0.65}" width="1.3" height="1.3" transform="rotate(45 ${x + sx * 1.4} ${y + sy * 1.4})" fill="${col}"/>`;
   const frame = (inset, col) => {
@@ -300,7 +332,7 @@ function background(c, pc = '#0a8fb5', nhom = 'moi-truong') {
     s += `<rect x="0" y="${B + 3.4}" width="${tot}" height="${ln}" fill="${P}"/><rect x="0" y="${B + H - 3.4 - ln}" width="${tot}" height="${ln}" fill="${P}"/>`;
     s += `<rect x="${fx}" y="0" width="${fw}" height="${hh}" fill="${P}"/>${frame(3.6, acc)}`;
     if (c === 'd') s += `<rect x="0" y="${B + 2.6}" width="${tot}" height="${ln * 1.4}" fill="${G}"/><rect x="0" y="${B + H - 2.6 - ln * 1.4}" width="${tot}" height="${ln * 1.4}" fill="${G}"/>`;
-  } else if (c === 'e') {
+  } else if (c === 'e' || c === 'f') {
     // dải 3 màu mép trên chia φ (61,8 / 23,6 / 14,6) và vạch mảnh mép dưới; cung sóng φ góc phải dưới mặt trước
     const a1 = tot * 0.618, a2 = tot * 0.236;
     s += `<rect x="0" y="0" width="${a1}" height="${B + 2.2}" fill="var(--pc)"/><rect x="${a1}" y="0" width="${a2}" height="${B + 2.2}" fill="${P}"/><rect x="${a1 + a2}" y="0" width="${tot - a1 - a2}" height="${B + 2.2}" fill="${G}"/>`;
@@ -332,20 +364,20 @@ function parts(p) {
   const pl = phanLoai(p);
   const left = `
     <div class="sec"><div class="hd"><i></i>Công dụng</div><ul>${p.cong_dung.map((c) => `<li>${rich(c)}</li>`).join('')}</ul></div>
-    <div class="sec"><div class="hd"><i></i>Thành phần <span style="letter-spacing:.06em;text-transform:none;font-weight:500">${p.dang === 'chai' ? '(trong 1 lít)' : '(trong 1 kg)'}</span></div>${p.thanh_phan.map(cpRow).join('')}
+    <div class="sec"><div class="hd"><i></i>Thành phần</div><div style="margin:calc(var(--fs) * -.4) 0 calc(var(--fs) * .35);font-size:.9em">${p.dang === 'chai' ? 'Trong 1 lít:' : 'Trong 1 kg:'}</div>${p.thanh_phan.map(cpRow).join('')}
       <div class="chips">${[pl.ma, pl.loai, pl.dang, pl.cach].map((c) => `<span>${esc(c)}</span>`).join('')}</div></div>
     <div class="fill"></div>
-    <div class="foot"><div class="who small"><b>Bảo quản:</b> ${rich(p.bao_quan)}</div><div class="bc">MÃ VẠCH<br>EAN-13</div></div>`;
+    <div class="only">Chỉ dùng trong nuôi trồng thủy sản · Để xa tầm tay trẻ em</div>`;
   const right = `
     <div class="sec"><div class="hd"><i></i>Hướng dẫn sử dụng</div><ul>${p.huong_dan.map((c) => `<li>${rich(c).replace(/^([^:]{3,48}):/, '<b>$1:</b>')}</li>`).join('')}</ul></div>
+    <div class="sec small"><p><b>Bảo quản:</b> ${rich(p.bao_quan)}</p><p><b>Cảnh báo:</b> ${rich(p.canh_bao)}</p></div>
     <div class="fill"></div>
+    <p class="ms"><strong>Mã số tiếp nhận:</strong> ${esc(p.ma_so)}</p>
+    <p class="ms"><strong>TCCS:</strong> ${esc(p.tccs)}</p>
     <div class="legal">
-      <p><strong>Mã số:</strong> ${esc(p.ma_so)} &nbsp;·&nbsp; <strong>TCCS:</strong> ${esc(p.tccs)}</p>
-      <p><strong>HSD:</strong> ${rich(p.hsd && !/In trên/.test(p.hsd) ? p.hsd : 'xem trên bao bì')} &nbsp;·&nbsp; <strong>Quy cách:</strong> ${rich(p.quy_cach || '')}</p>
-      <div class="boxes"><div>Số lô</div><div>NSX</div><div>HSD</div></div>
-      <p><strong>Sản xuất tại Việt Nam bởi:</strong> ${esc(sx.ten)} · ${esc(sx.dia_chi)} · ĐT ${esc(sx.dien_thoai)}</p>
-      <p><strong>Phân phối:</strong> ${esc(pp.ten)} · Hotline ${rich(pp.hotline)} · ${esc(pp.web)}</p>
-      <div class="only">Chỉ dùng trong nuôi trồng thủy sản · Để xa tầm tay trẻ em</div>
+      <div class="dist"><div class="t">NHÀ PHÂN PHỐI · <b>${esc(pp.ten)}</b></div><div>${esc(pp.dia_chi)}</div><div class="h">ĐT: ${rich(pp.hotline || '[ĐIỀN]')} · ${esc(pp.web)}</div><div class="pk">Sản phẩm được ${esc(p.che_bien)} và đóng gói tại: ${esc(sx.dia_chi)}</div></div>
+      <p class="mfr"><strong>Sản phẩm của:</strong> ${esc(sx.ten)}<br>${esc(sx.dia_chi)}<br><strong>ĐT:</strong> ${esc(sx.dien_thoai)} · <strong>Website:</strong> ${esc(sx.web)}<br><strong>Sản xuất tại:</strong> ${esc(sx.dia_chi)}</p>
+      <div class="lot"><p><strong>Số lô:</strong></p><p><strong>NSX:</strong></p><p><strong>HSD:</strong></p></div>
     </div>`;
   return {
     no, left, right, cat: esc(NHOM[p.nhom] || NHOM['moi-truong']),
@@ -366,11 +398,11 @@ function front(c, x) {
     <div class="cat">${x.cat}</div>${x.name}${x.tag}
     <div class="hero">${x.icons}${x.pill}${x.vol}</div>
     <div class="meta bot">TCCS ${x.tccs}</div></section>`;
-  if (c === 'e') return `<section class="front">
-    <div class="lock">${brandMark({ fill: P }, 'width="11.5mm" height="11.5mm"')}<div class="w"><div class="brand">THỦY SẢN TÍM</div><div class="motto">Tinh hoa sinh học</div></div></div>
+  if (c === 'e' || c === 'f') return `<section class="front">
+    <div class="lock">${brandMark({ fill: c === 'f' ? WH : P }, 'width="11.5mm" height="11.5mm"')}<div class="w"><div class="brand">THỦY SẢN TÍM</div><div class="motto">Tinh hoa sinh học</div></div></div>
     <div class="typ"><i>${svgIcon(x.pl.loaiKey)}</i><b>${x.pl.ma}</b></div>
     <div class="mid"><div class="grp">${x.cat}</div><div class="cat">${esc(x.pl.loai)}</div>${x.name}${x.tag}${x.pill}</div>
-    ${x.icons}${x.vol}<div class="meta bot">MS ${x.ms} · ${x.no}</div><div class="made">SẢN XUẤT TẠI VIỆT NAM</div></section>`;
+    ${x.icons}${x.vol}<div class="made">SẢN XUẤT TẠI VIỆT NAM</div></section>`;
   if (c === 'd') return `<section class="front">
     <div class="top"><span class="meta">MS ${x.ms}</span><span class="no">${x.no}</span></div>
     ${emblemSvg({ fill: G, bg: P }, 'width="21mm" height="21mm"')}${brand}<div class="rule"><i></i></div>
@@ -421,9 +453,9 @@ function cropMarks(c) {
   const m = [];
   for (const x of [x0, x1]) { m.push(ln(x, 0, x, L), ln(x, th - L, x, th)); }
   for (const y of [y0, y1]) { m.push(ln(0, y, L, y), ln(tw - L, y, tw, y)); }
-  for (const x of [x0 + SIDE, x0 + SIDE + FRONT]) { m.push(ln(x, 0, x, L * 0.6), ln(x, th - L * 0.6, x, th)); }
+  for (const x of [x0 + SIDE_L, x0 + SIDE_L + FRONT]) { m.push(ln(x, 0, x, L * 0.6), ln(x, th - L * 0.6, x, th)); }
   return `<svg class="marks" viewBox="0 0 ${tw} ${th}" width="${tw}mm" height="${th}mm">${m.join('')}
-<text x="${x0}" y="${th - 1.6}" font-family="BVP" font-size="1.6" fill="#555">Thủy Sản Tím · nhãn quấn ${W} × ${H} mm (φ : 1) · tràn lề ${BLEED} mm · gấp: ${SIDE} | ${FRONT} | ${SIDE} mm · ${CONCEPTS[c]} · 2 màu đặc: tím ${P} + trắng</text></svg>`;
+<text x="${x0}" y="${th - 1.6}" font-family="BVP" font-size="1.6" fill="#555">Thủy Sản Tím · nhãn quấn ${W} × ${H} mm (φ : 1) · tràn lề ${BLEED} mm · gấp: ${SIDE_L} | ${FRONT} | ${SIDE_R} mm · ${CONCEPTS[c]} · 2 màu đặc: tím ${P} + trắng</text></svg>`;
 }
 
 // Co chữ cho vừa: mặt bên giảm --fs, tên sản phẩm co theo chiều rộng.
@@ -445,6 +477,15 @@ async function fit(page) {
     n.style.fontSize = size + 'mm';
     const max = (+n.dataset.max || FRONT - 13) * mm;
     while ([...n.children].some((c) => c.getBoundingClientRect().width > max) && size > 5) { size -= 0.1; n.style.fontSize = size + 'mm'; }
+    // concept E: khối tên không được chồng hàng biểu tượng → đẩy lên (không cao hơn đáy logo), rồi co chữ tên nếu vẫn chồng
+    const mid = document.querySelector('.front .mid'), ic = document.querySelector('.front .icons'), lk = document.querySelector('.front .lock');
+    if (mid && ic && lk) {
+      const gap = 1.2 * mm, over = () => mid.getBoundingClientRect().bottom + gap - ic.getBoundingClientRect().top;
+      const minTop = lk.getBoundingClientRect().bottom - mid.offsetParent.getBoundingClientRect().top + 2.5 * mm;
+      let d = over();
+      if (d > 0) mid.style.top = Math.max(minTop, mid.offsetTop - d) + 'px';
+      while (over() > 0 && size > 5) { size -= 0.1; n.style.fontSize = size + 'mm'; }
+    }
     const f = document.querySelector('.front');
     const fb = f.getBoundingClientRect().bottom;
     const overFront = [...f.querySelectorAll('.name,.tag,.hero,.band,.disc')].some((e) => e.getBoundingClientRect().bottom > fb);
@@ -479,5 +520,5 @@ async function main() {
   process.exitCode = bad ? 1 : 0;
 }
 
-module.exports = { brandMark, phanLoai, svgIcon, LOAI, tint, arcs, fontFaces, rich, esc, data, parts, icons, T, P, G, WH, PHI, NHOM, splitName, cpRow };
+module.exports = { SIDE_L, SIDE_R, W, FRONT, brandMark, phanLoai, svgIcon, LOAI, tint, arcs, fontFaces, rich, esc, data, parts, icons, T, P, G, WH, PHI, NHOM, splitName, cpRow };
 if (require.main === module) main().catch((e) => { console.error(e); process.exit(1); });

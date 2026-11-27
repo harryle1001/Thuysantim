@@ -210,7 +210,7 @@ async function main() {
     window.TEX = {};
     await Promise.all(Object.entries(T).map(([k, src]) => new Promise((ok, no) => { const i = new Image(); i.onload = () => { window.TEX[k] = i; ok(); }; i.onerror = no; i.src = src; })));
   }, TEX);
-  await page.evaluate(`(() => { window.WW = ${W}; window.HH = ${H}; window.SHOT = { k: 'api', fov: 24 }; (${scene.toString()})(); })()`);
+  await page.evaluate(`(() => { window.WW = ${W}; window.HH = ${H}; window.SHOT = { k: 'api', fov: 24 }; window.BOT = ${JSON.stringify(/500\s*ml/i.test(p.quy_cach_gia || '') ? '500' : '1000')}; (${scene.toString()})(); })()`);
   await page.evaluate(`(${setup.toString()})(${JSON.stringify(INFO)}, ${JSON.stringify(LOAI)}, ${K3D})`);
 
   const N = Math.round(DUR * FPS);

@@ -74,7 +74,7 @@ li::before{content:'';position:absolute;left:.1em;top:.55em;width:.45em;height:.
 li b{font-weight:700}
 .cp{display:flex;align-items:baseline;gap:${m(1.4)};padding:calc(var(--fs) * .32) 0;border-bottom:var(--ln) solid var(--P)}
 .cp:first-of-type{border-top:var(--ln) solid var(--P)}
-.cp span{flex:1}.cp b{font-weight:700;white-space:nowrap}
+.cp{flex-wrap:wrap}.cp span{flex:1 1 58%}.cp b{font-weight:700;white-space:nowrap;margin-left:auto}
 .cp.note{border:0}
 .legal{font-size:calc(var(--fs) * .9)}
 .legal p{margin-bottom:calc(var(--fs) * .3)}.legal strong{font-weight:700}
@@ -83,6 +83,8 @@ li b{font-weight:700}
 .bc{margin-top:auto;height:${m(17)};border:var(--ln) dashed var(--P);border-radius:${m(1)};display:grid;place-items:center;font-size:calc(var(--fs) * .8);letter-spacing:.1em;text-align:center}
 .bk .ftr{flex:none;background:var(--P);color:var(--W);padding:${m(4)} ${m(9)};font-size:${m(2.3)};line-height:1.5;border-top:${m(0.8)} solid var(--G)}
 .bk .ftr b{color:var(--G)}
+.bk .ftr .d{font-size:${m(3)};line-height:1.45}.bk .ftr .d .n{font-weight:700;letter-spacing:.16em}.bk .ftr .d .h{font-weight:700;font-size:${m(3.4)}}
+.bk .ftr .mf{opacity:.55;font-size:${m(2.1)};margin-top:${m(1.4)}}
 .bk .ftr .w{font-weight:700;letter-spacing:.18em;color:var(--G);margin-top:${m(1)}}
 `;
 }
@@ -146,7 +148,7 @@ function frontE(p, k, u) {
   <div class="midE"><div class="grpE">${x.cat}</div><div class="cat">${esc(x.pl.loai)}</div>${x.name.replace(/data-max="[^"]*"/, `data-max="${(w * 0.82).toFixed(1)}"`)}${x.tag}<br>${x.pill}</div>
   ${x.icons}
   <div class="volE">${vol} <strong>${volV}</strong></div>
-  <div class="madeE">SẢN XUẤT TẠI VIỆT NAM · ${x.no}</div>
+  <div class="madeE">SẢN XUẤT TẠI VIỆT NAM</div>
   <div class="onlyE">CHỈ DÙNG TRONG NUÔI TRỒNG THỦY SẢN</div>
 </div>`;
 }
@@ -181,22 +183,21 @@ function back(p, k, u) {
     <div class="col">
       <div class="sec"><div class="hd"><i></i>Công dụng</div><ul>${p.cong_dung.map((c) => `<li>${rich(c)}</li>`).join('')}</ul></div>
       <div class="sec"><div class="hd"><i></i>Hướng dẫn sử dụng</div><ul>${p.huong_dan.map((c) => `<li>${rich(c).replace(/^([^:]{3,48}):/, '<b>$1:</b>')}</li>`).join('')}</ul></div>
-      <div class="sec"><b>Bảo quản:</b> ${rich(p.bao_quan)}</div>
+      <div class="sec"><p><b>Bảo quản:</b> ${rich(p.bao_quan)}</p><p><b>Cảnh báo:</b> ${rich(p.canh_bao)}</p></div>
     </div>
     <div class="col">
       <div class="sec"><div class="hd"><i></i>Thành phần</div>${p.thanh_phan.map(B.cpRow).join('')}</div>
       <div class="sec legal">
         <p><strong>Phân loại:</strong> ${(() => { const f = B.phanLoai(p); return esc([f.ma, f.loai, f.dang, f.cach].join(' · ')); })()}</p>
-        <p><strong>Mã số:</strong> ${esc(p.ma_so)}</p><p><strong>TCCS:</strong> ${esc(p.tccs)}</p>
-        <p><strong>HSD:</strong> ${rich(p.hsd && !/In trên/.test(p.hsd) ? p.hsd : 'xem trên bao bì')}</p>
-        <p><strong>Quy cách:</strong> ${rich(p.quy_cach || '')}</p>
-        <div class="boxes"><div>SỐ LÔ</div><div>NSX</div><div>HSD</div></div>
+        <p><strong>Mã số tiếp nhận:</strong> ${esc(p.ma_so)}</p><p><strong>TCCS:</strong> ${esc(p.tccs)}</p>
+        <div style="border-top:var(--ln) solid var(--pcl,var(--P));margin-top:calc(var(--fs) * .5);padding-top:calc(var(--fs) * .5)">
+        <div style="border:var(--ln) solid var(--pc);border-radius:${m(1.2)};padding:calc(var(--fs) * .45) calc(var(--fs) * .6);margin-bottom:calc(var(--fs) * .5)"><div style="font-weight:700;letter-spacing:.1em;color:var(--pc)">NHÀ PHÂN PHỐI · ${esc(pp.ten)}</div><div>${esc(pp.dia_chi)}</div><div style="font-weight:700">ĐT: ${rich(pp.hotline || '[ĐIỀN]')} · ${esc(pp.web)}</div><div style="margin-top:calc(var(--fs) * .25)">Sản phẩm được ${esc(p.che_bien)} và đóng gói tại: ${esc(sx.dia_chi)}</div></div>
+        <p><strong>Sản phẩm của:</strong> ${esc(sx.ten)}<br>${esc(sx.dia_chi)}<br><strong>ĐT:</strong> ${esc(sx.dien_thoai)} · <strong>Website:</strong> ${esc(sx.web)}<br><strong>Sản xuất tại:</strong> ${esc(sx.dia_chi)}</p></div>
+        <div style="border-top:var(--ln) solid var(--pcl,var(--P));margin-top:calc(var(--fs) * .5);padding-top:calc(var(--fs) * .4)"><p><strong>Số lô:</strong></p><p><strong>NSX:</strong></p><p><strong>HSD:</strong></p></div>
       </div>
-      <div class="bc">MÃ VẠCH<br>EAN-13</div>
     </div>
   </div>
-  <div class="ftr"><b>Sản xuất tại Việt Nam bởi:</b> ${esc(sx.ten)} · ${esc(sx.dia_chi)} · ĐT ${esc(sx.dien_thoai)}<br>
-    <b>Phân phối:</b> ${esc(pp.ten)} · Hotline ${rich(pp.hotline)} · ${esc(pp.web)}
+  <div class="ftr">
     <div class="w">CHỈ DÙNG TRONG NUÔI TRỒNG THỦY SẢN · ĐỂ XA TẦM TAY TRẺ EM</div></div>
 </div>`;
 }

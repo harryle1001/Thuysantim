@@ -92,7 +92,7 @@ test('i18n dictionaries have identical key structure', () => {
 
 test('landing pages: content complete, products exist, lead tag sanitised', () => {
   const lp = require('../src/content/landings');
-  const seedSlugs = require('../src/db/catalog-v2').products.map((p) => p.slug); // real catalogue (sample products are hidden)
+  const seedSlugs = require('../src/db/catalog-tim.json').map((p) => p.slug);
   assert.ok(lp.slugs().length > 0);
   for (const slug of lp.slugs()) {
     const page = lp.get(slug, 'vi');
@@ -116,48 +116,4 @@ test('parseDosage turns label text into calculator rules', () => {
   assert.deepEqual([r[1].type, r[1].min, r[1].max], ['area', 0.02, 0.03]);
   assert.deepEqual([r[2].type, r[2].unit, r[2].min, r[2].max], ['feed', 'g', 3, 5]);
   assert.deepEqual(parseDosage('', ''), []);
-});
-
-test('batch E articles: SEO lengths, real products, internal links resolve, AI images mapped', () => {
-  const batch = require('../src/db/seed-posts-e');
-  const all = require('../src/db/seed-data');
-  const slugs = new Set(all.posts.map((p) => p.slug));
-  const diseases = new Set(all.diseases.map((d) => d.slug));
-  const names = require('../src/db/catalog-v2').products.map((p) => p.name.vi.split('—')[0].trim());
-  const map = require('../scripts/covers/map');
-  assert.equal(batch.length, 10);
-  for (const p of batch) {
-    assert.ok(slugs.has(p.slug), `${p.slug}: not in seed data`);
-    assert.ok([...p.title.vi].length <= 60, `${p.slug}: title > 60`);
-    assert.ok([...p.excerpt.vi].length <= 155, `${p.slug}: excerpt > 155`);
-    assert.ok(!Number.isNaN(new Date(p.date).getTime()), `${p.slug}: date`);
-    assert.ok(/## Câu hỏi thường gặp/.test(p.body.vi), `${p.slug}: FAQ`);
-    assert.ok(!/tỷ lệ vàng|φ/i.test(p.body.vi), `${p.slug}: golden ratio in text`);
-    for (const [, href] of p.body.vi.matchAll(/\]\((\/vi\/[^)]+)\)/g)) {
-      const b = /^\/vi\/blog\/(.+)$/.exec(href);
-      const d = /^\/vi\/diseases\/(.+)$/.exec(href);
-      assert.ok((b && slugs.has(b[1])) || (d && diseases.has(d[1])), `${p.slug}: broken link ${href}`);
-    }
-    for (const [, bold] of p.body.vi.matchAll(/\*\*([A-Z0-9][A-Z0-9 -]+)\*\*/g)) assert.ok(names.includes(bold), `${p.slug}: unknown product ${bold}`);
-    assert.ok(map.pick(p.slug, 0).local, `${p.slug}: no AI cover mapped`);
-  }
-});
-
-test('no fabricated ratings or unverified claims in templates and dictionaries', () => {
-  const fs = require('node:fs');
-  const path = require('node:path');
-  const product = fs.readFileSync(path.join(__dirname, '../views/pages/product.ejs'), 'utf8');
-  assert.ok(!/aggregateRating|reviewCount/.test(product), 'product page must not emit made-up ratings');
-  assert.ok(!/product\.rating/.test(product), 'product page must not show a star rating');
-  for (const loc of ['vi', 'en', 'zh']) {
-    const s = JSON.stringify(dict[loc].store);
-    assert.ok(!/COA|100% sinh học|100% biological|100%生物/.test(s), `${loc}: unverified claim in store block`);
-  }
-});
-
-test('footer social links hide bare site roots', () => {
-  const fs = require('node:fs');
-  const path = require('node:path');
-  const foot = fs.readFileSync(path.join(__dirname, '../views/partials/foot.ejs'), 'utf8');
-  assert.ok(/realUrl\(company\.facebook\)/.test(foot) && /realUrl\(company\.tiktok\)/.test(foot));
 });

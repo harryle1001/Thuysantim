@@ -33,7 +33,7 @@ module.exports = {
     slides: [
       { tag: 'Vi sinh xử lý đáy · CLEAR 12H', title: 'Đáy sạch, nước đẹp, tôm lớn nhanh', lead: 'Phân hủy mùn bã, thức ăn thừa ở đáy ao, giảm NH3, H2S, hỗ trợ làm sạch nhớt bạt.', cta: 'Mua ngay', cat: 'men-vi-sinh', pid: 'clear-12h' },
       { tag: 'Khoáng tạt ao · MIX 79', title: 'Tôm cứng vỏ, lột xác đúng chu kỳ', lead: 'Bổ sung P, Ca, Mg vào môi trường ao, giúp tôm lột xác đúng chu kỳ, vỏ cứng dày, thịt săn chắc.', cta: 'Xem sản phẩm', cat: 'khoang-vitamin', pid: 'mix-79' },
-      { tag: 'Bổ gan · HEPALIVER-FS', title: 'Gan khỏe, ruột đầy, tôm ăn mạnh', lead: 'Sorbitol, methionine, betaine trộn ăn hằng ngày, hỗ trợ bồi bổ, giải độc gan cho tôm.', cta: 'Xem sản phẩm', cat: 'gan-ruot', pid: 'hepaliver-fs' },
+      { tag: 'Bổ gan · LIVER - MAX', title: 'Gan khỏe, ruột đầy, tôm ăn mạnh', lead: 'Sorbitol, methionine, betaine trộn ăn hằng ngày, hỗ trợ bồi bổ, giải độc gan cho tôm.', cta: 'Xem sản phẩm', cat: 'gan-ruot', pid: 'liver-max' },
     ],
     side: [
       { t: 'Kỹ thuật viên tư vấn miễn phí', d: 'Gửi ảnh tôm, thông số nước qua Zalo', href: '#consult', i: 'headset' },
@@ -43,6 +43,7 @@ module.exports = {
     byCat: 'Sản phẩm theo danh mục',
     all: 'Tất cả',
     add: 'Thêm vào giỏ',
+    choose: 'Chọn mua',
     contact: 'Liên hệ báo giá',
     diseaseTitle: 'Tôm, cá có dấu hiệu lạ?',
     diseaseLead: 'Tra cứu triệu chứng trong 30 giây hoặc gửi ảnh qua Zalo để được tư vấn.',

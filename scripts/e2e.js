@@ -17,9 +17,9 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'ThuySanTim@2026';
   const ok = (c, msg) => { console.log(`${c ? 'PASS' : 'FAIL'} ${msg}`); if (!c) process.exitCode = 1; };
 
   // 1. Add to cart from product page (2nd variant, qty 3)
-  await p.goto(`${B}/vi/products/tim-pro-bio-9`);
+  await p.goto(`${B}/vi/products/clear-12h`);
   await p.click('.variant:nth-child(2) span');
-  ok((await p.textContent('[data-price]')).includes('520.000'), 'variant switch updates price');
+  ok((await p.textContent('[data-price]')).includes('14.250.000'), 'variant switch updates price');
   await p.fill('input[name=qty]', '3');
   await p.click('.pd__buy [data-add-to-cart]');
   await p.waitForFunction(() => document.querySelector('[data-cart-count]').textContent === '3');
@@ -42,15 +42,18 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'ThuySanTim@2026';
   await p.fill('#o-phone', '0909 000 111');
   await p.fill('#o-prov', 'Cần Thơ');
   await p.fill('#o-addr', '12 Đường Test, Ninh Kiều');
-  await p.check('input[value=vietqr]', { force: true });
+  const hasQr = (await p.$('input[value=vietqr]')) !== null; // VietQR chỉ bật khi đã khai báo tài khoản ngân hàng
+  await p.check(hasQr ? 'input[value=vietqr]' : 'input[value=cod]', { force: true });
   await Promise.all([p.waitForNavigation(), p.click('button:has-text("Đặt hàng")')]);
   ok(p.url().includes('/vi/order/TST'), `order created → ${p.url()}`);
-  const qr = await p.getAttribute('.qr-card img', 'src');
-  ok(qr && qr.includes('img.vietqr.io') && qr.includes('amount='), 'VietQR image rendered');
+  if (hasQr) {
+    const qr = await p.getAttribute('.qr-card img', 'src');
+    ok(qr && qr.includes('img.vietqr.io') && qr.includes('amount='), 'VietQR image rendered');
+  }
   const orderUrl = p.url();
 
   // 4. Validation + COD order in EN
-  await p.goto(`${B}/en/products/tim-yucca-max`);
+  await p.goto(`${B}/en/products/vh-yucca-c`);
   await p.click('.pd__buy [data-add-to-cart]');
   await p.waitForTimeout(500);
   await p.goto(`${B}/en/checkout`);

@@ -7,12 +7,14 @@ const config = require('./src/config');
 const { pool } = require('./src/config/db');
 const { migrate } = require('./src/db/migrate');
 const { seed } = require('./src/db/seed');
+const { syncCatalog } = require('./src/db/sync-catalog');
 const { createApp } = require('./src/app');
 
 async function start() {
   if (config.autoMigrate) {
     await migrate();
     if (config.autoSeed) await seed();
+    await syncCatalog();
   }
   const app = createApp();
   const server = app.listen(config.port, () => {

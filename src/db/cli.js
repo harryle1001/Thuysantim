@@ -3,6 +3,7 @@
 const { pool, query } = require('../config/db');
 const { migrate } = require('./migrate');
 const { seed } = require('./seed');
+const { syncCatalog } = require('./sync-catalog');
 
 const TABLES = ['media', 'settings', 'inquiries', 'orders', 'diseases', 'posts', 'products', 'categories', 'users', 'sessions'];
 
@@ -16,9 +17,11 @@ const TABLES = ['media', 'settings', 'inquiries', 'orders', 'diseases', 'posts',
       for (const t of TABLES) await query(`DROP TABLE IF EXISTS \`${t}\``);
       await migrate();
       await seed({ force: true });
+      await syncCatalog({ force: true });
     } else if (cmd === 'seed') {
       await migrate();
       await seed({ force: process.argv.includes('--force') });
+      await syncCatalog({ force: process.argv.includes('--force') });
     } else {
       await migrate();
     }

@@ -37,7 +37,7 @@
         <h2><%= t('nav.products') %></h2>
         <nav class="filters__list">
           <a href="<%= qs({ category: '' }) %>" class="<%= !filters.category ? 'is-active' : '' %>"><%- icon('sparkle', '', 18) %> <%= t('product.all') %> <span class="count"><%= total %></span></a>
-          <% categories.forEach(function (c) { %>
+          <% categories.filter(function (c) { return c.product_count > 0; }).forEach(function (c) { %>
             <a href="<%= qs({ category: c.slug }) %>" class="<%= filters.category === c.slug ? 'is-active' : '' %>"><%- icon(c.icon, '', 18) %> <%= c.title %> <span class="count"><%= c.product_count %></span></a>
           <% }) %>
         </nav>
