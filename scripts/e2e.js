@@ -17,9 +17,9 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'ThuySanTim@2026';
   const ok = (c, msg) => { console.log(`${c ? 'PASS' : 'FAIL'} ${msg}`); if (!c) process.exitCode = 1; };
 
   // 1. Add to cart from product page (2nd variant, qty 3)
-  await p.goto(`${B}/vi/products/tim-pro-bio-9`);
+  await p.goto(`${B}/vi/products/clear-12h`);
   await p.click('.variant:nth-child(2) span');
-  ok((await p.textContent('[data-price]')).includes('520.000'), 'variant switch updates price');
+  ok((await p.textContent('[data-price]')).includes('14.250.000'), 'variant switch updates price');
   await p.fill('input[name=qty]', '3');
   await p.click('.pd__buy [data-add-to-cart]');
   await p.waitForFunction(() => document.querySelector('[data-cart-count]').textContent === '3');
@@ -50,7 +50,7 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'ThuySanTim@2026';
   const orderUrl = p.url();
 
   // 4. Validation + COD order in EN
-  await p.goto(`${B}/en/products/tim-yucca-max`);
+  await p.goto(`${B}/en/products/vh-yucca-c`);
   await p.click('.pd__buy [data-add-to-cart]');
   await p.waitForTimeout(500);
   await p.goto(`${B}/en/checkout`);

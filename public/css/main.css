@@ -2015,3 +2015,21 @@ h1, h2, h3, h4 { line-height: var(--lh-head); }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 1ms !important; animation-duration: 1ms !important; } }
 /* sửa tràn ngang trang sản phẩm trên điện thoại (thanh chip danh mục) */
 .shop > * { min-width: 0; }
+
+/* ---------- Thẻ sản phẩm Thủy Sản Tím (tỷ lệ vàng φ): tên trên-trái · mô tả dưới-trái · giá · nút Chọn mua dưới-phải ---------- */
+.pcard { --phi: 1.61803; }
+.pcard__media img { object-fit: contain; }
+.pcard__body { gap: 6px; padding: 16px 16px 16px; }
+.pcard__title { min-height: 0; -webkit-line-clamp: 1; font-size: 16px; font-weight: 800; letter-spacing: .02em; text-align: left; }
+.pcard__desc { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.618; text-align: left; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; min-height: calc(3 * 1.618em); }
+.pcard__row { align-items: center; flex-wrap: wrap; row-gap: 6px; padding-top: 10px; border-top: 1px dashed var(--line); }
+.pcard__price { min-width: 0; }
+.pcard__row .pcard__buy { margin-left: auto; }
+.pcard__buy { display: inline-flex; align-items: center; justify-content: center; width: auto; height: 36px; padding: 0 14px; gap: 6px; border-radius: 999px; background: var(--p-600); border-color: var(--p-600); color: #fff; font-size: 13px; font-weight: 700; white-space: nowrap; }
+.pcard__buy:hover { background: var(--p-800); border-color: var(--p-800); color: #fff; }
+.pcard__buy svg { width: 16px; height: 16px; }
+@media (max-width: 640px) {
+  .pcard__desc { font-size: 12px; -webkit-line-clamp: 2; min-height: calc(2 * 1.618em); }
+  .pcard__buy { width: auto; height: 32px; padding: 0 10px; font-size: 12px; }
+  .pcard__price strong { font-size: 15px; }
+}

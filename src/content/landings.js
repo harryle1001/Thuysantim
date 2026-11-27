@@ -7,13 +7,13 @@ const pages = {
   'xu-ly-khi-doc-day-ao': {
     vi: {
       title: 'Xử lý khí độc NH₃, NO₂, H₂S & đáy ao nuôi tôm | Thủy Sản Tím',
-      description: 'Tôm nổi đầu, đáy ao bùn đen, nước hôi? Bộ 3 TÍM cắt NH₃ trong 3–6 giờ, dọn đáy, phân hủy bùn tận gốc. Kỹ sư tư vấn phác đồ miễn phí, giao tận ao, thu tiền khi nhận.',
+      description: 'Tôm nổi đầu, đáy ao bùn đen, nước hôi? Bộ 3 TÍM hấp thu NH₃, dọn đáy, ổn định nước. Kỹ sư tư vấn phác đồ miễn phí, giao tận ao, thu tiền khi nhận.',
       campaign: 'Khí độc & đáy ao',
       hero: {
         eyebrow: 'Mùa mưa · Ao tôm thẻ, tôm sú, cá',
         title: 'Đáy ao dơ, khí độc tăng —',
         titleEm: 'tôm nổi đầu, bỏ ăn?',
-        lead: 'Bộ 3 xử lý khí độc & đáy ao TÍM: cắt nhanh NH₃ trong 3–6 giờ, lắng tụ cặn bẩn, phân hủy bùn đáy tận gốc — giữ ao sạch, màu nước ổn định đến ngày thu hoạch.',
+        lead: 'Bộ 3 xử lý khí độc & đáy ao TÍM: hấp thu nhanh NH₃, phân hủy mùn bã đáy ao, ổn định nước và tảo — giữ ao sạch, màu nước ổn định đến ngày thu hoạch.',
         bullets: ['Kỹ sư thủy sản gọi lại trong 15 phút', 'Giao tận ao · Kiểm hàng rồi trả tiền (COD)', 'Không kháng sinh, không tồn dư'],
       },
       form: {
@@ -51,16 +51,16 @@ const pages = {
         title: 'Cắt nhanh — Dọn đáy — Xử lý tận gốc',
         lead: 'Không chỉ “chữa cháy”. Mỗi sản phẩm xử lý một tầng nguyên nhân, phối hợp để khí độc không quay lại.',
         steps: [
-          { n: '01', t: 'Cắt nhanh khí độc', d: 'Saponin từ Yucca schidigera liên kết NH₃ tự do, giảm khí độc sau 3–6 giờ — cấp cứu khi tôm nổi đầu.', p: 'tim-yucca-max' },
-          { n: '02', t: 'Dọn sạch đáy ao', d: 'Zeolite hạt 1–2 mm chìm nhanh, lắng tụ chất lơ lửng, hấp thu khí độc, tạo lớp lọc tự nhiên ở đáy.', p: 'tim-zeo-clear' },
-          { n: '03', t: 'Phân hủy bùn tận gốc', d: '9 chủng Bacillus, Lactobacillus, Nitrosomonas, Nitrobacter (10¹⁰ CFU/g) ăn bùn hữu cơ, chuyển hóa NH₃ → NO₂ → NO₃ vô hại.', p: 'tim-pro-bio-9' },
+          { n: '01', t: 'Cắt nhanh khí độc', d: 'Saponin chiết xuất từ Yucca schidigera hấp thu NH₃ trong ao — cấp cứu khi tôm nổi đầu do khí độc.', p: 'vh-yucca-c' },
+          { n: '02', t: 'Dọn sạch đáy ao', d: 'Vi sinh Bacillus (1 × 10⁹ cfu/g) phân hủy mùn bã, thức ăn thừa, xác tảo, phân tôm tích tụ ở đáy; làm sạch nhớt bạt.', p: 'clear-12h' },
+          { n: '03', t: 'Ổn định nước, cắt tảo', d: '3 chủng Bacillus licheniformis, megaterium, mesentericus giảm NH₃, H₂S, mùi hôi và hỗ trợ giảm tảo độc, tảo Lablab.', p: 'rovazyme' },
         ],
       },
       products: {
         kicker: 'Sản phẩm chủ lực',
         title: 'Bộ 3 xử lý khí độc & đáy ao',
-        slugs: ['tim-yucca-max', 'tim-zeo-clear', 'tim-pro-bio-9'],
-        roles: { 'tim-yucca-max': 'Cấp cứu khí độc', 'tim-zeo-clear': 'Làm sạch đáy', 'tim-pro-bio-9': 'Vi sinh xử lý đáy' },
+        slugs: ['vh-yucca-c', 'clear-12h', 'rovazyme'],
+        roles: { 'vh-yucca-c': 'Cấp cứu khí độc', 'clear-12h': 'Làm sạch đáy', 'rovazyme': 'Ổn định nước, cắt tảo' },
         from: 'Chỉ từ',
         detail: 'Xem chi tiết',
         combo: 'Mua theo bộ được kỹ sư tính liều theo diện tích ao — tiết kiệm hơn mua lẻ.',
@@ -100,9 +100,9 @@ const pages = {
         ],
       },
       faq: [
-        { q: 'Bộ 3 dùng cho tôm sú, cá được không?', a: 'Được. Cả 3 sản phẩm dùng cho ao tôm thẻ, tôm sú và ao cá; vi sinh hoạt động ở độ mặn 0–35‰, phù hợp ao ngọt, lợ và mặn.' },
-        { q: 'Bao lâu thì thấy hiệu quả?', a: 'Yucca giảm NH₃ sau 3–6 giờ. Zeolite lắng cặn trong 1–2 ngày. Vi sinh cần 3–5 ngày để thấy đáy sạch, nước ổn định rõ rệt.' },
-        { q: 'Có dùng chung với thuốc diệt khuẩn được không?', a: 'Yucca và Zeolite dùng được ngay. Riêng men vi sinh nên tạt cách thuốc sát trùng, diệt khuẩn ít nhất 2–3 ngày để vi sinh không bị chết.' },
+        { q: 'Bộ 3 dùng cho tôm sú, cá được không?', a: 'Được. Cả 3 sản phẩm dùng cho ao tôm thẻ, tôm sú và ao cá; dùng được cho ao ngọt, lợ và mặn.' },
+        { q: 'Bao lâu thì thấy hiệu quả?', a: 'VH-YUCCA C hấp thu NH₃ nhanh, dùng cấp cứu khi tôm nổi đầu. Vi sinh CLEAR 12H, ROVAZYME cần 3–5 ngày để thấy đáy sạch, nước ổn định rõ rệt.' },
+        { q: 'Có dùng chung với thuốc diệt khuẩn được không?', a: 'VH-YUCCA C dùng được ngay. Riêng vi sinh CLEAR 12H, ROVAZYME nên tạt cách thuốc sát trùng, diệt khuẩn ít nhất 2–3 ngày để vi sinh không bị chết.' },
         { q: 'Ao lót bạt và ao đất dùng liều giống nhau không?', a: 'Liều tính theo thể tích nước (m³) và diện tích đáy. Ao bạt ít bùn hơn nên thường dùng mức thấp; ao đất đáy dơ dùng mức cao. Kỹ sư sẽ tính đúng cho ao của bà con.' },
         { q: 'Mua ở đâu, giao hàng thế nào?', a: 'Đặt qua hotline, Zalo hoặc để lại số điện thoại. Giao tận nơi toàn quốc qua đại lý gần nhất, kiểm hàng rồi mới trả tiền (COD).' },
         { q: 'Có kỹ thuật hỗ trợ tận ao không?', a: 'Có. Kỹ sư thủy sản tư vấn miễn phí qua điện thoại, Zalo; khu vực ĐBSCL có thể hẹn kỹ thuật xuống ao kiểm tra nước.' },

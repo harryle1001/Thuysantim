@@ -31,9 +31,9 @@ module.exports = {
     allCats: 'Danh mục sản phẩm',
     hotline: 'Hotline tư vấn',
     slides: [
-      { tag: 'Men vi sinh thế hệ mới', title: 'Đáy sạch, nước đẹp, tôm lớn nhanh', lead: 'Phân hủy bùn đáy, giảm NH3, NO2, H2S và giữ màu nước ổn định suốt vụ nuôi.', cta: 'Mua ngay', cat: 'men-vi-sinh', pid: 'tim-pro-bio-9' },
-      { tag: 'Khoáng & Vitamin', title: 'Tôm cứng vỏ, lột xác đồng loạt', lead: 'Bổ sung khoáng đa lượng, vi lượng và vitamin C giúp tôm chống sốc khi thời tiết thay đổi.', cta: 'Xem sản phẩm', cat: 'khoang-vitamin', pid: 'tim-mineral-plus' },
-      { tag: 'Bổ gan – đường ruột', title: 'Gan khỏe, ruột đầy, tôm ăn mạnh', lead: 'Thảo dược và enzyme tiêu hóa giúp phòng bệnh gan tụy, phân trắng ngay từ đầu vụ.', cta: 'Xem sản phẩm', cat: 'gan-ruot', pid: 'tim-liver-guard' },
+      { tag: 'Men vi sinh thế hệ mới', title: 'Đáy sạch, nước đẹp, tôm lớn nhanh', lead: 'Phân hủy bùn đáy, giảm NH3, NO2, H2S và giữ màu nước ổn định suốt vụ nuôi.', cta: 'Mua ngay', cat: 'men-vi-sinh', pid: 'clear-12h' },
+      { tag: 'Khoáng & Vitamin', title: 'Tôm cứng vỏ, lột xác đồng loạt', lead: 'Bổ sung khoáng đa lượng, vi lượng và vitamin C giúp tôm chống sốc khi thời tiết thay đổi.', cta: 'Xem sản phẩm', cat: 'khoang-vitamin', pid: 'mix-79' },
+      { tag: 'Bổ gan – đường ruột', title: 'Gan khỏe, ruột đầy, tôm ăn mạnh', lead: 'Thảo dược và enzyme tiêu hóa giúp phòng bệnh gan tụy, phân trắng ngay từ đầu vụ.', cta: 'Xem sản phẩm', cat: 'gan-ruot', pid: 'liver-max' },
     ],
     side: [
       { t: 'Kỹ sư tư vấn miễn phí', d: 'Gửi ảnh tôm, thông số nước qua Zalo', href: '#consult', i: 'headset' },
@@ -43,6 +43,7 @@ module.exports = {
     byCat: 'Sản phẩm theo danh mục',
     all: 'Tất cả',
     add: 'Thêm vào giỏ',
+    choose: 'Chọn mua',
     contact: 'Liên hệ báo giá',
     diseaseTitle: 'Tôm, cá có dấu hiệu lạ?',
     diseaseLead: 'Tra cứu triệu chứng trong 30 giây hoặc gửi ảnh cho kỹ sư qua Zalo để nhận phác đồ xử lý.',

@@ -488,7 +488,7 @@ const settings = {
     legal: L('Công ty TNHH Thủy Sản Tím', 'Thuy San Tim Co., Ltd.', 'Thuy San Tim 有限公司'),
     tagline: L('Tinh hoa sinh học · Vững vàng mùa vụ', 'Refined bioscience · Assured harvests', '生物科技精粹 · 稳赢每一季'),
     address: L('Số 88 Đường 3/2, P. Xuân Khánh, Q. Ninh Kiều, TP. Cần Thơ', '88 3/2 Street, Xuan Khanh Ward, Ninh Kieu District, Can Tho City, Vietnam', '越南芹苴市宁乔郡春庆坊3/2路88号'),
-    hotline: '1900 6868',
+    hotline: '1900 252 667',
     phone: '0909 123 456',
     zalo: '0909123456',
     messenger: 'thuysantim',
