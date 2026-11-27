@@ -80,20 +80,25 @@ function scene() {
     const white = new THREE.MeshPhysicalMaterial({ color: 0xf7f6f4, roughness: 0.48, clearcoat: 0.12, clearcoatRoughness: 0.6, side: THREE.DoubleSide });
     const capMat = new THREE.MeshPhysicalMaterial({ color: 0xfbfbfa, roughness: 0.36, clearcoat: 0.3 });
     let R, prof, capY, capH, capR, ribs, lblY, lblH;
+    // Số đo lấy từ ảnh chai thật (đơn vị 10 mm)
     if (!small) {
+      // Chai 1 lít: Ø90; thân thẳng 0,5→15,8 (nhãn dán gần kín thân); vai tròn cao 3,4; cổ + vòng; nắp Ø49 cao 26
       R = 4.5;
-      prof = [[0, 0], [4.1, 0], [4.4, 0.15], [R, 0.5], [R, 16.8]];
-      for (let i = 1; i <= 14; i++) { const t = (i / 14) * Math.PI / 2; prof.push([2.75 + (R - 2.75) * Math.cos(t), 16.8 + 3.0 * Math.sin(t)]); }
-      prof.push([2.75, 19.85], [2.98, 19.92], [2.98, 20.32], [2.62, 20.4], [2.5, 20.45]);
-      capY = 20.45; capH = 2.55; capR = 2.55; ribs = 36; lblH = 14.6; lblY = 1.2 + lblH / 2;
+      prof = [[0, 0], [4.1, 0], [4.4, 0.15], [R, 0.5], [R, 15.8]];
+      for (let i = 1; i <= 18; i++) { const t = (i / 18) * Math.PI / 2; prof.push([2.55 + (R - 2.55) * Math.cos(t), 15.8 + 3.4 * Math.sin(t)]); }
+      prof.push([2.55, 19.4], [2.72, 19.45], [2.72, 19.85], [2.45, 19.95]);
+      capY = 19.95; capH = 2.6; capR = 2.45; ribs = 38; lblH = 15.0; lblY = 0.65 + lblH / 2;
     } else {
-      R = 3.72;
-      prof = [[0, 0], [3.45, 0], [3.68, 0.12], [R, 0.35]];
-      for (const y of [0.5, 0.8, 1.1]) prof.push([R, y], [3.6, y + 0.12], [R, y + 0.25]);
-      prof.push([R, 1.45], [R, 6.25]);
-      for (const y of [6.3, 6.6, 6.9, 7.2]) prof.push([3.6, y + 0.1], [R, y + 0.22]);
-      prof.push([R, 7.6], [3.05, 7.78], [3.05, 8.0], [2.95, 8.12], [3.05, 8.25], [3.05, 11.0], [2.9, 11.5], [2.65, 11.95], [2.42, 12.35], [2.38, 12.6], [2.6, 12.65], [2.6, 12.85], [2.3, 12.9]);
-      capY = 12.9; capH = 1.9; capR = 2.18; ribs = 90; lblH = 4.6; lblY = 1.55 + lblH / 2;
+      // Chai 500 ml (DAVI CID): Ø74; gờ dưới, vùng nhãn, gờ trên, vai hình nón lên cổ có ren, nắp to Ø51
+      R = 3.7;
+      prof = [[0, 0], [3.45, 0], [3.66, 0.12], [R, 0.35]];
+      for (const y of [0.45, 0.8]) prof.push([R, y], [3.56, y + 0.12], [R, y + 0.26]);
+      prof.push([R, 1.25], [R, 6.15]);
+      for (const y of [6.2, 6.55, 6.9]) prof.push([3.56, y + 0.12], [R, y + 0.26]);
+      prof.push([R, 7.3], [3.62, 7.4]);
+      for (let i = 1; i <= 12; i++) { const t = i / 12; prof.push([3.62 - 1.12 * Math.pow(t, 1.25), 7.4 + 2.9 * t]); }
+      prof.push([2.5, 10.3], [2.62, 10.4], [2.5, 10.55], [2.62, 10.7], [2.5, 10.85], [2.66, 10.95], [2.66, 11.2], [2.45, 11.3]);
+      capY = 11.3; capH = 2.35; capR = 2.55; ribs = 110; lblH = 4.85; lblY = 1.28 + lblH / 2;
     }
     const body = new THREE.Mesh(new THREE.LatheGeometry(prof.map(([x, y]) => new THREE.Vector2(x, y)), 180), white);
     body.castShadow = true; body.receiveShadow = true; g.add(body);

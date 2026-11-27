@@ -6,11 +6,11 @@ Cập nhật 20/11/2026. Dữ liệu máy đọc nằm ở `san-pham.json`; file
 - Tên trên nhãn (khung nhà phân phối): CÔNG TY TNHH THỦY SẢN TÍM (logo/thương hiệu vẫn ghi THỦY SẢN TÍM)
 - Địa chỉ: 295/32 Tân Kỳ Tân Quý, Tân Sơn Nhì, TP. Hồ Chí Minh, Việt Nam
 - Website: thuysantim.com
-- Hotline: 0869 739 679 (lấy từ website thuysantim.com).
+- Hotline: 1900 252 667 (anh xác nhận 27/11/2026; bỏ số 0869 739 679). Địa chỉ giữ 295/32 (không phải 295/30 như nhãn in cũ).
 
 ## Nhà sản xuất — ghi "Sản phẩm của:" ở mặt phải
 - "Sản phẩm của: CÔNG TY TNHH NO BEN" → địa chỉ đầy đủ 228/9 … Việt Nam → "ĐT: 0934 246 420 · Website: thuysannoben.com" → "Sản xuất tại: 228/9 Nguyễn Thị Lắng, Ấp Phú Lợi A, Xã Củ Chi, TP. Hồ Chí Minh, Việt Nam".
-- Trong khung nhà phân phối, ngay dưới dòng ĐT 0869 739 679: "Sản phẩm được phối trộn và đóng gói tại: 228/9 …" (dạng bột) hoặc "san chiết và đóng gói tại" (dạng nước) — trường `che_bien` trong san-pham.json.
+- Trong khung nhà phân phối, ngay dưới dòng ĐT: "Sản phẩm được phối trộn và đóng gói tại: 228/9 …" (dạng bột) hoặc "san chiết và đóng gói tại" (dạng nước) — trường `che_bien` trong san-pham.json.
 
 ## Bố cục nhãn chai (chốt 23/11/2026)
 - KHÔNG có khung mã vạch.
