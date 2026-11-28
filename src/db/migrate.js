@@ -17,9 +17,27 @@ async function migrate() {
   await ensureAdmin();
 }
 
+/**
+ * Quên mật khẩu quản trị: đặt biến môi trường ADMIN_RESET_PASSWORD (≥ 8 ký tự) trên Hostinger rồi khởi động lại.
+ * Mật khẩu được áp cho tài khoản ADMIN_EMAIL (hoặc admin đầu tiên) đúng một lần cho mỗi giá trị — sau đó xóa biến đi.
+ */
+async function resetAdminPassword() {
+  const pw = process.env.ADMIN_RESET_PASSWORD;
+  if (!pw) return;
+  if (pw.length < 8) return console.warn('[db] ADMIN_RESET_PASSWORD quá ngắn (cần ≥ 8 ký tự) — bỏ qua.');
+  const tag = require('crypto').createHash('sha256').update(pw).digest('hex');
+  const done = await one("SELECT `value` FROM settings WHERE `key` = 'admin_reset'");
+  if (done && JSON.parse(done.value || 'null') === tag) return;
+  const user = (await one('SELECT id, email FROM users WHERE email = ?', [config.admin.email.toLowerCase()])) || (await one("SELECT id, email FROM users WHERE role = 'admin' ORDER BY id LIMIT 1"));
+  if (!user) return;
+  await query('UPDATE users SET password_hash = ? WHERE id = ?', [await bcrypt.hash(pw, 11), user.id]);
+  await query("INSERT INTO settings (`key`, `value`) VALUES ('admin_reset', ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)", [JSON.stringify(tag)]);
+  console.log(`[db] Đã đặt lại mật khẩu quản trị cho ${user.email}. Hãy xóa biến ADMIN_RESET_PASSWORD.`);
+}
+
 async function ensureAdmin() {
   const row = await one('SELECT COUNT(*) AS n FROM users');
-  if (row && row.n > 0) return;
+  if (row && row.n > 0) return resetAdminPassword();
   let password = config.admin.password;
   if (config.isProd && !process.env.ADMIN_PASSWORD) {
     // Never ship a guessable default password to production.

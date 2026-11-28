@@ -79,6 +79,7 @@ hPanel → **Websites → Dashboard → Databases → MySQL Databases** → tạ
    | `SESSION_SECRET` | chuỗi ngẫu nhiên ≥ 32 ký tự |
    | `DB_HOST` / `DB_NAME` / `DB_USER` / `DB_PASSWORD` | thông tin từ Bước 1 |
    | `ADMIN_EMAIL` / `ADMIN_PASSWORD` | tài khoản quản trị đầu tiên |
+   | `ADMIN_RESET_PASSWORD` | (khi quên mật khẩu) mật khẩu mới ≥ 8 ký tự, áp một lần khi khởi động lại — đăng nhập xong thì xóa biến |
 
 5. Bấm **Deploy**. Lần chạy đầu, app tự tạo bảng và nạp dữ liệu mẫu.
 6. Gắn tên miền và bật **SSL** trong hPanel.
