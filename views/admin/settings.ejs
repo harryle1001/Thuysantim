@@ -29,6 +29,7 @@
         <div class="fld"><label>Người đại diện theo pháp luật</label><input name="company[representative]" value="<%= c.representative || '' %>"></div>
       </div>
       <div class="fld"><label>Link xác nhận Bộ Công Thương <small>(sau khi được duyệt trên online.gov.vn — hiện logo “Đã thông báo Bộ Công Thương” ở chân trang)</small></label><input name="company[bctUrl]" value="<%= c.bctUrl || '' %>" placeholder="http://online.gov.vn/Home/WebDetails/..."></div>
+      <div class="fld"><label>Mã xác minh Google Search Console <small>(Search Console → Thêm tài sản → Tiền tố URL → Thẻ HTML → dán nguyên thẻ &lt;meta …&gt; vào đây → Lưu → quay lại Google bấm Xác minh)</small></label><input name="company[gsc]" value="<%= c.gsc || '' %>" placeholder='<meta name="google-site-verification" content="...">'></div>
       <div class="fld"><label>Link nhúng Google Maps <small>(Google Maps → Chia sẻ → Nhúng bản đồ → copy giá trị src)</small></label><input name="company[mapEmbed]" value="<%= c.mapEmbed %>"></div>
     </div>
   </div>

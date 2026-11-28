@@ -401,6 +401,8 @@ router.post('/settings', csrfProtect, async (req, res) => {
     licenseIssuer: str(c.licenseIssuer, 190),
     representative: str(c.representative, 120),
     bctUrl: /^https?:\/\/(www\.)?online\.gov\.vn\//i.test(str(c.bctUrl, 500)) ? str(c.bctUrl, 500) : '',
+    // Google Search Console: accepts the whole <meta …> tag or just its content token
+    gsc: (str(c.gsc, 400).match(/content=["']([^"']+)/) || [null, str(c.gsc, 200)])[1].replace(/[^A-Za-z0-9_\-]/g, ''),
     mapEmbed: /^https:\/\/(www\.)?google\.[a-z.]+\/maps/.test(str(c.mapEmbed, 1000)) ? str(c.mapEmbed, 1000) : '',
   });
   const bk = b.bank || {};

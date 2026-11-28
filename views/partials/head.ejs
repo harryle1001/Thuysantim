@@ -20,6 +20,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title><%= pageTitle %></title>
   <meta name="description" content="<%= pageDesc %>">
+  <% const gscCode = (typeof settings !== 'undefined' && settings.company && settings.company.gsc) || process.env.GOOGLE_SITE_VERIFICATION; if (gscCode) { %><meta name="google-site-verification" content="<%= gscCode %>"><% } %>
   <meta name="robots" content="<%= seoData.noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' %>">
   <link rel="canonical" href="<%= canonical %>">
   <% LOCALES.forEach(function (l) { %><link rel="alternate" hreflang="<%= dicts[l].lang.html %>" href="<%= config.baseUrl %>/<%= l %><%= pathRest %><%= canonQs %>">
