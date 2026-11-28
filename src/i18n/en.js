@@ -5,6 +5,8 @@ module.exports = {
     description: 'Probiotics, minerals, herbal extracts and water treatment for whiteleg shrimp, tiger shrimp and pangasius. Farming guides, disease library and and free expert support.',
   },
   seo: {
+    contactTitle: 'Contact Thuy San Tim – Hotline 1900 252 667, shrimp farming support',
+    contactDesc: 'Contact Thuy San Tim Co., Ltd.: hotline 1900 252 667, 295/32 Tan Ky Tan Quy, Tan Son Nhi, Ho Chi Minh City. Technical advice for shrimp and fish farming, dealer quotes.',
     productsTitle: 'Shrimp & Fish Probiotics, Minerals and Water Treatment | Thủy Sản Tím',
     productsDesc: 'Premium aquaculture products: water-treatment probiotics, minerals, liver tonics, herbal extracts and disinfectants for shrimp and fish. Dealer pricing, nationwide delivery.',
     diseasesTitle: 'Shrimp & Fish Disease Library: Symptoms and Prevention | Thủy Sản Tím',

@@ -103,7 +103,9 @@ router.get('/products/:slug', async (req, res, next) => {
     query("SELECT * FROM posts WHERE is_published = 1 AND published_at <= NOW() AND body LIKE ? ORDER BY published_at DESC LIMIT 3", [`%${shortName}%`]),
   ]);
   const diseases = allDiseases.map((d) => M.localizeDisease(d, L)).filter((d) => d.productIdList.includes(row.id));
-  seo(res, `${product.title} | Thủy Sản Tím`, product.summaryText.slice(0, 170), { image: `${res.locals.config.baseUrl}${product.imageSrc}`, type: 'product' });
+  const v0 = product.variantList[0];
+  const metaDesc = `${product.title.split('—')[0].trim()} chính hãng: ${product.summaryText.replace(/…$/, '').replace(/\.?$/, '.')}${v0 ? ` ${v0.label}${product.minPrice ? ' – ' + res.locals.money(product.minPrice) : ''}.` : ''} Giao toàn quốc, kỹ thuật tư vấn miễn phí.`;
+  seo(res, `${product.title} | Thủy Sản Tím`, req.locale !== 'vi' ? product.summaryText.slice(0, 165) : metaDesc.length > 165 ? metaDesc.slice(0, 162).replace(/\s+\S*$/, '') + '…' : metaDesc, { image: `${res.locals.config.baseUrl}${product.imageSrc}`, type: 'product' });
   const doseRules = parseDosage(H.tr(row.dosage, 'vi'), product.dosageText);
   res.render('pages/product', { page: 'products', product, doseRules, related: related.map((p) => M.localizeProduct(p, L)), diseases, guides: guides.map((p) => M.localizePost(p, L)) });
 });
@@ -207,7 +209,7 @@ router.get('/policies/:slug', (req, res, next) => {
 });
 
 router.get('/contact', (req, res) => {
-  seo(res, `${res.locals.t('contact.title')} — Thủy Sản Tím`, res.locals.t('contact.lead'));
+  seo(res, res.locals.t('seo.contactTitle'), res.locals.t('seo.contactDesc'));
   res.render('pages/contact', { page: 'contact', form: {}, sent: req.query.sent === '1', kind: req.query.kind === 'dealer' ? 'dealer' : 'contact' });
 });
 

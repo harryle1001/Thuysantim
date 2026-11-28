@@ -5,6 +5,8 @@ module.exports = {
     description: 'Thuốc thủy sản, men vi sinh, khoáng và thảo dược cho tôm thẻ, tôm sú, cá tra. Kỹ thuật nuôi tôm, tra cứu bệnh, tư vấn miễn phí, giao toàn quốc.',
   },
   seo: {
+    contactTitle: 'Liên hệ Thủy Sản Tím – Hotline 1900 252 667, tư vấn kỹ thuật nuôi tôm',
+    contactDesc: 'Liên hệ Công ty TNHH Thủy Sản Tím: hotline 1900 252 667, 295/32 Tân Kỳ Tân Quý, Tân Sơn Nhì, TP.HCM. Tư vấn kỹ thuật nuôi tôm cá, báo giá đại lý.',
     productsTitle: 'Thuốc thủy sản, men vi sinh, khoáng cho tôm cá | Thủy Sản Tím',
     productsDesc: 'Danh mục thuốc thủy sản cao cấp: men vi sinh xử lý nước, khoáng tạt, bổ gan, thảo dược, sát trùng cho tôm thẻ, tôm sú, cá. Giá đại lý, giao hàng toàn quốc.',
     diseasesTitle: 'Tra cứu bệnh tôm, cá: triệu chứng và cách phòng trị | Thủy Sản Tím',

@@ -30,7 +30,7 @@
           <div class="mini-products">
             <% products.forEach(function (p) { %>
               <a class="mini-product" href="<%= url('/products/' + p.slug) %>">
-                <img src="<%= p.imageSrc %>" alt="" width="400" height="400" loading="lazy" decoding="async">
+                <img src="<%= p.imageSrc %>" alt="<%= p.title %>" width="400" height="400" loading="lazy" decoding="async">
                 <span><b><%= p.title.split('—')[0].trim() %></b><small><%= p.minPrice ? t('product.from') + ' ' + money(p.minPrice) : t('product.requestQuote') %></small></span>
               </a>
             <% }) %>

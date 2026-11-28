@@ -33,7 +33,7 @@
         </div>
         <% if (images.length > 1) { %>
           <div class="pd__thumbs">
-            <% images.forEach(function (src, i) { %><button type="button" data-thumb="<%= src %>" class="<%= i === 0 ? 'is-active' : '' %>" aria-label="Image <%= i + 1 %>"><img src="<%= src %>" alt="" loading="lazy" decoding="async" width="600" height="600"></button><% }) %>
+            <% images.forEach(function (src, i) { %><button type="button" data-thumb="<%= src %>" class="<%= i === 0 ? 'is-active' : '' %>" aria-label="Image <%= i + 1 %>"><img src="<%= src %>" alt="<%= product.title.split('—')[0].trim() %> – ảnh <%= i + 1 %>" loading="lazy" decoding="async" width="600" height="600"></button><% }) %>
           </div>
         <% } %>
       </div>

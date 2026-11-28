@@ -142,7 +142,7 @@
         </ul>
       </div>
       <a class="duo__media" href="#consult" tabindex="-1" aria-hidden="true">
-        <% if (featured[0]) { %><img data-pack-fixed src="<%= featured[0].image ? featured[0].imageSrc : featured[0].imageSrc + (featured[0].imageSrc.includes('?') ? '&' : '?') + 'bg=0' %>" alt="" loading="lazy" width="600" height="600"><% } %>
+        <% if (featured[0]) { %><img data-pack-fixed src="<%= featured[0].image ? featured[0].imageSrc : featured[0].imageSrc + (featured[0].imageSrc.includes('?') ? '&' : '?') + 'bg=0' %>" alt="<%= featured[0].title %>" loading="lazy" width="600" height="600"><% } %>
         <span class="duo__cap"><b><%= S.side[0].t %></b><small><%= S.side[0].d %></small></span>
       </a>
     </div>
@@ -155,7 +155,7 @@
         </ul>
       </div>
       <a class="duo__media" href="<%= url('/blog/' + guideMain.slug) %>" tabindex="-1" aria-hidden="true">
-        <img src="<%= guideMain.coverThumb %>"<% if (guideMain.coverThumbSet) { %> srcset="<%= guideMain.coverThumbSet %>" sizes="(min-width: 1100px) 560px, 92vw"<% } %> alt="" loading="lazy" decoding="async" width="1200" height="675">
+        <img src="<%= guideMain.coverThumb %>"<% if (guideMain.coverThumbSet) { %> srcset="<%= guideMain.coverThumbSet %>" sizes="(min-width: 1100px) 560px, 92vw"<% } %> alt="<%= guideMain.titleText %>" loading="lazy" decoding="async" width="1200" height="675">
       </a>
     </div>
     <% } %>
@@ -212,7 +212,7 @@
     <div class="news__grid">
       <% [guideMain].concat(guideList).slice(0, 3).forEach(function (p) { %>
         <article class="ncard">
-          <a class="ncard__cover" href="<%= url('/blog/' + p.slug) %>" tabindex="-1" aria-hidden="true"><img src="<%= p.coverThumb %>"<% if (p.coverThumbSet) { %> srcset="<%= p.coverThumbSet %>" sizes="(min-width: 1100px) 380px, (min-width: 700px) 45vw, 92vw"<% } %> alt="" loading="lazy" decoding="async" width="1200" height="675"></a>
+          <a class="ncard__cover" href="<%= url('/blog/' + p.slug) %>" tabindex="-1" aria-hidden="true"><img src="<%= p.coverThumb %>"<% if (p.coverThumbSet) { %> srcset="<%= p.coverThumbSet %>" sizes="(min-width: 1100px) 380px, (min-width: 700px) 45vw, 92vw"<% } %> alt="<%= p.titleText %>" loading="lazy" decoding="async" width="1200" height="675"></a>
           <h3 class="ncard__title"><a href="<%= url('/blog/' + p.slug) %>"><%= p.titleText %></a></h3>
           <p class="ncard__excerpt"><%= p.excerptText %></p>
           <span class="ncard__meta"><%- icon('clock', '', 14) %> <%= p.read_minutes %> <%= t('blog.minutes') %></span>

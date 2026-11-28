@@ -5,6 +5,8 @@ module.exports = {
     description: '面向南美白对虾、斑节对虾和巴沙鱼的益生菌、矿物质、草本提取物与水质改良产品。养殖技术、病害图鉴与免费专家支持。',
   },
   seo: {
+    contactTitle: '联系 Thuy San Tim – 热线 1900 252 667，对虾养殖技术咨询',
+    contactDesc: '联系 Thuy San Tim 有限公司：热线 1900 252 667，胡志明市新山一坊新奇新贵路295/32号。提供虾鱼养殖技术咨询与经销报价。',
     productsTitle: '对虾与鱼类益生菌、矿物质和水质改良产品 | Thủy Sản Tím',
     productsDesc: '高端水产动保产品：水质益生菌、矿物质、护肝、草本提取物与消毒剂，适用于虾和鱼。经销价格，越南全国配送。',
     diseasesTitle: '对虾与鱼类病害图鉴：症状与防治 | Thủy Sản Tím',
